@@ -1,7 +1,7 @@
 
 import React from "react";
 import SubjectCard from "@/components/subjects/SubjectCard";
-import { Atom, Calculator, Flask, Book, Activity } from "lucide-react";
+import { Atom, Calculator, FlaskConical, Book, Activity } from "lucide-react";
 
 const Subjects = () => {
   // This would normally come from an API
@@ -34,7 +34,7 @@ const Subjects = () => {
       description: "Chemical bonding, Organic Chemistry, Periodic table, and Reactions",
       modulesCompleted: 4,
       totalModules: 14,
-      icon: <Flask className="h-5 w-5 mr-2" />,
+      icon: <FlaskConical className="h-5 w-5 mr-2" />,
       color: "bg-stemGreen",
       quizzesCompleted: 3,
       totalQuizzes: 9
