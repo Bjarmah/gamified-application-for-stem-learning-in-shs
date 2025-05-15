@@ -1,5 +1,5 @@
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { 
@@ -15,12 +15,13 @@ import { useIsMobile } from "@/hooks/use-mobile";
 
 const AppLayout = () => {
   const [activeTab, setActiveTab] = useState("dashboard");
+  const [sidebarOpen, setSidebarOpen] = useState(false);
   const navigate = useNavigate();
   const { toast } = useToast();
   const isMobile = useIsMobile();
   
   // Check if user is logged in, redirect to login if not
-  React.useEffect(() => {
+  useEffect(() => {
     const user = localStorage.getItem("user");
     if (!user) {
       navigate("/login");
@@ -94,7 +95,15 @@ const AppLayout = () => {
       </nav>
 
       {/* Sidebar for desktop */}
-      <div className="hidden md:block fixed top-0 left-0 h-screen w-64 bg-white dark:bg-card border-r pt-16">
+      <div 
+        className="hidden md:block fixed top-0 left-0 h-screen w-64 bg-white dark:bg-card border-r pt-16 transition-all duration-300 ease-in-out transform"
+        onMouseEnter={() => setSidebarOpen(true)}
+        onMouseLeave={() => setSidebarOpen(false)}
+        style={{ 
+          transform: !sidebarOpen ? 'translateX(-80%)' : 'translateX(0)',
+          width: '16rem'
+        }}
+      >
         <div className="flex flex-col h-full">
           <div className="flex items-center justify-center p-6 border-b">
             <GraduationCap size={28} className="text-stemPurple mr-2" />
