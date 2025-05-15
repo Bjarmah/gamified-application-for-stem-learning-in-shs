@@ -49,6 +49,9 @@ const AppLayout = () => {
     { name: "Profile", icon: User, route: "profile" },
   ];
 
+  // Calculate the sidebar width based on state - used for content padding
+  const sidebarWidth = !isMobile ? (sidebarOpen ? '16rem' : '3.2rem') : '0';
+
   return (
     <div className="flex flex-col h-screen bg-background">
       {/* Top header */}
@@ -67,11 +70,64 @@ const AppLayout = () => {
       </header>
 
       {/* Main content */}
-      <main className="flex-1 overflow-y-auto pb-16 md:pb-0">
-        <div className="container mx-auto py-4 px-4">
-          <Outlet />
+      <div className="flex flex-1 overflow-hidden">
+        {/* Sidebar for desktop - positioned absolutely to avoid affecting layout */}
+        <div 
+          className="hidden md:block fixed top-0 left-0 h-screen bg-white dark:bg-card border-r pt-16 z-10 transition-all duration-300 ease-in-out"
+          onMouseEnter={() => setSidebarOpen(true)}
+          onMouseLeave={() => setSidebarOpen(false)}
+          style={{ 
+            width: '16rem',
+            transform: !sidebarOpen ? 'translateX(calc(-100% + 3.2rem))' : 'translateX(0)'
+          }}
+        >
+          <div className="flex flex-col h-full">
+            <div className="flex items-center justify-center p-6 border-b">
+              <GraduationCap size={28} className="text-stemPurple mr-2" />
+              <h2 className="text-xl font-bold">STEM Stars</h2>
+            </div>
+            <nav className="flex-1 px-4 py-6 space-y-2">
+              {navItems.map((item) => (
+                <Button
+                  key={item.route}
+                  variant="ghost"
+                  className={`w-full justify-start ${
+                    activeTab === item.route
+                      ? "bg-stemPurple/10 text-stemPurple font-medium"
+                      : "text-muted-foreground hover:bg-muted hover:text-foreground"
+                  }`}
+                  onClick={() => handleNavigation(item.route)}
+                >
+                  <item.icon size={18} className="mr-3" />
+                  {item.name}
+                </Button>
+              ))}
+            </nav>
+            <div className="p-4 border-t">
+              <Button 
+                variant="outline" 
+                className="w-full justify-start text-muted-foreground hover:text-foreground"
+                onClick={handleLogout}
+              >
+                <LogOut size={18} className="mr-3" />
+                Logout
+              </Button>
+            </div>
+          </div>
         </div>
-      </main>
+
+        {/* Main content area - with padding to accommodate sidebar */}
+        <main 
+          className="flex-1 overflow-y-auto pb-16 md:pb-0 w-full"
+          style={{ 
+            paddingLeft: isMobile ? '0' : sidebarWidth
+          }}
+        >
+          <div className="container mx-auto py-4 px-4">
+            <Outlet />
+          </div>
+        </main>
+      </div>
 
       {/* Bottom navigation for mobile */}
       <nav className="md:hidden fixed bottom-0 left-0 right-0 bg-white dark:bg-card shadow-[0_-2px_10px_rgba(0,0,0,0.1)] border-t">
@@ -93,51 +149,6 @@ const AppLayout = () => {
           ))}
         </div>
       </nav>
-
-      {/* Sidebar for desktop */}
-      <div 
-        className="hidden md:block fixed top-0 left-0 h-screen w-64 bg-white dark:bg-card border-r pt-16 transition-all duration-300 ease-in-out transform"
-        onMouseEnter={() => setSidebarOpen(true)}
-        onMouseLeave={() => setSidebarOpen(false)}
-        style={{ 
-          transform: !sidebarOpen ? 'translateX(-80%)' : 'translateX(0)',
-          width: '16rem'
-        }}
-      >
-        <div className="flex flex-col h-full">
-          <div className="flex items-center justify-center p-6 border-b">
-            <GraduationCap size={28} className="text-stemPurple mr-2" />
-            <h2 className="text-xl font-bold">STEM Stars</h2>
-          </div>
-          <nav className="flex-1 px-4 py-6 space-y-2">
-            {navItems.map((item) => (
-              <Button
-                key={item.route}
-                variant="ghost"
-                className={`w-full justify-start ${
-                  activeTab === item.route
-                    ? "bg-stemPurple/10 text-stemPurple font-medium"
-                    : "text-muted-foreground hover:bg-muted hover:text-foreground"
-                }`}
-                onClick={() => handleNavigation(item.route)}
-              >
-                <item.icon size={18} className="mr-3" />
-                {item.name}
-              </Button>
-            ))}
-          </nav>
-          <div className="p-4 border-t">
-            <Button 
-              variant="outline" 
-              className="w-full justify-start text-muted-foreground hover:text-foreground"
-              onClick={handleLogout}
-            >
-              <LogOut size={18} className="mr-3" />
-              Logout
-            </Button>
-          </div>
-        </div>
-      </div>
     </div>
   );
 };
