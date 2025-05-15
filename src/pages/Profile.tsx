@@ -271,7 +271,7 @@ const Profile = () => {
               <CardTitle>Learning Stats</CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
-              {stats.map((stat, index) => (
+              {stats && stats.map((stat, index) => (
                 <div key={index} className="flex justify-between items-center">
                   <div className="flex items-center">
                     <div className="mr-3">
@@ -291,7 +291,7 @@ const Profile = () => {
             </CardHeader>
             <CardContent>
               <ul className="space-y-2">
-                {user.subjects.map((subject: string, index: number) => (
+                {user && user.subjects && user.subjects.map((subject: string, index: number) => (
                   <li key={index} className="flex items-center">
                     <div className="w-2 h-2 rounded-full bg-stemPurple mr-2"></div>
                     {subject}
