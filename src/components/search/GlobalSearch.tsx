@@ -11,7 +11,7 @@ import {
   CommandSeparator 
 } from "@/components/ui/command";
 import { Badge } from "@/components/ui/badge";
-import { Book, Calculator, Atom, FlaskConical, Activity } from "lucide-react";
+import { Book, Calculator, Atom, FlaskConical, Activity, Search } from "lucide-react";
 import { useAdaptiveLearning } from "@/hooks/use-offline-learning";
 
 interface GlobalSearchProps {
@@ -29,11 +29,17 @@ const GlobalSearch: React.FC<GlobalSearchProps> = ({ isOpen, onClose }) => {
     if (isOpen) {
       setIsLoading(true);
       // Load initial content using available methods
-      // Since getLearningContent doesn't exist, we'll use getRecommendations instead
       getRecommendations([], [])
         .then(content => {
           // Use modules from recommendations as search results
-          setSearchResults(content.modules.concat(content.quizzes).slice(0, 5));
+          const combinedResults = content.modules.concat(content.quizzes)
+            .map(item => ({
+              ...item,
+              type: item.type || (item.questions ? 'quiz' : 'module')
+            }))
+            .slice(0, 5);
+          
+          setSearchResults(combinedResults);
           setIsLoading(false);
         })
         .catch(err => {
@@ -54,13 +60,25 @@ const GlobalSearch: React.FC<GlobalSearchProps> = ({ isOpen, onClose }) => {
       // Get content using recommendations
       const content = await getRecommendations([], []);
       // Combine modules and quizzes
-      const allContent = [...content.modules, ...content.quizzes];
+      const allContent = [...content.modules, ...content.quizzes]
+        .map(item => ({
+          ...item,
+          type: item.type || (item.questions ? 'quiz' : 'module')
+        }));
       
-      // Filter based on search term
+      // Filter based on search term (more lenient matching)
+      const lowerQuery = searchTerm.toLowerCase();
       const filtered = allContent.filter((item: any) => 
-        item.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        item.description.toLowerCase().includes(searchTerm.toLowerCase())
+        (item.title && item.title.toLowerCase().includes(lowerQuery)) ||
+        (item.description && item.description.toLowerCase().includes(lowerQuery)) ||
+        (item.subject && item.subject.toLowerCase().includes(lowerQuery))
       ).slice(0, 5);
+      
+      console.log("Global search results:", {
+        searchTerm,
+        resultsCount: filtered.length,
+        results: filtered.map(i => ({id: i.id, title: i.title, type: i.type}))
+      });
       
       setSearchResults(filtered);
     } catch (err) {

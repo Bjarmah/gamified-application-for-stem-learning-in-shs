@@ -37,19 +37,29 @@ const SearchResults: React.FC<SearchResultsProps> = ({ query, filters, resultTyp
         // Combine modules and quizzes from recommendations
         let content = [...recommResult.modules, ...recommResult.quizzes];
         
-        // Filter by query
+        // Ensure all items have a type property
+        content = content.map(item => ({
+          ...item,
+          type: item.type || (item.questions ? 'quiz' : 'module')
+        }));
+        
+        // Filter by query - improved to be more lenient with search terms
         if (query) {
           const lowerQuery = query.toLowerCase();
           content = content.filter((item: any) => 
-            item.title.toLowerCase().includes(lowerQuery) ||
-            item.description.toLowerCase().includes(lowerQuery)
+            (item.title && item.title.toLowerCase().includes(lowerQuery)) ||
+            (item.description && item.description.toLowerCase().includes(lowerQuery)) ||
+            (item.subject && item.subject.toLowerCase().includes(lowerQuery)) ||
+            (item.keywords && item.keywords.some((keyword: string) => 
+              keyword.toLowerCase().includes(lowerQuery)
+            ))
           );
         }
         
         // Filter by subject
         if (filters.subjects.length > 0) {
           content = content.filter((item: any) => 
-            filters.subjects.includes(item.subject)
+            item.subject && filters.subjects.includes(item.subject)
           );
         }
         
@@ -63,14 +73,23 @@ const SearchResults: React.FC<SearchResultsProps> = ({ query, filters, resultTyp
         // Filter by content type
         if (filters.type.length > 0) {
           content = content.filter((item: any) => 
-            filters.type.map(t => t.toLowerCase()).includes(item.type)
+            item.type && filters.type.map(t => t.toLowerCase()).includes(item.type.toLowerCase())
           );
         }
         
         // Filter by result type tab
         if (resultType !== "all") {
-          content = content.filter((item: any) => item.type === resultType);
+          content = content.filter((item: any) => item.type && item.type.toLowerCase() === resultType.toLowerCase());
         }
+        
+        // Add debugging info
+        console.log("Search results:", {
+          query,
+          filters,
+          resultType,
+          contentCount: content.length,
+          contentItems: content.map(i => ({id: i.id, title: i.title, type: i.type}))
+        });
         
         // Simulate API delay
         await new Promise(resolve => setTimeout(resolve, 500));
