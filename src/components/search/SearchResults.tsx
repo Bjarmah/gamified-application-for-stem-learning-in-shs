@@ -21,6 +21,20 @@ interface SearchResultsProps {
   resultType: "all" | "module" | "quiz" | "lab";
 }
 
+// Helper function to extract keywords from content
+const extractSearchableText = (item: any): string => {
+  const textParts = [
+    item.title || '',
+    item.description || '',
+    item.subject || '',
+    Array.isArray(item.keywords) ? item.keywords.join(' ') : '',
+    item.content || '',  // Check for any content field
+    // Add any additional fields that might contain searchable text
+  ];
+  
+  return textParts.filter(Boolean).join(' ').toLowerCase();
+};
+
 const SearchResults: React.FC<SearchResultsProps> = ({ query, filters, resultType }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [results, setResults] = useState<any[]>([]);
@@ -33,7 +47,7 @@ const SearchResults: React.FC<SearchResultsProps> = ({ query, filters, resultTyp
     const fetchResults = async () => {
       setIsLoading(true);
       try {
-        // Use mock data for demonstration
+        // Use mock data for demonstration with expanded keywords
         const mockModules = [
           {
             id: "mod1",
@@ -45,7 +59,7 @@ const SearchResults: React.FC<SearchResultsProps> = ({ query, filters, resultTyp
             difficulty: "Beginner",
             hasQuiz: true,
             type: "module",
-            keywords: ["physics", "mechanics", "motion"]
+            keywords: ["physics", "mechanics", "motion", "waves", "force"]
           },
           {
             id: "mod2",
@@ -57,19 +71,19 @@ const SearchResults: React.FC<SearchResultsProps> = ({ query, filters, resultTyp
             difficulty: "Intermediate",
             hasQuiz: true,
             type: "module",
-            keywords: ["math", "algebra", "equations"]
+            keywords: ["math", "algebra", "equations", "variables"]
           },
           {
             id: "mod3",
             title: "Chemical Reactions",
-            description: "Understanding different types of chemical reactions",
+            description: "Understanding different types of chemical reactions and bonding",
             subject: "Chemistry",
             duration: "25 minutes",
             isCompleted: false,
             difficulty: "Advanced",
             hasQuiz: false,
             type: "module",
-            keywords: ["chemistry", "reactions", "compounds"]
+            keywords: ["chemistry", "reactions", "compounds", "molecules", "bonding"]
           }
         ];
         
@@ -77,13 +91,13 @@ const SearchResults: React.FC<SearchResultsProps> = ({ query, filters, resultTyp
           {
             id: "quiz1",
             title: "Physics Quiz 1",
-            description: "Test your knowledge of basic physics concepts",
+            description: "Test your knowledge of basic physics concepts including waves",
             subject: "Physics",
             duration: "15 minutes",
             difficulty: "Beginner",
             type: "quiz",
-            questions: [{ id: "q1", text: "Sample question" }],
-            keywords: ["physics", "test", "mechanics"]
+            questions: [{ id: "q1", text: "Sample question about waves" }],
+            keywords: ["physics", "test", "mechanics", "waves", "particles"]
           },
           {
             id: "quiz2",
@@ -94,7 +108,7 @@ const SearchResults: React.FC<SearchResultsProps> = ({ query, filters, resultTyp
             difficulty: "Advanced",
             type: "quiz",
             questions: [{ id: "q1", text: "Sample question" }],
-            keywords: ["math", "advanced", "calculus"]
+            keywords: ["math", "advanced", "calculus", "problems"]
           }
         ];
         
@@ -102,12 +116,12 @@ const SearchResults: React.FC<SearchResultsProps> = ({ query, filters, resultTyp
           {
             id: "lab1",
             title: "Physics Laboratory",
-            description: "Virtual physics lab experiments",
+            description: "Virtual physics lab experiments on wave motion",
             subject: "Physics",
             duration: "60 minutes",
             difficulty: "Intermediate",
             type: "lab",
-            keywords: ["physics", "lab", "experiment"]
+            keywords: ["physics", "lab", "experiment", "waves", "practical"]
           }
         ];
         
@@ -120,10 +134,11 @@ const SearchResults: React.FC<SearchResultsProps> = ({ query, filters, resultTyp
             // If we have real data, use it instead of mock data
             console.log("Found real content from recommendations:", content.length);
             
-            // Ensure all items have a type property
+            // Ensure all items have a type property and keywords
             content = content.map(item => ({
               ...item,
-              type: item.type || (item.questions ? 'quiz' : 'module')
+              type: item.type || (item.questions ? 'quiz' : 'module'),
+              keywords: item.keywords || [] // Ensure keywords exist
             }));
             
             // We'll use real data instead of mocks
@@ -146,17 +161,13 @@ const SearchResults: React.FC<SearchResultsProps> = ({ query, filters, resultTyp
         // Combine all content types
         let content = [...mockModules, ...mockQuizzes, ...mockLabs];
         
-        // Filter by query - improved to be more lenient with search terms
+        // Filter by query - improved to be more lenient with search terms and use keywords
         if (query) {
           const lowerQuery = query.toLowerCase();
-          content = content.filter((item: any) => 
-            (item.title && item.title.toLowerCase().includes(lowerQuery)) ||
-            (item.description && item.description.toLowerCase().includes(lowerQuery)) ||
-            (item.subject && item.subject.toLowerCase().includes(lowerQuery)) ||
-            (item.keywords && item.keywords.some((keyword: string) => 
-              keyword.toLowerCase().includes(lowerQuery)
-            ))
-          );
+          content = content.filter((item: any) => {
+            const searchableText = extractSearchableText(item);
+            return searchableText.includes(lowerQuery);
+          });
         }
         
         // Filter by subject

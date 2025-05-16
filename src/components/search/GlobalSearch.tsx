@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { 
@@ -19,6 +20,20 @@ interface GlobalSearchProps {
   onClose: () => void;
 }
 
+// Helper function to extract keywords from content
+const extractSearchableText = (item: any): string => {
+  const textParts = [
+    item.title || '',
+    item.description || '',
+    item.subject || '',
+    Array.isArray(item.keywords) ? item.keywords.join(' ') : '',
+    item.content || '',  // Check for any content field
+    // Add any additional fields that might contain searchable text
+  ];
+  
+  return textParts.filter(Boolean).join(' ').toLowerCase();
+};
+
 const GlobalSearch: React.FC<GlobalSearchProps> = ({ isOpen, onClose }) => {
   const navigate = useNavigate();
   const [searchResults, setSearchResults] = useState<any[]>([]);
@@ -34,10 +49,11 @@ const GlobalSearch: React.FC<GlobalSearchProps> = ({ isOpen, onClose }) => {
         {
           id: "mod1",
           title: "Introduction to Physics",
-          description: "Learn the basics of physics",
+          description: "Learn the basics of physics including waves and motion",
           subject: "Physics",
           difficulty: "Beginner",
-          type: "module"
+          type: "module",
+          keywords: ["waves", "motion", "physics", "mechanics"]
         },
         {
           id: "mod2",
@@ -45,7 +61,8 @@ const GlobalSearch: React.FC<GlobalSearchProps> = ({ isOpen, onClose }) => {
           description: "Master algebra concepts",
           subject: "Mathematics",
           difficulty: "Intermediate",
-          type: "module"
+          type: "module",
+          keywords: ["algebra", "equations", "mathematics"]
         }
       ];
       
@@ -53,10 +70,11 @@ const GlobalSearch: React.FC<GlobalSearchProps> = ({ isOpen, onClose }) => {
         {
           id: "quiz1",
           title: "Physics Quiz",
-          description: "Test your knowledge",
+          description: "Test your knowledge about waves and particles",
           subject: "Physics",
           difficulty: "Beginner",
-          type: "quiz"
+          type: "quiz",
+          keywords: ["waves", "particles", "physics", "test"]
         }
       ];
       
@@ -68,7 +86,8 @@ const GlobalSearch: React.FC<GlobalSearchProps> = ({ isOpen, onClose }) => {
             const combinedResults = content.modules.concat(content.quizzes)
               .map(item => ({
                 ...item,
-                type: item.type || (item.questions ? 'quiz' : 'module')
+                type: item.type || (item.questions ? 'quiz' : 'module'),
+                keywords: item.keywords || [] // Ensure keywords exist
               }))
               .slice(0, 5);
               
@@ -98,15 +117,16 @@ const GlobalSearch: React.FC<GlobalSearchProps> = ({ isOpen, onClose }) => {
 
     setIsLoading(true);
     try {
-      // Mock data for search results
+      // Mock data for search results with keywords
       const mockData = [
         {
           id: "mod1",
           title: "Introduction to Physics",
-          description: "Learn the basics of physics",
+          description: "Learn the basics of physics including waves and motion",
           subject: "Physics",
           difficulty: "Beginner",
-          type: "module"
+          type: "module",
+          keywords: ["waves", "motion", "physics", "mechanics"]
         },
         {
           id: "mod2",
@@ -114,23 +134,26 @@ const GlobalSearch: React.FC<GlobalSearchProps> = ({ isOpen, onClose }) => {
           description: "Master algebra concepts",
           subject: "Mathematics",
           difficulty: "Intermediate", 
-          type: "module"
+          type: "module",
+          keywords: ["algebra", "equations", "mathematics"]
         },
         {
           id: "quiz1",
           title: "Physics Quiz",
-          description: "Test your knowledge",
+          description: "Test your knowledge about waves and particles",
           subject: "Physics",
           difficulty: "Beginner",
-          type: "quiz"
+          type: "quiz",
+          keywords: ["waves", "particles", "physics", "test"]
         },
         {
           id: "lab1",
           title: "Chemistry Lab",
-          description: "Virtual chemistry experiments",
+          description: "Virtual chemistry experiments on chemical bonding",
           subject: "Chemistry",
           difficulty: "Advanced",
-          type: "lab"
+          type: "lab",
+          keywords: ["chemistry", "experiment", "bonding", "molecules"]
         }
       ];
       
@@ -141,17 +164,17 @@ const GlobalSearch: React.FC<GlobalSearchProps> = ({ isOpen, onClose }) => {
         const allContent = [...content.modules, ...content.quizzes]
           .map(item => ({
             ...item,
-            type: item.type || (item.questions ? 'quiz' : 'module')
+            type: item.type || (item.questions ? 'quiz' : 'module'),
+            keywords: item.keywords || [] // Ensure keywords exist
           }));
           
         if (allContent.length > 0) {
           // Filter real data based on search term
           const lowerQuery = searchTerm.toLowerCase();
-          const filtered = allContent.filter((item: any) => 
-            (item.title && item.title.toLowerCase().includes(lowerQuery)) ||
-            (item.description && item.description.toLowerCase().includes(lowerQuery)) ||
-            (item.subject && item.subject.toLowerCase().includes(lowerQuery))
-          ).slice(0, 5);
+          const filtered = allContent.filter((item: any) => {
+            const searchableText = extractSearchableText(item);
+            return searchableText.includes(lowerQuery);
+          }).slice(0, 5);
           
           console.log("Global search results:", {
             searchTerm,
@@ -168,13 +191,12 @@ const GlobalSearch: React.FC<GlobalSearchProps> = ({ isOpen, onClose }) => {
         // Continue with mock data
       }
       
-      // Filter mock data
+      // Filter mock data using the improved search function
       const lowerQuery = searchTerm.toLowerCase();
-      const filtered = mockData.filter((item: any) => 
-        (item.title && item.title.toLowerCase().includes(lowerQuery)) ||
-        (item.description && item.description.toLowerCase().includes(lowerQuery)) ||
-        (item.subject && item.subject.toLowerCase().includes(lowerQuery))
-      ).slice(0, 5);
+      const filtered = mockData.filter((item: any) => {
+        const searchableText = extractSearchableText(item);
+        return searchableText.includes(lowerQuery);
+      }).slice(0, 5);
       
       console.log("Global search results:", {
         searchTerm,
