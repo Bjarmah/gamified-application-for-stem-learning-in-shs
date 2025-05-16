@@ -23,16 +23,23 @@ const GlobalSearch: React.FC<GlobalSearchProps> = ({ isOpen, onClose }) => {
   const navigate = useNavigate();
   const [searchResults, setSearchResults] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(false);
-  const { getLearningContent } = useAdaptiveLearning();
+  const { getRecommendations } = useAdaptiveLearning();
 
   useEffect(() => {
     if (isOpen) {
       setIsLoading(true);
-      // Load initial suggestion content
-      getLearningContent("all").then(content => {
-        setSearchResults(content.slice(0, 5));
-        setIsLoading(false);
-      });
+      // Load initial content using available methods
+      // Since getLearningContent doesn't exist, we'll use getRecommendations instead
+      getRecommendations([], [])
+        .then(content => {
+          // Use modules from recommendations as search results
+          setSearchResults(content.modules.concat(content.quizzes).slice(0, 5));
+          setIsLoading(false);
+        })
+        .catch(err => {
+          console.error("Error loading search suggestions:", err);
+          setIsLoading(false);
+        });
     }
   }, [isOpen]);
 
@@ -43,14 +50,25 @@ const GlobalSearch: React.FC<GlobalSearchProps> = ({ isOpen, onClose }) => {
     }
 
     setIsLoading(true);
-    const content = await getLearningContent("all");
-    const filtered = content.filter((item: any) => 
-      item.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      item.description.toLowerCase().includes(searchTerm.toLowerCase())
-    ).slice(0, 5);
-    
-    setSearchResults(filtered);
-    setIsLoading(false);
+    try {
+      // Get content using recommendations
+      const content = await getRecommendations([], []);
+      // Combine modules and quizzes
+      const allContent = [...content.modules, ...content.quizzes];
+      
+      // Filter based on search term
+      const filtered = allContent.filter((item: any) => 
+        item.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        item.description.toLowerCase().includes(searchTerm.toLowerCase())
+      ).slice(0, 5);
+      
+      setSearchResults(filtered);
+    } catch (err) {
+      console.error("Search error:", err);
+      setSearchResults([]);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const handleSelect = (value: string) => {

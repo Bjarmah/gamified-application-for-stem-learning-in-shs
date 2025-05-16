@@ -24,7 +24,7 @@ const SearchResults: React.FC<SearchResultsProps> = ({ query, filters, resultTyp
   const [isLoading, setIsLoading] = useState(true);
   const [results, setResults] = useState<any[]>([]);
   const { isOnline } = useOfflineContext();
-  const { getLearningContent } = useAdaptiveLearning();
+  const { getRecommendations } = useAdaptiveLearning();
   const { toast } = useToast();
   const navigate = useNavigate();
 
@@ -32,9 +32,10 @@ const SearchResults: React.FC<SearchResultsProps> = ({ query, filters, resultTyp
     const fetchResults = async () => {
       setIsLoading(true);
       try {
-        // In a real app, this would be an API call
-        // For demo purposes, we'll use the adaptive learning hook
-        let content = await getLearningContent("all");
+        // Use getRecommendations instead of getLearningContent
+        const recommResult = await getRecommendations([], []);
+        // Combine modules and quizzes from recommendations
+        let content = [...recommResult.modules, ...recommResult.quizzes];
         
         // Filter by query
         if (query) {
