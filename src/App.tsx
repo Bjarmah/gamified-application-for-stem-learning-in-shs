@@ -16,6 +16,7 @@ import Subjects from "./pages/Subjects";
 import SubjectDetail from "./pages/SubjectDetail";
 import Achievements from "./pages/Achievements";
 import Profile from "./pages/Profile";
+import Search from "./pages/Search"; // New import for search page
 
 // Layout
 import AppLayout from "./components/layout/AppLayout";
@@ -50,6 +51,7 @@ const App = () => (
               <Route path="/subjects/:subjectId" element={<SubjectDetail />} />
               <Route path="/achievements" element={<Achievements />} />
               <Route path="/profile" element={<Profile />} />
+              <Route path="/search" element={<Search />} /> {/* New search route */}
             </Route>
             
             {/* Catch-all for 404 */}

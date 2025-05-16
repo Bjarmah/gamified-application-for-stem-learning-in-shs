@@ -9,13 +9,15 @@ import {
   User, 
   LogOut,
   Menu,
-  WifiOff
+  WifiOff,
+  Search
 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { cn } from "@/lib/utils";
 import { useOfflineContext } from "@/context/OfflineContext";
 import OfflineBanner from "@/components/offline/OfflineBanner";
+import SearchButton from "@/components/layout/SearchButton";
 
 const AppLayout = () => {
   const [activeTab, setActiveTab] = useState("dashboard");
@@ -75,6 +77,11 @@ const AppLayout = () => {
           <div className="flex items-center space-x-2">
             <GraduationCap size={24} />
             <span className="font-bold text-lg">STEM Stars</span>
+          </div>
+          
+          {/* Search button */}
+          <div className="flex-1 flex justify-center mx-4">
+            <SearchButton />
           </div>
           
           {/* Offline indicator */}
@@ -255,6 +262,21 @@ const AppLayout = () => {
               <span className="text-xs mt-1">{item.name}</span>
             </Button>
           ))}
+          
+          {/* Add search to bottom nav */}
+          <Button
+            variant="ghost"
+            className={cn(
+              "flex flex-col items-center justify-center h-full rounded-none px-2 py-1",
+              activeTab === "search"
+                ? "text-stemPurple border-t-2 border-stemPurple"
+                : "text-muted-foreground"
+            )}
+            onClick={() => handleNavigation("search")}
+          >
+            <Search size={20} />
+            <span className="text-xs mt-1">Search</span>
+          </Button>
         </div>
       </nav>
     </div>
