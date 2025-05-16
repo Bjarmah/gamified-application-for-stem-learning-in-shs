@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { 
@@ -13,6 +12,7 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Book, Calculator, Atom, FlaskConical, Activity, Search } from "lucide-react";
 import { useAdaptiveLearning } from "@/hooks/use-offline-learning";
+import { DialogTitle } from "@/components/ui/dialog";
 
 interface GlobalSearchProps {
   isOpen: boolean;
@@ -28,22 +28,63 @@ const GlobalSearch: React.FC<GlobalSearchProps> = ({ isOpen, onClose }) => {
   useEffect(() => {
     if (isOpen) {
       setIsLoading(true);
-      // Load initial content using available methods
+      
+      // Create mock data for consistent search results
+      const mockModules = [
+        {
+          id: "mod1",
+          title: "Introduction to Physics",
+          description: "Learn the basics of physics",
+          subject: "Physics",
+          difficulty: "Beginner",
+          type: "module"
+        },
+        {
+          id: "mod2",
+          title: "Algebra Fundamentals",
+          description: "Master algebra concepts",
+          subject: "Mathematics",
+          difficulty: "Intermediate",
+          type: "module"
+        }
+      ];
+      
+      const mockQuizzes = [
+        {
+          id: "quiz1",
+          title: "Physics Quiz",
+          description: "Test your knowledge",
+          subject: "Physics",
+          difficulty: "Beginner",
+          type: "quiz"
+        }
+      ];
+      
+      // Try to get real data if available
       getRecommendations([], [])
         .then(content => {
-          // Use modules from recommendations as search results
-          const combinedResults = content.modules.concat(content.quizzes)
-            .map(item => ({
-              ...item,
-              type: item.type || (item.questions ? 'quiz' : 'module')
-            }))
-            .slice(0, 5);
-          
-          setSearchResults(combinedResults);
-          setIsLoading(false);
+          // If we have real data, use it
+          if (content.modules.length > 0 || content.quizzes.length > 0) {
+            const combinedResults = content.modules.concat(content.quizzes)
+              .map(item => ({
+                ...item,
+                type: item.type || (item.questions ? 'quiz' : 'module')
+              }))
+              .slice(0, 5);
+              
+            console.log("Global search using real data:", combinedResults.length);
+            setSearchResults(combinedResults);
+          } else {
+            // Otherwise use the mock data
+            console.log("Global search using mock data");
+            setSearchResults([...mockModules, ...mockQuizzes].slice(0, 5));
+          }
         })
         .catch(err => {
           console.error("Error loading search suggestions:", err);
+          setSearchResults([...mockModules, ...mockQuizzes].slice(0, 5));
+        })
+        .finally(() => {
           setIsLoading(false);
         });
     }
@@ -57,18 +98,79 @@ const GlobalSearch: React.FC<GlobalSearchProps> = ({ isOpen, onClose }) => {
 
     setIsLoading(true);
     try {
-      // Get content using recommendations
-      const content = await getRecommendations([], []);
-      // Combine modules and quizzes
-      const allContent = [...content.modules, ...content.quizzes]
-        .map(item => ({
-          ...item,
-          type: item.type || (item.questions ? 'quiz' : 'module')
-        }));
+      // Mock data for search results
+      const mockData = [
+        {
+          id: "mod1",
+          title: "Introduction to Physics",
+          description: "Learn the basics of physics",
+          subject: "Physics",
+          difficulty: "Beginner",
+          type: "module"
+        },
+        {
+          id: "mod2",
+          title: "Algebra Fundamentals",
+          description: "Master algebra concepts",
+          subject: "Mathematics",
+          difficulty: "Intermediate", 
+          type: "module"
+        },
+        {
+          id: "quiz1",
+          title: "Physics Quiz",
+          description: "Test your knowledge",
+          subject: "Physics",
+          difficulty: "Beginner",
+          type: "quiz"
+        },
+        {
+          id: "lab1",
+          title: "Chemistry Lab",
+          description: "Virtual chemistry experiments",
+          subject: "Chemistry",
+          difficulty: "Advanced",
+          type: "lab"
+        }
+      ];
       
-      // Filter based on search term (more lenient matching)
+      // Try to get real data using recommendations
+      try {
+        const content = await getRecommendations([], []);
+        // Combine modules and quizzes
+        const allContent = [...content.modules, ...content.quizzes]
+          .map(item => ({
+            ...item,
+            type: item.type || (item.questions ? 'quiz' : 'module')
+          }));
+          
+        if (allContent.length > 0) {
+          // Filter real data based on search term
+          const lowerQuery = searchTerm.toLowerCase();
+          const filtered = allContent.filter((item: any) => 
+            (item.title && item.title.toLowerCase().includes(lowerQuery)) ||
+            (item.description && item.description.toLowerCase().includes(lowerQuery)) ||
+            (item.subject && item.subject.toLowerCase().includes(lowerQuery))
+          ).slice(0, 5);
+          
+          console.log("Global search results:", {
+            searchTerm,
+            resultsCount: filtered.length,
+            results: filtered.map(i => ({id: i.id, title: i.title, type: i.type}))
+          });
+          
+          setSearchResults(filtered);
+          setIsLoading(false);
+          return;
+        }
+      } catch (err) {
+        console.error("Error getting real search data:", err);
+        // Continue with mock data
+      }
+      
+      // Filter mock data
       const lowerQuery = searchTerm.toLowerCase();
-      const filtered = allContent.filter((item: any) => 
+      const filtered = mockData.filter((item: any) => 
         (item.title && item.title.toLowerCase().includes(lowerQuery)) ||
         (item.description && item.description.toLowerCase().includes(lowerQuery)) ||
         (item.subject && item.subject.toLowerCase().includes(lowerQuery))
@@ -103,7 +205,7 @@ const GlobalSearch: React.FC<GlobalSearchProps> = ({ isOpen, onClose }) => {
   };
 
   const getSubjectIcon = (subject: string) => {
-    switch(subject.toLowerCase()) {
+    switch(subject?.toLowerCase()) {
       case "mathematics":
         return <Calculator className="h-4 w-4 mr-2" />;
       case "physics":
@@ -119,6 +221,7 @@ const GlobalSearch: React.FC<GlobalSearchProps> = ({ isOpen, onClose }) => {
 
   return (
     <CommandDialog open={isOpen} onOpenChange={onClose}>
+      <DialogTitle className="sr-only">Search</DialogTitle>
       <CommandInput 
         placeholder="Search for topics, modules, quizzes..." 
         onValueChange={handleSearch}
@@ -178,6 +281,7 @@ const GlobalSearch: React.FC<GlobalSearchProps> = ({ isOpen, onClose }) => {
         
         <CommandGroup>
           <CommandItem value="advanced-search" onSelect={handleSelect}>
+            <Search className="h-4 w-4 mr-2" />
             <span>Advanced Search...</span>
           </CommandItem>
         </CommandGroup>

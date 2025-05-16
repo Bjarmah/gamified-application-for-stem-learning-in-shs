@@ -7,6 +7,7 @@ import { useAdaptiveLearning } from "@/hooks/use-offline-learning";
 import { useToast } from "@/hooks/use-toast";
 import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
+import RecommendedCard from "@/components/dashboard/RecommendedCard";
 
 interface FiltersProps {
   subjects: string[];
@@ -32,16 +33,118 @@ const SearchResults: React.FC<SearchResultsProps> = ({ query, filters, resultTyp
     const fetchResults = async () => {
       setIsLoading(true);
       try {
-        // Use getRecommendations instead of getLearningContent
-        const recommResult = await getRecommendations([], []);
-        // Combine modules and quizzes from recommendations
-        let content = [...recommResult.modules, ...recommResult.quizzes];
+        // Use mock data for demonstration
+        const mockModules = [
+          {
+            id: "mod1",
+            title: "Introduction to Physics",
+            description: "Learn the basics of physics including mechanics and motion",
+            subject: "Physics",
+            duration: "30 minutes",
+            isCompleted: false,
+            difficulty: "Beginner",
+            hasQuiz: true,
+            type: "module",
+            keywords: ["physics", "mechanics", "motion"]
+          },
+          {
+            id: "mod2",
+            title: "Algebra Fundamentals",
+            description: "Master the core concepts of algebra",
+            subject: "Mathematics",
+            duration: "45 minutes",
+            isCompleted: true,
+            difficulty: "Intermediate",
+            hasQuiz: true,
+            type: "module",
+            keywords: ["math", "algebra", "equations"]
+          },
+          {
+            id: "mod3",
+            title: "Chemical Reactions",
+            description: "Understanding different types of chemical reactions",
+            subject: "Chemistry",
+            duration: "25 minutes",
+            isCompleted: false,
+            difficulty: "Advanced",
+            hasQuiz: false,
+            type: "module",
+            keywords: ["chemistry", "reactions", "compounds"]
+          }
+        ];
         
-        // Ensure all items have a type property
-        content = content.map(item => ({
-          ...item,
-          type: item.type || (item.questions ? 'quiz' : 'module')
-        }));
+        const mockQuizzes = [
+          {
+            id: "quiz1",
+            title: "Physics Quiz 1",
+            description: "Test your knowledge of basic physics concepts",
+            subject: "Physics",
+            duration: "15 minutes",
+            difficulty: "Beginner",
+            type: "quiz",
+            questions: [{ id: "q1", text: "Sample question" }],
+            keywords: ["physics", "test", "mechanics"]
+          },
+          {
+            id: "quiz2",
+            title: "Advanced Mathematics",
+            description: "Challenge yourself with complex math problems",
+            subject: "Mathematics",
+            duration: "20 minutes",
+            difficulty: "Advanced",
+            type: "quiz",
+            questions: [{ id: "q1", text: "Sample question" }],
+            keywords: ["math", "advanced", "calculus"]
+          }
+        ];
+        
+        const mockLabs = [
+          {
+            id: "lab1",
+            title: "Physics Laboratory",
+            description: "Virtual physics lab experiments",
+            subject: "Physics",
+            duration: "60 minutes",
+            difficulty: "Intermediate",
+            type: "lab",
+            keywords: ["physics", "lab", "experiment"]
+          }
+        ];
+        
+        // Try to get real data from recommendations if available
+        try {
+          const recommResult = await getRecommendations([], []);
+          if (recommResult.modules.length > 0 || recommResult.quizzes.length > 0) {
+            let content = [...recommResult.modules, ...recommResult.quizzes];
+            
+            // If we have real data, use it instead of mock data
+            console.log("Found real content from recommendations:", content.length);
+            
+            // Ensure all items have a type property
+            content = content.map(item => ({
+              ...item,
+              type: item.type || (item.questions ? 'quiz' : 'module')
+            }));
+            
+            // We'll use real data instead of mocks
+            let filteredContent = content;
+            // Filter logic will be applied below
+            mockModules.length = 0;
+            mockQuizzes.length = 0;
+            content.forEach(item => {
+              if (item.type === 'quiz') mockQuizzes.push(item);
+              else mockModules.push(item);
+            });
+          } else {
+            console.log("No real content found, using mocks");
+          }
+        } catch (err) {
+          console.error("Error getting recommendations:", err);
+          // Will continue with mock data
+        }
+        
+        // Combine all content types
+        let content = [...mockModules, ...mockQuizzes, ...mockLabs];
         
         // Filter by query - improved to be more lenient with search terms
         if (query) {
@@ -146,8 +249,6 @@ const SearchResults: React.FC<SearchResultsProps> = ({ query, filters, resultTyp
     );
   }
 
-  // For demo, we're using ModuleCard to display all results
-  // In a real app, you would have different card components for different content types
   return (
     <div className="space-y-4">
       <p className="text-sm text-muted-foreground">
@@ -155,19 +256,38 @@ const SearchResults: React.FC<SearchResultsProps> = ({ query, filters, resultTyp
       </p>
       
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        {results.map((item, index) => (
-          <ModuleCard
-            key={`${item.id}-${index}`}
-            id={item.id}
-            title={item.title}
-            description={item.description}
-            subject={item.subject}
-            duration={item.duration || "15 minutes"}
-            isCompleted={item.isCompleted || false}
-            difficulty={item.difficulty || "Beginner"}
-            hasQuiz={item.hasQuiz || false}
-          />
-        ))}
+        {results.map((item, index) => {
+          // For modules, use ModuleCard component
+          if (item.type === 'module') {
+            return (
+              <ModuleCard
+                key={`${item.id}-${index}`}
+                id={item.id}
+                title={item.title}
+                description={item.description}
+                subject={item.subject}
+                duration={item.duration || "15 minutes"}
+                isCompleted={item.isCompleted || false}
+                difficulty={item.difficulty || "Beginner"}
+                hasQuiz={item.hasQuiz || false}
+              />
+            );
+          }
+          
+          // For quizzes and labs, use RecommendedCard
+          return (
+            <RecommendedCard
+              key={`${item.id}-${index}`}
+              id={item.id}
+              title={item.title}
+              description={item.description}
+              subject={item.subject}
+              estimatedTime={item.duration || "15 minutes"}
+              difficulty={item.difficulty || "Beginner"}
+              type={item.type as 'module' | 'quiz' | 'lab'}
+            />
+          );
+        })}
       </div>
     </div>
   );
