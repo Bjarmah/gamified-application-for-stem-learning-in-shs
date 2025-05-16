@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from "react";
 import { Outlet, useNavigate, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -9,11 +8,14 @@ import {
   Trophy, 
   User, 
   LogOut,
-  Menu
+  Menu,
+  WifiOff
 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { cn } from "@/lib/utils";
+import { useOfflineContext } from "@/context/OfflineContext";
+import OfflineBanner from "@/components/offline/OfflineBanner";
 
 const AppLayout = () => {
   const [activeTab, setActiveTab] = useState("dashboard");
@@ -22,6 +24,7 @@ const AppLayout = () => {
   const location = useLocation();
   const { toast } = useToast();
   const isMobile = useIsMobile();
+  const { isOnline } = useOfflineContext();
   
   // Update active tab based on current route
   useEffect(() => {
@@ -73,6 +76,13 @@ const AppLayout = () => {
             <GraduationCap size={24} />
             <span className="font-bold text-lg">STEM Stars</span>
           </div>
+          
+          {/* Offline indicator */}
+          {!isOnline && (
+            <div className="flex items-center text-white bg-yellow-600 px-3 py-1 rounded-full text-xs mr-2">
+              <WifiOff size={12} className="mr-1" /> Offline Mode
+            </div>
+          )}
           
           {/* Mobile menu toggle */}
           {isMobile && (
@@ -219,6 +229,8 @@ const AppLayout = () => {
           }}
         >
           <div className="container mx-auto py-4 px-4">
+            {/* Offline Banner */}
+            <OfflineBanner />
             <Outlet />
           </div>
         </main>
