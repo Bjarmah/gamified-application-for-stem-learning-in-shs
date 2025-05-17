@@ -38,6 +38,7 @@ const GlobalSearch: React.FC<GlobalSearchProps> = ({ isOpen, onClose }) => {
   const navigate = useNavigate();
   const [searchResults, setSearchResults] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [searchTerm, setSearchTerm] = useState("");
   const { getRecommendations } = useAdaptiveLearning();
 
   useEffect(() => {
@@ -124,12 +125,21 @@ const GlobalSearch: React.FC<GlobalSearchProps> = ({ isOpen, onClose }) => {
         .finally(() => {
           setIsLoading(false);
         });
+    } else {
+      // Clear search term when dialog is closed
+      setSearchTerm("");
     }
   }, [isOpen]);
 
+  // Effect to filter results when searchTerm changes
+  useEffect(() => {
+    if (!searchTerm.trim()) return;
+    
+    handleSearch(searchTerm);
+  }, [searchTerm]);
+
   const handleSearch = async (searchTerm: string) => {
     if (!searchTerm.trim()) {
-      setSearchResults([]);
       return;
     }
 
@@ -237,7 +247,7 @@ const GlobalSearch: React.FC<GlobalSearchProps> = ({ isOpen, onClose }) => {
       console.log("Global search results:", {
         searchTerm,
         resultsCount: filtered.length,
-        results: filtered.map(i => ({id: i.id, title: i.title, type: i.type}))
+        results: filtered.map(i => ({id: i.id, title: i.title, type: i.type, keywords: i.keywords}))
       });
       
       setSearchResults(filtered);
@@ -257,7 +267,11 @@ const GlobalSearch: React.FC<GlobalSearchProps> = ({ isOpen, onClose }) => {
       const [type, id] = value.split(":");
       navigate(`/${type}s/${id}`);
     } else if (value === "advanced-search") {
-      navigate("/search");
+      if (searchTerm) {
+        navigate(`/search?q=${encodeURIComponent(searchTerm)}`);
+      } else {
+        navigate("/search");
+      }
     }
     onClose();
   };
@@ -282,38 +296,43 @@ const GlobalSearch: React.FC<GlobalSearchProps> = ({ isOpen, onClose }) => {
       <DialogTitle className="sr-only">Search</DialogTitle>
       <CommandInput 
         placeholder="Search for topics, modules, quizzes..." 
-        onValueChange={handleSearch}
+        value={searchTerm}
+        onValueChange={(value) => setSearchTerm(value)}
       />
       <CommandList>
         <CommandEmpty>No results found</CommandEmpty>
         
-        <CommandGroup heading="Subjects">
-          <CommandItem value="subject:mathematics" onSelect={handleSelect}>
-            <Calculator className="h-4 w-4 mr-2" />
-            <span>Mathematics</span>
-          </CommandItem>
-          <CommandItem value="subject:physics" onSelect={handleSelect}>
-            <Atom className="h-4 w-4 mr-2" />
-            <span>Physics</span>
-          </CommandItem>
-          <CommandItem value="subject:chemistry" onSelect={handleSelect}>
-            <FlaskConical className="h-4 w-4 mr-2" />
-            <span>Chemistry</span>
-          </CommandItem>
-          <CommandItem value="subject:biology" onSelect={handleSelect}>
-            <Activity className="h-4 w-4 mr-2" />
-            <span>Biology</span>
-          </CommandItem>
-          <CommandItem value="subject:computerscience" onSelect={handleSelect}>
-            <Book className="h-4 w-4 mr-2" />
-            <span>Computer Science</span>
-          </CommandItem>
-        </CommandGroup>
-        
-        <CommandSeparator />
+        {searchTerm.trim() === "" && (
+          <>
+            <CommandGroup heading="Subjects">
+              <CommandItem value="subject:mathematics" onSelect={handleSelect}>
+                <Calculator className="h-4 w-4 mr-2" />
+                <span>Mathematics</span>
+              </CommandItem>
+              <CommandItem value="subject:physics" onSelect={handleSelect}>
+                <Atom className="h-4 w-4 mr-2" />
+                <span>Physics</span>
+              </CommandItem>
+              <CommandItem value="subject:chemistry" onSelect={handleSelect}>
+                <FlaskConical className="h-4 w-4 mr-2" />
+                <span>Chemistry</span>
+              </CommandItem>
+              <CommandItem value="subject:biology" onSelect={handleSelect}>
+                <Activity className="h-4 w-4 mr-2" />
+                <span>Biology</span>
+              </CommandItem>
+              <CommandItem value="subject:computerscience" onSelect={handleSelect}>
+                <Book className="h-4 w-4 mr-2" />
+                <span>Computer Science</span>
+              </CommandItem>
+            </CommandGroup>
+            
+            <CommandSeparator />
+          </>
+        )}
         
         {searchResults.length > 0 && (
-          <CommandGroup heading="Recent Content">
+          <CommandGroup heading={searchTerm ? "Search Results" : "Recent Content"}>
             {searchResults.map((item, index) => (
               <CommandItem 
                 key={index}

@@ -1,7 +1,7 @@
 
 import React, { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
-import { Search, Command } from "lucide-react";
+import { Search } from "lucide-react";
 import GlobalSearch from "@/components/search/GlobalSearch";
 import { useNavigate } from "react-router-dom";
 
