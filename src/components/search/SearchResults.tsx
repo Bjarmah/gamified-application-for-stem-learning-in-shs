@@ -84,6 +84,18 @@ const SearchResults: React.FC<SearchResultsProps> = ({ query, filters, resultTyp
             hasQuiz: false,
             type: "module",
             keywords: ["chemistry", "reactions", "compounds", "molecules", "bonding"]
+          },
+          {
+            id: "mod4",
+            title: "Chemical Bonding",
+            description: "Learn about ionic, covalent and metallic bonding",
+            subject: "Chemistry",
+            duration: "35 minutes",
+            isCompleted: false,
+            difficulty: "Intermediate",
+            hasQuiz: true,
+            type: "module",
+            keywords: ["chemistry", "bonding", "ionic", "covalent", "metallic", "molecules"]
           }
         ];
         
@@ -109,6 +121,17 @@ const SearchResults: React.FC<SearchResultsProps> = ({ query, filters, resultTyp
             type: "quiz",
             questions: [{ id: "q1", text: "Sample question" }],
             keywords: ["math", "advanced", "calculus", "problems"]
+          },
+          {
+            id: "quiz3",
+            title: "Chemical Bonding Quiz",
+            description: "Test your understanding of different types of chemical bonds",
+            subject: "Chemistry",
+            duration: "25 minutes",
+            difficulty: "Intermediate",
+            type: "quiz",
+            questions: [{ id: "q1", text: "Sample question about bonding" }],
+            keywords: ["chemistry", "test", "bonding", "ionic", "covalent", "molecules"]
           }
         ];
         
@@ -122,6 +145,16 @@ const SearchResults: React.FC<SearchResultsProps> = ({ query, filters, resultTyp
             difficulty: "Intermediate",
             type: "lab",
             keywords: ["physics", "lab", "experiment", "waves", "practical"]
+          },
+          {
+            id: "lab2",
+            title: "Chemical Bonding Lab",
+            description: "Virtual chemistry lab experiments on chemical bonds and structures",
+            subject: "Chemistry",
+            duration: "50 minutes",
+            difficulty: "Advanced",
+            type: "lab",
+            keywords: ["chemistry", "lab", "experiment", "bonding", "molecules", "practical"]
           }
         ];
         
@@ -202,7 +235,12 @@ const SearchResults: React.FC<SearchResultsProps> = ({ query, filters, resultTyp
           filters,
           resultType,
           contentCount: content.length,
-          contentItems: content.map(i => ({id: i.id, title: i.title, type: i.type}))
+          contentItems: content.map(i => ({
+            id: i.id, 
+            title: i.title, 
+            type: i.type, 
+            keywords: i.keywords
+          }))
         });
         
         // Simulate API delay

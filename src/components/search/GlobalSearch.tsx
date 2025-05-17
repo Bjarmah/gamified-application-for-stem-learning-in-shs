@@ -63,6 +63,15 @@ const GlobalSearch: React.FC<GlobalSearchProps> = ({ isOpen, onClose }) => {
           difficulty: "Intermediate",
           type: "module",
           keywords: ["algebra", "equations", "mathematics"]
+        },
+        {
+          id: "mod3",
+          title: "Chemical Bonding",
+          description: "Understanding chemical bonds and molecular structures",
+          subject: "Chemistry",
+          difficulty: "Intermediate",
+          type: "module",
+          keywords: ["chemistry", "bonding", "molecules", "structures"]
         }
       ];
       
@@ -75,6 +84,15 @@ const GlobalSearch: React.FC<GlobalSearchProps> = ({ isOpen, onClose }) => {
           difficulty: "Beginner",
           type: "quiz",
           keywords: ["waves", "particles", "physics", "test"]
+        },
+        {
+          id: "quiz2",
+          title: "Chemistry Bonding Quiz",
+          description: "Test your knowledge of chemical bonding concepts",
+          subject: "Chemistry",
+          difficulty: "Intermediate", 
+          type: "quiz",
+          keywords: ["chemistry", "bonding", "molecules", "test"]
         }
       ];
       
@@ -117,7 +135,7 @@ const GlobalSearch: React.FC<GlobalSearchProps> = ({ isOpen, onClose }) => {
 
     setIsLoading(true);
     try {
-      // Mock data for search results with keywords
+      // Mock data for search results with more keywords
       const mockData = [
         {
           id: "mod1",
@@ -138,6 +156,15 @@ const GlobalSearch: React.FC<GlobalSearchProps> = ({ isOpen, onClose }) => {
           keywords: ["algebra", "equations", "mathematics"]
         },
         {
+          id: "mod3",
+          title: "Chemical Bonding",
+          description: "Understanding chemical bonds and molecular structures",
+          subject: "Chemistry",
+          difficulty: "Intermediate",
+          type: "module",
+          keywords: ["chemistry", "bonding", "molecules", "structures"]
+        },
+        {
           id: "quiz1",
           title: "Physics Quiz",
           description: "Test your knowledge about waves and particles",
@@ -145,6 +172,15 @@ const GlobalSearch: React.FC<GlobalSearchProps> = ({ isOpen, onClose }) => {
           difficulty: "Beginner",
           type: "quiz",
           keywords: ["waves", "particles", "physics", "test"]
+        },
+        {
+          id: "quiz2",
+          title: "Chemistry Bonding Quiz",
+          description: "Test your knowledge of chemical bonding concepts",
+          subject: "Chemistry",
+          difficulty: "Intermediate", 
+          type: "quiz",
+          keywords: ["chemistry", "bonding", "molecules", "test"]
         },
         {
           id: "lab1",
