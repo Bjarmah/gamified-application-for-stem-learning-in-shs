@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from "react";
 import { Outlet, useNavigate, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -18,6 +19,8 @@ import { cn } from "@/lib/utils";
 import { useOfflineContext } from "@/context/OfflineContext";
 import OfflineBanner from "@/components/offline/OfflineBanner";
 import SearchButton from "@/components/layout/SearchButton";
+import { ThemeToggle } from "@/components/theme/ThemeToggle";
+import NotificationDropdown from "@/components/notifications/NotificationDropdown";
 
 const AppLayout = () => {
   const [activeTab, setActiveTab] = useState("dashboard");
@@ -84,35 +87,44 @@ const AppLayout = () => {
             <SearchButton />
           </div>
           
-          {/* Offline indicator */}
-          {!isOnline && (
-            <div className="flex items-center text-white bg-yellow-600 px-3 py-1 rounded-full text-xs mr-2">
-              <WifiOff size={12} className="mr-1" /> Offline Mode
-            </div>
-          )}
-          
-          {/* Mobile menu toggle */}
-          {isMobile && (
-            <Button 
-              variant="ghost"
-              size="icon" 
-              onClick={() => setSidebarOpen(!sidebarOpen)}
-              className="text-white hover:bg-stemPurple-dark"
-            >
-              <Menu size={20} />
-            </Button>
-          )}
+          {/* Right section with notifications, theme toggle, and more */}
+          <div className="flex items-center space-x-1">
+            {/* Offline indicator */}
+            {!isOnline && (
+              <div className="flex items-center text-white bg-yellow-600 px-3 py-1 rounded-full text-xs mr-1">
+                <WifiOff size={12} className="mr-1" /> Offline Mode
+              </div>
+            )}
+            
+            {/* Notification dropdown */}
+            <NotificationDropdown className="text-white hover:bg-stemPurple-dark" />
+            
+            {/* Theme toggle */}
+            <ThemeToggle className="text-white hover:bg-stemPurple-dark" />
+            
+            {/* Mobile menu toggle */}
+            {isMobile && (
+              <Button 
+                variant="ghost"
+                size="icon" 
+                onClick={() => setSidebarOpen(!sidebarOpen)}
+                className="text-white hover:bg-stemPurple-dark"
+              >
+                <Menu size={20} />
+              </Button>
+            )}
 
-          {/* Desktop logout button */}
-          {!isMobile && (
-            <Button 
-              variant="ghost" 
-              onClick={handleLogout} 
-              className="text-white hover:bg-stemPurple-dark"
-            >
-              <LogOut size={18} className="mr-2" /> Logout
-            </Button>
-          )}
+            {/* Desktop logout button */}
+            {!isMobile && (
+              <Button 
+                variant="ghost" 
+                onClick={handleLogout} 
+                className="text-white hover:bg-stemPurple-dark"
+              >
+                <LogOut size={18} className="mr-2" /> Logout
+              </Button>
+            )}
+          </div>
         </div>
       </header>
 

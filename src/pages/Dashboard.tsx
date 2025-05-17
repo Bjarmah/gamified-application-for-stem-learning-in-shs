@@ -1,10 +1,10 @@
-
 import React from "react";
 import { Button } from "@/components/ui/button";
 import ProgressCard from "@/components/dashboard/ProgressCard";
 import StreakCard from "@/components/dashboard/StreakCard";
 import RecommendedCard from "@/components/dashboard/RecommendedCard";
 import LeaderboardCard from "@/components/dashboard/LeaderboardCard";
+import { useDemoNotifications } from "@/hooks/use-notifications";
 
 const Dashboard = () => {
   // This would normally come from an API
@@ -106,6 +106,9 @@ const Dashboard = () => {
 
   const user = JSON.parse(localStorage.getItem("user") || "{}");
 
+  // Enable demo notifications
+  useDemoNotifications();
+  
   return (
     <div className="space-y-6 pb-8">
       <div>

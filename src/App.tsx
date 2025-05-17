@@ -5,6 +5,8 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { OfflineProvider } from "./context/OfflineContext";
+import { NotificationProvider } from "./context/NotificationContext";
+import { ThemeProvider } from "./context/ThemeContext";
 
 // Pages
 import Index from "./pages/Index";
@@ -16,7 +18,7 @@ import Subjects from "./pages/Subjects";
 import SubjectDetail from "./pages/SubjectDetail";
 import Achievements from "./pages/Achievements";
 import Profile from "./pages/Profile";
-import Search from "./pages/Search"; // New import for search page
+import Search from "./pages/Search"; 
 
 // Layout
 import AppLayout from "./components/layout/AppLayout";
@@ -34,32 +36,36 @@ const queryClient = new QueryClient({
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
-    <TooltipProvider>
-      <OfflineProvider>
-        <Toaster />
-        <Sonner />
-        <BrowserRouter>
-          <Routes>
-            <Route path="/" element={<Index />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Register />} />
-            
-            {/* Protected Routes - Would normally have auth protection */}
-            <Route element={<AppLayout />}>
-              <Route path="/dashboard" element={<Dashboard />} />
-              <Route path="/subjects" element={<Subjects />} />
-              <Route path="/subjects/:subjectId" element={<SubjectDetail />} />
-              <Route path="/achievements" element={<Achievements />} />
-              <Route path="/profile" element={<Profile />} />
-              <Route path="/search" element={<Search />} /> {/* New search route */}
-            </Route>
-            
-            {/* Catch-all for 404 */}
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-        </BrowserRouter>
-      </OfflineProvider>
-    </TooltipProvider>
+    <ThemeProvider>
+      <TooltipProvider>
+        <NotificationProvider>
+          <OfflineProvider>
+            <Toaster />
+            <Sonner />
+            <BrowserRouter>
+              <Routes>
+                <Route path="/" element={<Index />} />
+                <Route path="/login" element={<Login />} />
+                <Route path="/register" element={<Register />} />
+                
+                {/* Protected Routes - Would normally have auth protection */}
+                <Route element={<AppLayout />}>
+                  <Route path="/dashboard" element={<Dashboard />} />
+                  <Route path="/subjects" element={<Subjects />} />
+                  <Route path="/subjects/:subjectId" element={<SubjectDetail />} />
+                  <Route path="/achievements" element={<Achievements />} />
+                  <Route path="/profile" element={<Profile />} />
+                  <Route path="/search" element={<Search />} /> 
+                </Route>
+                
+                {/* Catch-all for 404 */}
+                <Route path="*" element={<NotFound />} />
+              </Routes>
+            </BrowserRouter>
+          </OfflineProvider>
+        </NotificationProvider>
+      </TooltipProvider>
+    </ThemeProvider>
   </QueryClientProvider>
 );
 
