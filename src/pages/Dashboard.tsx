@@ -1,3 +1,4 @@
+
 import React from "react";
 import { Button } from "@/components/ui/button";
 import ProgressCard from "@/components/dashboard/ProgressCard";
@@ -5,6 +6,9 @@ import StreakCard from "@/components/dashboard/StreakCard";
 import RecommendedCard from "@/components/dashboard/RecommendedCard";
 import LeaderboardCard from "@/components/dashboard/LeaderboardCard";
 import { useDemoNotifications } from "@/hooks/use-notifications";
+import { Link } from "react-router-dom";
+import { BookOpen, Users } from "lucide-react";
+import { Card, CardContent, CardDescription, CardTitle } from "@/components/ui/card";
 
 const Dashboard = () => {
   // This would normally come from an API
@@ -116,6 +120,43 @@ const Dashboard = () => {
         <p className="text-muted-foreground">
           Track your progress and continue your learning journey.
         </p>
+      </div>
+
+      {/* New features highlights */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <Card className="overflow-hidden">
+          <CardContent className="p-0">
+            <div className="flex items-stretch h-full">
+              <div className="bg-stemPurple/10 p-4 flex items-center justify-center">
+                <BookOpen className="h-10 w-10 text-stemPurple" />
+              </div>
+              <div className="p-4 flex-1">
+                <CardTitle className="text-base mb-1">Teacher Quiz Creator</CardTitle>
+                <CardDescription className="mb-2">Create custom quizzes for your students</CardDescription>
+                <Button asChild size="sm" variant="outline" className="mt-2">
+                  <Link to="/teacher/quizzes">Create Quizzes</Link>
+                </Button>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card className="overflow-hidden">
+          <CardContent className="p-0">
+            <div className="flex items-stretch h-full">
+              <div className="bg-stemGreen/10 p-4 flex items-center justify-center">
+                <Users className="h-10 w-10 text-stemGreen" />
+              </div>
+              <div className="p-4 flex-1">
+                <CardTitle className="text-base mb-1">Learning Communities</CardTitle>
+                <CardDescription className="mb-2">Connect with other learners and share knowledge</CardDescription>
+                <Button asChild size="sm" variant="outline" className="mt-2">
+                  <Link to="/communities">Join Communities</Link>
+                </Button>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
