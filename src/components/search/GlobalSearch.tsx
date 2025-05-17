@@ -45,7 +45,7 @@ const GlobalSearch: React.FC<GlobalSearchProps> = ({ isOpen, onClose }) => {
     if (isOpen) {
       setIsLoading(true);
       
-      // Create mock data for consistent search results
+      // Create mock data for consistent search results with focused keywords
       const mockModules = [
         {
           id: "mod1",
@@ -145,7 +145,7 @@ const GlobalSearch: React.FC<GlobalSearchProps> = ({ isOpen, onClose }) => {
 
     setIsLoading(true);
     try {
-      // Mock data for search results with more keywords
+      // Mock data for search results with enhanced keywords coverage
       const mockData = [
         {
           id: "mod1",
@@ -215,7 +215,7 @@ const GlobalSearch: React.FC<GlobalSearchProps> = ({ isOpen, onClose }) => {
           }));
           
         if (allContent.length > 0) {
-          // Filter real data based on search term
+          // Filter real data based on search term - improved search logic
           const lowerQuery = searchTerm.toLowerCase();
           const filtered = allContent.filter((item: any) => {
             const searchableText = extractSearchableText(item);
@@ -225,7 +225,7 @@ const GlobalSearch: React.FC<GlobalSearchProps> = ({ isOpen, onClose }) => {
           console.log("Global search results:", {
             searchTerm,
             resultsCount: filtered.length,
-            results: filtered.map(i => ({id: i.id, title: i.title, type: i.type}))
+            results: filtered.map(i => ({id: i.id, title: i.title, type: i.type, keywords: i.keywords}))
           });
           
           setSearchResults(filtered);
@@ -237,20 +237,20 @@ const GlobalSearch: React.FC<GlobalSearchProps> = ({ isOpen, onClose }) => {
         // Continue with mock data
       }
       
-      // Filter mock data using the improved search function
+      // Improved filter for mock data
       const lowerQuery = searchTerm.toLowerCase();
       const filtered = mockData.filter((item: any) => {
         const searchableText = extractSearchableText(item);
         return searchableText.includes(lowerQuery);
-      }).slice(0, 5);
+      });
       
-      console.log("Global search results:", {
+      console.log("Global search results (mock):", {
         searchTerm,
         resultsCount: filtered.length,
         results: filtered.map(i => ({id: i.id, title: i.title, type: i.type, keywords: i.keywords}))
       });
       
-      setSearchResults(filtered);
+      setSearchResults(filtered.slice(0, 5));
     } catch (err) {
       console.error("Search error:", err);
       setSearchResults([]);
@@ -297,7 +297,7 @@ const GlobalSearch: React.FC<GlobalSearchProps> = ({ isOpen, onClose }) => {
       <CommandInput 
         placeholder="Search for topics, modules, quizzes..." 
         value={searchTerm}
-        onValueChange={(value) => setSearchTerm(value)}
+        onValueChange={setSearchTerm}
       />
       <CommandList>
         <CommandEmpty>No results found</CommandEmpty>

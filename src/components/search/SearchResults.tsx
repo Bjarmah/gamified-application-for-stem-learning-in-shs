@@ -96,13 +96,25 @@ const SearchResults: React.FC<SearchResultsProps> = ({ query, filters, resultTyp
             hasQuiz: true,
             type: "module",
             keywords: ["chemistry", "bonding", "ionic", "covalent", "metallic", "molecules"]
+          },
+          {
+            id: "mod5",
+            title: "Wave Mechanics",
+            description: "Explore the properties of waves in physics",
+            subject: "Physics",
+            duration: "40 minutes",
+            isCompleted: false,
+            difficulty: "Intermediate",
+            hasQuiz: true,
+            type: "module",
+            keywords: ["physics", "waves", "frequency", "amplitude", "oscillation"]
           }
         ];
         
         const mockQuizzes = [
           {
             id: "quiz1",
-            title: "Physics Quiz 1",
+            title: "Physics Quiz: Waves & Motion",
             description: "Test your knowledge of basic physics concepts including waves",
             subject: "Physics",
             duration: "15 minutes",
@@ -132,19 +144,30 @@ const SearchResults: React.FC<SearchResultsProps> = ({ query, filters, resultTyp
             type: "quiz",
             questions: [{ id: "q1", text: "Sample question about bonding" }],
             keywords: ["chemistry", "test", "bonding", "ionic", "covalent", "molecules"]
+          },
+          {
+            id: "quiz4",
+            title: "Wave Properties Quiz",
+            description: "Test your knowledge of wave characteristics and behaviors",
+            subject: "Physics",
+            duration: "20 minutes",
+            difficulty: "Intermediate",
+            type: "quiz",
+            questions: [{ id: "q1", text: "Sample question about wave properties" }],
+            keywords: ["physics", "waves", "test", "frequency", "amplitude"]
           }
         ];
         
         const mockLabs = [
           {
             id: "lab1",
-            title: "Physics Laboratory",
-            description: "Virtual physics lab experiments on wave motion",
+            title: "Physics Wave Laboratory",
+            description: "Virtual physics lab experiments on wave motion and properties",
             subject: "Physics",
             duration: "60 minutes",
             difficulty: "Intermediate",
             type: "lab",
-            keywords: ["physics", "lab", "experiment", "waves", "practical"]
+            keywords: ["physics", "lab", "experiment", "waves", "practical", "oscillation"]
           },
           {
             id: "lab2",
@@ -197,9 +220,13 @@ const SearchResults: React.FC<SearchResultsProps> = ({ query, filters, resultTyp
         // Filter by query - improved to be more lenient with search terms and use keywords
         if (query) {
           const lowerQuery = query.toLowerCase();
+          console.log("Searching for:", lowerQuery);
+          
           content = content.filter((item: any) => {
             const searchableText = extractSearchableText(item);
-            return searchableText.includes(lowerQuery);
+            const match = searchableText.includes(lowerQuery);
+            console.log(`Item ${item.id} (${item.title}) - Keywords: [${item.keywords?.join(', ')}] - Match: ${match}`);
+            return match;
           });
         }
         
