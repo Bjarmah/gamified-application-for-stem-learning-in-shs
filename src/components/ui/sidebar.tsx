@@ -171,38 +171,37 @@ interface SidebarMenuButtonProps extends React.ButtonHTMLAttributes<HTMLButtonEl
 
 const SidebarMenuButton = React.forwardRef<HTMLButtonElement, SidebarMenuButtonProps>(
   ({ className, active, children, asChild, ...props }, ref) => {
-    // Fix the error by properly handling the asChild prop
+    // Fixed implementation to correctly handle asChild prop
+    if (asChild) {
+      return (
+        <span
+          className={cn(
+            "flex items-center gap-3 rounded-md px-3 py-2 text-sm font-medium w-full",
+            active
+              ? "bg-accent text-accent-foreground"
+              : "text-muted-foreground hover:bg-accent hover:text-accent-foreground",
+            className
+          )}
+        >
+          {children}
+        </span>
+      );
+    }
+    
     return (
-      <>
-        {asChild ? (
-          <div
-            className={cn(
-              "flex items-center gap-3 rounded-md px-3 py-2 text-sm font-medium w-full",
-              active
-                ? "bg-accent text-accent-foreground"
-                : "text-muted-foreground hover:bg-accent hover:text-accent-foreground",
-              className
-            )}
-            {...props}
-          >
-            {children}
-          </div>
-        ) : (
-          <button
-            ref={ref}
-            className={cn(
-              "flex items-center gap-3 rounded-md px-3 py-2 text-sm font-medium w-full",
-              active
-                ? "bg-accent text-accent-foreground"
-                : "text-muted-foreground hover:bg-accent hover:text-accent-foreground",
-              className
-            )}
-            {...props}
-          >
-            {children}
-          </button>
+      <button
+        ref={ref}
+        className={cn(
+          "flex items-center gap-3 rounded-md px-3 py-2 text-sm font-medium w-full",
+          active
+            ? "bg-accent text-accent-foreground"
+            : "text-muted-foreground hover:bg-accent hover:text-accent-foreground",
+          className
         )}
-      </>
+        {...props}
+      >
+        {children}
+      </button>
     );
   }
 );
