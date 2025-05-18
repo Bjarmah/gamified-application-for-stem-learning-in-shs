@@ -7,7 +7,7 @@ import RecommendedCard from "@/components/dashboard/RecommendedCard";
 import LeaderboardCard from "@/components/dashboard/LeaderboardCard";
 import { useDemoNotifications } from "@/hooks/use-notifications";
 import { Link } from "react-router-dom";
-import { BookOpen, Users } from "lucide-react";
+import { BookOpen, MessageSquare } from "lucide-react";
 import { Card, CardContent, CardDescription, CardTitle } from "@/components/ui/card";
 
 const Dashboard = () => {
@@ -145,13 +145,13 @@ const Dashboard = () => {
           <CardContent className="p-0">
             <div className="flex items-stretch h-full">
               <div className="bg-stemGreen/10 p-4 flex items-center justify-center">
-                <Users className="h-10 w-10 text-stemGreen" />
+                <MessageSquare className="h-10 w-10 text-stemGreen" />
               </div>
               <div className="p-4 flex-1">
-                <CardTitle className="text-base mb-1">Learning Communities</CardTitle>
-                <CardDescription className="mb-2">Connect with other learners and share knowledge</CardDescription>
+                <CardTitle className="text-base mb-1">Study Rooms</CardTitle>
+                <CardDescription className="mb-2">Join virtual rooms to learn and collaborate with peers</CardDescription>
                 <Button asChild size="sm" variant="outline" className="mt-2">
-                  <Link to="/communities">Join Communities</Link>
+                  <Link to="/rooms">Browse Rooms</Link>
                 </Button>
               </div>
             </div>
