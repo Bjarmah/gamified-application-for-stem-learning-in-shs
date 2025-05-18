@@ -11,7 +11,8 @@ import {
   LogOut,
   Menu,
   WifiOff,
-  Search
+  Search,
+  MessageSquare
 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { useIsMobile } from "@/hooks/use-mobile";
@@ -68,6 +69,7 @@ const AppLayout = () => {
   const navItems = [
     { name: "Dashboard", icon: Home, route: "dashboard" },
     { name: "Subjects", icon: BookOpen, route: "subjects" },
+    { name: "Rooms", icon: MessageSquare, route: "rooms" },
     { name: "Achievements", icon: Trophy, route: "achievements" },
     { name: "Profile", icon: User, route: "profile" },
   ];

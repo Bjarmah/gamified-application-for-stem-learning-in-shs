@@ -20,7 +20,8 @@ import Achievements from "./pages/Achievements";
 import Profile from "./pages/Profile";
 import Search from "./pages/Search"; 
 import TeacherQuizzes from "./pages/TeacherQuizzes";
-import Communities from "./pages/Communities";
+import Rooms from "./pages/Rooms";
+import RoomDetail from "./pages/RoomDetail";
 
 // Layout
 import AppLayout from "./components/layout/AppLayout";
@@ -59,7 +60,8 @@ const App = () => (
                   <Route path="/profile" element={<Profile />} />
                   <Route path="/search" element={<Search />} /> 
                   <Route path="/teacher/quizzes" element={<TeacherQuizzes />} />
-                  <Route path="/communities" element={<Communities />} />
+                  <Route path="/rooms" element={<Rooms />} />
+                  <Route path="/rooms/:roomId" element={<RoomDetail />} />
                 </Route>
                 
                 {/* Catch-all for 404 */}
