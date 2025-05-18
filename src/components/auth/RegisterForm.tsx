@@ -21,7 +21,7 @@ const RegisterForm = () => {
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
-    
+
     // For demo purposes, we're simulating registration
     // In a real app, this would connect to a backend
     setTimeout(() => {
@@ -29,7 +29,7 @@ const RegisterForm = () => {
         title: "Registration successful!",
         description: "Your account has been created.",
       });
-      
+
       setIsLoading(false);
       navigate("/login");
     }, 1000);
@@ -104,8 +104,8 @@ const RegisterForm = () => {
           </div>
         </CardContent>
         <CardFooter className="flex flex-col space-y-4">
-          <Button 
-            type="submit" 
+          <Button
+            type="submit"
             className="btn-stem w-full"
             disabled={isLoading}
           >
@@ -113,8 +113,8 @@ const RegisterForm = () => {
           </Button>
           <div className="text-sm text-center text-muted-foreground">
             <span>Already have an account? </span>
-            <Button 
-              variant="link" 
+            <Button
+              variant="link"
               className="p-0 text-stemPurple"
               onClick={() => navigate("/login")}
             >
