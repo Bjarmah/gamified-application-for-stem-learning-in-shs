@@ -6,12 +6,18 @@ import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
-import { MessageSquare, Send, Users } from 'lucide-react';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { MessageSquare, Send, Users, Upload } from 'lucide-react';
 import RoomMessage, { MessageProps } from '@/components/rooms/RoomMessage';
+import FileMessage, { FileMessageProps } from '@/components/rooms/FileMessage';
+import FileUpload, { UploadedFile } from '@/components/rooms/FileUpload';
+
+type ChatMessage = MessageProps | FileMessageProps;
 
 const RoomDetail = () => {
   const { roomId } = useParams<{ roomId: string }>();
   const [newMessage, setNewMessage] = useState('');
+  const [showFileUpload, setShowFileUpload] = useState(false);
   
   // In a real app, these would come from API calls based on roomId
   const room = {
@@ -35,7 +41,7 @@ const RoomDetail = () => {
     { id: 'currentUser', name: 'You (Student)', avatar: '/placeholder.svg' },
   ];
   
-  const [messages, setMessages] = useState<MessageProps[]>([
+  const [messages, setMessages] = useState<ChatMessage[]>([
     {
       id: 'msg1',
       content: "Welcome everyone to the Physics Help Room! Today we'll be focusing on Newton's Laws of Motion. Feel free to ask questions.",
@@ -96,6 +102,27 @@ const RoomDetail = () => {
     }
   };
 
+  const handleFileUpload = (file: UploadedFile) => {
+    const fileMessage: FileMessageProps = {
+      id: `file-msg-${Date.now()}`,
+      file,
+      sender: participants[5], // Current user
+      timestamp: new Date(),
+      isCurrentUser: true
+    };
+    
+    setMessages([...messages, fileMessage]);
+    setShowFileUpload(false);
+  };
+
+  const renderMessage = (message: ChatMessage) => {
+    if ('content' in message) {
+      return <RoomMessage key={message.id} {...message} />;
+    } else {
+      return <FileMessage key={message.id} {...message} />;
+    }
+  };
+
   return (
     <div className="max-w-7xl mx-auto pb-8">
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
@@ -127,16 +154,25 @@ const RoomDetail = () => {
           </div>
           
           <div className="flex-grow bg-white dark:bg-card border-x overflow-y-auto p-4">
-            {messages.map((message) => (
-              <RoomMessage 
-                key={message.id}
-                {...message}
-              />
-            ))}
+            {messages.map((message) => renderMessage(message))}
           </div>
           
           <div className="bg-card rounded-b-lg border p-3">
             <form onSubmit={handleSendMessage} className="flex gap-2">
+              <Dialog open={showFileUpload} onOpenChange={setShowFileUpload}>
+                <DialogTrigger asChild>
+                  <Button type="button" variant="outline" size="icon">
+                    <Upload className="h-4 w-4" />
+                  </Button>
+                </DialogTrigger>
+                <DialogContent>
+                  <DialogHeader>
+                    <DialogTitle>Upload File</DialogTitle>
+                  </DialogHeader>
+                  <FileUpload onFileUpload={handleFileUpload} />
+                </DialogContent>
+              </Dialog>
+              
               <Input
                 value={newMessage}
                 onChange={(e) => setNewMessage(e.target.value)}
