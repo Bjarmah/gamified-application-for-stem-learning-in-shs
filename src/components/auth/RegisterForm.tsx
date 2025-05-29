@@ -7,32 +7,24 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { GraduationCap } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import { useToast } from "@/hooks/use-toast";
+import { useAuth } from "@/context/AuthContext";
 
 const RegisterForm = () => {
-  const [name, setName] = useState("");
+  const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [school, setSchool] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
-  const { toast } = useToast();
+  const { signUp, loading } = useAuth();
 
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
-    setIsLoading(true);
-
-    // For demo purposes, we're simulating registration
-    // In a real app, this would connect to a backend
-    setTimeout(() => {
-      toast({
-        title: "Registration successful!",
-        description: "Your account has been created.",
-      });
-
-      setIsLoading(false);
+    try {
+      await signUp(email, password, fullName, school);
       navigate("/login");
-    }, 1000);
+    } catch (error) {
+      // Error handling is done in the AuthContext
+    }
   };
 
   return (
@@ -56,8 +48,8 @@ const RegisterForm = () => {
               id="name"
               type="text"
               placeholder="Your full name"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
+              value={fullName}
+              onChange={(e) => setFullName(e.target.value)}
               required
               className="input-stem"
             />
@@ -83,6 +75,7 @@ const RegisterForm = () => {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
+              minLength={6}
               className="input-stem"
             />
           </div>
@@ -107,9 +100,9 @@ const RegisterForm = () => {
           <Button
             type="submit"
             className="btn-stem w-full"
-            disabled={isLoading}
+            disabled={loading}
           >
-            {isLoading ? "Creating Account..." : "Register"}
+            {loading ? "Creating Account..." : "Register"}
           </Button>
           <div className="text-sm text-center text-muted-foreground">
             <span>Already have an account? </span>

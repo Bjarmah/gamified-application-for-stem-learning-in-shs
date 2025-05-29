@@ -6,38 +6,22 @@ import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { GraduationCap } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import { useToast } from "@/hooks/use-toast";
+import { useAuth } from "@/context/AuthContext";
 
 const LoginForm = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
-  const { toast } = useToast();
+  const { signIn, loading } = useAuth();
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    setIsLoading(true);
-    
-    // For demo purposes, we're simulating login 
-    // In a real app, this would connect to a backend
-    setTimeout(() => {
-      // Mock successful login
-      localStorage.setItem("user", JSON.stringify({
-        id: "student123",
-        name: "Kwame Asante",
-        role: "student",
-        email,
-      }));
-      
-      toast({
-        title: "Welcome back!",
-        description: "You have successfully logged in.",
-      });
-      
-      setIsLoading(false);
+    try {
+      await signIn(email, password);
       navigate("/dashboard");
-    }, 1000);
+    } catch (error) {
+      // Error handling is done in the AuthContext
+    }
   };
 
   return (
@@ -84,9 +68,9 @@ const LoginForm = () => {
           <Button 
             type="submit" 
             className="btn-stem w-full"
-            disabled={isLoading}
+            disabled={loading}
           >
-            {isLoading ? "Loading..." : "Login"}
+            {loading ? "Logging in..." : "Login"}
           </Button>
           <div className="text-sm text-center text-muted-foreground">
             <span>Don't have an account? </span>

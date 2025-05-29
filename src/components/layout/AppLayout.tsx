@@ -14,10 +14,10 @@ import {
   Search,
   MessageSquare
 } from "lucide-react";
-import { useToast } from "@/hooks/use-toast";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { cn } from "@/lib/utils";
 import { useOfflineContext } from "@/context/OfflineContext";
+import { useAuth } from "@/context/AuthContext";
 import OfflineBanner from "@/components/offline/OfflineBanner";
 import SearchButton from "@/components/layout/SearchButton";
 import { ThemeToggle } from "@/components/theme/ThemeToggle";
@@ -28,9 +28,9 @@ const AppLayout = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
-  const { toast } = useToast();
   const isMobile = useIsMobile();
   const { isOnline } = useOfflineContext();
+  const { user, profile, signOut, loading } = useAuth();
   
   // Update active tab based on current route
   useEffect(() => {
@@ -40,20 +40,15 @@ const AppLayout = () => {
     }
   }, [location]);
   
-  // Check if user is logged in, redirect to login if not
+  // Redirect to login if not authenticated
   useEffect(() => {
-    const user = localStorage.getItem("user");
-    if (!user) {
+    if (!loading && !user) {
       navigate("/login");
     }
-  }, [navigate]);
+  }, [user, loading, navigate]);
 
-  const handleLogout = () => {
-    localStorage.removeItem("user");
-    toast({
-      title: "Logged out",
-      description: "You have been logged out successfully",
-    });
+  const handleLogout = async () => {
+    await signOut();
     navigate("/login");
   };
 
@@ -65,6 +60,20 @@ const AppLayout = () => {
       setSidebarOpen(false);
     }
   };
+
+  // Show loading state while checking authentication
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-stemPurple"></div>
+      </div>
+    );
+  }
+
+  // Don't render anything if not authenticated (will redirect)
+  if (!user) {
+    return null;
+  }
 
   const navItems = [
     { name: "Dashboard", icon: Home, route: "dashboard" },
@@ -82,6 +91,9 @@ const AppLayout = () => {
           <div className="flex items-center space-x-2">
             <GraduationCap size={24} />
             <span className="font-bold text-lg">STEM Stars</span>
+            {profile && (
+              <span className="text-sm opacity-75">Welcome, {profile.full_name || user.email}</span>
+            )}
           </div>
           
           {/* Search button */}
@@ -89,7 +101,7 @@ const AppLayout = () => {
             <SearchButton />
           </div>
           
-          {/* Right section with notifications, theme toggle, and more */}
+          {/* Right section */}
           <div className="flex items-center space-x-1">
             {/* Offline indicator */}
             {!isOnline && (
@@ -186,7 +198,7 @@ const AppLayout = () => {
           </div>
         </div>
 
-        {/* Mobile sidebar (slide from left) */}
+        {/* Mobile sidebar */}
         <div 
           className={cn(
             "md:hidden fixed inset-y-0 left-0 z-30 w-64 bg-white dark:bg-card shadow-xl transition-transform duration-300 ease-in-out transform",
@@ -242,7 +254,7 @@ const AppLayout = () => {
           />
         )}
 
-        {/* Main content area with padding to accommodate sidebar */}
+        {/* Main content area */}
         <main 
           className="flex-1 overflow-y-auto w-full pb-16 md:pb-0"
           style={{ 
@@ -250,7 +262,6 @@ const AppLayout = () => {
           }}
         >
           <div className="container mx-auto py-4 px-4">
-            {/* Offline Banner */}
             <OfflineBanner />
             <Outlet />
           </div>
@@ -277,7 +288,6 @@ const AppLayout = () => {
             </Button>
           ))}
           
-          {/* Add search to bottom nav */}
           <Button
             variant="ghost"
             className={cn(

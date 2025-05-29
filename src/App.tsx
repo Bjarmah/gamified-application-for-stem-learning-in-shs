@@ -7,6 +7,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { OfflineProvider } from "./context/OfflineContext";
 import { NotificationProvider } from "./context/NotificationContext";
 import { ThemeProvider } from "./context/ThemeContext";
+import { AuthProvider } from "./context/AuthContext";
 
 // Pages
 import Index from "./pages/Index";
@@ -33,6 +34,7 @@ const queryClient = new QueryClient({
       staleTime: 1000 * 60 * 60, // 1 hour
       gcTime: 1000 * 60 * 60 * 24, // 24 hours (previously cacheTime)
       retry: 3,
+      refetchOnWindowFocus: false,
     },
   },
 });
@@ -41,35 +43,37 @@ const App = () => (
   <QueryClientProvider client={queryClient}>
     <ThemeProvider>
       <TooltipProvider>
-        <NotificationProvider>
-          <OfflineProvider>
-            <Toaster />
-            <Sonner />
-            <BrowserRouter>
-              <Routes>
-                <Route path="/" element={<Index />} />
-                <Route path="/login" element={<Login />} />
-                <Route path="/register" element={<Register />} />
-                
-                {/* Protected Routes - Would normally have auth protection */}
-                <Route element={<AppLayout />}>
-                  <Route path="/dashboard" element={<Dashboard />} />
-                  <Route path="/subjects" element={<Subjects />} />
-                  <Route path="/subjects/:subjectId" element={<SubjectDetail />} />
-                  <Route path="/achievements" element={<Achievements />} />
-                  <Route path="/profile" element={<Profile />} />
-                  <Route path="/search" element={<Search />} /> 
-                  <Route path="/teacher/quizzes" element={<TeacherQuizzes />} />
-                  <Route path="/rooms" element={<Rooms />} />
-                  <Route path="/rooms/:roomId" element={<RoomDetail />} />
-                </Route>
-                
-                {/* Catch-all for 404 */}
-                <Route path="*" element={<NotFound />} />
-              </Routes>
-            </BrowserRouter>
-          </OfflineProvider>
-        </NotificationProvider>
+        <AuthProvider>
+          <NotificationProvider>
+            <OfflineProvider>
+              <Toaster />
+              <Sonner />
+              <BrowserRouter>
+                <Routes>
+                  <Route path="/" element={<Index />} />
+                  <Route path="/login" element={<Login />} />
+                  <Route path="/register" element={<Register />} />
+                  
+                  {/* Protected Routes - Now properly protected */}
+                  <Route element={<AppLayout />}>
+                    <Route path="/dashboard" element={<Dashboard />} />
+                    <Route path="/subjects" element={<Subjects />} />
+                    <Route path="/subjects/:subjectId" element={<SubjectDetail />} />
+                    <Route path="/achievements" element={<Achievements />} />
+                    <Route path="/profile" element={<Profile />} />
+                    <Route path="/search" element={<Search />} /> 
+                    <Route path="/teacher/quizzes" element={<TeacherQuizzes />} />
+                    <Route path="/rooms" element={<Rooms />} />
+                    <Route path="/rooms/:roomId" element={<RoomDetail />} />
+                  </Route>
+                  
+                  {/* Catch-all for 404 */}
+                  <Route path="*" element={<NotFound />} />
+                </Routes>
+              </BrowserRouter>
+            </OfflineProvider>
+          </NotificationProvider>
+        </AuthProvider>
       </TooltipProvider>
     </ThemeProvider>
   </QueryClientProvider>

@@ -1,9 +1,10 @@
 
 import React, { useState, useRef } from 'react';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent } from '@/components/ui/card';
 import { Upload, X, FileText, Image, File } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { useFileUpload } from '@/hooks/use-file-upload';
+import { useAuth } from '@/context/AuthContext';
 
 interface UploadedFile {
   id: string;
@@ -18,15 +19,18 @@ interface FileUploadProps {
   onFileUpload: (file: UploadedFile) => void;
   maxFileSize?: number; // in MB
   acceptedTypes?: string[];
+  folder?: string;
 }
 
 const FileUpload = ({ 
   onFileUpload, 
   maxFileSize = 10,
-  acceptedTypes = ['image/*', 'application/pdf', '.doc', '.docx', '.txt']
+  acceptedTypes = ['image/*', 'application/pdf', '.doc', '.docx', '.txt'],
+  folder = 'chat'
 }: FileUploadProps) => {
   const [isDragging, setIsDragging] = useState(false);
-  const [uploading, setUploading] = useState(false);
+  const { uploadFile, uploading } = useFileUpload();
+  const { user } = useAuth();
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleDragOver = (e: React.DragEvent) => {
@@ -57,45 +61,36 @@ const FileUpload = ({
   };
 
   const handleFileUpload = async (file: File) => {
+    if (!user) {
+      alert('Please log in to upload files');
+      return;
+    }
+
     if (file.size > maxFileSize * 1024 * 1024) {
       alert(`File size must be less than ${maxFileSize}MB`);
       return;
     }
 
-    setUploading(true);
-    
     try {
-      // Simulate file upload - in a real app, you'd upload to your server/cloud storage
-      const url = URL.createObjectURL(file);
+      const result = await uploadFile(file, folder);
       
       const uploadedFile: UploadedFile = {
         id: `file-${Date.now()}`,
         name: file.name,
-        size: file.size,
+        size: result.size,
         type: file.type,
-        url,
+        url: result.url,
         uploadedAt: new Date()
       };
-
-      // Simulate upload delay
-      await new Promise(resolve => setTimeout(resolve, 1000));
       
       onFileUpload(uploadedFile);
     } catch (error) {
       console.error('Upload failed:', error);
-      alert('Upload failed. Please try again.');
     } finally {
-      setUploading(false);
       if (fileInputRef.current) {
         fileInputRef.current.value = '';
       }
     }
-  };
-
-  const getFileIcon = (fileType: string) => {
-    if (fileType.startsWith('image/')) return Image;
-    if (fileType.includes('pdf')) return FileText;
-    return File;
   };
 
   return (
