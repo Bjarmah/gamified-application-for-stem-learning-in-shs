@@ -4,6 +4,7 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Badge } from "@/components/ui/badge";
 import { PlayCircle } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import BookmarkButton from "@/components/bookmarks/BookmarkButton";
 
 interface RecommendedCardProps {
   title: string;
@@ -65,16 +66,21 @@ const RecommendedCard = ({
   return (
     <Card className="card-stem animate-fade-in">
       <CardHeader className="pb-2">
-        <div className="flex justify-between items-center gap-2 flex-wrap">
-          <CardTitle className="text-lg font-medium">{title}</CardTitle>
-          <div className="flex gap-2">
-            <Badge className={getTypeColor()}>
-              {type.charAt(0).toUpperCase() + type.slice(1)}
-            </Badge>
-            <Badge className={getDifficultyColor()}>
-              {difficulty}
-            </Badge>
-          </div>
+        <div className="flex justify-between items-start gap-2">
+          <CardTitle className="text-lg font-medium flex-1">{title}</CardTitle>
+          <BookmarkButton
+            itemId={id}
+            itemType={type}
+            itemTitle={title}
+          />
+        </div>
+        <div className="flex gap-2 flex-wrap">
+          <Badge className={getTypeColor()}>
+            {type.charAt(0).toUpperCase() + type.slice(1)}
+          </Badge>
+          <Badge className={getDifficultyColor()}>
+            {difficulty}
+          </Badge>
         </div>
         <CardDescription className="line-clamp-2">{description}</CardDescription>
       </CardHeader>
