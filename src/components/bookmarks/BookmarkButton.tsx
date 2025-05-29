@@ -6,7 +6,7 @@ import { useToast } from "@/hooks/use-toast";
 
 interface BookmarkButtonProps {
   itemId: string;
-  itemType: 'module' | 'quiz' | 'subject';
+  itemType: 'module' | 'quiz' | 'subject' | 'lab';
   itemTitle: string;
   isBookmarked?: boolean;
   onToggle?: (bookmarked: boolean) => void;
