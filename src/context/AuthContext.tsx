@@ -50,7 +50,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         setUser(session?.user ?? null);
         
         if (session?.user) {
-          // Fetch user profile
+          // Fetch user profile with setTimeout to prevent deadlock
           setTimeout(async () => {
             try {
               const { data: profileData, error } = await supabase
@@ -61,8 +61,12 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
               
               if (error && error.code !== 'PGRST116') {
                 console.error('Error fetching profile:', error);
-              } else {
-                setProfile(profileData);
+              } else if (profileData) {
+                // Type assertion to ensure role is properly typed
+                setProfile({
+                  ...profileData,
+                  role: profileData.role as 'student' | 'teacher' | 'admin'
+                });
               }
             } catch (error) {
               console.error('Error in profile fetch:', error);
