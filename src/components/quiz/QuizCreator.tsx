@@ -1,92 +1,103 @@
 
 import React, { useState } from 'react';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
-import { Plus, Trash, Save } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
+import { Plus, Trash2, Save, BookOpen } from 'lucide-react';
 import { useToast } from "@/hooks/use-toast";
 
-interface QuizQuestion {
+interface Question {
   id: string;
   question: string;
   options: string[];
-  correctOption: number;
-  explanation?: string;
+  correctAnswer: number;
 }
 
 interface Quiz {
-  id: string;
   title: string;
   description: string;
   subject: string;
-  questions: QuizQuestion[];
+  questions: Question[];
 }
 
 const QuizCreator = () => {
-  const { toast } = useToast();
   const [quiz, setQuiz] = useState<Quiz>({
-    id: `quiz-${Date.now()}`,
     title: '',
     description: '',
     subject: '',
     questions: []
   });
+  const { toast } = useToast();
 
   const addQuestion = () => {
-    const newQuestion: QuizQuestion = {
-      id: `question-${Date.now()}`,
+    const newQuestion: Question = {
+      id: Date.now().toString(),
       question: '',
       options: ['', '', '', ''],
-      correctOption: 0
+      correctAnswer: 0
     };
-    setQuiz({...quiz, questions: [...quiz.questions, newQuestion]});
+    setQuiz(prev => ({
+      ...prev,
+      questions: [...prev.questions, newQuestion]
+    }));
   };
 
-  const removeQuestion = (index: number) => {
-    const updatedQuestions = [...quiz.questions];
-    updatedQuestions.splice(index, 1);
-    setQuiz({...quiz, questions: updatedQuestions});
+  const updateQuestion = (questionId: string, field: string, value: any) => {
+    setQuiz(prev => ({
+      ...prev,
+      questions: prev.questions.map(q => 
+        q.id === questionId ? { ...q, [field]: value } : q
+      )
+    }));
   };
 
-  const updateQuestion = (index: number, field: keyof QuizQuestion, value: any) => {
-    const updatedQuestions = [...quiz.questions];
-    updatedQuestions[index] = { 
-      ...updatedQuestions[index], 
-      [field]: value 
+  const updateOption = (questionId: string, optionIndex: number, value: string) => {
+    setQuiz(prev => ({
+      ...prev,
+      questions: prev.questions.map(q => 
+        q.id === questionId 
+          ? { ...q, options: q.options.map((opt, idx) => idx === optionIndex ? value : opt) }
+          : q
+      )
+    }));
+  };
+
+  const removeQuestion = (questionId: string) => {
+    setQuiz(prev => ({
+      ...prev,
+      questions: prev.questions.filter(q => q.id !== questionId)
+    }));
+  };
+
+  const saveQuiz = () => {
+    if (!quiz.title || !quiz.subject || quiz.questions.length === 0) {
+      toast({
+        title: "Missing Information",
+        description: "Please fill in all required fields and add at least one question.",
+        variant: "destructive"
+      });
+      return;
+    }
+
+    // Save to localStorage for demo
+    const savedQuizzes = JSON.parse(localStorage.getItem('teacherQuizzes') || '[]');
+    const newQuiz = {
+      ...quiz,
+      id: Date.now().toString(),
+      createdAt: new Date().toISOString()
     };
-    setQuiz({...quiz, questions: updatedQuestions});
-  };
+    savedQuizzes.push(newQuiz);
+    localStorage.setItem('teacherQuizzes', JSON.stringify(savedQuizzes));
 
-  const updateOption = (questionIndex: number, optionIndex: number, value: string) => {
-    const updatedQuestions = [...quiz.questions];
-    const options = [...updatedQuestions[questionIndex].options];
-    options[optionIndex] = value;
-    updatedQuestions[questionIndex] = { 
-      ...updatedQuestions[questionIndex], 
-      options 
-    };
-    setQuiz({...quiz, questions: updatedQuestions});
-  };
-
-  const handleSaveQuiz = () => {
-    // This would connect to a backend API to save the quiz
-    console.log('Quiz to save:', quiz);
-    
-    // For demo purposes, saving to localStorage
-    const savedQuizzes = JSON.parse(localStorage.getItem('quizzes') || '[]');
-    savedQuizzes.push(quiz);
-    localStorage.setItem('quizzes', JSON.stringify(savedQuizzes));
-    
     toast({
-      title: "Quiz Saved",
+      title: "Quiz Created! ✨",
       description: `${quiz.title} has been saved successfully.`
     });
 
-    // Reset form after saving
+    // Reset form
     setQuiz({
-      id: `quiz-${Date.now()}`,
       title: '',
       description: '',
       subject: '',
@@ -95,143 +106,107 @@ const QuizCreator = () => {
   };
 
   return (
-    <div className="space-y-6">
-      <Card>
-        <CardHeader>
-          <CardTitle>Create New Quiz</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="space-y-4">
-            <div>
-              <label htmlFor="quiz-title" className="block text-sm font-medium mb-1">
-                Quiz Title
-              </label>
-              <Input
-                id="quiz-title"
-                value={quiz.title}
-                onChange={(e) => setQuiz({...quiz, title: e.target.value})}
-                placeholder="Enter quiz title"
-              />
-            </div>
-            
-            <div>
-              <label htmlFor="quiz-subject" className="block text-sm font-medium mb-1">
-                Subject
-              </label>
-              <Input
-                id="quiz-subject"
-                value={quiz.subject}
-                onChange={(e) => setQuiz({...quiz, subject: e.target.value})}
-                placeholder="E.g. Physics, Chemistry"
-              />
-            </div>
-
-            <div>
-              <label htmlFor="quiz-description" className="block text-sm font-medium mb-1">
-                Description
-              </label>
-              <Textarea
-                id="quiz-description"
-                value={quiz.description}
-                onChange={(e) => setQuiz({...quiz, description: e.target.value})}
-                placeholder="Describe what this quiz covers"
-                rows={3}
-              />
-            </div>
+    <Card className="card-stem">
+      <CardHeader>
+        <CardTitle className="flex items-center">
+          <BookOpen className="mr-2 h-5 w-5 text-stemPurple" />
+          Quiz Creator
+        </CardTitle>
+        <CardDescription>
+          Create custom quizzes for your students
+        </CardDescription>
+      </CardHeader>
+      <CardContent className="space-y-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="space-y-2">
+            <label className="text-sm font-medium">Quiz Title</label>
+            <Input
+              placeholder="Enter quiz title..."
+              value={quiz.title}
+              onChange={(e) => setQuiz(prev => ({ ...prev, title: e.target.value }))}
+            />
           </div>
-        </CardContent>
-      </Card>
-
-      <div className="space-y-4">
-        <div className="flex justify-between items-center">
-          <h3 className="text-xl font-semibold">Questions</h3>
-          <Button onClick={addQuestion} variant="outline" size="sm">
-            <Plus className="mr-2 h-4 w-4" />
-            Add Question
-          </Button>
+          <div className="space-y-2">
+            <label className="text-sm font-medium">Subject</label>
+            <Input
+              placeholder="e.g., Physics, Chemistry..."
+              value={quiz.subject}
+              onChange={(e) => setQuiz(prev => ({ ...prev, subject: e.target.value }))}
+            />
+          </div>
         </div>
 
-        {quiz.questions.length === 0 ? (
-          <Card className="border-dashed">
-            <CardContent className="pt-6 text-center text-muted-foreground">
-              <p>No questions added yet. Click "Add Question" to start building your quiz.</p>
-            </CardContent>
-          </Card>
-        ) : (
-          quiz.questions.map((question, qIndex) => (
-            <Card key={question.id} className="relative">
-              <CardHeader className="pb-2">
+        <div className="space-y-2">
+          <label className="text-sm font-medium">Description</label>
+          <Textarea
+            placeholder="Brief description of the quiz..."
+            value={quiz.description}
+            onChange={(e) => setQuiz(prev => ({ ...prev, description: e.target.value }))}
+          />
+        </div>
+
+        <div className="space-y-4">
+          <div className="flex justify-between items-center">
+            <h3 className="text-lg font-semibold">Questions</h3>
+            <Button onClick={addQuestion} size="sm">
+              <Plus className="h-4 w-4 mr-2" />
+              Add Question
+            </Button>
+          </div>
+
+          {quiz.questions.map((question, questionIndex) => (
+            <Card key={question.id} className="p-4">
+              <div className="space-y-4">
                 <div className="flex justify-between items-start">
-                  <CardTitle className="text-lg">Question {qIndex + 1}</CardTitle>
-                  <Button 
-                    variant="ghost" 
-                    size="sm" 
-                    onClick={() => removeQuestion(qIndex)}
-                    className="h-8 w-8 p-0"
+                  <Badge variant="outline">Question {questionIndex + 1}</Badge>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => removeQuestion(question.id)}
                   >
-                    <Trash className="h-4 w-4 text-muted-foreground" />
+                    <Trash2 className="h-4 w-4 text-destructive" />
                   </Button>
                 </div>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <div>
+
+                <div className="space-y-2">
+                  <label className="text-sm font-medium">Question</label>
                   <Textarea
+                    placeholder="Enter your question..."
                     value={question.question}
-                    onChange={(e) => updateQuestion(qIndex, 'question', e.target.value)}
-                    placeholder="Enter your question here"
-                    rows={2}
+                    onChange={(e) => updateQuestion(question.id, 'question', e.target.value)}
                   />
                 </div>
-                
+
                 <div className="space-y-3">
-                  <p className="text-sm font-medium">Answer Options</p>
-                  {question.options.map((option, oIndex) => (
-                    <div key={oIndex} className="flex items-center gap-3">
+                  <label className="text-sm font-medium">Answer Options</label>
+                  {question.options.map((option, optionIndex) => (
+                    <div key={optionIndex} className="flex items-center space-x-2">
                       <input
                         type="radio"
-                        id={`q-${qIndex}-option-${oIndex}`}
-                        name={`question-${qIndex}-correct`}
-                        checked={question.correctOption === oIndex}
-                        onChange={() => updateQuestion(qIndex, 'correctOption', oIndex)}
-                        className="h-4 w-4"
+                        name={`correct-${question.id}`}
+                        checked={question.correctAnswer === optionIndex}
+                        onChange={() => updateQuestion(question.id, 'correctAnswer', optionIndex)}
+                        className="text-stemPurple"
                       />
                       <Input
+                        placeholder={`Option ${optionIndex + 1}`}
                         value={option}
-                        onChange={(e) => updateOption(qIndex, oIndex, e.target.value)}
-                        placeholder={`Option ${oIndex + 1}`}
-                        className="flex-1"
+                        onChange={(e) => updateOption(question.id, optionIndex, e.target.value)}
                       />
                     </div>
                   ))}
                 </div>
-
-                <div>
-                  <label className="block text-sm font-medium mb-1">
-                    Explanation (Optional)
-                  </label>
-                  <Textarea
-                    value={question.explanation || ''}
-                    onChange={(e) => updateQuestion(qIndex, 'explanation', e.target.value)}
-                    placeholder="Explain why the correct answer is right"
-                    rows={2}
-                  />
-                </div>
-              </CardContent>
+              </div>
             </Card>
-          ))
-        )}
-      </div>
+          ))}
+        </div>
 
-      <Card>
-        <CardFooter className="justify-between pt-4">
-          <Button variant="outline">Preview Quiz</Button>
-          <Button onClick={handleSaveQuiz} disabled={quiz.title.trim() === '' || quiz.questions.length === 0}>
-            <Save className="mr-2 h-4 w-4" />
-            Save Quiz
-          </Button>
-        </CardFooter>
-      </Card>
-    </div>
+        <Button onClick={saveQuiz} className="btn-stem w-full">
+          <Save className="h-4 w-4 mr-2" />
+          Save Quiz
+        </Button>
+      </CardContent>
+    </Card>
   );
 };
 

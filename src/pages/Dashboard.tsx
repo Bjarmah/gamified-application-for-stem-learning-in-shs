@@ -1,4 +1,3 @@
-
 import React from "react";
 import { Button } from "@/components/ui/button";
 import ProgressCard from "@/components/dashboard/ProgressCard";
@@ -9,6 +8,8 @@ import ProgressChart from "@/components/progress/ProgressChart";
 import BadgeDisplay from "@/components/badges/BadgeDisplay";
 import StudyTimer from "@/components/study/StudyTimer";
 import BookmarksList from "@/components/bookmarks/BookmarksList";
+import DailyGoals from "@/components/goals/DailyGoals";
+import ActivityFeed from "@/components/activity/ActivityFeed";
 import { useDemoNotifications } from "@/hooks/use-notifications";
 import { Link } from "react-router-dom";
 import { BookOpen, MessageSquare, Award, Star, Trophy, Flame, Users, Target } from "lucide-react";
@@ -210,6 +211,7 @@ const Dashboard = () => {
           <TabsTrigger value="overview">Overview</TabsTrigger>
           <TabsTrigger value="progress">Progress</TabsTrigger>
           <TabsTrigger value="study">Study Tools</TabsTrigger>
+          <TabsTrigger value="community">Community</TabsTrigger>
         </TabsList>
 
         <TabsContent value="overview" className="space-y-6">
@@ -292,24 +294,12 @@ const Dashboard = () => {
             </div>
 
             <div className="space-y-6">
+              <DailyGoals />
               <LeaderboardCard
                 title="Weekly Leaderboard"
                 description="Top performers this week"
                 users={leaderboardUsers}
               />
-              
-              <div className="grid grid-cols-1 gap-4">
-                {progressData.slice(1).map((item, index) => (
-                  <ProgressCard
-                    key={index}
-                    title={item.title}
-                    progress={item.progress}
-                    total={item.total}
-                    description={item.description}
-                    type={item.type}
-                  />
-                ))}
-              </div>
             </div>
           </div>
         </TabsContent>
@@ -331,7 +321,55 @@ const Dashboard = () => {
         <TabsContent value="study" className="space-y-6">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             <StudyTimer onSessionComplete={handleStudySessionComplete} />
-            <BookmarksList />
+            <DailyGoals />
+          </div>
+          <BookmarksList />
+        </TabsContent>
+
+        <TabsContent value="community" className="space-y-6">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <ActivityFeed />
+            <LeaderboardCard
+              title="This Month's Champions"
+              description="Top learners across all subjects"
+              users={leaderboardUsers}
+            />
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <Card className="overflow-hidden">
+              <CardContent className="p-0">
+                <div className="flex items-stretch h-full">
+                  <div className="bg-stemGreen/10 p-4 flex items-center justify-center">
+                    <MessageSquare className="h-10 w-10 text-stemGreen" />
+                  </div>
+                  <div className="p-4 flex-1">
+                    <CardTitle className="text-base mb-1">Join Study Rooms</CardTitle>
+                    <CardDescription className="mb-2">Connect with classmates and study together</CardDescription>
+                    <Button asChild size="sm" variant="outline" className="mt-2">
+                      <Link to="/rooms">Browse Rooms</Link>
+                    </Button>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            <Card className="overflow-hidden">
+              <CardContent className="p-0">
+                <div className="flex items-stretch h-full">
+                  <div className="bg-stemYellow/10 p-4 flex items-center justify-center">
+                    <Trophy className="h-10 w-10 text-stemYellow" />
+                  </div>
+                  <div className="p-4 flex-1">
+                    <CardTitle className="text-base mb-1">Achievements</CardTitle>
+                    <CardDescription className="mb-2">View your badges and learning milestones</CardDescription>
+                    <Button asChild size="sm" variant="outline" className="mt-2">
+                      <Link to="/achievements">View All</Link>
+                    </Button>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
           </div>
         </TabsContent>
       </Tabs>

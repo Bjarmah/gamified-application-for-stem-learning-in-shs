@@ -30,9 +30,8 @@ import AppLayout from "./components/layout/AppLayout";
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
-      // Enable stale data for offline support
-      staleTime: 1000 * 60 * 60, // 1 hour
-      gcTime: 1000 * 60 * 60 * 24, // 24 hours (previously cacheTime)
+      staleTime: 1000 * 60 * 60,
+      gcTime: 1000 * 60 * 60 * 24,
       retry: 3,
       refetchOnWindowFocus: false,
     },
@@ -54,7 +53,6 @@ const App = () => (
                   <Route path="/login" element={<Login />} />
                   <Route path="/register" element={<Register />} />
                   
-                  {/* Protected Routes - Now properly protected */}
                   <Route element={<AppLayout />}>
                     <Route path="/dashboard" element={<Dashboard />} />
                     <Route path="/subjects" element={<Subjects />} />
@@ -67,7 +65,6 @@ const App = () => (
                     <Route path="/rooms/:roomId" element={<RoomDetail />} />
                   </Route>
                   
-                  {/* Catch-all for 404 */}
                   <Route path="*" element={<NotFound />} />
                 </Routes>
               </BrowserRouter>
