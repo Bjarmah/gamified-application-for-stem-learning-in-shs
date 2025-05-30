@@ -1,113 +1,70 @@
 
-import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import React, { createContext, useContext, useState, ReactNode } from 'react';
 
-export type NotificationType = 'reminder' | 'content' | 'streak';
-
-export interface Notification {
+interface Notification {
   id: string;
-  type: NotificationType;
+  type: 'reminder' | 'achievement' | 'content' | 'streak';
   title: string;
   message: string;
-  time: string;
-  read: boolean;
+  timestamp: string;
+  isRead: boolean;
 }
 
 interface NotificationContextType {
   notifications: Notification[];
   unreadCount: number;
-  addNotification: (notification: Omit<Notification, 'id' | 'time' | 'read'>) => void;
+  addNotification: (notification: Omit<Notification, 'id' | 'timestamp' | 'isRead'>) => void;
   markAsRead: (id: string) => void;
   markAllAsRead: () => void;
-  clearNotifications: () => void;
+  removeNotification: (id: string) => void;
 }
 
 const NotificationContext = createContext<NotificationContextType | undefined>(undefined);
 
-export const useNotifications = () => {
-  const context = useContext(NotificationContext);
-  if (context === undefined) {
-    throw new Error('useNotifications must be used within a NotificationProvider');
-  }
-  return context;
-};
-
-interface NotificationProviderProps {
-  children: ReactNode;
-}
-
-export const NotificationProvider = ({ children }: NotificationProviderProps) => {
-  const [notifications, setNotifications] = useState<Notification[]>([]);
-  const unreadCount = notifications.filter(n => !n.read).length;
-
-  // Load notifications from localStorage on mount
-  useEffect(() => {
-    const savedNotifications = localStorage.getItem('notifications');
-    if (savedNotifications) {
-      setNotifications(JSON.parse(savedNotifications));
-    } else {
-      // Add some initial sample notifications
-      setNotifications([
-        {
-          id: '1',
-          type: 'reminder',
-          title: 'Complete your lesson',
-          message: 'You have an unfinished Chemistry lesson. Continue learning!',
-          time: '2h ago',
-          read: false
-        },
-        {
-          id: '2',
-          type: 'content',
-          title: 'New content available',
-          message: 'We\'ve added new modules to Physics. Check them out!',
-          time: '1d ago',
-          read: false
-        },
-        {
-          id: '3',
-          type: 'streak',
-          title: 'Keep your streak going!',
-          message: 'Log in tomorrow to maintain your 5-day streak',
-          time: '4h ago',
-          read: true
-        }
-      ]);
+export function NotificationProvider({ children }: { children: ReactNode }) {
+  const [notifications, setNotifications] = useState<Notification[]>([
+    {
+      id: '1',
+      type: 'streak',
+      title: 'Streak reminder',
+      message: 'Don\'t forget to complete your daily learning goal!',
+      timestamp: new Date().toISOString(),
+      isRead: false
     }
-  }, []);
+  ]);
 
-  // Save notifications to localStorage whenever they change
-  useEffect(() => {
-    localStorage.setItem('notifications', JSON.stringify(notifications));
-  }, [notifications]);
-
-  const addNotification = (notification: Omit<Notification, 'id' | 'time' | 'read'>) => {
+  const addNotification = (notification: Omit<Notification, 'id' | 'timestamp' | 'isRead'>) => {
     const newNotification: Notification = {
       ...notification,
       id: Date.now().toString(),
-      time: 'Just now',
-      read: false
+      timestamp: new Date().toISOString(),
+      isRead: false
     };
-
+    
     setNotifications(prev => [newNotification, ...prev]);
   };
 
   const markAsRead = (id: string) => {
     setNotifications(prev => 
       prev.map(notification => 
-        notification.id === id ? { ...notification, read: true } : notification
+        notification.id === id 
+          ? { ...notification, isRead: true }
+          : notification
       )
     );
   };
 
   const markAllAsRead = () => {
     setNotifications(prev => 
-      prev.map(notification => ({ ...notification, read: true }))
+      prev.map(notification => ({ ...notification, isRead: true }))
     );
   };
 
-  const clearNotifications = () => {
-    setNotifications([]);
+  const removeNotification = (id: string) => {
+    setNotifications(prev => prev.filter(notification => notification.id !== id));
   };
+
+  const unreadCount = notifications.filter(n => !n.isRead).length;
 
   return (
     <NotificationContext.Provider value={{
@@ -116,9 +73,17 @@ export const NotificationProvider = ({ children }: NotificationProviderProps) =>
       addNotification,
       markAsRead,
       markAllAsRead,
-      clearNotifications
+      removeNotification
     }}>
       {children}
     </NotificationContext.Provider>
   );
-};
+}
+
+export function useNotifications() {
+  const context = useContext(NotificationContext);
+  if (context === undefined) {
+    throw new Error('useNotifications must be used within a NotificationProvider');
+  }
+  return context;
+}

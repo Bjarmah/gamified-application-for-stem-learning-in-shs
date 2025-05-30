@@ -1,259 +1,313 @@
 
-import React, { useState, useEffect } from "react";
-import { useSearchParams } from "react-router-dom";
+import React, { useState } from 'react';
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
-import { Card } from "@/components/ui/card";
-import { Search as SearchIcon, Filter, X } from "lucide-react";
-import SearchFilters from "@/components/search/SearchFilters";
-import SearchResults from "@/components/search/SearchResults";
-import { useOfflineContext } from "@/context/OfflineContext";
-import { useToast } from "@/hooks/use-toast";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Search, Filter, BookOpen, Users, Trophy, Clock, Star } from 'lucide-react';
 
-const Search = () => {
-  const [searchParams, setSearchParams] = useSearchParams();
-  const [query, setQuery] = useState(searchParams.get("q") || "");
-  const [activeTab, setActiveTab] = useState("all");
-  const [showFilters, setShowFilters] = useState(false);
-  const [appliedFilters, setAppliedFilters] = useState({
-    subjects: searchParams.getAll("subjects") || [],
-    difficulty: searchParams.get("difficulty") || "",
-    type: searchParams.getAll("type") || [],
-  });
-  const { isOnline } = useOfflineContext();
-  const { toast } = useToast();
+const SearchPage = () => {
+  const [searchTerm, setSearchTerm] = useState('');
+  const [selectedFilters, setSelectedFilters] = useState<string[]>([]);
 
-  const handleSearch = (e: React.FormEvent) => {
-    e.preventDefault();
-    updateSearchParams();
-    
-    if (!isOnline && query.trim()) {
-      toast({
-        title: "Offline Search",
-        description: "Search results may be limited while offline",
-        variant: "default",
-      });
+  // Mock search results
+  const searchResults = {
+    modules: [
+      {
+        id: '1',
+        title: 'Newton\'s Laws of Motion',
+        description: 'Understand the fundamental principles of classical mechanics',
+        subject: 'Physics',
+        difficulty: 'Intermediate',
+        duration: '25 min',
+        rating: 4.8
+      },
+      {
+        id: '2',
+        title: 'Chemical Bonding Basics',
+        description: 'Learn about ionic and covalent bonds',
+        subject: 'Chemistry',
+        difficulty: 'Beginner',
+        duration: '20 min',
+        rating: 4.6
+      }
+    ],
+    quizzes: [
+      {
+        id: '1',
+        title: 'Physics Quiz: Forces',
+        description: 'Test your understanding of forces and motion',
+        subject: 'Physics',
+        questions: 15,
+        difficulty: 'Intermediate'
+      }
+    ],
+    rooms: [
+      {
+        id: '1',
+        name: 'Physics Study Group',
+        description: 'Collaborative physics problem solving',
+        members: 8,
+        isActive: true,
+        subject: 'Physics'
+      }
+    ]
+  };
+
+  const filters = [
+    { id: 'physics', label: 'Physics', type: 'subject' },
+    { id: 'chemistry', label: 'Chemistry', type: 'subject' },
+    { id: 'mathematics', label: 'Mathematics', type: 'subject' },
+    { id: 'beginner', label: 'Beginner', type: 'difficulty' },
+    { id: 'intermediate', label: 'Intermediate', type: 'difficulty' },
+    { id: 'advanced', label: 'Advanced', type: 'difficulty' }
+  ];
+
+  const toggleFilter = (filterId: string) => {
+    setSelectedFilters(prev => 
+      prev.includes(filterId) 
+        ? prev.filter(f => f !== filterId)
+        : [...prev, filterId]
+    );
+  };
+
+  const getDifficultyColor = (difficulty: string) => {
+    switch (difficulty) {
+      case 'Beginner': return 'bg-stemGreen/20 text-stemGreen-dark';
+      case 'Intermediate': return 'bg-stemYellow/20 text-stemYellow-dark';
+      case 'Advanced': return 'bg-stemOrange/20 text-stemOrange-dark';
+      default: return 'bg-muted text-muted-foreground';
     }
   };
-
-  const updateSearchParams = () => {
-    const params = new URLSearchParams();
-    
-    if (query) params.set("q", query);
-    
-    // Add filters to URL
-    appliedFilters.subjects.forEach(subject => {
-      params.append("subjects", subject);
-    });
-    
-    if (appliedFilters.difficulty) {
-      params.set("difficulty", appliedFilters.difficulty);
-    }
-    
-    appliedFilters.type.forEach(type => {
-      params.append("type", type);
-    });
-    
-    setSearchParams(params);
-  };
-
-  const removeFilter = (type: string, value?: string) => {
-    if (type === "subject" && value) {
-      setAppliedFilters({
-        ...appliedFilters,
-        subjects: appliedFilters.subjects.filter(subject => subject !== value)
-      });
-    } else if (type === "difficulty") {
-      setAppliedFilters({
-        ...appliedFilters,
-        difficulty: ""
-      });
-    } else if (type === "type" && value) {
-      setAppliedFilters({
-        ...appliedFilters,
-        type: appliedFilters.type.filter(t => t !== value)
-      });
-    } else if (type === "all") {
-      setAppliedFilters({
-        subjects: [],
-        difficulty: "",
-        type: []
-      });
-    }
-  };
-
-  const clearSearch = () => {
-    setQuery("");
-    setAppliedFilters({
-      subjects: [],
-      difficulty: "",
-      type: []
-    });
-    setSearchParams({});
-  };
-
-  const hasFilters = appliedFilters.subjects.length > 0 || 
-                     appliedFilters.difficulty !== "" || 
-                     appliedFilters.type.length > 0;
-
-  useEffect(() => {
-    // Update search params when filters change
-    updateSearchParams();
-  }, [appliedFilters]);
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 pb-8">
       <div>
         <h1 className="text-2xl font-bold tracking-tight">Search</h1>
         <p className="text-muted-foreground">
-          Find learning materials across all subjects.
+          Find modules, quizzes, and study rooms across all subjects
         </p>
       </div>
 
-      {/* Search Form */}
-      <form onSubmit={handleSearch} className="relative">
-        <SearchIcon className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
-        <Input
-          type="search"
-          placeholder="Search for topics, modules, quizzes..."
-          className="pl-10 pr-10"
-          value={query}
-          onChange={(e) => setQuery(e.target.value)}
-        />
-        {query && (
-          <Button
-            type="button"
-            variant="ghost"
-            size="icon"
-            className="absolute right-10 top-2"
-            onClick={() => {
-              setQuery("");
-            }}
-          >
-            <X className="h-4 w-4" />
-          </Button>
-        )}
-        <Button
-          type="button"
-          variant="ghost"
-          size="icon"
-          className="absolute right-2 top-2"
-          onClick={() => setShowFilters(!showFilters)}
-        >
-          <Filter className="h-4 w-4" />
+      {/* Search Bar */}
+      <div className="flex flex-col sm:flex-row gap-4">
+        <div className="relative flex-1">
+          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+          <Input
+            placeholder="Search for modules, quizzes, or study rooms..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className="pl-10"
+          />
+        </div>
+        <Button variant="outline">
+          <Filter className="h-4 w-4 mr-2" />
+          Filters
         </Button>
-      </form>
+      </div>
 
-      {/* Applied Filters */}
-      {hasFilters && (
+      {/* Filters */}
+      <div className="space-y-3">
+        <h3 className="font-medium">Filters</h3>
         <div className="flex flex-wrap gap-2">
-          {appliedFilters.subjects.map((subject) => (
-            <Badge 
-              key={subject} 
-              variant="secondary" 
-              className="flex items-center gap-1"
+          {filters.map((filter) => (
+            <Badge
+              key={filter.id}
+              variant={selectedFilters.includes(filter.id) ? "default" : "outline"}
+              className="cursor-pointer"
+              onClick={() => toggleFilter(filter.id)}
             >
-              {subject}
-              <X 
-                className="h-3 w-3 cursor-pointer" 
-                onClick={() => removeFilter("subject", subject)} 
-              />
+              {filter.label}
             </Badge>
           ))}
-          
-          {appliedFilters.difficulty && (
-            <Badge 
-              variant="secondary" 
-              className="flex items-center gap-1"
-            >
-              Difficulty: {appliedFilters.difficulty}
-              <X 
-                className="h-3 w-3 cursor-pointer" 
-                onClick={() => removeFilter("difficulty")} 
-              />
-            </Badge>
-          )}
-          
-          {appliedFilters.type.map((type) => (
-            <Badge 
-              key={type} 
-              variant="secondary" 
-              className="flex items-center gap-1"
-            >
-              Type: {type}
-              <X 
-                className="h-3 w-3 cursor-pointer" 
-                onClick={() => removeFilter("type", type)} 
-              />
-            </Badge>
-          ))}
-          
+        </div>
+        {selectedFilters.length > 0 && (
           <Button 
             variant="ghost" 
-            className="h-6 px-2 text-xs" 
-            onClick={() => removeFilter("all")}
+            size="sm" 
+            onClick={() => setSelectedFilters([])}
           >
-            Clear all
+            Clear all filters
           </Button>
-        </div>
-      )}
+        )}
+      </div>
 
-      {/* Filters Panel */}
-      {showFilters && (
-        <Card className="p-4">
-          <SearchFilters 
-            appliedFilters={appliedFilters}
-            setAppliedFilters={setAppliedFilters}
-            onClose={() => setShowFilters(false)}
-          />
-        </Card>
-      )}
-
-      {/* Tabs and Results */}
-      <Tabs defaultValue="all" value={activeTab} onValueChange={setActiveTab} className="space-y-4">
+      {/* Search Results */}
+      <Tabs defaultValue="all" className="w-full">
         <TabsList>
           <TabsTrigger value="all">All Results</TabsTrigger>
           <TabsTrigger value="modules">Modules</TabsTrigger>
           <TabsTrigger value="quizzes">Quizzes</TabsTrigger>
-          <TabsTrigger value="labs">Labs</TabsTrigger>
+          <TabsTrigger value="rooms">Study Rooms</TabsTrigger>
         </TabsList>
 
-        <TabsContent value="all" className="space-y-4">
-          <SearchResults 
-            query={searchParams.get("q") || ""} 
-            filters={appliedFilters}
-            resultType="all"
-          />
+        <TabsContent value="all" className="space-y-6">
+          {/* Modules Section */}
+          <div>
+            <h3 className="text-lg font-semibold mb-4">Modules</h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {searchResults.modules.map((module) => (
+                <Card key={module.id} className="card-stem">
+                  <CardHeader>
+                    <div className="flex justify-between items-start">
+                      <CardTitle className="text-lg">{module.title}</CardTitle>
+                      <div className="flex items-center space-x-1">
+                        <Star className="h-4 w-4 text-stemYellow fill-current" />
+                        <span className="text-sm">{module.rating}</span>
+                      </div>
+                    </div>
+                    <CardDescription>{module.description}</CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center space-x-2">
+                        <Badge className="bg-stemPurple/20 text-stemPurple">
+                          <BookOpen className="h-3 w-3 mr-1" />
+                          {module.subject}
+                        </Badge>
+                        <Badge className={getDifficultyColor(module.difficulty)}>
+                          {module.difficulty}
+                        </Badge>
+                      </div>
+                      <div className="flex items-center text-sm text-muted-foreground">
+                        <Clock className="h-3 w-3 mr-1" />
+                        {module.duration}
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          </div>
+
+          {/* Study Rooms Section */}
+          <div>
+            <h3 className="text-lg font-semibold mb-4">Study Rooms</h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {searchResults.rooms.map((room) => (
+                <Card key={room.id} className="card-stem">
+                  <CardHeader>
+                    <CardTitle className="text-lg">{room.name}</CardTitle>
+                    <CardDescription>{room.description}</CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center space-x-2">
+                        <Badge className="bg-stemGreen/20 text-stemGreen-dark">
+                          {room.subject}
+                        </Badge>
+                        <Badge variant={room.isActive ? "default" : "secondary"}>
+                          {room.isActive ? "Active" : "Inactive"}
+                        </Badge>
+                      </div>
+                      <div className="flex items-center text-sm text-muted-foreground">
+                        <Users className="h-3 w-3 mr-1" />
+                        {room.members} members
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          </div>
         </TabsContent>
-        
-        <TabsContent value="modules" className="space-y-4">
-          <SearchResults 
-            query={searchParams.get("q") || ""} 
-            filters={appliedFilters}
-            resultType="module"
-          />
+
+        <TabsContent value="modules">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {searchResults.modules.map((module) => (
+              <Card key={module.id} className="card-stem">
+                <CardHeader>
+                  <CardTitle className="text-lg">{module.title}</CardTitle>
+                  <CardDescription>{module.description}</CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-3">
+                    <div className="flex items-center space-x-2">
+                      <Badge className="bg-stemPurple/20 text-stemPurple">
+                        <BookOpen className="h-3 w-3 mr-1" />
+                        {module.subject}
+                      </Badge>
+                      <Badge className={getDifficultyColor(module.difficulty)}>
+                        {module.difficulty}
+                      </Badge>
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center text-sm text-muted-foreground">
+                        <Clock className="h-3 w-3 mr-1" />
+                        {module.duration}
+                      </div>
+                      <div className="flex items-center space-x-1">
+                        <Star className="h-4 w-4 text-stemYellow fill-current" />
+                        <span className="text-sm">{module.rating}</span>
+                      </div>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
         </TabsContent>
-        
-        <TabsContent value="quizzes" className="space-y-4">
-          <SearchResults 
-            query={searchParams.get("q") || ""} 
-            filters={appliedFilters}
-            resultType="quiz"
-          />
+
+        <TabsContent value="quizzes">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {searchResults.quizzes.map((quiz) => (
+              <Card key={quiz.id} className="card-stem">
+                <CardHeader>
+                  <CardTitle className="text-lg">{quiz.title}</CardTitle>
+                  <CardDescription>{quiz.description}</CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-3">
+                    <div className="flex items-center space-x-2">
+                      <Badge className="bg-stemYellow/20 text-stemYellow-dark">
+                        {quiz.subject}
+                      </Badge>
+                      <Badge className={getDifficultyColor(quiz.difficulty)}>
+                        {quiz.difficulty}
+                      </Badge>
+                    </div>
+                    <p className="text-sm text-muted-foreground">
+                      {quiz.questions} questions
+                    </p>
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
         </TabsContent>
-        
-        <TabsContent value="labs" className="space-y-4">
-          <SearchResults 
-            query={searchParams.get("q") || ""} 
-            filters={appliedFilters}
-            resultType="lab"
-          />
+
+        <TabsContent value="rooms">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {searchResults.rooms.map((room) => (
+              <Card key={room.id} className="card-stem">
+                <CardHeader>
+                  <CardTitle className="text-lg">{room.name}</CardTitle>
+                  <CardDescription>{room.description}</CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center space-x-2">
+                      <Badge className="bg-stemGreen/20 text-stemGreen-dark">
+                        {room.subject}
+                      </Badge>
+                      <Badge variant={room.isActive ? "default" : "secondary"}>
+                        {room.isActive ? "Active" : "Inactive"}
+                      </Badge>
+                    </div>
+                    <div className="flex items-center text-sm text-muted-foreground">
+                      <Users className="h-3 w-3 mr-1" />
+                      {room.members}
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
         </TabsContent>
       </Tabs>
     </div>
   );
 };
 
-export default Search;
+export default SearchPage;
