@@ -116,10 +116,10 @@ export function useOfflineLearning() {
   };
 }
 
-// Add the missing useAdaptiveLearning hook
+// Add the missing useAdaptiveLearning hook with complete mock data
 export function useAdaptiveLearning() {
   const getRecommendations = async (completedModules: string[], preferences: string[]) => {
-    // Mock implementation for adaptive learning recommendations
+    // Mock implementation for adaptive learning recommendations with complete data structure
     const mockModules = [
       {
         id: "mod1",
@@ -128,6 +128,9 @@ export function useAdaptiveLearning() {
         subject: "Physics",
         difficulty: "Beginner",
         type: "module",
+        duration: "30 minutes",
+        isCompleted: false,
+        hasQuiz: true,
         keywords: ["waves", "motion", "physics", "mechanics"]
       },
       {
@@ -137,6 +140,9 @@ export function useAdaptiveLearning() {
         subject: "Mathematics",
         difficulty: "Intermediate",
         type: "module",
+        duration: "45 minutes",
+        isCompleted: false,
+        hasQuiz: true,
         keywords: ["algebra", "equations", "mathematics"]
       }
     ];
@@ -149,6 +155,11 @@ export function useAdaptiveLearning() {
         subject: "Physics", 
         difficulty: "Beginner",
         type: "quiz",
+        duration: "15 minutes",
+        questions: [
+          { id: "q1", text: "What is the speed of light?" },
+          { id: "q2", text: "Define frequency in wave physics" }
+        ],
         keywords: ["waves", "particles", "physics", "test"]
       }
     ];
