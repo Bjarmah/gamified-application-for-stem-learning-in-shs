@@ -115,3 +115,51 @@ export function useOfflineLearning() {
     getStorageUsage
   };
 }
+
+// Add the missing useAdaptiveLearning hook
+export function useAdaptiveLearning() {
+  const getRecommendations = async (completedModules: string[], preferences: string[]) => {
+    // Mock implementation for adaptive learning recommendations
+    const mockModules = [
+      {
+        id: "mod1",
+        title: "Introduction to Physics",
+        description: "Learn the basics of physics including waves and motion",
+        subject: "Physics",
+        difficulty: "Beginner",
+        type: "module",
+        keywords: ["waves", "motion", "physics", "mechanics"]
+      },
+      {
+        id: "mod2",
+        title: "Algebra Fundamentals", 
+        description: "Master algebra concepts",
+        subject: "Mathematics",
+        difficulty: "Intermediate",
+        type: "module",
+        keywords: ["algebra", "equations", "mathematics"]
+      }
+    ];
+    
+    const mockQuizzes = [
+      {
+        id: "quiz1",
+        title: "Physics Quiz",
+        description: "Test your knowledge about waves and particles",
+        subject: "Physics", 
+        difficulty: "Beginner",
+        type: "quiz",
+        keywords: ["waves", "particles", "physics", "test"]
+      }
+    ];
+    
+    return {
+      modules: mockModules,
+      quizzes: mockQuizzes
+    };
+  };
+
+  return {
+    getRecommendations
+  };
+}

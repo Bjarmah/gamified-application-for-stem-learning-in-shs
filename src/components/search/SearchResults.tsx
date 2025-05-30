@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import ModuleCard from "@/components/subjects/ModuleCard";
-import { useOfflineContext } from "@/context/OfflineContext";
+import { useOffline } from "@/context/OfflineContext";
 import { useAdaptiveLearning } from "@/hooks/use-offline-learning";
 import { useToast } from "@/hooks/use-toast";
 import { Badge } from "@/components/ui/badge";
@@ -38,7 +38,7 @@ const extractSearchableText = (item: any): string => {
 const SearchResults: React.FC<SearchResultsProps> = ({ query, filters, resultType }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [results, setResults] = useState<any[]>([]);
-  const { isOnline } = useOfflineContext();
+  const { isOnline } = useOffline();
   const { getRecommendations } = useAdaptiveLearning();
   const { toast } = useToast();
   const navigate = useNavigate();
