@@ -17,6 +17,7 @@ import Register from "./pages/Register";
 import Dashboard from "./pages/Dashboard";
 import Subjects from "./pages/Subjects";
 import SubjectDetail from "./pages/SubjectDetail";
+import VirtualLab from "./pages/VirtualLab";
 import Achievements from "./pages/Achievements";
 import Profile from "./pages/Profile";
 import Search from "./pages/Search"; 
