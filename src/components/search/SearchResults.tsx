@@ -120,7 +120,6 @@ const SearchResults: React.FC<SearchResultsProps> = ({ query, filters, resultTyp
             duration: "15 minutes",
             difficulty: "Beginner",
             type: "quiz",
-            questions: [{ id: "q1", text: "Sample question about waves" }],
             keywords: ["physics", "test", "mechanics", "waves", "particles"]
           },
           {
@@ -131,7 +130,6 @@ const SearchResults: React.FC<SearchResultsProps> = ({ query, filters, resultTyp
             duration: "20 minutes",
             difficulty: "Advanced",
             type: "quiz",
-            questions: [{ id: "q1", text: "Sample question" }],
             keywords: ["math", "advanced", "calculus", "problems"]
           },
           {
@@ -142,7 +140,6 @@ const SearchResults: React.FC<SearchResultsProps> = ({ query, filters, resultTyp
             duration: "25 minutes",
             difficulty: "Intermediate",
             type: "quiz",
-            questions: [{ id: "q1", text: "Sample question about bonding" }],
             keywords: ["chemistry", "test", "bonding", "ionic", "covalent", "molecules"]
           },
           {
@@ -153,7 +150,6 @@ const SearchResults: React.FC<SearchResultsProps> = ({ query, filters, resultTyp
             duration: "20 minutes",
             difficulty: "Intermediate",
             type: "quiz",
-            questions: [{ id: "q1", text: "Sample question about wave properties" }],
             keywords: ["physics", "waves", "test", "frequency", "amplitude"]
           }
         ];
@@ -185,17 +181,25 @@ const SearchResults: React.FC<SearchResultsProps> = ({ query, filters, resultTyp
         try {
           const recommResult = await getRecommendations([], []);
           if (recommResult.modules.length > 0 || recommResult.quizzes.length > 0) {
-            let content = [...recommResult.modules, ...recommResult.quizzes];
+            // Format real data to ensure consistent properties
+            const formattedModules = recommResult.modules.map(module => ({
+              ...module,
+              duration: module.duration || "30 minutes",
+              isCompleted: module.isCompleted || false,
+              hasQuiz: module.hasQuiz || false,
+              keywords: module.keywords || []
+            }));
+
+            const formattedQuizzes = recommResult.quizzes.map(quiz => ({
+              ...quiz,
+              duration: quiz.duration || "15 minutes",
+              keywords: quiz.keywords || []
+            }));
+
+            let content = [...formattedModules, ...formattedQuizzes];
             
             // If we have real data, use it instead of mock data
             console.log("Found real content from recommendations:", content.length);
-            
-            // Ensure all items have a type property and keywords
-            content = content.map(item => ({
-              ...item,
-              type: item.type || (item.questions ? 'quiz' : 'module'),
-              keywords: item.keywords || [] // Ensure keywords exist
-            }));
             
             // We'll use real data instead of mocks
             let filteredContent = content;

@@ -116,11 +116,38 @@ export function useOfflineLearning() {
   };
 }
 
-// Add the missing useAdaptiveLearning hook with complete mock data
+// Base interface for all content items
+interface BaseContentItem {
+  id: string;
+  title: string;
+  description: string;
+  subject: string;
+  difficulty: string;
+  type: string;
+  duration: string;
+  keywords: string[];
+}
+
+// Module-specific interface
+interface ModuleItem extends BaseContentItem {
+  type: "module";
+  isCompleted: boolean;
+  hasQuiz: boolean;
+}
+
+// Quiz-specific interface
+interface QuizItem extends BaseContentItem {
+  type: "quiz";
+  questions: { id: string; text: string; }[];
+}
+
+// Union type for all content
+type ContentItem = ModuleItem | QuizItem;
+
 export function useAdaptiveLearning() {
   const getRecommendations = async (completedModules: string[], preferences: string[]) => {
-    // Mock implementation for adaptive learning recommendations with complete data structure
-    const mockModules = [
+    // Mock implementation for adaptive learning recommendations with consistent data structure
+    const mockModules: ModuleItem[] = [
       {
         id: "mod1",
         title: "Introduction to Physics",
@@ -147,7 +174,7 @@ export function useAdaptiveLearning() {
       }
     ];
     
-    const mockQuizzes = [
+    const mockQuizzes: QuizItem[] = [
       {
         id: "quiz1",
         title: "Physics Quiz",

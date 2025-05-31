@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { 
@@ -54,6 +53,9 @@ const GlobalSearch: React.FC<GlobalSearchProps> = ({ isOpen, onClose }) => {
           subject: "Physics",
           difficulty: "Beginner",
           type: "module",
+          duration: "30 minutes",
+          isCompleted: false,
+          hasQuiz: true,
           keywords: ["waves", "motion", "physics", "mechanics"]
         },
         {
@@ -63,6 +65,9 @@ const GlobalSearch: React.FC<GlobalSearchProps> = ({ isOpen, onClose }) => {
           subject: "Mathematics",
           difficulty: "Intermediate",
           type: "module",
+          duration: "45 minutes",
+          isCompleted: false,
+          hasQuiz: true,
           keywords: ["algebra", "equations", "mathematics"]
         },
         {
@@ -72,6 +77,9 @@ const GlobalSearch: React.FC<GlobalSearchProps> = ({ isOpen, onClose }) => {
           subject: "Chemistry",
           difficulty: "Intermediate",
           type: "module",
+          duration: "35 minutes",
+          isCompleted: false,
+          hasQuiz: true,
           keywords: ["chemistry", "bonding", "molecules", "structures"]
         }
       ];
@@ -84,6 +92,7 @@ const GlobalSearch: React.FC<GlobalSearchProps> = ({ isOpen, onClose }) => {
           subject: "Physics",
           difficulty: "Beginner",
           type: "quiz",
+          duration: "15 minutes",
           keywords: ["waves", "particles", "physics", "test"]
         },
         {
@@ -93,6 +102,7 @@ const GlobalSearch: React.FC<GlobalSearchProps> = ({ isOpen, onClose }) => {
           subject: "Chemistry",
           difficulty: "Intermediate", 
           type: "quiz",
+          duration: "20 minutes",
           keywords: ["chemistry", "bonding", "molecules", "test"]
         }
       ];
@@ -102,13 +112,22 @@ const GlobalSearch: React.FC<GlobalSearchProps> = ({ isOpen, onClose }) => {
         .then(content => {
           // If we have real data, use it
           if (content.modules.length > 0 || content.quizzes.length > 0) {
-            const combinedResults = content.modules.concat(content.quizzes)
-              .map(item => ({
-                ...item,
-                type: item.type || (item.questions ? 'quiz' : 'module'),
-                keywords: item.keywords || [] // Ensure keywords exist
-              }))
-              .slice(0, 5);
+            // Convert to consistent format
+            const formattedModules = content.modules.map(module => ({
+              ...module,
+              duration: module.duration || "30 minutes",
+              isCompleted: module.isCompleted || false,
+              hasQuiz: module.hasQuiz || false,
+              keywords: module.keywords || []
+            }));
+
+            const formattedQuizzes = content.quizzes.map(quiz => ({
+              ...quiz,
+              duration: quiz.duration || "15 minutes",
+              keywords: quiz.keywords || []
+            }));
+
+            const combinedResults = [...formattedModules, ...formattedQuizzes].slice(0, 5);
               
             console.log("Global search using real data:", combinedResults.length);
             setSearchResults(combinedResults);
@@ -154,6 +173,9 @@ const GlobalSearch: React.FC<GlobalSearchProps> = ({ isOpen, onClose }) => {
           subject: "Physics",
           difficulty: "Beginner",
           type: "module",
+          duration: "30 minutes",
+          isCompleted: false,
+          hasQuiz: true,
           keywords: ["waves", "motion", "physics", "mechanics"]
         },
         {
@@ -163,6 +185,9 @@ const GlobalSearch: React.FC<GlobalSearchProps> = ({ isOpen, onClose }) => {
           subject: "Mathematics",
           difficulty: "Intermediate", 
           type: "module",
+          duration: "45 minutes",
+          isCompleted: false,
+          hasQuiz: true,
           keywords: ["algebra", "equations", "mathematics"]
         },
         {
@@ -172,6 +197,9 @@ const GlobalSearch: React.FC<GlobalSearchProps> = ({ isOpen, onClose }) => {
           subject: "Chemistry",
           difficulty: "Intermediate",
           type: "module",
+          duration: "35 minutes",
+          isCompleted: false,
+          hasQuiz: true,
           keywords: ["chemistry", "bonding", "molecules", "structures"]
         },
         {
@@ -181,6 +209,7 @@ const GlobalSearch: React.FC<GlobalSearchProps> = ({ isOpen, onClose }) => {
           subject: "Physics",
           difficulty: "Beginner",
           type: "quiz",
+          duration: "15 minutes",
           keywords: ["waves", "particles", "physics", "test"]
         },
         {
@@ -190,6 +219,7 @@ const GlobalSearch: React.FC<GlobalSearchProps> = ({ isOpen, onClose }) => {
           subject: "Chemistry",
           difficulty: "Intermediate", 
           type: "quiz",
+          duration: "20 minutes",
           keywords: ["chemistry", "bonding", "molecules", "test"]
         },
         {
@@ -199,6 +229,7 @@ const GlobalSearch: React.FC<GlobalSearchProps> = ({ isOpen, onClose }) => {
           subject: "Chemistry",
           difficulty: "Advanced",
           type: "lab",
+          duration: "60 minutes",
           keywords: ["chemistry", "experiment", "bonding", "molecules"]
         }
       ];
@@ -206,13 +237,22 @@ const GlobalSearch: React.FC<GlobalSearchProps> = ({ isOpen, onClose }) => {
       // Try to get real data using recommendations
       try {
         const content = await getRecommendations([], []);
-        // Combine modules and quizzes
-        const allContent = [...content.modules, ...content.quizzes]
-          .map(item => ({
-            ...item,
-            type: item.type || (item.questions ? 'quiz' : 'module'),
-            keywords: item.keywords || [] // Ensure keywords exist
-          }));
+        // Combine modules and quizzes with consistent formatting
+        const formattedModules = content.modules.map(module => ({
+          ...module,
+          duration: module.duration || "30 minutes",
+          isCompleted: module.isCompleted || false,
+          hasQuiz: module.hasQuiz || false,
+          keywords: module.keywords || []
+        }));
+
+        const formattedQuizzes = content.quizzes.map(quiz => ({
+          ...quiz,
+          duration: quiz.duration || "15 minutes",
+          keywords: quiz.keywords || []
+        }));
+
+        const allContent = [...formattedModules, ...formattedQuizzes];
           
         if (allContent.length > 0) {
           // Filter real data based on search term - improved search logic
