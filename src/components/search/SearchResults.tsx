@@ -28,8 +28,7 @@ const extractSearchableText = (item: any): string => {
     item.description || '',
     item.subject || '',
     Array.isArray(item.keywords) ? item.keywords.join(' ') : '',
-    item.content || '',  // Check for any content field
-    // Add any additional fields that might contain searchable text
+    item.content || '',
   ];
   
   return textParts.filter(Boolean).join(' ').toLowerCase();
@@ -47,67 +46,67 @@ const SearchResults: React.FC<SearchResultsProps> = ({ query, filters, resultTyp
     const fetchResults = async () => {
       setIsLoading(true);
       try {
-        // Use mock data for demonstration with expanded keywords
+        // Enhanced mock data with better search coverage
         const mockModules = [
           {
             id: "mod1",
             title: "Introduction to Physics",
-            description: "Learn the basics of physics including mechanics and motion",
+            description: "Learn the basics of physics including mechanics, waves, and motion",
             subject: "Physics",
             duration: "30 minutes",
             isCompleted: false,
             difficulty: "Beginner",
             hasQuiz: true,
             type: "module",
-            keywords: ["physics", "mechanics", "motion", "waves", "force"]
+            keywords: ["physics", "mechanics", "motion", "waves", "force", "energy", "introduction"]
           },
           {
             id: "mod2",
             title: "Algebra Fundamentals",
-            description: "Master the core concepts of algebra",
+            description: "Master the core concepts of algebra and equations",
             subject: "Mathematics",
             duration: "45 minutes",
             isCompleted: true,
             difficulty: "Intermediate",
             hasQuiz: true,
             type: "module",
-            keywords: ["math", "algebra", "equations", "variables"]
+            keywords: ["math", "algebra", "equations", "variables", "solving", "mathematics"]
           },
           {
             id: "mod3",
             title: "Chemical Reactions",
-            description: "Understanding different types of chemical reactions and bonding",
+            description: "Understanding different types of chemical reactions and molecular bonding",
             subject: "Chemistry",
             duration: "25 minutes",
             isCompleted: false,
             difficulty: "Advanced",
             hasQuiz: false,
             type: "module",
-            keywords: ["chemistry", "reactions", "compounds", "molecules", "bonding"]
+            keywords: ["chemistry", "reactions", "compounds", "molecules", "bonding", "chemical"]
           },
           {
             id: "mod4",
             title: "Chemical Bonding",
-            description: "Learn about ionic, covalent and metallic bonding",
+            description: "Learn about ionic, covalent and metallic bonding in chemistry",
             subject: "Chemistry",
             duration: "35 minutes",
             isCompleted: false,
             difficulty: "Intermediate",
             hasQuiz: true,
             type: "module",
-            keywords: ["chemistry", "bonding", "ionic", "covalent", "metallic", "molecules"]
+            keywords: ["chemistry", "bonding", "ionic", "covalent", "metallic", "molecules", "atoms"]
           },
           {
             id: "mod5",
             title: "Wave Mechanics",
-            description: "Explore the properties of waves in physics",
+            description: "Explore the properties of waves in physics including frequency and amplitude",
             subject: "Physics",
             duration: "40 minutes",
             isCompleted: false,
             difficulty: "Intermediate",
             hasQuiz: true,
             type: "module",
-            keywords: ["physics", "waves", "frequency", "amplitude", "oscillation"]
+            keywords: ["physics", "waves", "frequency", "amplitude", "oscillation", "mechanics"]
           }
         ];
         
@@ -115,42 +114,42 @@ const SearchResults: React.FC<SearchResultsProps> = ({ query, filters, resultTyp
           {
             id: "quiz1",
             title: "Physics Quiz: Waves & Motion",
-            description: "Test your knowledge of basic physics concepts including waves",
+            description: "Test your knowledge of basic physics concepts including waves and motion",
             subject: "Physics",
             duration: "15 minutes",
             difficulty: "Beginner",
             type: "quiz",
-            keywords: ["physics", "test", "mechanics", "waves", "particles"]
+            keywords: ["physics", "test", "quiz", "mechanics", "waves", "particles", "motion"]
           },
           {
             id: "quiz2",
-            title: "Advanced Mathematics",
-            description: "Challenge yourself with complex math problems",
+            title: "Advanced Mathematics Quiz",
+            description: "Challenge yourself with complex mathematical problems and algebra",
             subject: "Mathematics",
             duration: "20 minutes",
             difficulty: "Advanced",
             type: "quiz",
-            keywords: ["math", "advanced", "calculus", "problems"]
+            keywords: ["math", "mathematics", "advanced", "calculus", "problems", "quiz", "algebra"]
           },
           {
             id: "quiz3",
             title: "Chemical Bonding Quiz",
-            description: "Test your understanding of different types of chemical bonds",
+            description: "Test your understanding of different types of chemical bonds and molecules",
             subject: "Chemistry",
             duration: "25 minutes",
             difficulty: "Intermediate",
             type: "quiz",
-            keywords: ["chemistry", "test", "bonding", "ionic", "covalent", "molecules"]
+            keywords: ["chemistry", "test", "quiz", "bonding", "ionic", "covalent", "molecules"]
           },
           {
             id: "quiz4",
             title: "Wave Properties Quiz",
-            description: "Test your knowledge of wave characteristics and behaviors",
+            description: "Test your knowledge of wave characteristics and behaviors in physics",
             subject: "Physics",
             duration: "20 minutes",
             difficulty: "Intermediate",
             type: "quiz",
-            keywords: ["physics", "waves", "test", "frequency", "amplitude"]
+            keywords: ["physics", "waves", "test", "quiz", "frequency", "amplitude", "properties"]
           }
         ];
         
@@ -158,22 +157,32 @@ const SearchResults: React.FC<SearchResultsProps> = ({ query, filters, resultTyp
           {
             id: "lab1",
             title: "Physics Wave Laboratory",
-            description: "Virtual physics lab experiments on wave motion and properties",
+            description: "Virtual physics lab experiments on wave motion and wave properties",
             subject: "Physics",
             duration: "60 minutes",
             difficulty: "Intermediate",
             type: "lab",
-            keywords: ["physics", "lab", "experiment", "waves", "practical", "oscillation"]
+            keywords: ["physics", "lab", "experiment", "waves", "practical", "oscillation", "laboratory"]
           },
           {
             id: "lab2",
             title: "Chemical Bonding Lab",
-            description: "Virtual chemistry lab experiments on chemical bonds and structures",
+            description: "Virtual chemistry lab experiments on chemical bonds and molecular structures",
             subject: "Chemistry",
             duration: "50 minutes",
             difficulty: "Advanced",
             type: "lab",
-            keywords: ["chemistry", "lab", "experiment", "bonding", "molecules", "practical"]
+            keywords: ["chemistry", "lab", "experiment", "bonding", "molecules", "practical", "laboratory"]
+          },
+          {
+            id: "lab3",
+            title: "Math Graphing Lab",
+            description: "Interactive mathematical graphing and function visualization laboratory",
+            subject: "Mathematics",
+            duration: "45 minutes",
+            difficulty: "Intermediate",
+            type: "lab",
+            keywords: ["math", "mathematics", "graphing", "functions", "lab", "laboratory", "visualization"]
           }
         ];
         
@@ -181,56 +190,50 @@ const SearchResults: React.FC<SearchResultsProps> = ({ query, filters, resultTyp
         try {
           const recommResult = await getRecommendations([], []);
           if (recommResult.modules.length > 0 || recommResult.quizzes.length > 0) {
-            // Format real data to ensure consistent properties
-            const formattedModules = recommResult.modules.map(module => ({
-              ...module,
-              duration: module.duration || "30 minutes",
-              isCompleted: module.isCompleted || false,
-              hasQuiz: module.hasQuiz || false,
-              keywords: module.keywords || []
-            }));
-
-            const formattedQuizzes = recommResult.quizzes.map(quiz => ({
-              ...quiz,
-              duration: quiz.duration || "15 minutes",
-              keywords: quiz.keywords || []
-            }));
-
-            let content = [...formattedModules, ...formattedQuizzes];
-            
-            // If we have real data, use it instead of mock data
-            console.log("Found real content from recommendations:", content.length);
-            
-            // We'll use real data instead of mocks
-            let filteredContent = content;
-            // Filter logic will be applied below
+            console.log("Using real data from recommendations");
+            // Use real data but ensure proper formatting
             mockModules.length = 0;
             mockQuizzes.length = 0;
-            content.forEach(item => {
-              if (item.type === 'quiz') mockQuizzes.push(item);
-              else mockModules.push(item);
+            
+            recommResult.modules.forEach(module => {
+              mockModules.push({
+                ...module,
+                duration: module.duration || "30 minutes",
+                isCompleted: module.isCompleted || false,
+                hasQuiz: module.hasQuiz || false,
+                keywords: module.keywords || [],
+                type: "module"
+              });
             });
-          } else {
-            console.log("No real content found, using mocks");
+
+            recommResult.quizzes.forEach(quiz => {
+              mockQuizzes.push({
+                ...quiz,
+                duration: quiz.duration || "15 minutes",
+                keywords: quiz.keywords || [],
+                type: "quiz"
+              });
+            });
           }
         } catch (err) {
-          console.error("Error getting recommendations:", err);
-          // Will continue with mock data
+          console.log("Using mock data for search results");
         }
         
         // Combine all content types
         let content = [...mockModules, ...mockQuizzes, ...mockLabs];
         
-        // Filter by query - improved to be more lenient with search terms and use keywords
-        if (query) {
-          const lowerQuery = query.toLowerCase();
+        // Filter by query with improved search
+        if (query.trim()) {
+          const lowerQuery = query.toLowerCase().trim();
           console.log("Searching for:", lowerQuery);
           
           content = content.filter((item: any) => {
             const searchableText = extractSearchableText(item);
-            const match = searchableText.includes(lowerQuery);
-            console.log(`Item ${item.id} (${item.title}) - Keywords: [${item.keywords?.join(', ')}] - Match: ${match}`);
-            return match;
+            // Check for partial matches and word boundaries
+            const words = lowerQuery.split(' ').filter(word => word.length > 0);
+            const matches = words.some(word => searchableText.includes(word));
+            console.log(`Item ${item.id} (${item.title}) - Match: ${matches}`);
+            return matches;
           });
         }
         
@@ -260,29 +263,22 @@ const SearchResults: React.FC<SearchResultsProps> = ({ query, filters, resultTyp
           content = content.filter((item: any) => item.type && item.type.toLowerCase() === resultType.toLowerCase());
         }
         
-        // Add debugging info
-        console.log("Search results:", {
+        console.log("Final search results:", {
           query,
           filters,
           resultType,
-          contentCount: content.length,
-          contentItems: content.map(i => ({
-            id: i.id, 
-            title: i.title, 
-            type: i.type, 
-            keywords: i.keywords
-          }))
+          contentCount: content.length
         });
         
         // Simulate API delay
-        await new Promise(resolve => setTimeout(resolve, 500));
+        await new Promise(resolve => setTimeout(resolve, 300));
         
         setResults(content);
       } catch (error) {
         console.error("Error fetching search results:", error);
         toast({
-          title: "Error",
-          description: "Failed to fetch search results",
+          title: "Search Error",
+          description: "Failed to fetch search results. Please try again.",
           variant: "destructive",
         });
         setResults([]);
@@ -292,11 +288,11 @@ const SearchResults: React.FC<SearchResultsProps> = ({ query, filters, resultTyp
     };
     
     fetchResults();
-  }, [query, filters, resultType]);
+  }, [query, filters, resultType, getRecommendations, toast]);
 
   if (isLoading) {
     return (
-      <div className="space-y-4">
+      <div className="space-y-4" role="status" aria-label="Loading search results">
         {[1, 2, 3].map(i => (
           <div key={i} className="border rounded-md p-4 space-y-3">
             <Skeleton className="h-6 w-2/3" />
@@ -314,15 +310,18 @@ const SearchResults: React.FC<SearchResultsProps> = ({ query, filters, resultTyp
 
   if (results.length === 0) {
     return (
-      <div className="text-center py-8">
-        <p className="text-muted-foreground">
+      <div className="text-center py-8" role="status">
+        <p className="text-muted-foreground text-lg mb-2">
           {query 
             ? `No results found for "${query}"` 
             : "No content matches your filters"}
         </p>
+        <p className="text-sm text-muted-foreground">
+          Try adjusting your search terms or filters
+        </p>
         {!isOnline && (
           <p className="text-sm text-muted-foreground mt-2">
-            Limited results while offline. Connect to see more content.
+            Limited results while offline. Connect to internet for more content.
           </p>
         )}
       </div>
@@ -331,9 +330,16 @@ const SearchResults: React.FC<SearchResultsProps> = ({ query, filters, resultTyp
 
   return (
     <div className="space-y-4">
-      <p className="text-sm text-muted-foreground">
-        {results.length} {results.length === 1 ? 'result' : 'results'} found
-      </p>
+      <div className="flex justify-between items-center">
+        <p className="text-sm text-muted-foreground">
+          {results.length} {results.length === 1 ? 'result' : 'results'} found
+        </p>
+        {query && (
+          <p className="text-sm text-muted-foreground">
+            Searching for: <span className="font-medium">"{query}"</span>
+          </p>
+        )}
+      </div>
       
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {results.map((item, index) => {
