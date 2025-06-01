@@ -1,378 +1,179 @@
+
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { BookOpen, Trophy, Users, TrendingUp, Beaker, Play, ChevronRight } from "lucide-react";
 import ProgressCard from "@/components/dashboard/ProgressCard";
-import StreakCard from "@/components/dashboard/StreakCard";
 import RecommendedCard from "@/components/dashboard/RecommendedCard";
+import StreakCard from "@/components/dashboard/StreakCard";
 import LeaderboardCard from "@/components/dashboard/LeaderboardCard";
-import ProgressChart from "@/components/progress/ProgressChart";
-import BadgeDisplay from "@/components/badges/BadgeDisplay";
-import StudyTimer from "@/components/study/StudyTimer";
-import BookmarksList from "@/components/bookmarks/BookmarksList";
-import DailyGoals from "@/components/goals/DailyGoals";
-import ActivityFeed from "@/components/activity/ActivityFeed";
-import { useDemoNotifications } from "@/hooks/use-notifications";
-import { Link } from "react-router-dom";
-import { BookOpen, MessageSquare, Award, Star, Trophy, Flame, Users, Target } from "lucide-react";
-import { Card, CardContent, CardDescription, CardTitle } from "@/components/ui/card";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import VirtualLabCard from "@/components/dashboard/VirtualLabCard";
+import { useAdaptiveLearning } from "@/hooks/use-offline-learning";
+import { useQuery } from "@tanstack/react-query";
 
 const Dashboard = () => {
-  // Mock data for progress visualization
-  const weeklyActivity = [
-    { day: 'Mon', hours: 2.5 },
-    { day: 'Tue', hours: 1.8 },
-    { day: 'Wed', hours: 3.2 },
-    { day: 'Thu', hours: 2.1 },
-    { day: 'Fri', hours: 2.8 },
-    { day: 'Sat', hours: 1.5 },
-    { day: 'Sun', hours: 2.0 }
-  ];
+  const navigate = useNavigate();
+  const { getRecommendations } = useAdaptiveLearning();
 
-  const subjectProgress = [
-    { subject: 'Physics', completion: 85, color: '#8B5CF6' },
-    { subject: 'Chemistry', completion: 62, color: '#10B981' },
-    { subject: 'Mathematics', completion: 78, color: '#F59E0B' },
-    { subject: 'Biology', completion: 45, color: '#EF4444' }
-  ];
+  const { data: recommendations, isLoading } = useQuery({
+    queryKey: ['dashboard-recommendations'],
+    queryFn: () => getRecommendations([], []),
+  });
 
-  // Mock badges data
-  const badges = [
+  const quickActions = [
     {
-      id: 'first-login',
-      name: 'Welcome',
-      description: 'Completed first login',
-      icon: <Star className="h-6 w-6" />,
-      isEarned: true,
-      earnedDate: 'May 15',
-      category: 'achievement' as const
+      title: "Continue Learning",
+      description: "Pick up where you left off",
+      icon: BookOpen,
+      action: () => navigate("/subjects"),
+      color: "bg-stemPurple"
     },
     {
-      id: 'streak-3',
-      name: 'Consistent',
-      description: '3-day study streak',
-      icon: <Flame className="h-6 w-6" />,
-      isEarned: true,
-      earnedDate: 'May 18',
-      category: 'streak' as const
+      title: "Virtual Laboratory",
+      description: "Interactive science experiments",
+      icon: Beaker,
+      action: () => navigate("/virtual-lab"),
+      color: "bg-gradient-to-r from-blue-600 to-purple-600",
+      featured: true
     },
     {
-      id: 'quiz-ace',
-      name: 'Quiz Ace',
-      description: 'Scored 90%+ on quiz',
-      icon: <Trophy className="h-6 w-6" />,
-      isEarned: true,
-      earnedDate: 'May 20',
-      category: 'achievement' as const
+      title: "View Achievements",
+      description: "See your progress and badges",
+      icon: Trophy,
+      action: () => navigate("/achievements"),
+      color: "bg-stemYellow"
     },
     {
-      id: 'social-butterfly',
-      name: 'Social',
-      description: 'Joined a study room',
-      icon: <Users className="h-6 w-6" />,
-      isEarned: false,
-      category: 'social' as const
-    },
-    {
-      id: 'module-master',
-      name: 'Module Master',
-      description: 'Complete 10 modules',
-      icon: <BookOpen className="h-6 w-6" />,
-      isEarned: false,
-      category: 'learning' as const
-    },
-    {
-      id: 'week-warrior',
-      name: 'Week Warrior',
-      description: '7-day study streak',
-      icon: <Target className="h-6 w-6" />,
-      isEarned: false,
-      category: 'streak' as const
+      title: "Study Rooms",
+      description: "Join collaborative sessions",
+      icon: Users,
+      action: () => navigate("/rooms"),
+      color: "bg-stemGreen"
     }
   ];
 
-  // This would normally come from an API
-  const progressData = [
-    { 
-      title: "Physics: Forces and Motion", 
-      progress: 8, 
-      total: 12, 
-      description: "Learn about Newton's laws and mechanics", 
-      type: 'module' as const 
-    },
-    { 
-      title: "Chemistry Quizzes", 
-      progress: 3, 
-      total: 5, 
-      type: 'quiz' as const 
-    },
-    { 
-      title: "Math Challenge: Calculus", 
-      progress: 2, 
-      total: 10, 
-      type: 'challenge' as const 
-    },
-  ];
-  
-  const recommendedContent = [
-    {
-      id: "wave-physics",
-      title: "Wave Properties",
-      description: "Learn about the fundamental properties of waves and their applications in physics",
-      subject: "Physics",
-      difficulty: "Intermediate" as const,
-      estimatedTime: "20 min",
-      type: "module" as const
-    },
-    {
-      id: "chemical-bonding",
-      title: "Chemical Bonding Quiz",
-      description: "Test your knowledge of chemical bonds, molecular structures, and related concepts",
-      subject: "Chemistry",
-      difficulty: "Beginner" as const,
-      estimatedTime: "10 min",
-      type: "quiz" as const
-    },
-    {
-      id: "virtual-circuits",
-      title: "Virtual Circuit Lab",
-      description: "Build and test electronic circuits in this interactive virtual laboratory",
-      subject: "Electronics",
-      difficulty: "Advanced" as const,
-      estimatedTime: "30 min",
-      type: "lab" as const
-    }
-  ];
-  
-  const leaderboardUsers = [
-    {
-      id: "user1",
-      name: "Kofi Mensah",
-      points: 1250,
-      rank: 1,
-      avatarInitials: "KM",
-      school: "Accra Academy"
-    },
-    {
-      id: "user2",
-      name: "Ama Boateng",
-      points: 1120,
-      rank: 2,
-      avatarInitials: "AB",
-      school: "Wesley Girls"
-    },
-    {
-      id: "user3",
-      name: "Kwesi Appiah",
-      points: 980,
-      rank: 3,
-      avatarInitials: "KA",
-      school: "Prempeh College"
-    },
-    {
-      id: "student123",
-      name: "Kwame Asante",
-      points: 820,
-      rank: 4,
-      avatarInitials: "KA",
-      school: "Achimota School",
-      isCurrentUser: true
-    },
-    {
-      id: "user5",
-      name: "Efua Nyarko",
-      points: 795,
-      rank: 5,
-      avatarInitials: "EN",
-      school: "Holy Child School"
-    }
-  ];
-
-  const user = JSON.parse(localStorage.getItem("user") || "{}");
-
-  // Enable demo notifications
-  useDemoNotifications();
-
-  const handleStudySessionComplete = (duration: number) => {
-    console.log(`Study session completed: ${duration} minutes`);
-    // Could update user progress, badges, etc.
-  };
-  
   return (
     <div className="space-y-6 pb-8">
       <div>
-        <h1 className="text-2xl font-bold tracking-tight">Welcome back, {user.name || "Student"}!</h1>
+        <h1 className="text-2xl font-bold tracking-tight">Dashboard</h1>
         <p className="text-muted-foreground">
-          Track your progress and continue your learning journey.
+          Welcome back! Continue your STEM learning journey.
         </p>
       </div>
 
-      <Tabs defaultValue="overview" className="w-full">
-        <TabsList className="mb-6">
-          <TabsTrigger value="overview">Overview</TabsTrigger>
-          <TabsTrigger value="progress">Progress</TabsTrigger>
-          <TabsTrigger value="study">Study Tools</TabsTrigger>
-          <TabsTrigger value="community">Community</TabsTrigger>
-        </TabsList>
-
-        <TabsContent value="overview" className="space-y-6">
-          {/* New features highlights */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <Card className="overflow-hidden">
-              <CardContent className="p-0">
-                <div className="flex items-stretch h-full">
-                  <div className="bg-stemPurple/10 p-4 flex items-center justify-center">
-                    <BookOpen className="h-10 w-10 text-stemPurple" />
-                  </div>
-                  <div className="p-4 flex-1">
-                    <CardTitle className="text-base mb-1">Teacher Quiz Creator</CardTitle>
-                    <CardDescription className="mb-2">Create custom quizzes for your students</CardDescription>
-                    <Button asChild size="sm" variant="outline" className="mt-2">
-                      <Link to="/teacher/quizzes">Create Quizzes</Link>
-                    </Button>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-
-            <Card className="overflow-hidden">
-              <CardContent className="p-0">
-                <div className="flex items-stretch h-full">
-                  <div className="bg-stemGreen/10 p-4 flex items-center justify-center">
-                    <MessageSquare className="h-10 w-10 text-stemGreen" />
-                  </div>
-                  <div className="p-4 flex-1">
-                    <CardTitle className="text-base mb-1">Study Rooms</CardTitle>
-                    <CardDescription className="mb-2">Join virtual rooms to learn and collaborate with peers</CardDescription>
-                    <Button asChild size="sm" variant="outline" className="mt-2">
-                      <Link to="/rooms">Browse Rooms</Link>
-                    </Button>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            <div className="col-span-1 md:col-span-2 lg:col-span-2 space-y-6">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <StreakCard
-                  currentStreak={7}
-                  longestStreak={14}
-                  lastActivity="Today, 10:30 AM"
-                />
-                {progressData[0] && (
-                  <ProgressCard
-                    title={progressData[0].title}
-                    progress={progressData[0].progress}
-                    total={progressData[0].total}
-                    description={progressData[0].description}
-                    type={progressData[0].type}
-                  />
-                )}
+      {/* Featured Virtual Lab Section */}
+      <Card className="border-2 border-blue-200 bg-gradient-to-br from-blue-50 via-purple-50 to-indigo-50 dark:from-blue-950 dark:via-purple-950 dark:to-indigo-950">
+        <CardHeader>
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <div className="p-2 bg-blue-600 rounded-lg">
+                <Beaker className="h-6 w-6 text-white" />
               </div>
-
               <div>
-                <div className="flex justify-between items-center mb-4">
-                  <h2 className="text-xl font-semibold tracking-tight">Recommended for you</h2>
-                  <Button variant="link" className="text-stemPurple">View all</Button>
-                </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                  {recommendedContent.map((item) => (
-                    <RecommendedCard
-                      key={item.id}
-                      id={item.id}
-                      title={item.title}
-                      description={item.description}
-                      subject={item.subject}
-                      difficulty={item.difficulty}
-                      estimatedTime={item.estimatedTime}
-                      type={item.type}
-                    />
-                  ))}
-                </div>
+                <CardTitle className="text-xl text-blue-700 dark:text-blue-300">
+                  Virtual Laboratory
+                </CardTitle>
+                <CardDescription className="text-blue-600 dark:text-blue-400">
+                  Hands-on science simulations and experiments
+                </CardDescription>
               </div>
             </div>
-
-            <div className="space-y-6">
-              <DailyGoals />
-              <LeaderboardCard
-                title="Weekly Leaderboard"
-                description="Top performers this week"
-                users={leaderboardUsers}
-              />
+            <Badge className="bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-100">
+              Featured
+            </Badge>
+          </div>
+        </CardHeader>
+        <CardContent>
+          <div className="grid grid-cols-3 gap-3 mb-4">
+            <div className="text-center p-3 bg-white/50 dark:bg-gray-800/50 rounded-lg">
+              <div className="text-sm font-medium text-blue-700 dark:text-blue-300">Chemistry</div>
+              <div className="text-xs text-muted-foreground">2 experiments</div>
+            </div>
+            <div className="text-center p-3 bg-white/50 dark:bg-gray-800/50 rounded-lg">
+              <div className="text-sm font-medium text-blue-700 dark:text-blue-300">Physics</div>
+              <div className="text-xs text-muted-foreground">2 experiments</div>
+            </div>
+            <div className="text-center p-3 bg-white/50 dark:bg-gray-800/50 rounded-lg">
+              <div className="text-sm font-medium text-blue-700 dark:text-blue-300">Mathematics</div>
+              <div className="text-xs text-muted-foreground">2 experiments</div>
             </div>
           </div>
-        </TabsContent>
+          <Button 
+            onClick={() => navigate('/virtual-lab')}
+            className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white flex justify-between items-center group"
+          >
+            <span className="flex items-center gap-2">
+              <Play className="h-4 w-4" />
+              Start Experimenting
+            </span>
+            <ChevronRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
+          </Button>
+        </CardContent>
+      </Card>
 
-        <TabsContent value="progress" className="space-y-6">
-          <ProgressChart
-            weeklyActivity={weeklyActivity}
-            subjectProgress={subjectProgress}
-            currentStreak={7}
-            weeklyGoal={10}
-            weeklyCompleted={6}
-          />
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            <BadgeDisplay badges={badges} />
-            <BookmarksList />
-          </div>
-        </TabsContent>
+      {/* Progress Overview */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <ProgressCard />
+        <StreakCard />
+        <LeaderboardCard />
+        <VirtualLabCard />
+      </div>
 
-        <TabsContent value="study" className="space-y-6">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            <StudyTimer onSessionComplete={handleStudySessionComplete} />
-            <DailyGoals />
-          </div>
-          <BookmarksList />
-        </TabsContent>
-
-        <TabsContent value="community" className="space-y-6">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            <ActivityFeed />
-            <LeaderboardCard
-              title="This Month's Champions"
-              description="Top learners across all subjects"
-              users={leaderboardUsers}
-            />
-          </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <Card className="overflow-hidden">
-              <CardContent className="p-0">
-                <div className="flex items-stretch h-full">
-                  <div className="bg-stemGreen/10 p-4 flex items-center justify-center">
-                    <MessageSquare className="h-10 w-10 text-stemGreen" />
+      {/* Quick Actions */}
+      <div>
+        <h2 className="text-lg font-semibold mb-4">Quick Actions</h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+          {quickActions.map((action, index) => (
+            <Card 
+              key={index} 
+              className={`cursor-pointer hover:shadow-lg transition-all duration-200 ${
+                action.featured ? 'ring-2 ring-blue-200 dark:ring-blue-800' : ''
+              }`}
+              onClick={action.action}
+            >
+              <CardContent className="p-4">
+                <div className="flex items-center space-x-3">
+                  <div className={`p-2 rounded-lg ${action.color}`}>
+                    <action.icon className="h-5 w-5 text-white" />
                   </div>
-                  <div className="p-4 flex-1">
-                    <CardTitle className="text-base mb-1">Join Study Rooms</CardTitle>
-                    <CardDescription className="mb-2">Connect with classmates and study together</CardDescription>
-                    <Button asChild size="sm" variant="outline" className="mt-2">
-                      <Link to="/rooms">Browse Rooms</Link>
-                    </Button>
+                  <div className="flex-1">
+                    <h3 className="font-medium text-sm">{action.title}</h3>
+                    <p className="text-xs text-muted-foreground">{action.description}</p>
                   </div>
                 </div>
               </CardContent>
             </Card>
+          ))}
+        </div>
+      </div>
 
-            <Card className="overflow-hidden">
-              <CardContent className="p-0">
-                <div className="flex items-stretch h-full">
-                  <div className="bg-stemYellow/10 p-4 flex items-center justify-center">
-                    <Trophy className="h-10 w-10 text-stemYellow" />
-                  </div>
-                  <div className="p-4 flex-1">
-                    <CardTitle className="text-base mb-1">Achievements</CardTitle>
-                    <CardDescription className="mb-2">View your badges and learning milestones</CardDescription>
-                    <Button asChild size="sm" variant="outline" className="mt-2">
-                      <Link to="/achievements">View All</Link>
-                    </Button>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
+      {/* Recommendations */}
+      {!isLoading && recommendations && (
+        <div>
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-lg font-semibold">Recommended for You</h2>
+            <Button variant="outline" size="sm" onClick={() => navigate("/subjects")}>
+              View All
+            </Button>
           </div>
-        </TabsContent>
-      </Tabs>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {recommendations.modules.slice(0, 3).map((module, index) => (
+              <RecommendedCard
+                key={index}
+                id={module.id}
+                title={module.title}
+                description={module.description}
+                subject={module.subject}
+                estimatedTime={module.duration || "15 minutes"}
+                difficulty={module.difficulty || "Beginner"}
+                type="module"
+              />
+            ))}
+          </div>
+        </div>
+      )}
     </div>
   );
 };

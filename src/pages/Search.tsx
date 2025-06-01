@@ -5,54 +5,22 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Search, Filter, BookOpen, Users, Trophy, Clock, Star } from 'lucide-react';
+import { Search, Filter, BookOpen, Users, Trophy, Clock, Star, Beaker } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import SearchResults from '@/components/search/SearchResults';
 
 const SearchPage = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedFilters, setSelectedFilters] = useState<string[]>([]);
+  const [activeTab, setActiveTab] = useState('all');
+  const navigate = useNavigate();
 
-  // Mock search results
-  const searchResults = {
-    modules: [
-      {
-        id: '1',
-        title: 'Newton\'s Laws of Motion',
-        description: 'Understand the fundamental principles of classical mechanics',
-        subject: 'Physics',
-        difficulty: 'Intermediate',
-        duration: '25 min',
-        rating: 4.8
-      },
-      {
-        id: '2',
-        title: 'Chemical Bonding Basics',
-        description: 'Learn about ionic and covalent bonds',
-        subject: 'Chemistry',
-        difficulty: 'Beginner',
-        duration: '20 min',
-        rating: 4.6
-      }
-    ],
-    quizzes: [
-      {
-        id: '1',
-        title: 'Physics Quiz: Forces',
-        description: 'Test your understanding of forces and motion',
-        subject: 'Physics',
-        questions: 15,
-        difficulty: 'Intermediate'
-      }
-    ],
-    rooms: [
-      {
-        id: '1',
-        name: 'Physics Study Group',
-        description: 'Collaborative physics problem solving',
-        members: 8,
-        isActive: true,
-        subject: 'Physics'
-      }
-    ]
+  // Handle Enter key press for search
+  const handleKeyPress = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter') {
+      // Force a re-render of SearchResults by updating the search term
+      setSearchTerm(searchTerm.trim());
+    }
   };
 
   const filters = [
@@ -81,6 +49,17 @@ const SearchPage = () => {
     }
   };
 
+  // Convert selected filters to the format expected by SearchResults
+  const subjectFilters = selectedFilters.filter(f => ['physics', 'chemistry', 'mathematics'].includes(f));
+  const difficultyFilter = selectedFilters.find(f => ['beginner', 'intermediate', 'advanced'].includes(f)) || '';
+  const typeFilters = selectedFilters.filter(f => ['module', 'quiz', 'lab'].includes(f));
+
+  const filtersForResults = {
+    subjects: subjectFilters,
+    difficulty: difficultyFilter.charAt(0).toUpperCase() + difficultyFilter.slice(1),
+    type: typeFilters
+  };
+
   return (
     <div className="space-y-6 pb-8">
       <div>
@@ -90,14 +69,41 @@ const SearchPage = () => {
         </p>
       </div>
 
+      {/* Quick Access to Virtual Lab */}
+      <Card className="border-2 border-blue-200 bg-gradient-to-r from-blue-50 to-purple-50 dark:from-blue-950 dark:to-purple-950">
+        <CardHeader>
+          <div className="flex items-center justify-between">
+            <CardTitle className="flex items-center gap-2 text-blue-700 dark:text-blue-300">
+              <Beaker className="h-5 w-5" />
+              Virtual Laboratory
+            </CardTitle>
+            <Badge className="bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-100">
+              Interactive
+            </Badge>
+          </div>
+          <CardDescription>
+            Explore hands-on science simulations in chemistry, physics, and mathematics
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <Button 
+            onClick={() => navigate('/virtual-lab')}
+            className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700"
+          >
+            Access Virtual Lab
+          </Button>
+        </CardContent>
+      </Card>
+
       {/* Search Bar */}
       <div className="flex flex-col sm:flex-row gap-4">
         <div className="relative flex-1">
           <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
           <Input
-            placeholder="Search for modules, quizzes, or study rooms..."
+            placeholder="Search for modules, quizzes, or study rooms... (Press Enter to search)"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
+            onKeyPress={handleKeyPress}
             className="pl-10"
           />
         </div>
@@ -134,176 +140,44 @@ const SearchPage = () => {
       </div>
 
       {/* Search Results */}
-      <Tabs defaultValue="all" className="w-full">
+      <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
         <TabsList>
           <TabsTrigger value="all">All Results</TabsTrigger>
-          <TabsTrigger value="modules">Modules</TabsTrigger>
-          <TabsTrigger value="quizzes">Quizzes</TabsTrigger>
-          <TabsTrigger value="rooms">Study Rooms</TabsTrigger>
+          <TabsTrigger value="module">Modules</TabsTrigger>
+          <TabsTrigger value="quiz">Quizzes</TabsTrigger>
+          <TabsTrigger value="lab">Labs</TabsTrigger>
         </TabsList>
 
         <TabsContent value="all" className="space-y-6">
-          {/* Modules Section */}
-          <div>
-            <h3 className="text-lg font-semibold mb-4">Modules</h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {searchResults.modules.map((module) => (
-                <Card key={module.id} className="card-stem">
-                  <CardHeader>
-                    <div className="flex justify-between items-start">
-                      <CardTitle className="text-lg">{module.title}</CardTitle>
-                      <div className="flex items-center space-x-1">
-                        <Star className="h-4 w-4 text-stemYellow fill-current" />
-                        <span className="text-sm">{module.rating}</span>
-                      </div>
-                    </div>
-                    <CardDescription>{module.description}</CardDescription>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center space-x-2">
-                        <Badge className="bg-stemPurple/20 text-stemPurple">
-                          <BookOpen className="h-3 w-3 mr-1" />
-                          {module.subject}
-                        </Badge>
-                        <Badge className={getDifficultyColor(module.difficulty)}>
-                          {module.difficulty}
-                        </Badge>
-                      </div>
-                      <div className="flex items-center text-sm text-muted-foreground">
-                        <Clock className="h-3 w-3 mr-1" />
-                        {module.duration}
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
-          </div>
-
-          {/* Study Rooms Section */}
-          <div>
-            <h3 className="text-lg font-semibold mb-4">Study Rooms</h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {searchResults.rooms.map((room) => (
-                <Card key={room.id} className="card-stem">
-                  <CardHeader>
-                    <CardTitle className="text-lg">{room.name}</CardTitle>
-                    <CardDescription>{room.description}</CardDescription>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center space-x-2">
-                        <Badge className="bg-stemGreen/20 text-stemGreen-dark">
-                          {room.subject}
-                        </Badge>
-                        <Badge variant={room.isActive ? "default" : "secondary"}>
-                          {room.isActive ? "Active" : "Inactive"}
-                        </Badge>
-                      </div>
-                      <div className="flex items-center text-sm text-muted-foreground">
-                        <Users className="h-3 w-3 mr-1" />
-                        {room.members} members
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
-          </div>
+          <SearchResults 
+            query={searchTerm}
+            filters={filtersForResults}
+            resultType="all"
+          />
         </TabsContent>
 
-        <TabsContent value="modules">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {searchResults.modules.map((module) => (
-              <Card key={module.id} className="card-stem">
-                <CardHeader>
-                  <CardTitle className="text-lg">{module.title}</CardTitle>
-                  <CardDescription>{module.description}</CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <div className="space-y-3">
-                    <div className="flex items-center space-x-2">
-                      <Badge className="bg-stemPurple/20 text-stemPurple">
-                        <BookOpen className="h-3 w-3 mr-1" />
-                        {module.subject}
-                      </Badge>
-                      <Badge className={getDifficultyColor(module.difficulty)}>
-                        {module.difficulty}
-                      </Badge>
-                    </div>
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center text-sm text-muted-foreground">
-                        <Clock className="h-3 w-3 mr-1" />
-                        {module.duration}
-                      </div>
-                      <div className="flex items-center space-x-1">
-                        <Star className="h-4 w-4 text-stemYellow fill-current" />
-                        <span className="text-sm">{module.rating}</span>
-                      </div>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
+        <TabsContent value="module">
+          <SearchResults 
+            query={searchTerm}
+            filters={filtersForResults}
+            resultType="module"
+          />
         </TabsContent>
 
-        <TabsContent value="quizzes">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {searchResults.quizzes.map((quiz) => (
-              <Card key={quiz.id} className="card-stem">
-                <CardHeader>
-                  <CardTitle className="text-lg">{quiz.title}</CardTitle>
-                  <CardDescription>{quiz.description}</CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <div className="space-y-3">
-                    <div className="flex items-center space-x-2">
-                      <Badge className="bg-stemYellow/20 text-stemYellow-dark">
-                        {quiz.subject}
-                      </Badge>
-                      <Badge className={getDifficultyColor(quiz.difficulty)}>
-                        {quiz.difficulty}
-                      </Badge>
-                    </div>
-                    <p className="text-sm text-muted-foreground">
-                      {quiz.questions} questions
-                    </p>
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
+        <TabsContent value="quiz">
+          <SearchResults 
+            query={searchTerm}
+            filters={filtersForResults}
+            resultType="quiz"
+          />
         </TabsContent>
 
-        <TabsContent value="rooms">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {searchResults.rooms.map((room) => (
-              <Card key={room.id} className="card-stem">
-                <CardHeader>
-                  <CardTitle className="text-lg">{room.name}</CardTitle>
-                  <CardDescription>{room.description}</CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center space-x-2">
-                      <Badge className="bg-stemGreen/20 text-stemGreen-dark">
-                        {room.subject}
-                      </Badge>
-                      <Badge variant={room.isActive ? "default" : "secondary"}>
-                        {room.isActive ? "Active" : "Inactive"}
-                      </Badge>
-                    </div>
-                    <div className="flex items-center text-sm text-muted-foreground">
-                      <Users className="h-3 w-3 mr-1" />
-                      {room.members}
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
+        <TabsContent value="lab">
+          <SearchResults 
+            query={searchTerm}
+            filters={filtersForResults}
+            resultType="lab"
+          />
         </TabsContent>
       </Tabs>
     </div>

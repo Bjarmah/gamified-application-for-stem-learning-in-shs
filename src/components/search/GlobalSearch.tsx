@@ -10,7 +10,7 @@ import {
   CommandSeparator 
 } from "@/components/ui/command";
 import { Badge } from "@/components/ui/badge";
-import { Book, Calculator, Atom, FlaskConical, Activity, Search } from "lucide-react";
+import { Book, Calculator, Atom, FlaskConical, Activity, Search, Beaker } from "lucide-react";
 import { useAdaptiveLearning } from "@/hooks/use-offline-learning";
 import { DialogTitle } from "@/components/ui/dialog";
 
@@ -299,19 +299,33 @@ const GlobalSearch: React.FC<GlobalSearchProps> = ({ isOpen, onClose }) => {
     }
   };
 
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter' && searchTerm.trim()) {
+      // Navigate to search page with the query
+      navigate(`/search?q=${encodeURIComponent(searchTerm.trim())}`);
+      onClose();
+    }
+  };
+
   const handleSelect = (value: string) => {
     if (value.startsWith("subject:")) {
       const subject = value.replace("subject:", "");
       navigate(`/subjects/${subject}`);
     } else if (value.startsWith("module:") || value.startsWith("quiz:") || value.startsWith("lab:")) {
       const [type, id] = value.split(":");
-      navigate(`/${type}s/${id}`);
+      if (type === "lab") {
+        navigate("/virtual-lab");
+      } else {
+        navigate(`/${type}s/${id}`);
+      }
     } else if (value === "advanced-search") {
       if (searchTerm) {
         navigate(`/search?q=${encodeURIComponent(searchTerm)}`);
       } else {
         navigate("/search");
       }
+    } else if (value === "virtual-lab") {
+      navigate("/virtual-lab");
     }
     onClose();
   };
@@ -335,15 +349,31 @@ const GlobalSearch: React.FC<GlobalSearchProps> = ({ isOpen, onClose }) => {
     <CommandDialog open={isOpen} onOpenChange={onClose}>
       <DialogTitle className="sr-only">Search</DialogTitle>
       <CommandInput 
-        placeholder="Search for topics, modules, quizzes..." 
+        placeholder="Search for topics, modules, quizzes... (Press Enter to search)" 
         value={searchTerm}
         onValueChange={setSearchTerm}
+        onKeyDown={handleKeyDown}
       />
       <CommandList>
         <CommandEmpty>No results found</CommandEmpty>
         
         {searchTerm.trim() === "" && (
           <>
+            <CommandGroup heading="Quick Access">
+              <CommandItem value="virtual-lab" onSelect={handleSelect}>
+                <Beaker className="h-4 w-4 mr-2 text-blue-600" />
+                <div className="flex flex-col">
+                  <span>Virtual Laboratory</span>
+                  <span className="text-xs text-muted-foreground">
+                    Interactive science experiments
+                  </span>
+                </div>
+                <Badge className="ml-auto bg-blue-100 text-blue-800" variant="outline">
+                  Featured
+                </Badge>
+              </CommandItem>
+            </CommandGroup>
+
             <CommandGroup heading="Subjects">
               <CommandItem value="subject:mathematics" onSelect={handleSelect}>
                 <Calculator className="h-4 w-4 mr-2" />
@@ -399,7 +429,7 @@ const GlobalSearch: React.FC<GlobalSearchProps> = ({ isOpen, onClose }) => {
         <CommandGroup>
           <CommandItem value="advanced-search" onSelect={handleSelect}>
             <Search className="h-4 w-4 mr-2" />
-            <span>Advanced Search...</span>
+            <span>Advanced Search{searchTerm ? ` for "${searchTerm}"` : '...'}</span>
           </CommandItem>
         </CommandGroup>
       </CommandList>
