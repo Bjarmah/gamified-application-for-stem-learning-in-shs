@@ -4,7 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Beaker, Zap, Calculator, Microscope, ArrowLeft, Play, Pause } from 'lucide-react';
+import { Beaker, Zap, Calculator, Microscope, ArrowLeft, Play } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import ChemistryLab from '@/components/lab/ChemistryLab';
 import PhysicsLab from '@/components/lab/PhysicsLab';
