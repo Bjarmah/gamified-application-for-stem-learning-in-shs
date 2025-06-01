@@ -115,9 +115,26 @@ const Dashboard = () => {
 
       {/* Progress Overview */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <ProgressCard />
-        <StreakCard />
-        <LeaderboardCard />
+        <ProgressCard 
+          title="Learning Progress"
+          progress={8}
+          total={15}
+          description="Modules completed this week"
+          type="module"
+        />
+        <StreakCard 
+          currentStreak={5}
+          longestStreak={12}
+          lastActivity="2 hours ago"
+        />
+        <LeaderboardCard 
+          title="Weekly Leaderboard"
+          users={[
+            { name: "You", score: 850, rank: 3 },
+            { name: "Alex Chen", score: 920, rank: 1 },
+            { name: "Sarah Kim", score: 875, rank: 2 }
+          ]}
+        />
         <VirtualLabCard />
       </div>
 
@@ -159,18 +176,25 @@ const Dashboard = () => {
             </Button>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {recommendations.modules.slice(0, 3).map((module, index) => (
-              <RecommendedCard
-                key={index}
-                id={module.id}
-                title={module.title}
-                description={module.description}
-                subject={module.subject}
-                estimatedTime={module.duration || "15 minutes"}
-                difficulty={module.difficulty || "Beginner"}
-                type="module"
-              />
-            ))}
+            {recommendations.modules.slice(0, 3).map((module, index) => {
+              // Ensure difficulty is one of the allowed values
+              const normalizedDifficulty = module.difficulty === "beginner" ? "Beginner" :
+                                          module.difficulty === "intermediate" ? "Intermediate" :
+                                          module.difficulty === "advanced" ? "Advanced" : "Beginner";
+              
+              return (
+                <RecommendedCard
+                  key={index}
+                  id={module.id}
+                  title={module.title}
+                  description={module.description}
+                  subject={module.subject}
+                  estimatedTime={module.duration || "15 minutes"}
+                  difficulty={normalizedDifficulty}
+                  type="module"
+                />
+              );
+            })}
           </div>
         </div>
       )}
