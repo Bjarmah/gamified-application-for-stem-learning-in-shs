@@ -130,9 +130,31 @@ const Dashboard = () => {
         <LeaderboardCard 
           title="Weekly Leaderboard"
           users={[
-            { name: "You", score: 850, rank: 3 },
-            { name: "Alex Chen", score: 920, rank: 1 },
-            { name: "Sarah Kim", score: 875, rank: 2 }
+            { 
+              id: "user-1",
+              name: "You", 
+              points: 850, 
+              rank: 3,
+              avatarInitials: "YU",
+              school: "Your School",
+              isCurrentUser: true
+            },
+            { 
+              id: "user-2",
+              name: "Alex Chen", 
+              points: 920, 
+              rank: 1,
+              avatarInitials: "AC",
+              school: "Tech High School"
+            },
+            { 
+              id: "user-3",
+              name: "Sarah Kim", 
+              points: 875, 
+              rank: 2,
+              avatarInitials: "SK",
+              school: "Science Academy"
+            }
           ]}
         />
         <VirtualLabCard />
