@@ -1,5 +1,4 @@
-
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -13,6 +12,11 @@ import MathLab from '@/components/lab/MathLab';
 const VirtualLab = () => {
   const navigate = useNavigate();
   const [activeExperiment, setActiveExperiment] = useState<string | null>(null);
+
+  useEffect(() => {
+    console.log('VirtualLab component mounted');
+    console.log('Current path:', window.location.pathname);
+  }, []);
 
   const experiments = {
     chemistry: [
@@ -91,6 +95,8 @@ const VirtualLab = () => {
 
   if (activeExperiment) {
     const [subject, experimentId] = activeExperiment.split('-', 2);
+    console.log('Active experiment:', activeExperiment, 'Subject:', subject, 'ID:', experimentId);
+    
     return (
       <div className="min-h-screen bg-background">
         <div className="container mx-auto p-6">
@@ -197,7 +203,10 @@ const VirtualLab = () => {
                         </div>
                         <Button 
                           className="w-full"
-                          onClick={() => setActiveExperiment(`${subject}-${experiment.id}`)}
+                          onClick={() => {
+                            console.log('Starting experiment:', `${subject}-${experiment.id}`);
+                            setActiveExperiment(`${subject}-${experiment.id}`);
+                          }}
                           aria-label={experiment.ariaLabel}
                         >
                           <Play className="h-4 w-4 mr-2" aria-hidden="true" />

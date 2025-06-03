@@ -59,7 +59,6 @@ const App = () => (
                     <Route path="/subjects" element={<Subjects />} />
                     <Route path="/subjects/:subjectId" element={<SubjectDetail />} />
                     <Route path="/virtual-lab" element={<VirtualLab />} />
-                    <Route path="/lab" element={<VirtualLab />} />
                     <Route path="/achievements" element={<Achievements />} />
                     <Route path="/profile" element={<Profile />} />
                     <Route path="/search" element={<Search />} /> 
