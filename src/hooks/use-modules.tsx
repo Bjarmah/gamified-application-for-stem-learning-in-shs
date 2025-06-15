@@ -9,6 +9,7 @@ export const useModules = (subjectId?: string) => {
   return useQuery({
     queryKey: ['modules', subjectId],
     queryFn: async (): Promise<Module[]> => {
+      console.log('Fetching modules for subject:', subjectId);
       let query = supabase
         .from('modules')
         .select('*')
@@ -20,7 +21,12 @@ export const useModules = (subjectId?: string) => {
       
       const { data, error } = await query;
       
-      if (error) throw error;
+      if (error) {
+        console.error('Error fetching modules:', error);
+        throw error;
+      }
+      
+      console.log('Fetched modules:', data);
       return data || [];
     },
     enabled: !!subjectId,
@@ -33,13 +39,19 @@ export const useModule = (id: string) => {
   return useQuery({
     queryKey: ['module', id],
     queryFn: async (): Promise<Module> => {
+      console.log('Fetching module:', id);
       const { data, error } = await supabase
         .from('modules')
         .select('*')
         .eq('id', id)
         .single();
       
-      if (error) throw error;
+      if (error) {
+        console.error('Error fetching module:', error);
+        throw error;
+      }
+      
+      console.log('Fetched module:', data);
       return data;
     },
     enabled: !!id,

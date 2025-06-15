@@ -3,11 +3,11 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import ModuleCard from "@/components/subjects/ModuleCard";
 import { useOffline } from "@/context/OfflineContext";
-import { useAdaptiveLearning } from "@/hooks/use-offline-learning";
 import { useToast } from "@/hooks/use-toast";
 import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
 import RecommendedCard from "@/components/dashboard/RecommendedCard";
+import { supabase } from "@/integrations/supabase/client";
 
 interface FiltersProps {
   subjects: string[];
@@ -60,155 +60,10 @@ const extractSearchableText = (item: ContentItem): string => {
   return textParts.filter(Boolean).join(' ').toLowerCase();
 };
 
-// Enhanced mock data with proper typing
-const getMockData = (): ContentItem[] => {
-  const mockModules: ModuleContentItem[] = [
-    {
-      id: "mod1",
-      title: "Introduction to Physics",
-      description: "Learn the basics of physics including mechanics, waves, and motion",
-      subject: "Physics",
-      duration: "30 minutes",
-      isCompleted: false,
-      difficulty: "Beginner",
-      hasQuiz: true,
-      type: "module",
-      keywords: ["physics", "mechanics", "motion", "waves", "force", "energy", "introduction", "basic"]
-    },
-    {
-      id: "mod2", 
-      title: "Algebra Fundamentals",
-      description: "Master the core concepts of algebra and equations",
-      subject: "Mathematics",
-      duration: "45 minutes",
-      isCompleted: true,
-      difficulty: "Intermediate",
-      hasQuiz: true,
-      type: "module",
-      keywords: ["math", "algebra", "equations", "variables", "solving", "mathematics", "fundamental"]
-    },
-    {
-      id: "mod3",
-      title: "Chemical Reactions",
-      description: "Understanding different types of chemical reactions and molecular bonding",
-      subject: "Chemistry",
-      duration: "25 minutes",
-      isCompleted: false,
-      difficulty: "Advanced",
-      hasQuiz: false,
-      type: "module",
-      keywords: ["chemistry", "reactions", "compounds", "molecules", "bonding", "chemical", "molecular"]
-    },
-    {
-      id: "mod4",
-      title: "Chemical Bonding",
-      description: "Learn about ionic, covalent and metallic bonding in chemistry",
-      subject: "Chemistry",
-      duration: "35 minutes",
-      isCompleted: false,
-      difficulty: "Intermediate",
-      hasQuiz: true,
-      type: "module",
-      keywords: ["chemistry", "bonding", "ionic", "covalent", "metallic", "molecules", "atoms", "bond"]
-    },
-    {
-      id: "mod5",
-      title: "Wave Mechanics",
-      description: "Explore the properties of waves in physics including frequency and amplitude",
-      subject: "Physics",
-      duration: "40 minutes",
-      isCompleted: false,
-      difficulty: "Intermediate",
-      hasQuiz: true,
-      type: "module",
-      keywords: ["physics", "waves", "frequency", "amplitude", "oscillation", "mechanics", "wave", "property"]
-    }
-  ];
-  
-  const mockQuizzes: QuizLabContentItem[] = [
-    {
-      id: "quiz1",
-      title: "Physics Quiz: Waves & Motion",
-      description: "Test your knowledge of basic physics concepts including waves and motion",
-      subject: "Physics",
-      duration: "15 minutes",
-      difficulty: "Beginner",
-      type: "quiz",
-      keywords: ["physics", "test", "quiz", "mechanics", "waves", "particles", "motion", "basic"]
-    },
-    {
-      id: "quiz2",
-      title: "Advanced Mathematics Quiz",
-      description: "Challenge yourself with complex mathematical problems and algebra",
-      subject: "Mathematics",
-      duration: "20 minutes",
-      difficulty: "Advanced",
-      type: "quiz",
-      keywords: ["math", "mathematics", "advanced", "calculus", "problems", "quiz", "algebra", "complex"]
-    },
-    {
-      id: "quiz3",
-      title: "Chemical Bonding Quiz",
-      description: "Test your understanding of different types of chemical bonds and molecules",
-      subject: "Chemistry",
-      duration: "25 minutes",
-      difficulty: "Intermediate",
-      type: "quiz",
-      keywords: ["chemistry", "test", "quiz", "bonding", "ionic", "covalent", "molecules", "bond"]
-    },
-    {
-      id: "quiz4",
-      title: "Wave Properties Quiz",
-      description: "Test your knowledge of wave characteristics and behaviors in physics",
-      subject: "Physics",
-      duration: "20 minutes",
-      difficulty: "Intermediate",
-      type: "quiz",
-      keywords: ["physics", "waves", "test", "quiz", "frequency", "amplitude", "properties", "wave"]
-    }
-  ];
-  
-  const mockLabs: QuizLabContentItem[] = [
-    {
-      id: "lab1",
-      title: "Physics Wave Laboratory",
-      description: "Virtual physics lab experiments on wave motion and wave properties",
-      subject: "Physics",
-      duration: "60 minutes",
-      difficulty: "Intermediate",
-      type: "lab",
-      keywords: ["physics", "lab", "experiment", "waves", "practical", "oscillation", "laboratory", "wave"]
-    },
-    {
-      id: "lab2",
-      title: "Chemical Bonding Lab",
-      description: "Virtual chemistry lab experiments on chemical bonds and molecular structures",
-      subject: "Chemistry",
-      duration: "50 minutes",
-      difficulty: "Advanced",
-      type: "lab",
-      keywords: ["chemistry", "lab", "experiment", "bonding", "molecules", "practical", "laboratory", "bond"]
-    },
-    {
-      id: "lab3",
-      title: "Math Graphing Lab",
-      description: "Interactive mathematical graphing and function visualization laboratory",
-      subject: "Mathematics",
-      duration: "45 minutes",
-      difficulty: "Intermediate",
-      type: "lab",
-      keywords: ["math", "mathematics", "graphing", "functions", "lab", "laboratory", "visualization", "graph"]
-    }
-  ];
-
-  return [...mockModules, ...mockQuizzes, ...mockLabs];
-};
-
 const SearchResults: React.FC<SearchResultsProps> = ({ query, filters, resultType }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [results, setResults] = useState<ContentItem[]>([]);
   const { isOnline } = useOffline();
-  const { getRecommendations } = useAdaptiveLearning();
   const { toast } = useToast();
   const navigate = useNavigate();
 
@@ -218,50 +73,91 @@ const SearchResults: React.FC<SearchResultsProps> = ({ query, filters, resultTyp
       try {
         console.log("Search params:", { query, filters, resultType });
         
-        // Start with mock data
-        let content = getMockData();
+        let content: ContentItem[] = [];
         
-        // Try to get real data from recommendations if available
+        // Fetch real data from Supabase
         try {
-          const recommResult = await getRecommendations([], []);
-          if (recommResult.modules.length > 0 || recommResult.quizzes.length > 0) {
-            console.log("Using real data from recommendations");
-            const realContent: ContentItem[] = [];
-            
-            recommResult.modules.forEach(module => {
+          // Fetch modules with subject information
+          const { data: modulesData, error: modulesError } = await supabase
+            .from('modules')
+            .select(`
+              *,
+              subject:subjects(name, color)
+            `)
+            .order('order_index');
+          
+          if (modulesError) throw modulesError;
+          
+          // Fetch quizzes with module and subject information
+          const { data: quizzesData, error: quizzesError } = await supabase
+            .from('quizzes')
+            .select(`
+              *,
+              module:modules(
+                subject_id,
+                subject:subjects(name, color)
+              )
+            `);
+          
+          if (quizzesError) throw quizzesError;
+          
+          // Transform modules data
+          if (modulesData) {
+            modulesData.forEach(module => {
               const moduleItem: ModuleContentItem = {
                 id: module.id,
                 title: module.title,
-                description: module.description,
-                subject: module.subject,
-                difficulty: module.difficulty,
-                duration: module.duration || "30 minutes",
-                isCompleted: module.isCompleted || false,
-                hasQuiz: module.hasQuiz || false,
-                keywords: module.keywords || [],
+                description: module.description || '',
+                subject: module.subject?.name || 'Unknown',
+                difficulty: module.difficulty_level || 'beginner',
+                duration: `${module.estimated_duration || 30} minutes`,
+                isCompleted: false, // This would come from user progress in a real app
+                hasQuiz: quizzesData?.some(quiz => quiz.module_id === module.id) || false,
+                keywords: [
+                  module.title.toLowerCase(),
+                  module.subject?.name.toLowerCase() || '',
+                  module.difficulty_level || '',
+                  ...(module.description?.toLowerCase().split(' ') || [])
+                ].filter(Boolean),
                 type: "module"
               };
-              realContent.push(moduleItem);
+              content.push(moduleItem);
             });
-
-            recommResult.quizzes.forEach(quiz => {
+          }
+          
+          // Transform quizzes data
+          if (quizzesData) {
+            quizzesData.forEach(quiz => {
               const quizItem: QuizLabContentItem = {
                 id: quiz.id,
                 title: quiz.title,
-                description: quiz.description,
-                subject: quiz.subject,
-                difficulty: quiz.difficulty,
-                duration: quiz.duration || "15 minutes",
-                keywords: quiz.keywords || [],
+                description: quiz.description || '',
+                subject: quiz.module?.subject?.name || 'Unknown',
+                difficulty: 'intermediate', // Default since quizzes don't have difficulty in schema
+                duration: `${quiz.time_limit ? Math.ceil(quiz.time_limit / 60) : 15} minutes`,
+                keywords: [
+                  quiz.title.toLowerCase(),
+                  quiz.module?.subject?.name.toLowerCase() || '',
+                  'quiz', 'test', 'assessment',
+                  ...(quiz.description?.toLowerCase().split(' ') || [])
+                ].filter(Boolean),
                 type: "quiz"
               };
-              realContent.push(quizItem);
+              content.push(quizItem);
             });
-            
-            content = realContent;
           }
+          
+          console.log("Fetched real data:", content.length, "items");
         } catch (err) {
-          console.log("Using mock data for search results");
+          console.error("Error fetching real data:", err);
+          toast({
+            title: "Search Error",
+            description: "Failed to fetch search results. Please try again.",
+            variant: "destructive",
+          });
+          setResults([]);
+          setIsLoading(false);
+          return;
         }
         
         console.log("Initial content count:", content.length);
@@ -352,7 +248,7 @@ const SearchResults: React.FC<SearchResultsProps> = ({ query, filters, resultTyp
     };
     
     fetchResults();
-  }, [query, filters, resultType, getRecommendations, toast]);
+  }, [query, filters, resultType, toast]);
 
   if (isLoading) {
     return (
