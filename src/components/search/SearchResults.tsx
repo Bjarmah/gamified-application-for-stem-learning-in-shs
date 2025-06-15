@@ -21,22 +21,48 @@ interface SearchResultsProps {
   resultType: "all" | "module" | "quiz" | "lab";
 }
 
+// Base content item interface
+interface BaseContentItem {
+  id: string;
+  title: string;
+  description: string;
+  subject: string;
+  duration: string;
+  difficulty: string;
+  type: string;
+  keywords: string[];
+}
+
+// Module-specific interface
+interface ModuleContentItem extends BaseContentItem {
+  type: "module";
+  isCompleted: boolean;
+  hasQuiz: boolean;
+}
+
+// Quiz/Lab interface
+interface QuizLabContentItem extends BaseContentItem {
+  type: "quiz" | "lab";
+}
+
+// Union type for all content
+type ContentItem = ModuleContentItem | QuizLabContentItem;
+
 // Helper function to extract keywords from content
-const extractSearchableText = (item: any): string => {
+const extractSearchableText = (item: ContentItem): string => {
   const textParts = [
     item.title || '',
     item.description || '',
     item.subject || '',
     Array.isArray(item.keywords) ? item.keywords.join(' ') : '',
-    item.content || '',
   ];
   
   return textParts.filter(Boolean).join(' ').toLowerCase();
 };
 
-// Enhanced mock data with better search coverage
-const getMockData = () => {
-  const mockModules = [
+// Enhanced mock data with proper typing
+const getMockData = (): ContentItem[] => {
+  const mockModules: ModuleContentItem[] = [
     {
       id: "mod1",
       title: "Introduction to Physics",
@@ -99,7 +125,7 @@ const getMockData = () => {
     }
   ];
   
-  const mockQuizzes = [
+  const mockQuizzes: QuizLabContentItem[] = [
     {
       id: "quiz1",
       title: "Physics Quiz: Waves & Motion",
@@ -142,7 +168,7 @@ const getMockData = () => {
     }
   ];
   
-  const mockLabs = [
+  const mockLabs: QuizLabContentItem[] = [
     {
       id: "lab1",
       title: "Physics Wave Laboratory",
@@ -180,7 +206,7 @@ const getMockData = () => {
 
 const SearchResults: React.FC<SearchResultsProps> = ({ query, filters, resultType }) => {
   const [isLoading, setIsLoading] = useState(true);
-  const [results, setResults] = useState<any[]>([]);
+  const [results, setResults] = useState<ContentItem[]>([]);
   const { isOnline } = useOffline();
   const { getRecommendations } = useAdaptiveLearning();
   const { toast } = useToast();
@@ -200,27 +226,39 @@ const SearchResults: React.FC<SearchResultsProps> = ({ query, filters, resultTyp
           const recommResult = await getRecommendations([], []);
           if (recommResult.modules.length > 0 || recommResult.quizzes.length > 0) {
             console.log("Using real data from recommendations");
-            content = [];
+            const realContent: ContentItem[] = [];
             
             recommResult.modules.forEach(module => {
-              content.push({
-                ...module,
+              const moduleItem: ModuleContentItem = {
+                id: module.id,
+                title: module.title,
+                description: module.description,
+                subject: module.subject,
+                difficulty: module.difficulty,
                 duration: module.duration || "30 minutes",
                 isCompleted: module.isCompleted || false,
                 hasQuiz: module.hasQuiz || false,
                 keywords: module.keywords || [],
                 type: "module"
-              });
+              };
+              realContent.push(moduleItem);
             });
 
             recommResult.quizzes.forEach(quiz => {
-              content.push({
-                ...quiz,
+              const quizItem: QuizLabContentItem = {
+                id: quiz.id,
+                title: quiz.title,
+                description: quiz.description,
+                subject: quiz.subject,
+                difficulty: quiz.difficulty,
                 duration: quiz.duration || "15 minutes",
                 keywords: quiz.keywords || [],
                 type: "quiz"
-              });
+              };
+              realContent.push(quizItem);
             });
+            
+            content = realContent;
           }
         } catch (err) {
           console.log("Using mock data for search results");
@@ -235,7 +273,7 @@ const SearchResults: React.FC<SearchResultsProps> = ({ query, filters, resultTyp
           
           const queryWords = lowerQuery.split(' ').filter(word => word.length > 0);
           
-          content = content.filter((item: any) => {
+          content = content.filter((item: ContentItem) => {
             const searchableText = extractSearchableText(item);
             
             // Check if any query word matches
@@ -254,7 +292,7 @@ const SearchResults: React.FC<SearchResultsProps> = ({ query, filters, resultTyp
         
         // Filter by subject
         if (filters.subjects.length > 0) {
-          content = content.filter((item: any) => 
+          content = content.filter((item: ContentItem) => 
             item.subject && filters.subjects.some(subject => 
               item.subject.toLowerCase() === subject.toLowerCase()
             )
@@ -264,7 +302,7 @@ const SearchResults: React.FC<SearchResultsProps> = ({ query, filters, resultTyp
         
         // Filter by difficulty
         if (filters.difficulty) {
-          content = content.filter((item: any) => 
+          content = content.filter((item: ContentItem) => 
             item.difficulty && item.difficulty.toLowerCase() === filters.difficulty.toLowerCase()
           );
           console.log("After difficulty filter:", content.length);
@@ -272,7 +310,7 @@ const SearchResults: React.FC<SearchResultsProps> = ({ query, filters, resultTyp
         
         // Filter by content type from filters
         if (filters.type.length > 0) {
-          content = content.filter((item: any) => 
+          content = content.filter((item: ContentItem) => 
             item.type && filters.type.some(type => 
               item.type.toLowerCase() === type.toLowerCase()
             )
@@ -282,7 +320,7 @@ const SearchResults: React.FC<SearchResultsProps> = ({ query, filters, resultTyp
         
         // Filter by result type tab
         if (resultType !== "all") {
-          content = content.filter((item: any) => 
+          content = content.filter((item: ContentItem) => 
             item.type && item.type.toLowerCase() === resultType.toLowerCase()
           );
           console.log("After result type filter:", content.length);
@@ -371,32 +409,34 @@ const SearchResults: React.FC<SearchResultsProps> = ({ query, filters, resultTyp
         {results.map((item, index) => {
           // For modules, use ModuleCard component
           if (item.type === 'module') {
+            const moduleItem = item as ModuleContentItem;
             return (
               <ModuleCard
-                key={`${item.id}-${index}`}
-                id={item.id}
-                title={item.title}
-                description={item.description}
-                subject={item.subject}
-                duration={item.duration || "15 minutes"}
-                isCompleted={item.isCompleted || false}
-                difficulty={item.difficulty || "Beginner"}
-                hasQuiz={item.hasQuiz || false}
+                key={`${moduleItem.id}-${index}`}
+                id={moduleItem.id}
+                title={moduleItem.title}
+                description={moduleItem.description}
+                subject={moduleItem.subject}
+                duration={moduleItem.duration}
+                isCompleted={moduleItem.isCompleted}
+                difficulty={moduleItem.difficulty as 'Beginner' | 'Intermediate' | 'Advanced'}
+                hasQuiz={moduleItem.hasQuiz}
               />
             );
           }
           
           // For quizzes and labs, use RecommendedCard
+          const quizLabItem = item as QuizLabContentItem;
           return (
             <RecommendedCard
-              key={`${item.id}-${index}`}
-              id={item.id}
-              title={item.title}
-              description={item.description}
-              subject={item.subject}
-              estimatedTime={item.duration || "15 minutes"}
-              difficulty={item.difficulty || "Beginner"}
-              type={item.type as 'module' | 'quiz' | 'lab'}
+              key={`${quizLabItem.id}-${index}`}
+              id={quizLabItem.id}
+              title={quizLabItem.title}
+              description={quizLabItem.description}
+              subject={quizLabItem.subject}
+              estimatedTime={quizLabItem.duration}
+              difficulty={quizLabItem.difficulty as 'Beginner' | 'Intermediate' | 'Advanced'}
+              type={quizLabItem.type as 'module' | 'quiz' | 'lab'}
             />
           );
         })}
