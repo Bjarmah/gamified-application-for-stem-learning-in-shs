@@ -34,6 +34,150 @@ const extractSearchableText = (item: any): string => {
   return textParts.filter(Boolean).join(' ').toLowerCase();
 };
 
+// Enhanced mock data with better search coverage
+const getMockData = () => {
+  const mockModules = [
+    {
+      id: "mod1",
+      title: "Introduction to Physics",
+      description: "Learn the basics of physics including mechanics, waves, and motion",
+      subject: "Physics",
+      duration: "30 minutes",
+      isCompleted: false,
+      difficulty: "Beginner",
+      hasQuiz: true,
+      type: "module",
+      keywords: ["physics", "mechanics", "motion", "waves", "force", "energy", "introduction", "basic"]
+    },
+    {
+      id: "mod2", 
+      title: "Algebra Fundamentals",
+      description: "Master the core concepts of algebra and equations",
+      subject: "Mathematics",
+      duration: "45 minutes",
+      isCompleted: true,
+      difficulty: "Intermediate",
+      hasQuiz: true,
+      type: "module",
+      keywords: ["math", "algebra", "equations", "variables", "solving", "mathematics", "fundamental"]
+    },
+    {
+      id: "mod3",
+      title: "Chemical Reactions",
+      description: "Understanding different types of chemical reactions and molecular bonding",
+      subject: "Chemistry",
+      duration: "25 minutes",
+      isCompleted: false,
+      difficulty: "Advanced",
+      hasQuiz: false,
+      type: "module",
+      keywords: ["chemistry", "reactions", "compounds", "molecules", "bonding", "chemical", "molecular"]
+    },
+    {
+      id: "mod4",
+      title: "Chemical Bonding",
+      description: "Learn about ionic, covalent and metallic bonding in chemistry",
+      subject: "Chemistry",
+      duration: "35 minutes",
+      isCompleted: false,
+      difficulty: "Intermediate",
+      hasQuiz: true,
+      type: "module",
+      keywords: ["chemistry", "bonding", "ionic", "covalent", "metallic", "molecules", "atoms", "bond"]
+    },
+    {
+      id: "mod5",
+      title: "Wave Mechanics",
+      description: "Explore the properties of waves in physics including frequency and amplitude",
+      subject: "Physics",
+      duration: "40 minutes",
+      isCompleted: false,
+      difficulty: "Intermediate",
+      hasQuiz: true,
+      type: "module",
+      keywords: ["physics", "waves", "frequency", "amplitude", "oscillation", "mechanics", "wave", "property"]
+    }
+  ];
+  
+  const mockQuizzes = [
+    {
+      id: "quiz1",
+      title: "Physics Quiz: Waves & Motion",
+      description: "Test your knowledge of basic physics concepts including waves and motion",
+      subject: "Physics",
+      duration: "15 minutes",
+      difficulty: "Beginner",
+      type: "quiz",
+      keywords: ["physics", "test", "quiz", "mechanics", "waves", "particles", "motion", "basic"]
+    },
+    {
+      id: "quiz2",
+      title: "Advanced Mathematics Quiz",
+      description: "Challenge yourself with complex mathematical problems and algebra",
+      subject: "Mathematics",
+      duration: "20 minutes",
+      difficulty: "Advanced",
+      type: "quiz",
+      keywords: ["math", "mathematics", "advanced", "calculus", "problems", "quiz", "algebra", "complex"]
+    },
+    {
+      id: "quiz3",
+      title: "Chemical Bonding Quiz",
+      description: "Test your understanding of different types of chemical bonds and molecules",
+      subject: "Chemistry",
+      duration: "25 minutes",
+      difficulty: "Intermediate",
+      type: "quiz",
+      keywords: ["chemistry", "test", "quiz", "bonding", "ionic", "covalent", "molecules", "bond"]
+    },
+    {
+      id: "quiz4",
+      title: "Wave Properties Quiz",
+      description: "Test your knowledge of wave characteristics and behaviors in physics",
+      subject: "Physics",
+      duration: "20 minutes",
+      difficulty: "Intermediate",
+      type: "quiz",
+      keywords: ["physics", "waves", "test", "quiz", "frequency", "amplitude", "properties", "wave"]
+    }
+  ];
+  
+  const mockLabs = [
+    {
+      id: "lab1",
+      title: "Physics Wave Laboratory",
+      description: "Virtual physics lab experiments on wave motion and wave properties",
+      subject: "Physics",
+      duration: "60 minutes",
+      difficulty: "Intermediate",
+      type: "lab",
+      keywords: ["physics", "lab", "experiment", "waves", "practical", "oscillation", "laboratory", "wave"]
+    },
+    {
+      id: "lab2",
+      title: "Chemical Bonding Lab",
+      description: "Virtual chemistry lab experiments on chemical bonds and molecular structures",
+      subject: "Chemistry",
+      duration: "50 minutes",
+      difficulty: "Advanced",
+      type: "lab",
+      keywords: ["chemistry", "lab", "experiment", "bonding", "molecules", "practical", "laboratory", "bond"]
+    },
+    {
+      id: "lab3",
+      title: "Math Graphing Lab",
+      description: "Interactive mathematical graphing and function visualization laboratory",
+      subject: "Mathematics",
+      duration: "45 minutes",
+      difficulty: "Intermediate",
+      type: "lab",
+      keywords: ["math", "mathematics", "graphing", "functions", "lab", "laboratory", "visualization", "graph"]
+    }
+  ];
+
+  return [...mockModules, ...mockQuizzes, ...mockLabs];
+};
+
 const SearchResults: React.FC<SearchResultsProps> = ({ query, filters, resultType }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [results, setResults] = useState<any[]>([]);
@@ -46,157 +190,20 @@ const SearchResults: React.FC<SearchResultsProps> = ({ query, filters, resultTyp
     const fetchResults = async () => {
       setIsLoading(true);
       try {
-        // Enhanced mock data with better search coverage
-        const mockModules = [
-          {
-            id: "mod1",
-            title: "Introduction to Physics",
-            description: "Learn the basics of physics including mechanics, waves, and motion",
-            subject: "Physics",
-            duration: "30 minutes",
-            isCompleted: false,
-            difficulty: "Beginner",
-            hasQuiz: true,
-            type: "module",
-            keywords: ["physics", "mechanics", "motion", "waves", "force", "energy", "introduction"]
-          },
-          {
-            id: "mod2",
-            title: "Algebra Fundamentals",
-            description: "Master the core concepts of algebra and equations",
-            subject: "Mathematics",
-            duration: "45 minutes",
-            isCompleted: true,
-            difficulty: "Intermediate",
-            hasQuiz: true,
-            type: "module",
-            keywords: ["math", "algebra", "equations", "variables", "solving", "mathematics"]
-          },
-          {
-            id: "mod3",
-            title: "Chemical Reactions",
-            description: "Understanding different types of chemical reactions and molecular bonding",
-            subject: "Chemistry",
-            duration: "25 minutes",
-            isCompleted: false,
-            difficulty: "Advanced",
-            hasQuiz: false,
-            type: "module",
-            keywords: ["chemistry", "reactions", "compounds", "molecules", "bonding", "chemical"]
-          },
-          {
-            id: "mod4",
-            title: "Chemical Bonding",
-            description: "Learn about ionic, covalent and metallic bonding in chemistry",
-            subject: "Chemistry",
-            duration: "35 minutes",
-            isCompleted: false,
-            difficulty: "Intermediate",
-            hasQuiz: true,
-            type: "module",
-            keywords: ["chemistry", "bonding", "ionic", "covalent", "metallic", "molecules", "atoms"]
-          },
-          {
-            id: "mod5",
-            title: "Wave Mechanics",
-            description: "Explore the properties of waves in physics including frequency and amplitude",
-            subject: "Physics",
-            duration: "40 minutes",
-            isCompleted: false,
-            difficulty: "Intermediate",
-            hasQuiz: true,
-            type: "module",
-            keywords: ["physics", "waves", "frequency", "amplitude", "oscillation", "mechanics"]
-          }
-        ];
+        console.log("Search params:", { query, filters, resultType });
         
-        const mockQuizzes = [
-          {
-            id: "quiz1",
-            title: "Physics Quiz: Waves & Motion",
-            description: "Test your knowledge of basic physics concepts including waves and motion",
-            subject: "Physics",
-            duration: "15 minutes",
-            difficulty: "Beginner",
-            type: "quiz",
-            keywords: ["physics", "test", "quiz", "mechanics", "waves", "particles", "motion"]
-          },
-          {
-            id: "quiz2",
-            title: "Advanced Mathematics Quiz",
-            description: "Challenge yourself with complex mathematical problems and algebra",
-            subject: "Mathematics",
-            duration: "20 minutes",
-            difficulty: "Advanced",
-            type: "quiz",
-            keywords: ["math", "mathematics", "advanced", "calculus", "problems", "quiz", "algebra"]
-          },
-          {
-            id: "quiz3",
-            title: "Chemical Bonding Quiz",
-            description: "Test your understanding of different types of chemical bonds and molecules",
-            subject: "Chemistry",
-            duration: "25 minutes",
-            difficulty: "Intermediate",
-            type: "quiz",
-            keywords: ["chemistry", "test", "quiz", "bonding", "ionic", "covalent", "molecules"]
-          },
-          {
-            id: "quiz4",
-            title: "Wave Properties Quiz",
-            description: "Test your knowledge of wave characteristics and behaviors in physics",
-            subject: "Physics",
-            duration: "20 minutes",
-            difficulty: "Intermediate",
-            type: "quiz",
-            keywords: ["physics", "waves", "test", "quiz", "frequency", "amplitude", "properties"]
-          }
-        ];
-        
-        const mockLabs = [
-          {
-            id: "lab1",
-            title: "Physics Wave Laboratory",
-            description: "Virtual physics lab experiments on wave motion and wave properties",
-            subject: "Physics",
-            duration: "60 minutes",
-            difficulty: "Intermediate",
-            type: "lab",
-            keywords: ["physics", "lab", "experiment", "waves", "practical", "oscillation", "laboratory"]
-          },
-          {
-            id: "lab2",
-            title: "Chemical Bonding Lab",
-            description: "Virtual chemistry lab experiments on chemical bonds and molecular structures",
-            subject: "Chemistry",
-            duration: "50 minutes",
-            difficulty: "Advanced",
-            type: "lab",
-            keywords: ["chemistry", "lab", "experiment", "bonding", "molecules", "practical", "laboratory"]
-          },
-          {
-            id: "lab3",
-            title: "Math Graphing Lab",
-            description: "Interactive mathematical graphing and function visualization laboratory",
-            subject: "Mathematics",
-            duration: "45 minutes",
-            difficulty: "Intermediate",
-            type: "lab",
-            keywords: ["math", "mathematics", "graphing", "functions", "lab", "laboratory", "visualization"]
-          }
-        ];
+        // Start with mock data
+        let content = getMockData();
         
         // Try to get real data from recommendations if available
         try {
           const recommResult = await getRecommendations([], []);
           if (recommResult.modules.length > 0 || recommResult.quizzes.length > 0) {
             console.log("Using real data from recommendations");
-            // Use real data but ensure proper formatting
-            mockModules.length = 0;
-            mockQuizzes.length = 0;
+            content = [];
             
             recommResult.modules.forEach(module => {
-              mockModules.push({
+              content.push({
                 ...module,
                 duration: module.duration || "30 minutes",
                 isCompleted: module.isCompleted || false,
@@ -207,7 +214,7 @@ const SearchResults: React.FC<SearchResultsProps> = ({ query, filters, resultTyp
             });
 
             recommResult.quizzes.forEach(quiz => {
-              mockQuizzes.push({
+              content.push({
                 ...quiz,
                 duration: quiz.duration || "15 minutes",
                 keywords: quiz.keywords || [],
@@ -219,55 +226,74 @@ const SearchResults: React.FC<SearchResultsProps> = ({ query, filters, resultTyp
           console.log("Using mock data for search results");
         }
         
-        // Combine all content types
-        let content = [...mockModules, ...mockQuizzes, ...mockLabs];
+        console.log("Initial content count:", content.length);
         
-        // Filter by query with improved search
+        // Filter by query with improved search logic
         if (query.trim()) {
           const lowerQuery = query.toLowerCase().trim();
           console.log("Searching for:", lowerQuery);
           
+          const queryWords = lowerQuery.split(' ').filter(word => word.length > 0);
+          
           content = content.filter((item: any) => {
             const searchableText = extractSearchableText(item);
-            // Check for partial matches and word boundaries
-            const words = lowerQuery.split(' ').filter(word => word.length > 0);
-            const matches = words.some(word => searchableText.includes(word));
-            console.log(`Item ${item.id} (${item.title}) - Match: ${matches}`);
-            return matches;
+            
+            // Check if any query word matches
+            const hasMatch = queryWords.some(word => {
+              return searchableText.includes(word) || 
+                     item.title.toLowerCase().includes(word) ||
+                     item.subject.toLowerCase().includes(word);
+            });
+            
+            console.log(`Item ${item.id} (${item.title}) - Match: ${hasMatch}`);
+            return hasMatch;
           });
         }
+        
+        console.log("After query filter:", content.length);
         
         // Filter by subject
         if (filters.subjects.length > 0) {
           content = content.filter((item: any) => 
-            item.subject && filters.subjects.includes(item.subject)
+            item.subject && filters.subjects.some(subject => 
+              item.subject.toLowerCase() === subject.toLowerCase()
+            )
           );
+          console.log("After subject filter:", content.length);
         }
         
         // Filter by difficulty
         if (filters.difficulty) {
           content = content.filter((item: any) => 
-            item.difficulty === filters.difficulty
+            item.difficulty && item.difficulty.toLowerCase() === filters.difficulty.toLowerCase()
           );
+          console.log("After difficulty filter:", content.length);
         }
         
-        // Filter by content type
+        // Filter by content type from filters
         if (filters.type.length > 0) {
           content = content.filter((item: any) => 
-            item.type && filters.type.map(t => t.toLowerCase()).includes(item.type.toLowerCase())
+            item.type && filters.type.some(type => 
+              item.type.toLowerCase() === type.toLowerCase()
+            )
           );
+          console.log("After type filter:", content.length);
         }
         
         // Filter by result type tab
         if (resultType !== "all") {
-          content = content.filter((item: any) => item.type && item.type.toLowerCase() === resultType.toLowerCase());
+          content = content.filter((item: any) => 
+            item.type && item.type.toLowerCase() === resultType.toLowerCase()
+          );
+          console.log("After result type filter:", content.length);
         }
         
         console.log("Final search results:", {
           query,
           filters,
           resultType,
-          contentCount: content.length
+          contentCount: content.length,
+          results: content.map(c => ({ id: c.id, title: c.title, type: c.type, subject: c.subject }))
         });
         
         // Simulate API delay

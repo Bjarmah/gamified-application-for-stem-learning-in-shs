@@ -1,5 +1,6 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -10,17 +11,35 @@ import { useNavigate } from 'react-router-dom';
 import SearchResults from '@/components/search/SearchResults';
 
 const SearchPage = () => {
+  const [searchParams] = useSearchParams();
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedFilters, setSelectedFilters] = useState<string[]>([]);
   const [activeTab, setActiveTab] = useState('all');
   const navigate = useNavigate();
 
+  // Initialize search term from URL params
+  useEffect(() => {
+    const queryParam = searchParams.get('q');
+    if (queryParam) {
+      setSearchTerm(queryParam);
+    }
+  }, [searchParams]);
+
   // Handle Enter key press for search
   const handleKeyPress = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter') {
       // Force a re-render of SearchResults by updating the search term
-      setSearchTerm(searchTerm.trim());
+      const trimmedTerm = searchTerm.trim();
+      setSearchTerm(trimmedTerm);
+      console.log("Search initiated for:", trimmedTerm);
     }
+  };
+
+  // Handle search button click
+  const handleSearchClick = () => {
+    const trimmedTerm = searchTerm.trim();
+    setSearchTerm(trimmedTerm);
+    console.log("Search clicked for:", trimmedTerm);
   };
 
   const filters = [
@@ -38,15 +57,6 @@ const SearchPage = () => {
         ? prev.filter(f => f !== filterId)
         : [...prev, filterId]
     );
-  };
-
-  const getDifficultyColor = (difficulty: string) => {
-    switch (difficulty) {
-      case 'Beginner': return 'bg-stemGreen/20 text-stemGreen-dark';
-      case 'Intermediate': return 'bg-stemYellow/20 text-stemYellow-dark';
-      case 'Advanced': return 'bg-stemOrange/20 text-stemOrange-dark';
-      default: return 'bg-muted text-muted-foreground';
-    }
   };
 
   // Convert selected filters to the format expected by SearchResults
@@ -100,16 +110,16 @@ const SearchPage = () => {
         <div className="relative flex-1">
           <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
           <Input
-            placeholder="Search for modules, quizzes, or study rooms... (Press Enter to search)"
+            placeholder="Search for modules, quizzes, or study rooms..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             onKeyPress={handleKeyPress}
             className="pl-10"
           />
         </div>
-        <Button variant="outline">
-          <Filter className="h-4 w-4 mr-2" />
-          Filters
+        <Button onClick={handleSearchClick} className="shrink-0">
+          <Search className="h-4 w-4 mr-2" />
+          Search
         </Button>
       </div>
 
