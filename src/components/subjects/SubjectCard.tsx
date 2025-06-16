@@ -62,10 +62,11 @@ const SubjectCard = ({
       <CardFooter>
         <Button 
           onClick={() => navigate(`/subjects/${id}`)} 
-          className="w-full bg-white hover:bg-muted border border-input text-foreground hover:text-stemPurple flex justify-between items-center"
+          className="w-full"
+          variant="outline"
         >
           <span>Explore subject</span>
-          <ChevronRight className="h-4 w-4" />
+          <ChevronRight className="h-4 w-4 ml-2" />
         </Button>
       </CardFooter>
     </Card>
