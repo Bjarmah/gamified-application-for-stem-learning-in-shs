@@ -166,11 +166,47 @@ const ModuleDetail = () => {
                   </div>
                 </CardContent>
               </Card>
+
+              {/* Quick access to games */}
+              <Card>
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2 text-sm">
+                    <Gamepad2 className="h-4 w-4" />
+                    Quick Game Access
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-xs text-muted-foreground mb-3">
+                    Try interactive games related to this module
+                  </p>
+                  <Button 
+                    variant="outline" 
+                    size="sm" 
+                    className="w-full"
+                    onClick={() => {
+                      // Switch to games tab
+                      const gamesTab = document.querySelector('[data-state="inactive"][value="games"]') as HTMLButtonElement;
+                      if (gamesTab) gamesTab.click();
+                    }}
+                  >
+                    Play Games
+                  </Button>
+                </CardContent>
+              </Card>
             </div>
           </div>
         </TabsContent>
 
         <TabsContent value="games" className="space-y-6">
+          <div className="bg-gradient-to-r from-blue-50 to-purple-50 dark:from-blue-950/20 dark:to-purple-950/20 p-6 rounded-lg border">
+            <div className="text-center space-y-2">
+              <h3 className="text-lg font-semibold">Interactive Learning Games</h3>
+              <p className="text-sm text-muted-foreground">
+                Reinforce your understanding of "{module.title}" through engaging mini-games
+              </p>
+            </div>
+          </div>
+          
           <GameSelector 
             subject={getSubjectName()}
             moduleId={moduleId || ''}
