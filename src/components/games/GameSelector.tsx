@@ -1,9 +1,8 @@
-
 import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Gamepad2, Trophy, Clock, Play } from 'lucide-react';
+import { Gamepad2, Trophy, Clock, Play, Star, Zap } from 'lucide-react';
 import MathGames from './MathGames';
 import PhysicsGames from './PhysicsGames';
 
@@ -17,6 +16,7 @@ const GameSelector: React.FC<GameSelectorProps> = ({ subject, moduleId, onGameCo
   const [selectedGame, setSelectedGame] = useState<string | null>(null);
   const [gameScore, setGameScore] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
+  const [totalXP, setTotalXP] = useState(0);
 
   const getGamesForSubject = (subject: string) => {
     switch (subject.toLowerCase()) {
@@ -73,6 +73,7 @@ const GameSelector: React.FC<GameSelectorProps> = ({ subject, moduleId, onGameCo
   const handleScoreUpdate = (score: number) => {
     console.log(`Score updated: ${score}`);
     setGameScore(score);
+    setTotalXP(prev => Math.max(prev, score)); // Keep highest score as total XP
   };
 
   const handleGameComplete = (score: number, timeSpent: number) => {
@@ -124,7 +125,7 @@ const GameSelector: React.FC<GameSelectorProps> = ({ subject, moduleId, onGameCo
       );
     }
 
-    // For other subjects, show a placeholder
+    // For other subjects, show enhanced placeholder
     return (
       <Card>
         <CardContent className="text-center py-8">
@@ -132,6 +133,9 @@ const GameSelector: React.FC<GameSelectorProps> = ({ subject, moduleId, onGameCo
           <p className="text-muted-foreground mb-4">
             {games.find(g => g.id === selectedGame)?.name} game is coming soon for {subject}!
           </p>
+          <div className="text-sm text-muted-foreground mb-4">
+            This game will feature immersive learning mechanics and engaging challenges.
+          </div>
           <Button 
             variant="outline" 
             onClick={backToGameSelection}
@@ -156,8 +160,8 @@ const GameSelector: React.FC<GameSelectorProps> = ({ subject, moduleId, onGameCo
           </Button>
           <div className="flex gap-2">
             <Badge variant="outline" className="flex items-center gap-1">
-              <Trophy className="h-3 w-3" />
-              Score: {gameScore}
+              <Zap className="h-3 w-3 text-yellow-500" />
+              {gameScore} XP
             </Badge>
             <Badge variant="secondary">
               {currentGame?.name || selectedGame}
@@ -177,29 +181,38 @@ const GameSelector: React.FC<GameSelectorProps> = ({ subject, moduleId, onGameCo
           Interactive Games for {subject}
         </h3>
         <p className="text-muted-foreground mt-2">
-          Learn by playing! Complete games to earn points and achievements.
+          Learn by playing! Earn XP, unlock achievements, and master STEM concepts through engaging mini-games.
         </p>
         {moduleId && (
-          <p className="text-sm text-muted-foreground mt-1">
-            Connected to Module: {moduleId}
-          </p>
+          <div className="flex items-center justify-center gap-2 mt-2">
+            <Badge variant="outline" className="flex items-center gap-1">
+              <Star className="h-3 w-3" />
+              Module: {moduleId}
+            </Badge>
+            {totalXP > 0 && (
+              <Badge variant="outline" className="flex items-center gap-1">
+                <Trophy className="h-3 w-3 text-yellow-500" />
+                Total XP: {totalXP}
+              </Badge>
+            )}
+          </div>
         )}
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {games.map((game) => (
-          <Card key={game.id} className={`hover:shadow-md transition-shadow ${!game.available ? 'opacity-60' : ''}`}>
+          <Card key={game.id} className={`hover:shadow-lg transition-all duration-200 hover:scale-105 ${!game.available ? 'opacity-60' : 'cursor-pointer'}`}>
             <CardHeader className="pb-2">
               <div className="flex justify-between items-start">
                 <CardTitle className="text-lg">{game.name}</CardTitle>
                 {game.available ? (
-                  <Badge variant="secondary" className="text-xs">
+                  <Badge variant="default" className="text-xs bg-green-100 text-green-800">
                     <Play className="h-3 w-3 mr-1" />
-                    Ready
+                    Play Now
                   </Badge>
                 ) : (
                   <Badge variant="outline" className="text-xs">
-                    Soon
+                    Coming Soon
                   </Badge>
                 )}
               </div>
@@ -215,6 +228,8 @@ const GameSelector: React.FC<GameSelectorProps> = ({ subject, moduleId, onGameCo
               <div className="flex items-center gap-2 text-xs text-muted-foreground">
                 <Clock className="h-3 w-3" />
                 <span>~5-10 minutes</span>
+                <Zap className="h-3 w-3 ml-2" />
+                <span>Earn XP & unlock rewards</span>
               </div>
               
               <Button 
@@ -223,7 +238,14 @@ const GameSelector: React.FC<GameSelectorProps> = ({ subject, moduleId, onGameCo
                 size="sm"
                 disabled={!game.available}
               >
-                {game.available ? 'Play Game' : 'Coming Soon'}
+                {game.available ? (
+                  <>
+                    <Play className="h-3 w-3 mr-1" />
+                    Start Adventure
+                  </>
+                ) : (
+                  'Coming Soon'
+                )}
               </Button>
             </CardContent>
           </Card>
@@ -234,8 +256,11 @@ const GameSelector: React.FC<GameSelectorProps> = ({ subject, moduleId, onGameCo
         <Card>
           <CardContent className="text-center py-8">
             <Gamepad2 className="h-12 w-12 mx-auto text-muted-foreground mb-4" />
-            <p className="text-muted-foreground">
+            <p className="text-muted-foreground mb-2">
               Games for {subject} are coming soon!
+            </p>
+            <p className="text-sm text-muted-foreground">
+              We're developing engaging mini-games to make learning {subject} fun and interactive.
             </p>
           </CardContent>
         </Card>
