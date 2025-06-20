@@ -63,14 +63,15 @@ const GameSelector: React.FC<GameSelectorProps> = ({ subject, moduleId, onGameCo
 
   const games = getGamesForSubject(subject);
 
-  const startGame = (gameId: string) => {
-    console.log(`Starting game: ${gameId} for module: ${moduleId} in subject: ${subject}`);
+  const startGame = (gameId: string, gameName: string) => {
+    console.log(`Starting game: ${gameId} (${gameName}) for module: ${moduleId} in subject: ${subject}`);
     setSelectedGame(gameId);
     setIsPlaying(true);
     setGameScore(0);
   };
 
   const handleScoreUpdate = (score: number) => {
+    console.log(`Score updated: ${score}`);
     setGameScore(score);
   };
 
@@ -78,6 +79,13 @@ const GameSelector: React.FC<GameSelectorProps> = ({ subject, moduleId, onGameCo
     setIsPlaying(false);
     console.log(`Game completed! Module: ${moduleId}, Score: ${score}, Time: ${timeSpent}s`);
     onGameComplete?.(score, timeSpent);
+  };
+
+  const backToGameSelection = () => {
+    console.log('Returning to game selection');
+    setSelectedGame(null);
+    setIsPlaying(false);
+    setGameScore(0);
   };
 
   const getDifficultyColor = (difficulty: string) => {
@@ -126,7 +134,7 @@ const GameSelector: React.FC<GameSelectorProps> = ({ subject, moduleId, onGameCo
           </p>
           <Button 
             variant="outline" 
-            onClick={() => setIsPlaying(false)}
+            onClick={backToGameSelection}
           >
             Back to Games
           </Button>
@@ -136,12 +144,13 @@ const GameSelector: React.FC<GameSelectorProps> = ({ subject, moduleId, onGameCo
   };
 
   if (selectedGame && isPlaying) {
+    const currentGame = games.find(g => g.id === selectedGame);
     return (
       <div className="space-y-4">
         <div className="flex justify-between items-center">
           <Button 
             variant="outline" 
-            onClick={() => setIsPlaying(false)}
+            onClick={backToGameSelection}
           >
             ← Back to Games
           </Button>
@@ -151,7 +160,7 @@ const GameSelector: React.FC<GameSelectorProps> = ({ subject, moduleId, onGameCo
               Score: {gameScore}
             </Badge>
             <Badge variant="secondary">
-              Module: {moduleId}
+              {currentGame?.name || selectedGame}
             </Badge>
           </div>
         </div>
@@ -209,7 +218,7 @@ const GameSelector: React.FC<GameSelectorProps> = ({ subject, moduleId, onGameCo
               </div>
               
               <Button 
-                onClick={() => startGame(game.id)}
+                onClick={() => startGame(game.id, game.name)}
                 className="w-full"
                 size="sm"
                 disabled={!game.available}
@@ -228,7 +237,7 @@ const GameSelector: React.FC<GameSelectorProps> = ({ subject, moduleId, onGameCo
             <p className="text-muted-foreground">
               Games for {subject} are coming soon!
             </p>
-          </CardContent>
+          </Card>
         </Card>
       )}
     </div>

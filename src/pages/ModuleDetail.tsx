@@ -1,4 +1,3 @@
-
 import React from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useModule } from "@/hooks/use-modules";
@@ -14,6 +13,7 @@ const ModuleDetail = () => {
   const { moduleId, subjectId } = useParams<{ moduleId: string; subjectId: string }>();
   const navigate = useNavigate();
   const { data: module, isLoading, error } = useModule(moduleId || '');
+  const [activeTab, setActiveTab] = React.useState("content");
 
   // Get subject name from URL path or module data
   const getSubjectName = () => {
@@ -38,6 +38,16 @@ const ModuleDetail = () => {
     console.log(`Game completed! Score: ${score}, Time: ${timeSpent}s`);
     // Here you could save the game progress to Supabase
     // saveGameProgress(moduleId, score, timeSpent);
+  };
+
+  const handleStartLearning = () => {
+    console.log(`Starting learning for module: ${module?.title}`);
+    // For now, we'll just show an alert - you can implement actual learning flow
+    alert(`Starting learning module: ${module?.title}\n\nThis would typically open the interactive learning content or navigate to a detailed learning page.`);
+  };
+
+  const switchToGamesTab = () => {
+    setActiveTab("games");
   };
 
   if (isLoading) {
@@ -105,7 +115,7 @@ const ModuleDetail = () => {
         </div>
       </div>
 
-      <Tabs defaultValue="content" className="w-full">
+      <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
         <TabsList className="mb-4">
           <TabsTrigger value="content" className="flex items-center gap-2">
             <BookOpen className="h-4 w-4" />
@@ -160,7 +170,7 @@ const ModuleDetail = () => {
                   </Badge>
 
                   <div className="pt-4">
-                    <Button className="w-full btn-stem">
+                    <Button className="w-full btn-stem" onClick={handleStartLearning}>
                       Start Learning
                     </Button>
                   </div>
@@ -183,11 +193,7 @@ const ModuleDetail = () => {
                     variant="outline" 
                     size="sm" 
                     className="w-full"
-                    onClick={() => {
-                      // Switch to games tab
-                      const gamesTab = document.querySelector('[data-state="inactive"][value="games"]') as HTMLButtonElement;
-                      if (gamesTab) gamesTab.click();
-                    }}
+                    onClick={switchToGamesTab}
                   >
                     Play Games
                   </Button>
