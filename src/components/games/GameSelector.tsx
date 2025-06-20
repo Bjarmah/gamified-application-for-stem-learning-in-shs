@@ -237,7 +237,7 @@ const GameSelector: React.FC<GameSelectorProps> = ({ subject, moduleId, onGameCo
             <p className="text-muted-foreground">
               Games for {subject} are coming soon!
             </p>
-          </Card>
+          </CardContent>
         </Card>
       )}
     </div>
