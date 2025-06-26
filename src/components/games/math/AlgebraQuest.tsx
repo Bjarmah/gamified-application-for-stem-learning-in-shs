@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Progress } from '@/components/ui/progress';
 import { Badge } from '@/components/ui/badge';
-import { Sword, Shield, Heart } from 'lucide-react';
+import { Sword, Shield, Heart, Star, Crown } from 'lucide-react';
 import { GameEngine } from '../GameEngine';
 
 interface AlgebraQuestProps {
@@ -19,29 +19,54 @@ interface Monster {
   maxHp: number;
   icon: React.ReactNode;
   defeated: boolean;
+  reward: number;
+}
+
+interface Player {
+  hp: number;
+  maxHp: number;
+  level: number;
+  experience: number;
+  experienceToNext: number;
 }
 
 const AlgebraQuest: React.FC<AlgebraQuestProps> = ({ onScoreUpdate, isActive }) => {
   const [currentProblem, setCurrentProblem] = useState<any>(null);
   const [userAnswer, setUserAnswer] = useState('');
   const [score, setScore] = useState(0);
-  const [level, setLevel] = useState(1);
-  const [playerHp, setPlayerHp] = useState(100);
   const [currentMonster, setCurrentMonster] = useState<Monster | null>(null);
   const [dungeon, setDungeon] = useState(1);
+  const [player, setPlayer] = useState<Player>({
+    hp: 100,
+    maxHp: 100,
+    level: 1,
+    experience: 0,
+    experienceToNext: 100
+  });
+  const [streak, setStreak] = useState(0);
+  const [bestStreak, setBestStreak] = useState(0);
 
   const monsters = [
-    { name: 'Algebra Goblin', maxHp: 30, icon: <Sword className="h-4 w-4" /> },
-    { name: 'Equation Orc', maxHp: 50, icon: <Shield className="h-4 w-4" /> },
-    { name: 'Formula Dragon', maxHp: 80, icon: <Heart className="h-4 w-4" /> },
+    { name: 'Algebra Goblin', maxHp: 30, icon: <Sword className="h-4 w-4" />, reward: 25 },
+    { name: 'Equation Orc', maxHp: 50, icon: <Shield className="h-4 w-4" />, reward: 40 },
+    { name: 'Formula Dragon', maxHp: 80, icon: <Crown className="h-4 w-4" />, reward: 75 },
+    { name: 'Polynomial Beast', maxHp: 120, icon: <Star className="h-4 w-4" />, reward: 100 },
   ];
 
   const problems = [
-    { equation: '2x + 5 = 13', answer: 4, display: '2x + 5 = 13', difficulty: 1 },
-    { equation: '3x - 7 = 8', answer: 5, display: '3x - 7 = 8', difficulty: 1 },
-    { equation: 'x² - 4 = 5', answer: 3, display: 'x² - 4 = 5', difficulty: 2 },
-    { equation: '4x + 2 = 18', answer: 4, display: '4x + 2 = 18', difficulty: 1 },
-    { equation: '2x² - 8 = 10', answer: 3, display: '2x² - 8 = 10', difficulty: 3 },
+    // Beginner problems
+    { equation: '2x + 5 = 13', answer: 4, display: '2x + 5 = 13', difficulty: 1, type: 'Linear Equation' },
+    { equation: '3x - 7 = 8', answer: 5, display: '3x - 7 = 8', difficulty: 1, type: 'Linear Equation' },
+    { equation: '4x + 2 = 18', answer: 4, display: '4x + 2 = 18', difficulty: 1, type: 'Linear Equation' },
+    
+    // Intermediate problems
+    { equation: 'x² - 4 = 5', answer: 3, display: 'x² - 4 = 5', difficulty: 2, type: 'Quadratic Equation' },
+    { equation: '2x² - 8 = 10', answer: 3, display: '2x² - 8 = 10', difficulty: 2, type: 'Quadratic Equation' },
+    { equation: '5x - 2 = 3x + 8', answer: 5, display: '5x - 2 = 3x + 8', difficulty: 2, type: 'Multi-step Equation' },
+    
+    // Advanced problems
+    { equation: 'x² + 6x + 9 = 0', answer: -3, display: 'x² + 6x + 9 = 0', difficulty: 3, type: 'Perfect Square' },
+    { equation: '2x³ - 16 = 0', answer: 2, display: '2x³ - 16 = 0', difficulty: 3, type: 'Cubic Equation' },
   ];
 
   useEffect(() => {
@@ -49,43 +74,83 @@ const AlgebraQuest: React.FC<AlgebraQuestProps> = ({ onScoreUpdate, isActive }) 
       generateProblem();
       spawnMonster();
     }
-  }, [isActive, level]);
+  }, [isActive, player.level]);
 
   const generateProblem = () => {
-    const availableProblems = problems.filter(p => p.difficulty <= level);
+    const maxDifficulty = Math.min(3, Math.floor(player.level / 2) + 1);
+    const availableProblems = problems.filter(p => p.difficulty <= maxDifficulty);
     const problem = availableProblems[Math.floor(Math.random() * availableProblems.length)];
     setCurrentProblem(problem);
   };
 
   const spawnMonster = () => {
-    const monsterIndex = Math.min(level - 1, monsters.length - 1);
+    const monsterIndex = Math.min(player.level - 1, monsters.length - 1);
     const monster = monsters[monsterIndex];
+    const scaledHp = monster.maxHp + (dungeon - 1) * 10;
     setCurrentMonster({
       ...monster,
-      hp: monster.maxHp,
+      hp: scaledHp,
+      maxHp: scaledHp,
       defeated: false,
+    });
+  };
+
+  const gainExperience = (exp: number) => {
+    setPlayer(prev => {
+      const newExp = prev.experience + exp;
+      let newLevel = prev.level;
+      let newExpToNext = prev.experienceToNext;
+      let newMaxHp = prev.maxHp;
+
+      if (newExp >= prev.experienceToNext) {
+        newLevel += 1;
+        newExpToNext = newLevel * 100; // Scaling XP requirement
+        newMaxHp += 20; // Level up bonus
+      }
+
+      return {
+        ...prev,
+        experience: newExp,
+        level: newLevel,
+        experienceToNext: newExpToNext,
+        maxHp: newMaxHp,
+        hp: Math.min(prev.hp + 10, newMaxHp) // Small heal on XP gain
+      };
     });
   };
 
   const checkAnswer = () => {
     if (!currentProblem || !currentMonster) return;
 
-    if (parseFloat(userAnswer) === currentProblem.answer) {
-      // Correct answer - damage monster
-      const damage = 20 + (level * 5);
+    const userValue = parseFloat(userAnswer);
+    const isCorrect = Math.abs(userValue - currentProblem.answer) < 0.01; // Allow small floating point errors
+
+    if (isCorrect) {
+      // Correct answer - damage monster and gain streak
+      const damage = 20 + (player.level * 5) + (streak * 2);
       const newHp = Math.max(0, currentMonster.hp - damage);
+      const newStreak = streak + 1;
       
       setCurrentMonster({ ...currentMonster, hp: newHp });
+      setStreak(newStreak);
+      
+      if (newStreak > bestStreak) {
+        setBestStreak(newStreak);
+      }
       
       if (newHp === 0) {
         // Monster defeated!
-        const xpGained = currentProblem.difficulty * 25;
-        const newScore = score + xpGained;
+        const baseXp = currentProblem.difficulty * 25;
+        const streakBonus = Math.floor(streak / 3) * 10;
+        const totalXp = baseXp + streakBonus + currentMonster.reward;
+        
+        const newScore = score + totalXp;
         setScore(newScore);
         onScoreUpdate(newScore);
+        gainExperience(totalXp);
         
-        if (score > 0 && score % 100 === 0) {
-          setLevel(level + 1);
+        // Progress to next dungeon every 5 monsters
+        if (score > 0 && score % 500 === 0) {
           setDungeon(dungeon + 1);
         }
         
@@ -97,8 +162,13 @@ const AlgebraQuest: React.FC<AlgebraQuestProps> = ({ onScoreUpdate, isActive }) 
         generateProblem();
       }
     } else {
-      // Wrong answer - player takes damage
-      setPlayerHp(Math.max(0, playerHp - 15));
+      // Wrong answer - player takes damage and loses streak
+      const damage = 15 + (dungeon * 2);
+      setPlayer(prev => ({
+        ...prev,
+        hp: Math.max(0, prev.hp - damage)
+      }));
+      setStreak(0);
     }
     
     setUserAnswer('');
@@ -106,9 +176,15 @@ const AlgebraQuest: React.FC<AlgebraQuestProps> = ({ onScoreUpdate, isActive }) 
 
   const restartGame = () => {
     setScore(0);
-    setLevel(1);
-    setPlayerHp(100);
+    setPlayer({
+      hp: 100,
+      maxHp: 100,
+      level: 1,
+      experience: 0,
+      experienceToNext: 100
+    });
     setDungeon(1);
+    setStreak(0);
     onScoreUpdate(0);
     generateProblem();
     spawnMonster();
@@ -121,7 +197,7 @@ const AlgebraQuest: React.FC<AlgebraQuestProps> = ({ onScoreUpdate, isActive }) 
       gameId="algebra-quest"
       gameName="Algebra Quest"
       score={score}
-      level={level}
+      level={player.level}
       onScoreUpdate={onScoreUpdate}
       onRestart={restartGame}
       isActive={isActive}
@@ -132,19 +208,39 @@ const AlgebraQuest: React.FC<AlgebraQuestProps> = ({ onScoreUpdate, isActive }) 
           <CardHeader className="pb-2">
             <CardTitle className="text-sm flex items-center gap-2">
               <Heart className="h-4 w-4 text-red-500" />
-              Hero Status
+              Hero Stats
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="space-y-2">
+            <div className="space-y-3">
               <div>
                 <div className="flex justify-between text-xs">
                   <span>Health</span>
-                  <span>{playerHp}/100</span>
+                  <span>{player.hp}/{player.maxHp}</span>
                 </div>
-                <Progress value={playerHp} className="h-2" />
+                <Progress value={(player.hp / player.maxHp) * 100} className="h-2" />
               </div>
-              <Badge variant="outline">Dungeon {dungeon}</Badge>
+              <div>
+                <div className="flex justify-between text-xs">
+                  <span>Experience</span>
+                  <span>{player.experience}/{player.experienceToNext}</span>
+                </div>
+                <Progress value={(player.experience / player.experienceToNext) * 100} className="h-2 bg-blue-100" />
+              </div>
+              <div className="flex gap-2">
+                <Badge variant="outline">Level {player.level}</Badge>
+                <Badge variant="outline">Dungeon {dungeon}</Badge>
+              </div>
+              {streak > 0 && (
+                <Badge variant="default" className="bg-orange-500">
+                  🔥 {streak} Streak!
+                </Badge>
+              )}
+              {bestStreak > 0 && (
+                <Badge variant="outline">
+                  ⭐ Best: {bestStreak}
+                </Badge>
+              )}
             </div>
           </CardContent>
         </Card>
@@ -169,6 +265,9 @@ const AlgebraQuest: React.FC<AlgebraQuestProps> = ({ onScoreUpdate, isActive }) 
                   className="h-2" 
                 />
               </div>
+              <Badge variant="outline">
+                Reward: {currentMonster.reward} XP
+              </Badge>
               {currentMonster.hp === 0 && (
                 <Badge variant="destructive">Defeated!</Badge>
               )}
@@ -180,7 +279,10 @@ const AlgebraQuest: React.FC<AlgebraQuestProps> = ({ onScoreUpdate, isActive }) 
       {/* Battle Interface */}
       <Card>
         <CardHeader>
-          <CardTitle>Cast Your Spell! Solve for x:</CardTitle>
+          <CardTitle className="flex items-center justify-between">
+            <span>Cast Your Spell! Solve for x:</span>
+            <Badge variant="secondary">{currentProblem.type}</Badge>
+          </CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="text-center text-2xl font-mono bg-muted p-4 rounded">
@@ -195,12 +297,12 @@ const AlgebraQuest: React.FC<AlgebraQuestProps> = ({ onScoreUpdate, isActive }) 
               onKeyPress={(e) => e.key === 'Enter' && checkAnswer()}
               className="text-center text-lg"
             />
-            <Button onClick={checkAnswer} size="lg">
+            <Button onClick={checkAnswer} size="lg" disabled={!userAnswer.trim()}>
               Attack!
             </Button>
           </div>
           <div className="text-center text-sm text-muted-foreground">
-            Solve the equation to damage the monster!
+            Solve the equation to damage the monster! Maintain your streak for bonus damage!
           </div>
         </CardContent>
       </Card>
