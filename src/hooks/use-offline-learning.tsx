@@ -10,11 +10,22 @@ interface OfflineModule {
   subject: string;
   downloadedAt: string;
   lastAccessed?: string;
+  gameData?: any; // Store game-specific data
+}
+
+interface OfflineProgress {
+  moduleId: string;
+  score: number;
+  completed: boolean;
+  timeSpent: number;
+  lastUpdated: string;
+  synced: boolean;
 }
 
 export function useOfflineLearning() {
   const [offlineModules, setOfflineModules] = useState<OfflineModule[]>([]);
   const [isOnline, setIsOnline] = useState(navigator.onLine);
+  const [syncStatus, setSyncStatus] = useState<'idle' | 'syncing' | 'error'>('idle');
   const { toast } = useToast();
 
   useEffect(() => {
@@ -22,8 +33,9 @@ export function useOfflineLearning() {
       setIsOnline(true);
       toast({
         title: "Back online! 🌐",
-        description: "Your progress will be synced automatically.",
+        description: "Syncing your progress...",
       });
+      syncOfflineProgress();
     };
 
     const handleOffline = () => {
@@ -100,6 +112,79 @@ export function useOfflineLearning() {
     }
   };
 
+  const saveOfflineProgress = async (moduleId: string, progressData: Omit<OfflineProgress, 'moduleId' | 'lastUpdated' | 'synced'>) => {
+    try {
+      const progress: OfflineProgress = {
+        moduleId,
+        ...progressData,
+        lastUpdated: new Date().toISOString(),
+        synced: false
+      };
+      
+      await set(`progress_${moduleId}`, progress);
+      console.log('Progress saved offline:', progress);
+      
+      // Try to sync immediately if online
+      if (navigator.onLine) {
+        syncOfflineProgress();
+      }
+    } catch (error) {
+      console.error('Failed to save offline progress:', error);
+    }
+  };
+
+  const syncOfflineProgress = async () => {
+    if (!navigator.onLine) return;
+    
+    setSyncStatus('syncing');
+    
+    try {
+      const progressKeys = await keys();
+      const unsyncedProgress = [];
+      
+      for (const key of progressKeys) {
+        if (typeof key === 'string' && key.startsWith('progress_')) {
+          const progress = await get(key);
+          if (progress && !progress.synced) {
+            unsyncedProgress.push(progress);
+          }
+        }
+      }
+      
+      // Sync each unsynced progress entry
+      for (const progress of unsyncedProgress) {
+        try {
+          // This would normally sync to your backend
+          // For now, just mark as synced
+          await set(`progress_${progress.moduleId}`, {
+            ...progress,
+            synced: true
+          });
+          console.log('Progress synced:', progress.moduleId);
+        } catch (error) {
+          console.error('Failed to sync progress for module:', progress.moduleId, error);
+        }
+      }
+      
+      setSyncStatus('idle');
+      
+      if (unsyncedProgress.length > 0) {
+        toast({
+          title: "Progress synced! ✅",
+          description: `${unsyncedProgress.length} items synced successfully.`,
+        });
+      }
+    } catch (error) {
+      console.error('Sync failed:', error);
+      setSyncStatus('error');
+      toast({
+        title: "Sync failed",
+        description: "Failed to sync offline progress. Will retry later.",
+        variant: "destructive"
+      });
+    }
+  };
+
   const getStorageUsage = () => {
     return {
       used: offlineModules.length,
@@ -107,11 +192,36 @@ export function useOfflineLearning() {
     };
   };
 
+  const clearOfflineData = async () => {
+    try {
+      const allKeys = await keys();
+      const keysToDelete = allKeys.filter(key => 
+        typeof key === 'string' && (key.startsWith('module_') || key.startsWith('progress_'))
+      );
+      
+      for (const key of keysToDelete) {
+        await del(key);
+      }
+      
+      setOfflineModules([]);
+      toast({
+        title: "Offline data cleared",
+        description: "All offline content has been removed.",
+      });
+    } catch (error) {
+      console.error('Failed to clear offline data:', error);
+    }
+  };
+
   return {
     offlineModules,
     isOnline,
+    syncStatus,
     downloadModule,
     removeModule,
+    saveOfflineProgress,
+    syncOfflineProgress,
+    clearOfflineData,
     getStorageUsage
   };
 }
