@@ -1,4 +1,3 @@
-
 import React from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useModule } from "@/hooks/use-modules";
@@ -76,15 +75,12 @@ const ModuleDetail = () => {
     
     if (score >= threshold && !moduleCompleted) {
       setModuleCompleted(true);
-      // Update progress in database
+      // Update progress in database using existing columns
       updateProgress.mutate({
         module_id: moduleId || '',
         completed: true,
-        progress_data: {
-          gameScore: score,
-          completedAt: new Date().toISOString(),
-          gameType: gameInfo?.type
-        }
+        score: score,
+        time_spent: Math.floor(Date.now() / 1000) // Store current timestamp as time_spent for now
       });
     }
   };
