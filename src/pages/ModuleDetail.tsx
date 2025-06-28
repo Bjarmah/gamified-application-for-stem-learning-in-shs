@@ -41,9 +41,9 @@ const ModuleDetail = () => {
   };
 
   const handleStartLearning = () => {
-    console.log(`Starting learning for module: ${module?.title}`);
-    // For now, we'll just show an alert - you can implement actual learning flow
-    alert(`Starting learning module: ${module?.title}\n\nThis would typically open the interactive learning content or navigate to a detailed learning page.`);
+    console.log(`Starting interactive learning for module: ${module?.title}`);
+    // Switch to games tab to start interactive learning
+    setActiveTab("games");
   };
 
   const switchToGamesTab = () => {
@@ -171,7 +171,7 @@ const ModuleDetail = () => {
 
                   <div className="pt-4">
                     <Button className="w-full btn-stem" onClick={handleStartLearning}>
-                      Start Learning
+                      Start Interactive Learning
                     </Button>
                   </div>
                 </CardContent>
