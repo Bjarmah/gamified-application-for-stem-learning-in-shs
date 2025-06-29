@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -6,6 +5,8 @@ import { Badge } from '@/components/ui/badge';
 import { Gamepad2, Trophy, Clock, Play, Star, Zap, Calendar, Target } from 'lucide-react';
 import MathGames from './MathGames';
 import PhysicsGames from './PhysicsGames';
+import ChemistryGames from './ChemistryGames';
+import BiologyGames from './BiologyGames';
 
 interface GameSelectorProps {
   subject: string;
@@ -87,15 +88,15 @@ const GameSelector: React.FC<GameSelectorProps> = ({ subject, moduleId, onGameCo
         ];
       case 'chemistry':
         return [
-          { id: 'molecular-chef', name: 'Molecular Chef', description: 'Combine elements to create compounds in cooking scenarios', difficulty: 'Beginner', available: false, features: ['Chemical Reactions', 'Recipe System', 'Safety Protocols'] },
-          { id: 'ph-balance', name: 'pH Balance Game', description: 'Mix solutions to achieve target pH levels', difficulty: 'Intermediate', available: false, features: ['Acid-Base Chemistry', 'Lab Equipment', 'Precision Mixing'] },
-          { id: 'periodic-memory', name: 'Periodic Memory', description: 'Match elements with their properties and uses', difficulty: 'Advanced', available: false, features: ['Element Properties', 'Memory Challenges', 'Real Applications'] },
+          { id: 'molecular-chef', name: 'Molecular Chef', description: 'Combine elements to create compounds in cooking scenarios', difficulty: 'Beginner', available: true, features: ['Chemical Reactions', 'Recipe System', 'Safety Protocols'] },
+          { id: 'ph-balance', name: 'pH Balance Game', description: 'Mix solutions to achieve target pH levels', difficulty: 'Intermediate', available: true, features: ['Acid-Base Chemistry', 'Lab Equipment', 'Precision Mixing'] },
+          { id: 'periodic-memory', name: 'Periodic Memory', description: 'Match elements with their properties and uses', difficulty: 'Advanced', available: true, features: ['Element Properties', 'Memory Challenges', 'Real Applications'] },
         ];
       case 'biology':
         return [
-          { id: 'cell-city', name: 'Cell City Manager', description: 'Manage cellular organelles like a city simulation', difficulty: 'Beginner', available: false, features: ['City Building', 'Organelle Functions', 'Resource Management'] },
-          { id: 'dna-detective', name: 'DNA Detective', description: 'Solve genetic puzzles and heredity mysteries', difficulty: 'Intermediate', available: false, features: ['Genetic Analysis', 'Mystery Solving', 'Heredity Patterns'] },
-          { id: 'ecosystem-builder', name: 'Ecosystem Builder', description: 'Balance predator-prey relationships in ecosystems', difficulty: 'Advanced', available: false, features: ['Food Webs', 'Population Dynamics', 'Environmental Balance'] },
+          { id: 'cell-city', name: 'Cell City Manager', description: 'Manage cellular organelles like a city simulation', difficulty: 'Beginner', available: true, features: ['City Building', 'Organelle Functions', 'Resource Management'] },
+          { id: 'dna-detective', name: 'DNA Detective', description: 'Solve genetic puzzles and heredity mysteries', difficulty: 'Intermediate', available: true, features: ['Genetic Analysis', 'Mystery Solving', 'Heredity Patterns'] },
+          { id: 'ecosystem-builder', name: 'Ecosystem Builder', description: 'Balance predator-prey relationships in ecosystems', difficulty: 'Advanced', available: true, features: ['Food Webs', 'Population Dynamics', 'Environmental Balance'] },
         ];
       default:
         return [];
@@ -195,6 +196,26 @@ const GameSelector: React.FC<GameSelectorProps> = ({ subject, moduleId, onGameCo
     if (subject.toLowerCase() === 'physics') {
       return (
         <PhysicsGames
+          gameType={selectedGame as any}
+          onScoreUpdate={handleScoreUpdate}
+          isActive={isPlaying}
+        />
+      );
+    }
+
+    if (subject.toLowerCase() === 'chemistry') {
+      return (
+        <ChemistryGames
+          gameType={selectedGame as any}
+          onScoreUpdate={handleScoreUpdate}
+          isActive={isPlaying}
+        />
+      );
+    }
+
+    if (subject.toLowerCase() === 'biology') {
+      return (
+        <BiologyGames
           gameType={selectedGame as any}
           onScoreUpdate={handleScoreUpdate}
           isActive={isPlaying}

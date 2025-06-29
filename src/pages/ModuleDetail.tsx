@@ -9,6 +9,8 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { ArrowLeft, Clock, BookOpen, Trophy, Gamepad2, CheckCircle } from "lucide-react";
 import MathGames from "@/components/games/MathGames";
 import PhysicsGames from "@/components/games/PhysicsGames";
+import ChemistryGames from "@/components/games/ChemistryGames";
+import BiologyGames from "@/components/games/BiologyGames";
 
 const ModuleDetail = () => {
   const { moduleId, subjectId } = useParams<{ moduleId: string; subjectId: string }>();
@@ -52,6 +54,26 @@ const ModuleDetail = () => {
       }
     } else if (subject === 'physics') {
       return { type: 'motion-racing', component: 'physics' };
+    } else if (subject === 'chemistry') {
+      if (moduleTitle.includes('molecule') || moduleTitle.includes('compound')) {
+        return { type: 'molecular-chef', component: 'chemistry' };
+      } else if (moduleTitle.includes('ph') || moduleTitle.includes('acid') || moduleTitle.includes('base')) {
+        return { type: 'ph-balance', component: 'chemistry' };
+      } else if (moduleTitle.includes('periodic') || moduleTitle.includes('element')) {
+        return { type: 'periodic-memory', component: 'chemistry' };
+      } else {
+        return { type: 'molecular-chef', component: 'chemistry' }; // Default chemistry game
+      }
+    } else if (subject === 'biology') {
+      if (moduleTitle.includes('cell') || moduleTitle.includes('organelle')) {
+        return { type: 'cell-city', component: 'biology' };
+      } else if (moduleTitle.includes('dna') || moduleTitle.includes('genetic') || moduleTitle.includes('heredity')) {
+        return { type: 'dna-detective', component: 'biology' };
+      } else if (moduleTitle.includes('ecosystem') || moduleTitle.includes('environment') || moduleTitle.includes('food')) {
+        return { type: 'ecosystem-builder', component: 'biology' };
+      } else {
+        return { type: 'cell-city', component: 'biology' }; // Default biology game
+      }
     }
     
     return null; // No game available for this subject yet
@@ -106,6 +128,26 @@ const ModuleDetail = () => {
     if (gameInfo.component === 'physics') {
       return (
         <PhysicsGames
+          gameType={gameInfo.type as any}
+          onScoreUpdate={handleGameScoreUpdate}
+          isActive={isGameActive}
+        />
+      );
+    }
+
+    if (gameInfo.component === 'chemistry') {
+      return (
+        <ChemistryGames
+          gameType={gameInfo.type as any}
+          onScoreUpdate={handleGameScoreUpdate}
+          isActive={isGameActive}
+        />
+      );
+    }
+
+    if (gameInfo.component === 'biology') {
+      return (
+        <BiologyGames
           gameType={gameInfo.type as any}
           onScoreUpdate={handleGameScoreUpdate}
           isActive={isGameActive}
@@ -195,7 +237,7 @@ const ModuleDetail = () => {
         <div className="bg-gradient-to-r from-blue-50 to-purple-50 dark:from-blue-950/20 dark:to-purple-950/20 p-4 rounded-lg border">
           <div className="text-center space-y-2">
             <h3 className="text-lg font-semibold">{module.title}</h3>
-            <p className="text-sm text-muted-foreground">
+            <p className="text-muted-foreground">
               Master this topic by reaching {getCompletionThreshold()} XP in the interactive game
             </p>
             <div className="flex justify-center gap-2 mt-2">
@@ -240,11 +282,28 @@ const ModuleDetail = () => {
               {gameInfo ? (
                 <div className="space-y-4">
                   <div className="p-4 bg-muted/50 rounded-lg">
-                    <h4 className="font-medium mb-2">🎮 Learning Game: {gameInfo.type === 'algebra-quest' ? 'Algebra Quest' : gameInfo.type === 'geometry-wars' ? 'Geometry Wars' : 'Motion Racing'}</h4>
+                    <h4 className="font-medium mb-2">🎮 Learning Game: {
+                      gameInfo.type === 'algebra-quest' ? 'Algebra Quest' : 
+                      gameInfo.type === 'geometry-wars' ? 'Geometry Wars' : 
+                      gameInfo.type === 'motion-racing' ? 'Motion Racing' :
+                      gameInfo.type === 'molecular-chef' ? 'Molecular Chef' :
+                      gameInfo.type === 'ph-balance' ? 'pH Balance Game' :
+                      gameInfo.type === 'periodic-memory' ? 'Periodic Memory' :
+                      gameInfo.type === 'cell-city' ? 'Cell City Manager' :
+                      gameInfo.type === 'dna-detective' ? 'DNA Detective' :
+                      gameInfo.type === 'ecosystem-builder' ? 'Ecosystem Builder' :
+                      'Interactive Learning Game'
+                    }</h4>
                     <p className="text-sm text-muted-foreground mb-3">
                       {gameInfo.type === 'algebra-quest' && 'Solve equations to defeat monsters in RPG-style adventures'}
                       {gameInfo.type === 'geometry-wars' && 'Defend your base using geometric shapes and their properties'}
                       {gameInfo.type === 'motion-racing' && 'Master kinematics through competitive racing with real physics'}
+                      {gameInfo.type === 'molecular-chef' && 'Combine elements to create compounds in cooking scenarios'}
+                      {gameInfo.type === 'ph-balance' && 'Mix solutions to achieve target pH levels using lab equipment'}
+                      {gameInfo.type === 'periodic-memory' && 'Match elements with their properties and real-world uses'}
+                      {gameInfo.type === 'cell-city' && 'Manage cellular organelles like a city simulation game'}
+                      {gameInfo.type === 'dna-detective' && 'Solve genetic puzzles and heredity mysteries as a detective'}
+                      {gameInfo.type === 'ecosystem-builder' && 'Balance predator-prey relationships in dynamic ecosystems'}
                     </p>
                     <div className="flex items-center gap-2 text-xs text-muted-foreground">
                       <Trophy className="h-3 w-3" />
