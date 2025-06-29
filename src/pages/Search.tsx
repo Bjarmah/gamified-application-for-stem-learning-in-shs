@@ -52,12 +52,15 @@ const SearchPage = () => {
   };
 
   const filters = [
-    { id: 'physics', label: 'Physics', type: 'subject' },
-    { id: 'chemistry', label: 'Chemistry', type: 'subject' },
-    { id: 'mathematics', label: 'Mathematics', type: 'subject' },
-    { id: 'beginner', label: 'Beginner', type: 'difficulty' },
-    { id: 'intermediate', label: 'Intermediate', type: 'difficulty' },
-    { id: 'advanced', label: 'Advanced', type: 'difficulty' }
+    { id: 'Physics', label: 'Physics', type: 'subject' },
+    { id: 'Chemistry', label: 'Chemistry', type: 'subject' },
+    { id: 'Mathematics', label: 'Mathematics', type: 'subject' },
+    { id: 'Beginner', label: 'Beginner', type: 'difficulty' },
+    { id: 'Intermediate', label: 'Intermediate', type: 'difficulty' },
+    { id: 'Advanced', label: 'Advanced', type: 'difficulty' },
+    { id: 'module', label: 'Module', type: 'type' },
+    { id: 'quiz', label: 'Quiz', type: 'type' },
+    { id: 'lab', label: 'Lab', type: 'type' }
   ];
 
   const toggleFilter = (filterId: string) => {
@@ -69,9 +72,9 @@ const SearchPage = () => {
   };
 
   // Convert selected filters to the format expected by SearchResults
-  const subjectFilters = selectedFilters.filter(f => ['physics', 'chemistry', 'mathematics'].includes(f));
-  const difficultyFilter = selectedFilters.find(f => ['beginner', 'intermediate', 'advanced'].includes(f)) || '';
-  const typeFilters = selectedFilters.filter(f => ['module', 'quiz', 'lab'].includes(f));
+  const subjectFilters = selectedFilters.filter(f => filters.find(filter => filter.type === 'subject' && filter.id === f));
+  const difficultyFilter = selectedFilters.find(f => filters.find(filter => filter.type === 'difficulty' && filter.id === f)) || '';
+  const typeFilters = selectedFilters.filter(f => filters.find(filter => filter.type === 'type' && filter.id === f));
 
   const filtersForResults = {
     subjects: subjectFilters,
@@ -88,36 +91,7 @@ const SearchPage = () => {
         </p>
       </div>
 
-      {/* Search Bar */}
-      <div className="flex gap-2">
-        <div className="relative flex-1">
-          <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
-          <Input
-            placeholder="Search for modules, quizzes, or labs..."
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            onKeyPress={handleKeyPress}
-            className="pl-8"
-          />
-        </div>
-        <Button onClick={handleSearchClick}>
-          Search
-        </Button>
-      </div>
 
-      {/* Filters */}
-      <div className="flex flex-wrap gap-2">
-        {filters.map(filter => (
-          <Badge
-            key={filter.id}
-            variant={selectedFilters.includes(filter.id) ? "default" : "outline"}
-            className="cursor-pointer"
-            onClick={() => toggleFilter(filter.id)}
-          >
-            {filter.label}
-          </Badge>
-        ))}
-      </div>
 
       {/* Search Bar */}
       <div className="flex gap-2">
@@ -150,43 +124,7 @@ const SearchPage = () => {
         ))}
       </div>
 
-      {/* Search Results Tabs */}
-      <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-4">
-        <TabsList>
-          <TabsTrigger value="all" className="flex items-center gap-2">
-            <Search className="h-4 w-4" />
-            All Results
-          </TabsTrigger>
-          <TabsTrigger value="module" className="flex items-center gap-2">
-            <BookOpen className="h-4 w-4" />
-            Modules
-          </TabsTrigger>
-          <TabsTrigger value="quiz" className="flex items-center gap-2">
-            <Trophy className="h-4 w-4" />
-            Quizzes
-          </TabsTrigger>
-          <TabsTrigger value="lab" className="flex items-center gap-2">
-            <Beaker className="h-4 w-4" />
-            Labs
-          </TabsTrigger>
-        </TabsList>
 
-        <TabsContent value="all" className="space-y-4">
-          <SearchResults query={searchTerm} filters={filtersForResults} resultType="all" />
-        </TabsContent>
-
-        <TabsContent value="module" className="space-y-4">
-          <SearchResults query={searchTerm} filters={filtersForResults} resultType="module" />
-        </TabsContent>
-
-        <TabsContent value="quiz" className="space-y-4">
-          <SearchResults query={searchTerm} filters={filtersForResults} resultType="quiz" />
-        </TabsContent>
-
-        <TabsContent value="lab" className="space-y-4">
-          <SearchResults query={searchTerm} filters={filtersForResults} resultType="lab" />
-        </TabsContent>
-      </Tabs>
 
       {/* Quick Access to Virtual Lab */}
       <Card className="border-2 border-blue-200 bg-gradient-to-r from-blue-50 to-purple-50 dark:from-blue-950 dark:to-purple-950">
@@ -218,25 +156,61 @@ const SearchPage = () => {
       </div>
 
       {/* Filters */}
-      <div className="space-y-3">
-        <h3 className="font-medium">Filters</h3>
-        <div className="flex flex-wrap gap-2">
-          {filters.map((filter) => (
-            <Badge
-              key={filter.id}
-              variant={selectedFilters.includes(filter.id) ? "default" : "outline"}
-              className="cursor-pointer"
-              onClick={() => toggleFilter(filter.id)}
-            >
-              {filter.label}
-            </Badge>
-          ))}
+      <div className="space-y-4">
+        <div className="space-y-3">
+          <h3 className="font-medium">Subject</h3>
+          <div className="flex flex-wrap gap-2">
+            {filters.filter(f => f.type === 'subject').map((filter) => (
+              <Badge
+                key={filter.id}
+                variant={selectedFilters.includes(filter.id) ? "default" : "outline"}
+                className="cursor-pointer"
+                onClick={() => toggleFilter(filter.id)}
+              >
+                {filter.label}
+              </Badge>
+            ))}
+          </div>
         </div>
+
+        <div className="space-y-3">
+          <h3 className="font-medium">Difficulty</h3>
+          <div className="flex flex-wrap gap-2">
+            {filters.filter(f => f.type === 'difficulty').map((filter) => (
+              <Badge
+                key={filter.id}
+                variant={selectedFilters.includes(filter.id) ? "default" : "outline"}
+                className="cursor-pointer"
+                onClick={() => toggleFilter(filter.id)}
+              >
+                {filter.label}
+              </Badge>
+            ))}
+          </div>
+        </div>
+
+        <div className="space-y-3">
+          <h3 className="font-medium">Content Type</h3>
+          <div className="flex flex-wrap gap-2">
+            {filters.filter(f => f.type === 'type').map((filter) => (
+              <Badge
+                key={filter.id}
+                variant={selectedFilters.includes(filter.id) ? "default" : "outline"}
+                className="cursor-pointer"
+                onClick={() => toggleFilter(filter.id)}
+              >
+                {filter.label}
+              </Badge>
+            ))}
+          </div>
+        </div>
+
         {selectedFilters.length > 0 && (
           <Button 
             variant="ghost" 
             size="sm" 
             onClick={() => setSelectedFilters([])}
+            className="mt-2"
           >
             Clear all filters
           </Button>
@@ -245,41 +219,65 @@ const SearchPage = () => {
 
       {/* Search Results */}
       <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-        <TabsList>
-          <TabsTrigger value="all">All Results</TabsTrigger>
-          <TabsTrigger value="module">Modules</TabsTrigger>
-          <TabsTrigger value="quiz">Quizzes</TabsTrigger>
-          <TabsTrigger value="lab">Labs</TabsTrigger>
+        <TabsList className="w-full justify-start border-b">
+          <TabsTrigger value="all" className="flex items-center gap-2">
+            <Search className="h-4 w-4" />
+            All Results
+          </TabsTrigger>
+          <TabsTrigger value="module" className="flex items-center gap-2">
+            <BookOpen className="h-4 w-4" />
+            Modules
+          </TabsTrigger>
+          <TabsTrigger value="quiz" className="flex items-center gap-2">
+            <Trophy className="h-4 w-4" />
+            Quizzes
+          </TabsTrigger>
+          <TabsTrigger value="lab" className="flex items-center gap-2">
+            <Beaker className="h-4 w-4" />
+            Labs
+          </TabsTrigger>
         </TabsList>
 
-        <TabsContent value="all" className="space-y-6">
+        <TabsContent value="all" className="mt-6">
           <SearchResults 
             query={searchTerm}
-            filters={filtersForResults}
+            filters={{
+              ...filtersForResults,
+              type: [] // Clear type filter for 'all' tab
+            }}
             resultType="all"
           />
         </TabsContent>
 
-        <TabsContent value="module">
+        <TabsContent value="module" className="mt-6">
           <SearchResults 
             query={searchTerm}
-            filters={filtersForResults}
+            filters={{
+              ...filtersForResults,
+              type: ['module']
+            }}
             resultType="module"
           />
         </TabsContent>
 
-        <TabsContent value="quiz">
+        <TabsContent value="quiz" className="mt-6">
           <SearchResults 
             query={searchTerm}
-            filters={filtersForResults}
+            filters={{
+              ...filtersForResults,
+              type: ['quiz']
+            }}
             resultType="quiz"
           />
         </TabsContent>
 
-        <TabsContent value="lab">
+        <TabsContent value="lab" className="mt-6">
           <SearchResults 
             query={searchTerm}
-            filters={filtersForResults}
+            filters={{
+              ...filtersForResults,
+              type: ['lab']
+            }}
             resultType="lab"
           />
         </TabsContent>

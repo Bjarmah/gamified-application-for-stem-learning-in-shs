@@ -87,7 +87,16 @@ const SearchResults: React.FC<SearchResultsProps> = ({ query, filters, resultTyp
 
           // Apply subject filters
           if (filters.subjects.length > 0) {
-            modulesQuery = modulesQuery.in('subject_id', filters.subjects);
+            // Get subject IDs from their names
+            const { data: subjectData } = await supabase
+              .from('subjects')
+              .select('id, name')
+              .in('name', filters.subjects);
+            
+            if (subjectData && subjectData.length > 0) {
+              const subjectIds = subjectData.map(subject => subject.id);
+              modulesQuery = modulesQuery.in('subject_id', subjectIds);
+            }
           }
 
           // Apply difficulty filter
@@ -111,7 +120,21 @@ const SearchResults: React.FC<SearchResultsProps> = ({ query, filters, resultTyp
 
           // Apply subject filters for quizzes through their modules
           if (filters.subjects.length > 0) {
-            quizzesQuery = quizzesQuery.in('module.subject_id', filters.subjects);
+            // Get subject IDs from their names
+            const { data: subjectData } = await supabase
+              .from('subjects')
+              .select('id, name')
+              .in('name', filters.subjects);
+            
+            if (subjectData && subjectData.length > 0) {
+              const subjectIds = subjectData.map(subject => subject.id);
+              quizzesQuery = quizzesQuery.in('module.subject_id', subjectIds);
+            }
+          }
+
+          // Apply difficulty filter
+          if (filters.difficulty) {
+            quizzesQuery = quizzesQuery.eq('difficulty', filters.difficulty);
           }
 
           const { data: quizzesData, error: quizzesError } = await quizzesQuery;
@@ -149,18 +172,46 @@ const SearchResults: React.FC<SearchResultsProps> = ({ query, filters, resultTyp
             content = [...content, ...quizItems];
           }
 
+          // Apply type filters from both filters prop and resultType
+          const typeFilters = new Set([...filters.type]);
+          if (resultType !== 'all') {
+            typeFilters.add(resultType);
+          }
+          if (typeFilters.size > 0) {
+            content = content.filter(item => typeFilters.has(item.type));
+          }
+
           // Filter content based on search query
           if (query) {
             const searchTerms = query.toLowerCase().split(' ').filter(term => term.length > 0);
             content = content.filter(item => {
               const searchableText = extractSearchableText(item);
-              return searchTerms.every(term => searchableText.includes(term));
+              // Check if any search term matches the searchable text
+              return searchTerms.some(term => {
+                // Check for exact matches first
+                if (item.title.toLowerCase().includes(term)) return true;
+                if (item.subject.toLowerCase() === term) return true;
+                // Then check the full searchable text
+                return searchableText.includes(term);
+              });
             });
           }
 
-          // Filter by type if specified
-          if (resultType !== 'all') {
-            content = content.filter(item => item.type === resultType);
+          // Sort results by relevance
+          if (query) {
+            const queryLower = query.toLowerCase();
+            content.sort((a, b) => {
+              const aTitle = a.title.toLowerCase();
+              const bTitle = b.title.toLowerCase();
+              // Exact title matches first
+              if (aTitle === queryLower && bTitle !== queryLower) return -1;
+              if (bTitle === queryLower && aTitle !== queryLower) return 1;
+              // Title contains query
+              if (aTitle.includes(queryLower) && !bTitle.includes(queryLower)) return -1;
+              if (bTitle.includes(queryLower) && !aTitle.includes(queryLower)) return 1;
+              // Default to alphabetical
+              return aTitle.localeCompare(bTitle);
+            });
           }
           
           console.log("Fetched real data:", content.length, "items");
