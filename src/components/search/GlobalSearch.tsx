@@ -13,6 +13,18 @@ import { Badge } from "@/components/ui/badge";
 import { Book, Calculator, Atom, FlaskConical, Activity, Search, Beaker } from "lucide-react";
 import { useAdaptiveLearning } from "@/hooks/use-offline-learning";
 import { DialogTitle } from "@/components/ui/dialog";
+import { supabase } from "@/lib/supabase/client";
+
+const extractSearchableText = (item: any): string => {
+  const textParts = [
+    item.title || '',
+    item.description || '',
+    item.subject || '',
+    Array.isArray(item.keywords) ? item.keywords.join(' ') : '',
+  ];
+  
+  return textParts.filter(Boolean).join(' ').toLowerCase();
+};
 
 interface GlobalSearchProps {
   isOpen: boolean;
@@ -43,61 +55,69 @@ const GlobalSearch: React.FC<GlobalSearchProps> = ({ isOpen, onClose }) => {
   useEffect(() => {
     if (isOpen) {
       setIsLoading(true);
-      
-      // Create mock data for consistent search results with focused keywords
-      const mockModules = [
-        {
-          id: "mod1",
-          title: "Introduction to Physics",
-          description: "Learn the basics of physics including waves and motion",
-          subject: "Physics",
-          difficulty: "Beginner",
-          type: "module",
-          duration: "30 minutes",
+      fetchSearchResults();
+    }
+  }, [isOpen]);
+
+  const fetchSearchResults = async () => {
+    try {
+      // Fetch modules
+      const { data: modulesData, error: modulesError } = await supabase
+        .from('modules')
+        .select(`
+          *,
+          subject:subjects(name, color)
+        `)
+        .order('order_index');
+
+      if (modulesError) throw modulesError;
+
+      // Fetch quizzes
+      const { data: quizzesData, error: quizzesError } = await supabase
+        .from('quizzes')
+        .select(`
+          *,
+          module:modules(
+            subject_id,
+            subject:subjects(name, color)
+          )
+        `);
+
+      if (quizzesError) throw quizzesError;
+
+      const results = [
+        ...(modulesData || []).map((module: any) => ({
+          id: module.id,
+          title: module.title,
+          description: module.description,
+          subject: module.subject?.name || '',
+          duration: module.duration,
+          difficulty: module.difficulty,
+          type: 'module',
+          keywords: module.keywords || [],
           isCompleted: false,
-          hasQuiz: true,
-          keywords: ["waves", "motion", "physics", "mechanics"]
-        },
-        {
-          id: "mod2",
-          title: "Algebra Fundamentals",
-          description: "Master algebra concepts",
-          subject: "Mathematics",
-          difficulty: "Intermediate",
-          type: "module",
-          duration: "45 minutes",
-          isCompleted: false,
-          hasQuiz: true,
-          keywords: ["algebra", "equations", "mathematics"]
-        },
-        {
-          id: "mod3",
-          title: "Chemical Bonding",
-          description: "Understanding chemical bonds and molecular structures",
-          subject: "Chemistry",
-          difficulty: "Intermediate",
-          type: "module",
-          duration: "35 minutes",
-          isCompleted: false,
-          hasQuiz: true,
-          keywords: ["chemistry", "bonding", "molecules", "structures"]
-        }
+          hasQuiz: false
+        })),
+        ...(quizzesData || []).map((quiz: any) => ({
+          id: quiz.id,
+          title: quiz.title,
+          description: quiz.description || '',
+          subject: quiz.module?.subject?.name || '',
+          duration: quiz.duration || '15 min',
+          difficulty: quiz.difficulty || 'Beginner',
+          type: 'quiz',
+          keywords: quiz.keywords || []
+        }))
       ];
-      
-      const mockQuizzes = [
-        {
-          id: "quiz1",
-          title: "Physics Quiz",
-          description: "Test your knowledge about waves and particles",
-          subject: "Physics",
-          difficulty: "Beginner",
-          type: "quiz",
-          duration: "15 minutes",
-          keywords: ["waves", "particles", "physics", "test"]
-        },
-        {
-          id: "quiz2",
-          title: "Chemistry Bonding Quiz",
+
+      setSearchResults(results);
+    } catch (error) {
+      console.error('Error fetching search results:', error);
+      setSearchResults([]);
+    } finally {
+      setIsLoading(false);
+    }
+  };
           description: "Test your knowledge of chemical bonding concepts",
           subject: "Chemistry",
           difficulty: "Intermediate", 
@@ -157,30 +177,26 @@ const GlobalSearch: React.FC<GlobalSearchProps> = ({ isOpen, onClose }) => {
     handleSearch(searchTerm);
   }, [searchTerm]);
 
-  const handleSearch = async (searchTerm: string) => {
-    if (!searchTerm.trim()) {
+  const handleSearch = async (term: string) => {
+    if (!term.trim()) {
       return;
     }
 
     setIsLoading(true);
     try {
-      // Mock data for search results with enhanced keywords coverage
-      const mockData = [
-        {
-          id: "mod1",
-          title: "Introduction to Physics",
-          description: "Learn the basics of physics including waves and motion",
-          subject: "Physics",
-          difficulty: "Beginner",
-          type: "module",
-          duration: "30 minutes",
-          isCompleted: false,
-          hasQuiz: true,
-          keywords: ["waves", "motion", "physics", "mechanics"]
-        },
-        {
-          id: "mod2",
-          title: "Algebra Fundamentals",
+      const searchableText = term.toLowerCase();
+      const filteredResults = searchResults.filter(item => {
+        const itemText = extractSearchableText(item);
+        return itemText.includes(searchableText);
+      });
+
+      setSearchResults(filteredResults);
+    } catch (error) {
+      console.error('Error searching:', error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
           description: "Master algebra concepts",
           subject: "Mathematics",
           difficulty: "Intermediate", 
@@ -319,11 +335,9 @@ const GlobalSearch: React.FC<GlobalSearchProps> = ({ isOpen, onClose }) => {
         navigate(`/${type}s/${id}`);
       }
     } else if (value === "advanced-search") {
-      if (searchTerm) {
-        navigate(`/search?q=${encodeURIComponent(searchTerm)}`);
-      } else {
-        navigate("/search");
-      }
+      const searchParams = new URLSearchParams();
+      searchParams.set('q', searchTerm);
+      navigate(`/search?${searchParams.toString()}`);
     } else if (value === "virtual-lab") {
       navigate("/virtual-lab");
     }
