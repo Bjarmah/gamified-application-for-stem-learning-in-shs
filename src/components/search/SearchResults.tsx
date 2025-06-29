@@ -77,19 +77,29 @@ const SearchResults: React.FC<SearchResultsProps> = ({ query, filters, resultTyp
         
         // Fetch real data from Supabase
         try {
-          // Fetch modules with subject information
-          const { data: modulesData, error: modulesError } = await supabase
+          let modulesQuery = supabase
             .from('modules')
             .select(`
               *,
               subject:subjects(name, color)
             `)
             .order('order_index');
+
+          // Apply subject filters
+          if (filters.subjects.length > 0) {
+            modulesQuery = modulesQuery.in('subject_id', filters.subjects);
+          }
+
+          // Apply difficulty filter
+          if (filters.difficulty) {
+            modulesQuery = modulesQuery.eq('difficulty', filters.difficulty);
+          }
+
+          const { data: modulesData, error: modulesError } = await modulesQuery;
           
           if (modulesError) throw modulesError;
           
-          // Fetch quizzes with module and subject information
-          const { data: quizzesData, error: quizzesError } = await supabase
+          let quizzesQuery = supabase
             .from('quizzes')
             .select(`
               *,
@@ -98,53 +108,59 @@ const SearchResults: React.FC<SearchResultsProps> = ({ query, filters, resultTyp
                 subject:subjects(name, color)
               )
             `);
+
+          // Apply subject filters for quizzes through their modules
+          if (filters.subjects.length > 0) {
+            quizzesQuery = quizzesQuery.in('module.subject_id', filters.subjects);
+          }
+
+          const { data: quizzesData, error: quizzesError } = await quizzesQuery;
           
           if (quizzesError) throw quizzesError;
-          
-          // Transform modules data
+
+          // Transform the data into ContentItems
           if (modulesData) {
-            modulesData.forEach(module => {
-              const moduleItem: ModuleContentItem = {
-                id: module.id,
-                title: module.title,
-                description: module.description || '',
-                subject: module.subject?.name || 'Unknown',
-                difficulty: module.difficulty_level || 'beginner',
-                duration: `${module.estimated_duration || 30} minutes`,
-                isCompleted: false, // This would come from user progress in a real app
-                hasQuiz: quizzesData?.some(quiz => quiz.module_id === module.id) || false,
-                keywords: [
-                  module.title.toLowerCase(),
-                  module.subject?.name.toLowerCase() || '',
-                  module.difficulty_level || '',
-                  ...(module.description?.toLowerCase().split(' ') || [])
-                ].filter(Boolean),
-                type: "module"
-              };
-              content.push(moduleItem);
+            const moduleItems = modulesData.map((module: any) => ({
+              id: module.id,
+              title: module.title,
+              description: module.description,
+              subject: module.subject?.name || '',
+              duration: module.duration,
+              difficulty: module.difficulty,
+              type: 'module',
+              keywords: module.keywords || [],
+              isCompleted: false,
+              hasQuiz: false
+            }));
+            content = [...content, ...moduleItems];
+          }
+
+          if (quizzesData) {
+            const quizItems = quizzesData.map((quiz: any) => ({
+              id: quiz.id,
+              title: quiz.title,
+              description: quiz.description || '',
+              subject: quiz.module?.subject?.name || '',
+              duration: quiz.duration || '10 min',
+              difficulty: quiz.difficulty || 'Beginner', 
+              type: 'quiz',
+              keywords: quiz.keywords || []
+            }));
+            content = [...content, ...quizItems];
+          }
+
+          // Filter content based on search query
+          if (query) {
+            const searchTerms = query.toLowerCase().split(' ').filter(term => term.length > 0);
+            content = content.filter(item => {
+              const searchableText = extractSearchableText(item);
+              return searchTerms.every(term => searchableText.includes(term));
             });
           }
-          
-          // Transform quizzes data
-          if (quizzesData) {
-            quizzesData.forEach(quiz => {
-              const quizItem: QuizLabContentItem = {
-                id: quiz.id,
-                title: quiz.title,
-                description: quiz.description || '',
-                subject: quiz.module?.subject?.name || 'Unknown',
-                difficulty: 'intermediate', // Default since quizzes don't have difficulty in schema
-                duration: `${quiz.time_limit ? Math.ceil(quiz.time_limit / 60) : 15} minutes`,
-                keywords: [
-                  quiz.title.toLowerCase(),
-                  quiz.module?.subject?.name.toLowerCase() || '',
-                  'quiz', 'test', 'assessment',
-                  ...(quiz.description?.toLowerCase().split(' ') || [])
-                ].filter(Boolean),
-                type: "quiz"
-              };
-              content.push(quizItem);
-            });
+
+          // Filter by type if specified
+          if (resultType !== 'all') {
+            content = content.filter(item => item.type === resultType);
           }
           
           console.log("Fetched real data:", content.length, "items");

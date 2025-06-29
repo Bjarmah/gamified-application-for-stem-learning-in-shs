@@ -28,18 +28,27 @@ const SearchPage = () => {
   // Handle Enter key press for search
   const handleKeyPress = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter') {
-      // Force a re-render of SearchResults by updating the search term
       const trimmedTerm = searchTerm.trim();
-      setSearchTerm(trimmedTerm);
-      console.log("Search initiated for:", trimmedTerm);
+      if (trimmedTerm) {
+        setSearchTerm(trimmedTerm);
+        // Update URL with search query
+        const params = new URLSearchParams(window.location.search);
+        params.set('q', trimmedTerm);
+        navigate(`/search?${params.toString()}`);
+      }
     }
   };
 
   // Handle search button click
   const handleSearchClick = () => {
     const trimmedTerm = searchTerm.trim();
-    setSearchTerm(trimmedTerm);
-    console.log("Search clicked for:", trimmedTerm);
+    if (trimmedTerm) {
+      setSearchTerm(trimmedTerm);
+      // Update URL with search query
+      const params = new URLSearchParams(window.location.search);
+      params.set('q', trimmedTerm);
+      navigate(`/search?${params.toString()}`);
+    }
   };
 
   const filters = [
@@ -79,6 +88,106 @@ const SearchPage = () => {
         </p>
       </div>
 
+      {/* Search Bar */}
+      <div className="flex gap-2">
+        <div className="relative flex-1">
+          <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
+          <Input
+            placeholder="Search for modules, quizzes, or labs..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            onKeyPress={handleKeyPress}
+            className="pl-8"
+          />
+        </div>
+        <Button onClick={handleSearchClick}>
+          Search
+        </Button>
+      </div>
+
+      {/* Filters */}
+      <div className="flex flex-wrap gap-2">
+        {filters.map(filter => (
+          <Badge
+            key={filter.id}
+            variant={selectedFilters.includes(filter.id) ? "default" : "outline"}
+            className="cursor-pointer"
+            onClick={() => toggleFilter(filter.id)}
+          >
+            {filter.label}
+          </Badge>
+        ))}
+      </div>
+
+      {/* Search Bar */}
+      <div className="flex gap-2">
+        <div className="relative flex-1">
+          <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
+          <Input
+            placeholder="Search for modules, quizzes, or labs..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            onKeyPress={handleKeyPress}
+            className="pl-8"
+          />
+        </div>
+        <Button onClick={handleSearchClick}>
+          Search
+        </Button>
+      </div>
+
+      {/* Filters */}
+      <div className="flex flex-wrap gap-2">
+        {filters.map(filter => (
+          <Badge
+            key={filter.id}
+            variant={selectedFilters.includes(filter.id) ? "default" : "outline"}
+            className="cursor-pointer"
+            onClick={() => toggleFilter(filter.id)}
+          >
+            {filter.label}
+          </Badge>
+        ))}
+      </div>
+
+      {/* Search Results Tabs */}
+      <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-4">
+        <TabsList>
+          <TabsTrigger value="all" className="flex items-center gap-2">
+            <Search className="h-4 w-4" />
+            All Results
+          </TabsTrigger>
+          <TabsTrigger value="module" className="flex items-center gap-2">
+            <BookOpen className="h-4 w-4" />
+            Modules
+          </TabsTrigger>
+          <TabsTrigger value="quiz" className="flex items-center gap-2">
+            <Trophy className="h-4 w-4" />
+            Quizzes
+          </TabsTrigger>
+          <TabsTrigger value="lab" className="flex items-center gap-2">
+            <Beaker className="h-4 w-4" />
+            Labs
+          </TabsTrigger>
+        </TabsList>
+
+        <TabsContent value="all" className="space-y-4">
+          <SearchResults query={searchTerm} filters={filtersForResults} resultType="all" />
+        </TabsContent>
+
+        <TabsContent value="module" className="space-y-4">
+          <SearchResults query={searchTerm} filters={filtersForResults} resultType="module" />
+        </TabsContent>
+
+        <TabsContent value="quiz" className="space-y-4">
+          <SearchResults query={searchTerm} filters={filtersForResults} resultType="quiz" />
+        </TabsContent>
+
+        <TabsContent value="lab" className="space-y-4">
+          <SearchResults query={searchTerm} filters={filtersForResults} resultType="lab" />
+        </TabsContent>
+      </Tabs>
+
       {/* Quick Access to Virtual Lab */}
       <Card className="border-2 border-blue-200 bg-gradient-to-r from-blue-50 to-purple-50 dark:from-blue-950 dark:to-purple-950">
         <CardHeader>
@@ -96,31 +205,16 @@ const SearchPage = () => {
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <Button 
+          <Button
+            variant="outline" 
             onClick={() => navigate('/virtual-lab')}
-            className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700"
+            className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white"
           >
-            Access Virtual Lab
+            Launch Virtual Lab
           </Button>
         </CardContent>
       </Card>
-
-      {/* Search Bar */}
-      <div className="flex flex-col sm:flex-row gap-4">
-        <div className="relative flex-1">
-          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-          <Input
-            placeholder="Search for modules, quizzes, or study rooms..."
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            onKeyPress={handleKeyPress}
-            className="pl-10"
-          />
-        </div>
-        <Button onClick={handleSearchClick} className="shrink-0">
-          <Search className="h-4 w-4 mr-2" />
-          Search
-        </Button>
+        
       </div>
 
       {/* Filters */}
