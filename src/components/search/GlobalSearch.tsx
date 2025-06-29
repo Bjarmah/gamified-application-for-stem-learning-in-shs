@@ -31,19 +31,7 @@ interface GlobalSearchProps {
   onClose: () => void;
 }
 
-// Helper function to extract keywords from content
-const extractSearchableText = (item: any): string => {
-  const textParts = [
-    item.title || '',
-    item.description || '',
-    item.subject || '',
-    Array.isArray(item.keywords) ? item.keywords.join(' ') : '',
-    item.content || '',  // Check for any content field
-    // Add any additional fields that might contain searchable text
-  ];
-  
-  return textParts.filter(Boolean).join(' ').toLowerCase();
-};
+
 
 const GlobalSearch: React.FC<GlobalSearchProps> = ({ isOpen, onClose }) => {
   const navigate = useNavigate();
@@ -118,135 +106,117 @@ const GlobalSearch: React.FC<GlobalSearchProps> = ({ isOpen, onClose }) => {
       setIsLoading(false);
     }
   };
-          description: "Test your knowledge of chemical bonding concepts",
-          subject: "Chemistry",
-          difficulty: "Intermediate", 
-          type: "quiz",
-          duration: "20 minutes",
-          keywords: ["chemistry", "bonding", "molecules", "test"]
-        }
-      ];
-      
-      // Try to get real data if available
-      getRecommendations([], [])
-        .then(content => {
-          // If we have real data, use it
-          if (content.modules.length > 0 || content.quizzes.length > 0) {
-            // Convert to consistent format
-            const formattedModules = content.modules.map(module => ({
-              ...module,
-              duration: module.duration || "30 minutes",
-              isCompleted: module.isCompleted || false,
-              hasQuiz: module.hasQuiz || false,
-              keywords: module.keywords || []
-            }));
 
-            const formattedQuizzes = content.quizzes.map(quiz => ({
-              ...quiz,
-              duration: quiz.duration || "15 minutes",
-              keywords: quiz.keywords || []
-            }));
-
-            const combinedResults = [...formattedModules, ...formattedQuizzes].slice(0, 5);
-              
-            console.log("Global search using real data:", combinedResults.length);
-            setSearchResults(combinedResults);
-          } else {
-            // Otherwise use the mock data
-            console.log("Global search using mock data");
-            setSearchResults([...mockModules, ...mockQuizzes].slice(0, 5));
-          }
-        })
-        .catch(err => {
-          console.error("Error loading search suggestions:", err);
-          setSearchResults([...mockModules, ...mockQuizzes].slice(0, 5));
-        })
-        .finally(() => {
-          setIsLoading(false);
-        });
-    } else {
-      // Clear search term when dialog is closed
-      setSearchTerm("");
-    }
-  }, [isOpen]);
 
   // Effect to filter results when searchTerm changes
   useEffect(() => {
-    if (!searchTerm.trim()) return;
-    
-    handleSearch(searchTerm);
-  }, [searchTerm]);
-
-  const handleSearch = async (term: string) => {
-    if (!term.trim()) {
+    if (!searchTerm.trim()) {
+      fetchSearchResults(); // Reset to all results when search is cleared
       return;
     }
+    
+    const searchableText = searchTerm.toLowerCase();
+    const filteredResults = searchResults.filter(item => {
+      const itemText = extractSearchableText(item);
+      return itemText.includes(searchableText);
+    });
 
-    setIsLoading(true);
-    try {
-      const searchableText = term.toLowerCase();
-      const filteredResults = searchResults.filter(item => {
-        const itemText = extractSearchableText(item);
-        return itemText.includes(searchableText);
-      });
+    setSearchResults(filteredResults);
+  }, [searchTerm]);
 
-      setSearchResults(filteredResults);
-    } catch (error) {
-      console.error('Error searching:', error);
-    } finally {
-      setIsLoading(false);
-    }
+  const handleSearch = (term: string) => {
+    setSearchTerm(term);
   };
-          description: "Master algebra concepts",
-          subject: "Mathematics",
-          difficulty: "Intermediate", 
-          type: "module",
-          duration: "45 minutes",
-          isCompleted: false,
-          hasQuiz: true,
-          keywords: ["algebra", "equations", "mathematics"]
-        },
-        {
-          id: "mod3",
-          title: "Chemical Bonding",
-          description: "Understanding chemical bonds and molecular structures",
-          subject: "Chemistry",
-          difficulty: "Intermediate",
-          type: "module",
-          duration: "35 minutes",
-          isCompleted: false,
-          hasQuiz: true,
-          keywords: ["chemistry", "bonding", "molecules", "structures"]
-        },
-        {
-          id: "quiz1",
-          title: "Physics Quiz",
-          description: "Test your knowledge about waves and particles",
-          subject: "Physics",
-          difficulty: "Beginner",
-          type: "quiz",
-          duration: "15 minutes",
-          keywords: ["waves", "particles", "physics", "test"]
-        },
-        {
-          id: "quiz2",
-          title: "Chemistry Bonding Quiz",
-          description: "Test your knowledge of chemical bonding concepts",
-          subject: "Chemistry",
-          difficulty: "Intermediate", 
-          type: "quiz",
-          duration: "20 minutes",
-          keywords: ["chemistry", "bonding", "molecules", "test"]
-        },
-        {
-          id: "lab1",
-          title: "Chemistry Lab",
-          description: "Virtual chemistry experiments on chemical bonding",
-          subject: "Chemistry",
-          difficulty: "Advanced",
-          type: "lab",
-          duration: "60 minutes",
-          keywords: ["chemistry", "experiment", "bonding", "molecules"]
+          
+          useEffect(() => {
+    if (!isOpen) {
+      setSearchTerm('');
+      setSearchResults([]);
+    }
+  }, [isOpen]); 
+          return (
+    <CommandDialog open={isOpen} onOpenChange={onClose}>
+      <DialogTitle className="text-lg font-semibold mb-2">Search Content</DialogTitle>
+      <CommandInput
+        placeholder="Search modules, quizzes, and more..."
+        value={searchTerm}
+        onValueChange={handleSearch}
+      />
+      <CommandList>
+        <CommandEmpty>No results found.</CommandEmpty>
+        {isLoading ? (
+          <CommandGroup heading="Loading...">
+            <CommandItem disabled>Searching...</CommandItem>
+          </CommandGroup>
+        ) : (
+          <>
+            {searchResults.length > 0 && (
+              <CommandGroup heading="Results">
+                {searchResults.map((item) => (
+                  <CommandItem
+                    key={item.id}
+                    value={item.title}
+                    onSelect={() => handleSelect(item)}
+                  >
+                    <div className="flex items-center gap-2">
+                      {item.type === 'module' ? (
+                        <Book className="h-4 w-4" />
+                      ) : (
+                        <FlaskConical className="h-4 w-4" />
+                      )}
+                      <span>{item.title}</span>
+                      {item.subject && (
+                        <Badge variant="outline" className="ml-2">
+                          {item.subject}
+                        </Badge>
+                      )}
+                    </div>
+                  </CommandItem>
+                ))}
+              </CommandGroup>
+            )}
+            <CommandSeparator />
+            <CommandGroup heading="Quick Actions">
+              <CommandItem
+                value="advanced-search"
+                onSelect={() => handleSelect({ type: 'advanced-search' })}
+              >
+                <Search className="mr-2 h-4 w-4" />
+                <span>Advanced Search</span>
+              </CommandItem>
+              <CommandItem
+                value="virtual-lab"
+                onSelect={() => handleSelect({ type: 'virtual-lab' })}
+              >
+                <Beaker className="mr-2 h-4 w-4" />
+                <span>Virtual Laboratory</span>
+              </CommandItem>
+            </CommandGroup>
+          </>
+        )}
+      </CommandList>
+    </CommandDialog>
+  );
+          }
+          
+        
+          
+          
+          
+          
+          
+        
+
+
+          
+          
+          
+          
+        
+          
+          
+          
+          
         }
       ];
       
