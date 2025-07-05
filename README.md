@@ -1,6 +1,6 @@
 # Welcome to your Lovable project
 
-## Project info....
+## Project info......
 
 This project is a gamified application for STEM learning in SHS. It is designed to help students learn the basics of science, technology, engineering, and math (STEM) in a fun and interactive way. The application is divided into three levels: Level 1, Level 2, and Level 3. Each level has a different set of activities that students can complete. The activities are designed to be fun and challenging, but also help students to understand the basics of STEM.
 
