@@ -101,7 +101,7 @@ const SearchResults: React.FC<SearchResultsProps> = ({ query, filters, resultTyp
 
           // Apply difficulty filter
           if (filters.difficulty) {
-            modulesQuery = modulesQuery.eq('difficulty', filters.difficulty);
+            modulesQuery = modulesQuery.eq('difficulty_level', filters.difficulty);
           }
 
           const { data: modulesData, error: modulesError } = await modulesQuery;
@@ -132,25 +132,20 @@ const SearchResults: React.FC<SearchResultsProps> = ({ query, filters, resultTyp
             }
           }
 
-          // Apply difficulty filter
-          if (filters.difficulty) {
-            quizzesQuery = quizzesQuery.eq('difficulty', filters.difficulty);
-          }
-
           const { data: quizzesData, error: quizzesError } = await quizzesQuery;
           
           if (quizzesError) throw quizzesError;
 
           // Transform the data into ContentItems
           if (modulesData) {
-            const moduleItems = modulesData.map((module: any) => ({
+            const moduleItems: ModuleContentItem[] = modulesData.map((module: any) => ({
               id: module.id,
               title: module.title,
               description: module.description,
               subject: module.subject?.name || '',
               duration: module.duration,
               difficulty: module.difficulty,
-              type: 'module',
+              type: 'module' as const,
               keywords: module.keywords || [],
               isCompleted: false,
               hasQuiz: false
@@ -159,14 +154,14 @@ const SearchResults: React.FC<SearchResultsProps> = ({ query, filters, resultTyp
           }
 
           if (quizzesData) {
-            const quizItems = quizzesData.map((quiz: any) => ({
+            const quizItems: QuizLabContentItem[] = quizzesData.map((quiz: any) => ({
               id: quiz.id,
               title: quiz.title,
               description: quiz.description || '',
               subject: quiz.module?.subject?.name || '',
               duration: quiz.duration || '10 min',
               difficulty: quiz.difficulty || 'Beginner', 
-              type: 'quiz',
+              type: 'quiz' as const,
               keywords: quiz.keywords || []
             }));
             content = [...content, ...quizItems];
