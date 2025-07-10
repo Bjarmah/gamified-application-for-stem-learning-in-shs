@@ -89,7 +89,7 @@ export const storeModule = async (module: StoredModule): Promise<void> => {
     }
     
     await set(MODULES_STORE, modules);
-    console.log(`Module ${module.id} saved for offline use`);
+    
   } catch (error) {
     console.error(`Failed to store module ${module.id}:`, error);
     throw error;
@@ -129,7 +129,7 @@ export const storeQuiz = async (quiz: StoredQuiz): Promise<void> => {
     }
     
     await set(QUIZZES_STORE, quizzes);
-    console.log(`Quiz ${quiz.id} saved for offline use`);
+    
   } catch (error) {
     console.error(`Failed to store quiz ${quiz.id}:`, error);
     throw error;
@@ -311,7 +311,7 @@ export const getLastSyncTime = async (): Promise<number> => {
 export const clearOfflineStorage = async (): Promise<void> => {
   try {
     await clear();
-    console.log('Offline storage cleared');
+    
   } catch (error) {
     console.error('Failed to clear offline storage:', error);
   }

@@ -61,7 +61,7 @@ const RoomDetail = () => {
 
   const sendMessage = () => {
     if (message.trim()) {
-      console.log('Sending message:', message);
+      
       setMessage('');
     }
   };

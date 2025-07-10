@@ -122,7 +122,7 @@ export function useOfflineLearning() {
       };
       
       await set(`progress_${moduleId}`, progress);
-      console.log('Progress saved offline:', progress);
+      
       
       // Try to sync immediately if online
       if (navigator.onLine) {
@@ -160,7 +160,7 @@ export function useOfflineLearning() {
             ...progress,
             synced: true
           });
-          console.log('Progress synced:', progress.moduleId);
+          
         } catch (error) {
           console.error('Failed to sync progress for module:', progress.moduleId, error);
         }

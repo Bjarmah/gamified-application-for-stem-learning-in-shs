@@ -4,7 +4,7 @@ export const registerServiceWorker = async () => {
   if ('serviceWorker' in navigator) {
     try {
       const registration = await navigator.serviceWorker.register('/sw.js');
-      console.log('Service Worker registered successfully:', registration);
+      
       
       // Listen for updates
       registration.addEventListener('updatefound', () => {
@@ -13,7 +13,7 @@ export const registerServiceWorker = async () => {
           newWorker.addEventListener('statechange', () => {
             if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
               // New content is available
-              console.log('New content available');
+              
               showUpdateNotification();
             }
           });
@@ -33,7 +33,7 @@ export const unregisterServiceWorker = async () => {
       const registration = await navigator.serviceWorker.getRegistration();
       if (registration) {
         await registration.unregister();
-        console.log('Service Worker unregistered');
+        
       }
     } catch (error) {
       console.error('Service Worker unregistration failed:', error);
@@ -53,7 +53,7 @@ if ('serviceWorker' in navigator) {
   navigator.serviceWorker.addEventListener('message', (event) => {
     if (event.data.type === 'SYNC_PENDING_DATA') {
       // Handle sync request from service worker
-      console.log('Sync request received from service worker');
+      
       // This would trigger your sync logic
     }
   });

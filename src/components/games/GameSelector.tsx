@@ -106,14 +106,14 @@ const GameSelector: React.FC<GameSelectorProps> = ({ subject, moduleId, onGameCo
   const games = getGamesForSubject(subject);
 
   const startGame = (gameId: string, gameName: string) => {
-    console.log(`Starting game: ${gameId} (${gameName}) for module: ${moduleId} in subject: ${subject}`);
+    
     setSelectedGame(gameId);
     setIsPlaying(true);
     setGameScore(0);
   };
 
   const handleScoreUpdate = (score: number) => {
-    console.log(`Score updated: ${score}`);
+    
     setGameScore(score);
     setTotalXP(prev => {
       const newXP = Math.max(prev, score);
@@ -156,12 +156,12 @@ const GameSelector: React.FC<GameSelectorProps> = ({ subject, moduleId, onGameCo
 
   const handleGameComplete = (score: number, timeSpent: number) => {
     setIsPlaying(false);
-    console.log(`Game completed! Module: ${moduleId}, Score: ${score}, Time: ${timeSpent}s`);
+    
     onGameComplete?.(score, timeSpent);
   };
 
   const backToGameSelection = () => {
-    console.log('Returning to game selection');
+    
     setSelectedGame(null);
     setIsPlaying(false);
     setGameScore(0);

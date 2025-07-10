@@ -14,8 +14,7 @@ const VirtualLab = () => {
   const [activeExperiment, setActiveExperiment] = useState<string | null>(null);
 
   useEffect(() => {
-    console.log('VirtualLab component mounted');
-    console.log('Current path:', window.location.pathname);
+    // Component mounted
   }, []);
 
   const experiments = {
@@ -95,7 +94,7 @@ const VirtualLab = () => {
 
   if (activeExperiment) {
     const [subject, experimentId] = activeExperiment.split('-', 2);
-    console.log('Active experiment:', activeExperiment, 'Subject:', subject, 'ID:', experimentId);
+    
     
     return (
       <div className="min-h-screen bg-background">
@@ -204,7 +203,6 @@ const VirtualLab = () => {
                         <Button 
                           className="w-full"
                           onClick={() => {
-                            console.log('Starting experiment:', `${subject}-${experiment.id}`);
                             setActiveExperiment(`${subject}-${experiment.id}`);
                           }}
                           aria-label={experiment.ariaLabel}

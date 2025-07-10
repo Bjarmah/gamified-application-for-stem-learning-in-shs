@@ -108,7 +108,7 @@ const ModuleDetail = () => {
   };
 
   const handleStartLearning = () => {
-    console.log(`Starting interactive learning for module: ${module?.title}`);
+    
     setIsGameActive(true);
   };
 

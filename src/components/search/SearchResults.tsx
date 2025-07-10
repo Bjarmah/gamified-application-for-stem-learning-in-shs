@@ -71,7 +71,7 @@ const SearchResults: React.FC<SearchResultsProps> = ({ query, filters, resultTyp
     const fetchResults = async () => {
       setIsLoading(true);
       try {
-        console.log("Search params:", { query, filters, resultType });
+        
         
         let content: ContentItem[] = [];
         
@@ -209,7 +209,7 @@ const SearchResults: React.FC<SearchResultsProps> = ({ query, filters, resultTyp
             });
           }
           
-          console.log("Fetched real data:", content.length, "items");
+          
         } catch (err) {
           console.error("Error fetching real data:", err);
           toast({
@@ -222,12 +222,12 @@ const SearchResults: React.FC<SearchResultsProps> = ({ query, filters, resultTyp
           return;
         }
         
-        console.log("Initial content count:", content.length);
+        
         
         // Filter by query with improved search logic
         if (query.trim()) {
           const lowerQuery = query.toLowerCase().trim();
-          console.log("Searching for:", lowerQuery);
+          
           
           const queryWords = lowerQuery.split(' ').filter(word => word.length > 0);
           
@@ -241,12 +241,12 @@ const SearchResults: React.FC<SearchResultsProps> = ({ query, filters, resultTyp
                      item.subject.toLowerCase().includes(word);
             });
             
-            console.log(`Item ${item.id} (${item.title}) - Match: ${hasMatch}`);
+            
             return hasMatch;
           });
         }
         
-        console.log("After query filter:", content.length);
+        
         
         // Filter by subject
         if (filters.subjects.length > 0) {
@@ -255,7 +255,7 @@ const SearchResults: React.FC<SearchResultsProps> = ({ query, filters, resultTyp
               item.subject.toLowerCase() === subject.toLowerCase()
             )
           );
-          console.log("After subject filter:", content.length);
+          
         }
         
         // Filter by difficulty
@@ -263,7 +263,7 @@ const SearchResults: React.FC<SearchResultsProps> = ({ query, filters, resultTyp
           content = content.filter((item: ContentItem) => 
             item.difficulty && item.difficulty.toLowerCase() === filters.difficulty.toLowerCase()
           );
-          console.log("After difficulty filter:", content.length);
+          
         }
         
         // Filter by content type from filters
@@ -273,7 +273,7 @@ const SearchResults: React.FC<SearchResultsProps> = ({ query, filters, resultTyp
               item.type.toLowerCase() === type.toLowerCase()
             )
           );
-          console.log("After type filter:", content.length);
+          
         }
         
         // Filter by result type tab
@@ -281,16 +281,9 @@ const SearchResults: React.FC<SearchResultsProps> = ({ query, filters, resultTyp
           content = content.filter((item: ContentItem) => 
             item.type && item.type.toLowerCase() === resultType.toLowerCase()
           );
-          console.log("After result type filter:", content.length);
+          
         }
         
-        console.log("Final search results:", {
-          query,
-          filters,
-          resultType,
-          contentCount: content.length,
-          results: content.map(c => ({ id: c.id, title: c.title, type: c.type, subject: c.subject }))
-        });
         
         // Simulate API delay
         await new Promise(resolve => setTimeout(resolve, 300));

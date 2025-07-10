@@ -20,31 +20,31 @@ const isOnline = (): boolean => {
 // Register event listeners for online/offline events
 export const initNetworkListeners = (): void => {
   window.addEventListener('online', () => {
-    console.log('🌐 App is online. Starting sync...');
+    
     syncData();
   });
   
   window.addEventListener('offline', () => {
-    console.log('⚠️ App is offline. Data will be synced when connection is restored.');
+    
   });
 };
 
 // Process the sync queue
 export const syncData = async (): Promise<void> => {
   if (!isOnline()) {
-    console.log('Cannot sync data: device is offline');
+    
     return;
   }
   
   const queue = await getSyncQueue();
   
   if (queue.length === 0) {
-    console.log('Sync queue is empty');
+    
     await setLastSyncTime();
     return;
   }
   
-  console.log(`Processing sync queue: ${queue.length} items`);
+  
   
   // Process each item in the queue
   for (const item of queue) {
@@ -68,7 +68,7 @@ export const syncData = async (): Promise<void> => {
       }
       
       // In a real app, this would be a fetch call to your API
-      console.log(`Syncing item ${item.id} to ${endpoint}`);
+      
       
       // Mock successful API call
       // In production, replace with actual API call:
@@ -89,7 +89,7 @@ export const syncData = async (): Promise<void> => {
       
       // If successful (in this mock implementation), remove from queue
       await removeSyncQueueItem(item.id);
-      console.log(`Successfully synced item ${item.id}`);
+      
     } catch (error) {
       console.error(`Failed to sync item ${item.id}:`, error);
       
