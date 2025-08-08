@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { 
-  CommandDialog, 
-  CommandInput, 
-  CommandList, 
-  CommandEmpty, 
-  CommandGroup, 
-  CommandItem, 
-  CommandSeparator 
+import {
+  CommandDialog,
+  CommandInput,
+  CommandList,
+  CommandEmpty,
+  CommandGroup,
+  CommandItem,
+  CommandSeparator
 } from "@/components/ui/command";
 import { Badge } from "@/components/ui/badge";
 import { Book, Calculator, Atom, FlaskConical, Activity, Search, Beaker } from "lucide-react";
@@ -21,7 +21,7 @@ const extractSearchableText = (item: any): string => {
     item.subject || '',
     Array.isArray(item.keywords) ? item.keywords.join(' ') : '',
   ];
-  
+
   return textParts.filter(Boolean).join(' ').toLowerCase();
 };
 
@@ -82,8 +82,9 @@ const GlobalSearch: React.FC<GlobalSearchProps> = ({ isOpen, onClose }) => {
           title: module.title,
           description: module.description,
           subject: module.subject?.name || '',
-          duration: module.duration,
-          difficulty: module.difficulty,
+          duration: `${module.estimated_duration || 30} minutes`,
+          difficulty: module.difficulty_level ?
+            (module.difficulty_level.charAt(0).toUpperCase() + module.difficulty_level.slice(1)) : 'Beginner',
           type: 'module',
           keywords: module.keywords || [],
           isCompleted: false,
@@ -94,8 +95,8 @@ const GlobalSearch: React.FC<GlobalSearchProps> = ({ isOpen, onClose }) => {
           title: quiz.title,
           description: quiz.description || '',
           subject: quiz.module?.subject?.name || '',
-          duration: quiz.duration || '15 min',
-          difficulty: quiz.difficulty || 'Beginner',
+          duration: `${Math.ceil((quiz.time_limit || 300) / 60)} minutes`,
+          difficulty: 'Beginner', // Default since quizzes don't have difficulty in schema
           type: 'quiz',
           keywords: quiz.keywords || []
         }))
@@ -116,7 +117,7 @@ const GlobalSearch: React.FC<GlobalSearchProps> = ({ isOpen, onClose }) => {
       fetchSearchResults(); // Reset to all results when search is cleared
       return;
     }
-    
+
     const searchableText = searchTerm.toLowerCase();
     const filteredResults = searchResults.filter(item => {
       const itemText = extractSearchableText(item);
@@ -157,7 +158,7 @@ const GlobalSearch: React.FC<GlobalSearchProps> = ({ isOpen, onClose }) => {
   };
 
   const getSubjectIcon = (subject: string) => {
-    switch(subject?.toLowerCase()) {
+    switch (subject?.toLowerCase()) {
       case "mathematics":
         return <Calculator className="h-4 w-4 mr-2" />;
       case "physics":
@@ -230,7 +231,7 @@ const GlobalSearch: React.FC<GlobalSearchProps> = ({ isOpen, onClose }) => {
                     <span>Computer Science</span>
                   </CommandItem>
                 </CommandGroup>
-                
+
                 <CommandSeparator />
               </>
             )}

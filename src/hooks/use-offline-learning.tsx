@@ -61,14 +61,14 @@ export function useOfflineLearning() {
     try {
       const moduleKeys = await keys();
       const modules: OfflineModule[] = [];
-      
+
       for (const key of moduleKeys) {
         if (typeof key === 'string' && key.startsWith('module_')) {
           const module = await get(key);
           if (module) modules.push(module);
         }
       }
-      
+
       setOfflineModules(modules);
     } catch (error) {
       console.error('Failed to load offline modules:', error);
@@ -81,10 +81,10 @@ export function useOfflineLearning() {
         ...module,
         downloadedAt: new Date().toISOString()
       };
-      
+
       await set(`module_${module.id}`, offlineModule);
       setOfflineModules(prev => [...prev, offlineModule]);
-      
+
       toast({
         title: "Module downloaded! 📥",
         description: `${module.title} is now available offline.`,
@@ -102,7 +102,7 @@ export function useOfflineLearning() {
     try {
       await del(`module_${moduleId}`);
       setOfflineModules(prev => prev.filter(m => m.id !== moduleId));
-      
+
       toast({
         title: "Module removed",
         description: "Module has been removed from offline storage.",
@@ -120,10 +120,9 @@ export function useOfflineLearning() {
         lastUpdated: new Date().toISOString(),
         synced: false
       };
-      
+
       await set(`progress_${moduleId}`, progress);
-      
-      
+
       // Try to sync immediately if online
       if (navigator.onLine) {
         syncOfflineProgress();
@@ -135,13 +134,13 @@ export function useOfflineLearning() {
 
   const syncOfflineProgress = async () => {
     if (!navigator.onLine) return;
-    
+
     setSyncStatus('syncing');
-    
+
     try {
       const progressKeys = await keys();
       const unsyncedProgress = [];
-      
+
       for (const key of progressKeys) {
         if (typeof key === 'string' && key.startsWith('progress_')) {
           const progress = await get(key);
@@ -150,7 +149,7 @@ export function useOfflineLearning() {
           }
         }
       }
-      
+
       // Sync each unsynced progress entry
       for (const progress of unsyncedProgress) {
         try {
@@ -160,14 +159,14 @@ export function useOfflineLearning() {
             ...progress,
             synced: true
           });
-          
+
         } catch (error) {
           console.error('Failed to sync progress for module:', progress.moduleId, error);
         }
       }
-      
+
       setSyncStatus('idle');
-      
+
       if (unsyncedProgress.length > 0) {
         toast({
           title: "Progress synced! ✅",
@@ -194,19 +193,20 @@ export function useOfflineLearning() {
 
   const clearOfflineData = async () => {
     try {
-      const allKeys = await keys();
-      const keysToDelete = allKeys.filter(key => 
-        typeof key === 'string' && (key.startsWith('module_') || key.startsWith('progress_'))
+      const keys = await keys();
+      const moduleKeys = keys.filter(key =>
+        typeof key === 'string' && key.startsWith('module_')
       );
-      
-      for (const key of keysToDelete) {
+
+      for (const key of moduleKeys) {
         await del(key);
       }
-      
+
       setOfflineModules([]);
+
       toast({
         title: "Offline data cleared",
-        description: "All offline content has been removed.",
+        description: "All downloaded modules have been removed.",
       });
     } catch (error) {
       console.error('Failed to clear offline data:', error);
@@ -214,100 +214,14 @@ export function useOfflineLearning() {
   };
 
   return {
-    offlineModules,
     isOnline,
+    offlineModules,
     syncStatus,
     downloadModule,
     removeModule,
     saveOfflineProgress,
     syncOfflineProgress,
-    clearOfflineData,
-    getStorageUsage
-  };
-}
-
-// Base interface for all content items
-interface BaseContentItem {
-  id: string;
-  title: string;
-  description: string;
-  subject: string;
-  difficulty: string;
-  type: string;
-  duration: string;
-  keywords: string[];
-}
-
-// Module-specific interface
-interface ModuleItem extends BaseContentItem {
-  type: "module";
-  isCompleted: boolean;
-  hasQuiz: boolean;
-}
-
-// Quiz-specific interface
-interface QuizItem extends BaseContentItem {
-  type: "quiz";
-  questions: { id: string; text: string; }[];
-}
-
-// Union type for all content
-type ContentItem = ModuleItem | QuizItem;
-
-export function useAdaptiveLearning() {
-  const getRecommendations = async (completedModules: string[], preferences: string[]) => {
-    // Mock implementation for adaptive learning recommendations with consistent data structure
-    const mockModules: ModuleItem[] = [
-      {
-        id: "mod1",
-        title: "Introduction to Physics",
-        description: "Learn the basics of physics including waves and motion",
-        subject: "Physics",
-        difficulty: "Beginner",
-        type: "module",
-        duration: "30 minutes",
-        isCompleted: false,
-        hasQuiz: true,
-        keywords: ["waves", "motion", "physics", "mechanics"]
-      },
-      {
-        id: "mod2",
-        title: "Algebra Fundamentals", 
-        description: "Master algebra concepts",
-        subject: "Mathematics",
-        difficulty: "Intermediate",
-        type: "module",
-        duration: "45 minutes",
-        isCompleted: false,
-        hasQuiz: true,
-        keywords: ["algebra", "equations", "mathematics"]
-      }
-    ];
-    
-    const mockQuizzes: QuizItem[] = [
-      {
-        id: "quiz1",
-        title: "Physics Quiz",
-        description: "Test your knowledge about waves and particles",
-        subject: "Physics", 
-        difficulty: "Beginner",
-        type: "quiz",
-        duration: "15 minutes",
-        questions: [
-          { id: "q1", text: "What is the speed of light?" },
-          { id: "q2", text: "Define frequency in wave physics" }
-        ],
-        keywords: ["waves", "particles", "physics", "test"]
-      }
-    ];
-    
-    return {
-      modules: mockModules,
-      quizzes: mockQuizzes
-    };
-  };
-
-  return {
-    getRecommendations
+    getStorageUsage,
+    clearOfflineData
   };
 }

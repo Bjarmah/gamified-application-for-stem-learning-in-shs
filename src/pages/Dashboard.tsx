@@ -12,6 +12,7 @@ import LeaderboardCard from "@/components/dashboard/LeaderboardCard";
 import VirtualLabCard from "@/components/dashboard/VirtualLabCard";
 import { useAdaptiveLearning } from "@/hooks/use-offline-learning";
 import { useQuery } from "@tanstack/react-query";
+import { formatDifficulty, formatDuration, formatTimeLimit } from "@/lib/utils";
 
 const Dashboard = () => {
   const navigate = useNavigate();
@@ -93,7 +94,7 @@ const Dashboard = () => {
               <div className="text-xs text-muted-foreground">2 experiments</div>
             </div>
           </div>
-          <Button 
+          <Button
             onClick={() => navigate('/virtual-lab')}
             className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white flex justify-between items-center group"
           >
@@ -108,42 +109,42 @@ const Dashboard = () => {
 
       {/* Progress Overview */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <ProgressCard 
+        <ProgressCard
           title="Learning Progress"
           progress={8}
           total={15}
           description="Modules completed this week"
           type="module"
         />
-        <StreakCard 
+        <StreakCard
           currentStreak={5}
           longestStreak={12}
           lastActivity="2 hours ago"
         />
-        <LeaderboardCard 
+        <LeaderboardCard
           title="Weekly Leaderboard"
           users={[
-            { 
+            {
               id: "user-1",
-              name: "You", 
-              points: 850, 
+              name: "You",
+              points: 850,
               rank: 3,
               avatarInitials: "YU",
               school: "Your School",
               isCurrentUser: true
             },
-            { 
+            {
               id: "user-2",
-              name: "Alex Chen", 
-              points: 920, 
+              name: "Alex Chen",
+              points: 920,
               rank: 1,
               avatarInitials: "AC",
               school: "Tech High School"
             },
-            { 
+            {
               id: "user-3",
-              name: "Sarah Kim", 
-              points: 875, 
+              name: "Sarah Kim",
+              points: 875,
               rank: 2,
               avatarInitials: "SK",
               school: "Science Academy"
@@ -158,11 +159,10 @@ const Dashboard = () => {
         <h2 className="text-lg font-semibold mb-4">Quick Actions</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
           {quickActions.map((action, index) => (
-            <Card 
-              key={index} 
-              className={`cursor-pointer hover:shadow-lg transition-all duration-200 ${
-                action.featured ? 'ring-2 ring-blue-200 dark:ring-blue-800' : ''
-              }`}
+            <Card
+              key={index}
+              className={`cursor-pointer hover:shadow-lg transition-all duration-200 ${action.featured ? 'ring-2 ring-blue-200 dark:ring-blue-800' : ''
+                }`}
               onClick={action.action}
             >
               <CardContent className="p-4">
@@ -192,11 +192,17 @@ const Dashboard = () => {
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {recommendations.modules.slice(0, 3).map((module, index) => {
-              // Ensure difficulty is one of the allowed values
-              const normalizedDifficulty = module.difficulty === "beginner" ? "Beginner" :
-                                          module.difficulty === "intermediate" ? "Intermediate" :
-                                          module.difficulty === "advanced" ? "Advanced" : "Beginner";
-              
+              // Fix the difficulty normalization
+              const normalizedDifficulty = (() => {
+                const difficulty = module.difficulty?.toLowerCase();
+                switch (difficulty) {
+                  case 'beginner': return 'Beginner';
+                  case 'intermediate': return 'Intermediate';
+                  case 'advanced': return 'Advanced';
+                  default: return 'Beginner';
+                }
+              })();
+
               return (
                 <RecommendedCard
                   key={index}

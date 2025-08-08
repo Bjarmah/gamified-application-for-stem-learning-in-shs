@@ -9,19 +9,20 @@ import { useModules } from "@/hooks/use-modules";
 import { Skeleton } from "@/components/ui/skeleton";
 import { supabase } from "@/integrations/supabase/client";
 import { useQuery } from "@tanstack/react-query";
+import { formatDifficulty, formatDuration, formatTimeLimit } from "@/lib/utils";
 
 const SubjectDetail = () => {
   const { subjectId } = useParams<{ subjectId: string }>();
-  
+
   const { data: subject, isLoading: subjectLoading } = useSubject(subjectId || '');
   const { data: modules, isLoading: modulesLoading } = useModules(subjectId);
-  
+
   // Fetch quizzes for this subject
   const { data: quizzes, isLoading: quizzesLoading } = useQuery({
     queryKey: ['quizzes', subjectId],
     queryFn: async () => {
       if (!subjectId) return [];
-      
+
       const { data, error } = await supabase
         .from('quizzes')
         .select(`
@@ -32,12 +33,12 @@ const SubjectDetail = () => {
           )
         `)
         .eq('module.subject_id', subjectId);
-      
+
       if (error) {
         console.error('Error fetching quizzes:', error);
         throw error;
       }
-      
+
       return data || [];
     },
     enabled: !!subjectId,
@@ -92,9 +93,9 @@ const SubjectDetail = () => {
                 title={module.title}
                 description={module.description || ''}
                 subject={subject.name.toLowerCase()}
-                duration={`${module.estimated_duration || 30} minutes`}
+                duration={formatDuration(module.estimated_duration)}
                 isCompleted={false} // This would come from user progress
-                difficulty={module.difficulty_level as 'Beginner' | 'Intermediate' | 'Advanced' || 'Beginner'}
+                difficulty={formatDifficulty(module.difficulty_level)}
                 hasQuiz={quizzes?.some(quiz => quiz.module_id === module.id) || false}
               />
             ))}
@@ -110,7 +111,7 @@ const SubjectDetail = () => {
                 description={quiz.description || ''}
                 subject={subject.name.toLowerCase()}
                 questionsCount={(quiz.questions as any[])?.length || 0}
-                timeLimit={`${Math.ceil((quiz.time_limit || 300) / 60)} minutes`}
+                timeLimit={formatTimeLimit(quiz.time_limit)}
                 difficulty="Beginner" // Default since quizzes don't have difficulty in schema
                 isCompleted={false}
                 score={undefined}

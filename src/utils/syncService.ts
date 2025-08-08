@@ -1,16 +1,15 @@
 
-import { 
-  getSyncQueue, 
-  updateSyncQueueItem, 
-  removeSyncQueueItem, 
-  setLastSyncTime 
+import {
+  getSyncQueue,
+  updateSyncQueueItem,
+  removeSyncQueueItem,
+  setLastSyncTime
 } from './offlineStorage';
+import { supabase } from '@/integrations/supabase/client';
+import { TablesInsert } from '@/integrations/supabase/types';
 
-// Mock API endpoints - would be replaced with real API calls
-const API_ENDPOINTS = {
-  MODULE_PROGRESS: '/api/module-progress',
-  QUIZ_ATTEMPT: '/api/quiz-attempt'
-};
+type UserProgressInsert = TablesInsert<'user_progress'>;
+type QuizAttemptInsert = TablesInsert<'quiz_attempts'>;
 
 // Check if we're online
 const isOnline = (): boolean => {
@@ -20,88 +19,129 @@ const isOnline = (): boolean => {
 // Register event listeners for online/offline events
 export const initNetworkListeners = (): void => {
   window.addEventListener('online', () => {
-    
+    console.log('Network: Back online, syncing data...');
     syncData();
   });
-  
+
   window.addEventListener('offline', () => {
-    
+    console.log('Network: Going offline, data will be queued for sync');
   });
 };
 
-// Process the sync queue
+// Process the sync queue with Supabase
 export const syncData = async (): Promise<void> => {
   if (!isOnline()) {
-    
+    console.log('Sync: Skipping sync - offline');
     return;
   }
-  
+
   const queue = await getSyncQueue();
-  
+
   if (queue.length === 0) {
-    
+    console.log('Sync: No items to sync');
     await setLastSyncTime();
     return;
   }
-  
-  
-  
+
+  console.log(`Sync: Processing ${queue.length} items`);
+
   // Process each item in the queue
   for (const item of queue) {
     if (item.syncStatus === 'processing') continue;
-    
+
     // Mark as processing
     await updateSyncQueueItem(item.id, { syncStatus: 'processing' });
-    
+
     try {
-      let endpoint = '';
-      
+      let success = false;
+
       switch (item.type) {
         case 'moduleProgress':
-          endpoint = API_ENDPOINTS.MODULE_PROGRESS;
+          success = await syncModuleProgress(item.data);
           break;
         case 'quizAttempt':
-          endpoint = API_ENDPOINTS.QUIZ_ATTEMPT;
+          success = await syncQuizAttempt(item.data);
           break;
         default:
           throw new Error(`Unknown sync item type: ${item.type}`);
       }
-      
-      // In a real app, this would be a fetch call to your API
-      
-      
-      // Mock successful API call
-      // In production, replace with actual API call:
-      /*
-      const response = await fetch(endpoint, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${authToken}`
-        },
-        body: JSON.stringify(item.data)
-      });
-      
-      if (!response.ok) {
-        throw new Error(`API error: ${response.status}`);
+
+      if (success) {
+        // Remove from queue on success
+        await removeSyncQueueItem(item.id);
+        console.log(`Sync: Successfully synced item ${item.id}`);
+      } else {
+        throw new Error('Sync operation failed');
       }
-      */
-      
-      // If successful (in this mock implementation), remove from queue
-      await removeSyncQueueItem(item.id);
-      
+
     } catch (error) {
       console.error(`Failed to sync item ${item.id}:`, error);
-      
+
       // Mark as failed and increment retry count
-      await updateSyncQueueItem(item.id, { 
+      await updateSyncQueueItem(item.id, {
         syncStatus: 'failed',
         retryCount: (item.retryCount || 0) + 1
       });
     }
   }
-  
+
   await setLastSyncTime();
+};
+
+// Sync module progress to Supabase
+const syncModuleProgress = async (data: any): Promise<boolean> => {
+  try {
+    const { error } = await supabase
+      .from('user_progress')
+      .upsert({
+        user_id: data.user_id,
+        module_id: data.module_id,
+        score: data.score || 0,
+        completed: data.completed || false,
+        time_spent: data.time_spent || 0,
+        last_accessed: data.last_accessed || new Date().toISOString()
+      }, {
+        onConflict: 'user_id,module_id'
+      });
+
+    if (error) {
+      console.error('Supabase sync error (module progress):', error);
+      return false;
+    }
+
+    return true;
+  } catch (error) {
+    console.error('Error syncing module progress:', error);
+    return false;
+  }
+};
+
+// Sync quiz attempt to Supabase
+const syncQuizAttempt = async (data: any): Promise<boolean> => {
+  try {
+    const { error } = await supabase
+      .from('quiz_attempts')
+      .insert({
+        user_id: data.user_id,
+        quiz_id: data.quiz_id,
+        answers: data.answers,
+        score: data.score,
+        correct_answers: data.correct_answers,
+        total_questions: data.total_questions,
+        time_spent: data.time_spent,
+        completed_at: data.completed_at || new Date().toISOString()
+      });
+
+    if (error) {
+      console.error('Supabase sync error (quiz attempt):', error);
+      return false;
+    }
+
+    return true;
+  } catch (error) {
+    console.error('Error syncing quiz attempt:', error);
+    return false;
+  }
 };
 
 // Initialize periodic sync
@@ -112,7 +152,7 @@ export const initPeriodicSync = (intervalMinutes: number = 15): void => {
       syncData();
     }
   }, 5000); // Wait 5 seconds after app load
-  
+
   // Set up periodic sync
   setInterval(() => {
     if (isOnline()) {
@@ -134,10 +174,10 @@ export const manualSync = async (): Promise<{
       message: 'Cannot sync while offline'
     };
   }
-  
+
   const queueBefore = await getSyncQueue();
   const itemCount = queueBefore.length;
-  
+
   if (itemCount === 0) {
     return {
       success: true,
@@ -145,18 +185,32 @@ export const manualSync = async (): Promise<{
       message: 'Nothing to sync'
     };
   }
-  
+
   await syncData();
-  
+
   const queueAfter = await getSyncQueue();
   const syncedItems = itemCount - queueAfter.length;
-  
+
   return {
     success: syncedItems > 0,
     syncedItems,
-    message: syncedItems > 0 
-      ? `Successfully synced ${syncedItems} items` 
+    message: syncedItems > 0
+      ? `Successfully synced ${syncedItems} items`
       : 'Sync completed but no items were processed'
+  };
+};
+
+// Get sync status
+export const getSyncStatus = async () => {
+  const queue = await getSyncQueue();
+  const pendingItems = queue.filter(item => item.syncStatus === 'pending').length;
+  const failedItems = queue.filter(item => item.syncStatus === 'failed').length;
+
+  return {
+    pendingItems,
+    failedItems,
+    totalItems: queue.length,
+    isOnline: isOnline()
   };
 };
 

@@ -75,7 +75,7 @@ const ModuleDetail = () => {
         return { type: 'cell-city', component: 'biology' }; // Default biology game
       }
     }
-    
+
     return null; // No game available for this subject yet
   };
 
@@ -94,7 +94,7 @@ const ModuleDetail = () => {
   const handleGameScoreUpdate = (score: number) => {
     setGameScore(score);
     const threshold = getCompletionThreshold();
-    
+
     if (score >= threshold && !moduleCompleted) {
       setModuleCompleted(true);
       // Update progress in database using existing columns
@@ -108,7 +108,7 @@ const ModuleDetail = () => {
   };
 
   const handleStartLearning = () => {
-    
+
     setIsGameActive(true);
   };
 
@@ -195,8 +195,10 @@ const ModuleDetail = () => {
     );
   }
 
+  // Fix the difficulty display
   const getDifficultyColor = () => {
-    switch (module.difficulty_level) {
+    const difficulty = module?.difficulty_level || 'beginner';
+    switch (difficulty.toLowerCase()) {
       case 'beginner':
         return "bg-stemGreen/20 text-stemGreen-dark";
       case 'intermediate':
@@ -233,7 +235,7 @@ const ModuleDetail = () => {
             )}
           </div>
         </div>
-        
+
         <div className="bg-gradient-to-r from-blue-50 to-purple-50 dark:from-blue-950/20 dark:to-purple-950/20 p-4 rounded-lg border">
           <div className="text-center space-y-2">
             <h3 className="text-lg font-semibold">{module.title}</h3>
@@ -283,16 +285,16 @@ const ModuleDetail = () => {
                 <div className="space-y-4">
                   <div className="p-4 bg-muted/50 rounded-lg">
                     <h4 className="font-medium mb-2">🎮 Learning Game: {
-                      gameInfo.type === 'algebra-quest' ? 'Algebra Quest' : 
-                      gameInfo.type === 'geometry-wars' ? 'Geometry Wars' : 
-                      gameInfo.type === 'motion-racing' ? 'Motion Racing' :
-                      gameInfo.type === 'molecular-chef' ? 'Molecular Chef' :
-                      gameInfo.type === 'ph-balance' ? 'pH Balance Game' :
-                      gameInfo.type === 'periodic-memory' ? 'Periodic Memory' :
-                      gameInfo.type === 'cell-city' ? 'Cell City Manager' :
-                      gameInfo.type === 'dna-detective' ? 'DNA Detective' :
-                      gameInfo.type === 'ecosystem-builder' ? 'Ecosystem Builder' :
-                      'Interactive Learning Game'
+                      gameInfo.type === 'algebra-quest' ? 'Algebra Quest' :
+                        gameInfo.type === 'geometry-wars' ? 'Geometry Wars' :
+                          gameInfo.type === 'motion-racing' ? 'Motion Racing' :
+                            gameInfo.type === 'molecular-chef' ? 'Molecular Chef' :
+                              gameInfo.type === 'ph-balance' ? 'pH Balance Game' :
+                                gameInfo.type === 'periodic-memory' ? 'Periodic Memory' :
+                                  gameInfo.type === 'cell-city' ? 'Cell City Manager' :
+                                    gameInfo.type === 'dna-detective' ? 'DNA Detective' :
+                                      gameInfo.type === 'ecosystem-builder' ? 'Ecosystem Builder' :
+                                        'Interactive Learning Game'
                     }</h4>
                     <p className="text-sm text-muted-foreground mb-3">
                       {gameInfo.type === 'algebra-quest' && 'Solve equations to defeat monsters in RPG-style adventures'}
@@ -312,7 +314,7 @@ const ModuleDetail = () => {
                       <span>~{module.estimated_duration || 30} minutes</span>
                     </div>
                   </div>
-                  
+
                   {moduleCompleted && (
                     <div className="p-4 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-700 rounded-lg">
                       <div className="flex items-center gap-2">
@@ -335,7 +337,7 @@ const ModuleDetail = () => {
                   </p>
                 </div>
               )}
-              
+
               {module.content && (
                 <div className="mt-6 pt-6 border-t">
                   <h4 className="font-medium mb-3 flex items-center gap-2">
@@ -364,9 +366,9 @@ const ModuleDetail = () => {
                 <Clock className="h-4 w-4 text-muted-foreground" />
                 <span className="text-sm">~{module.estimated_duration || 30} minutes</span>
               </div>
-              
+
               <Badge className={getDifficultyColor()}>
-                {module.difficulty_level?.charAt(0).toUpperCase() + module.difficulty_level?.slice(1) || 'Beginner'}
+                {module?.difficulty_level?.charAt(0).toUpperCase() + module?.difficulty_level?.slice(1) || 'Beginner'}
               </Badge>
 
               {gameScore > 0 && (
@@ -380,8 +382,8 @@ const ModuleDetail = () => {
                     <span>{getCompletionThreshold()} XP</span>
                   </div>
                   <div className="w-full bg-muted rounded-full h-2">
-                    <div 
-                      className="bg-blue-500 h-2 rounded-full transition-all duration-300" 
+                    <div
+                      className="bg-blue-500 h-2 rounded-full transition-all duration-300"
                       style={{ width: `${Math.min(100, (gameScore / getCompletionThreshold()) * 100)}%` }}
                     />
                   </div>
