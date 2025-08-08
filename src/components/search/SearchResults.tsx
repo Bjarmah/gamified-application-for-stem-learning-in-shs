@@ -132,6 +132,7 @@ const SearchResults: React.FC<SearchResultsProps> = ({ query, filters, resultTyp
                 *,
                 module:modules(
                   subject_id,
+                  difficulty_level,
                   subject:subjects(id, name)
                 )
               `);
@@ -252,8 +253,9 @@ const SearchResults: React.FC<SearchResultsProps> = ({ query, filters, resultTyp
                 id={item.id}
                 title={item.title}
                 description={item.description}
-                subject={item.subjectName}
-                duration={`${item.duration || 30} minutes`}
+                subjectId={item.subjectId}
+                subjectName={item.subjectName}
+                duration={item.duration || 30}
                 isCompleted={item.isCompleted}
                 difficulty={formatDifficulty(item.difficulty)}
                 hasQuiz={item.hasQuiz}
@@ -269,7 +271,7 @@ const SearchResults: React.FC<SearchResultsProps> = ({ query, filters, resultTyp
                 subject={item.subjectName}
                 estimatedTime={`${item.duration || 15} minutes`}
                 difficulty={formatDifficulty(item.difficulty)}
-                type={item.type}
+                type={item.type as "module" | "quiz"}
               />
             );
           }
