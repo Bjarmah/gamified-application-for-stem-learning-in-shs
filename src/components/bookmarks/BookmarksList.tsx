@@ -34,7 +34,7 @@ const BookmarksList = () => {
         navigate(`/subjects/${bookmark.id}`);
         break;
       case 'module':
-        navigate(`/subjects/physics/${bookmark.id}`); // Demo path
+        navigate(`/modules/${bookmark.id}`);
         break;
       case 'quiz':
         navigate(`/quizzes/${bookmark.id}`);

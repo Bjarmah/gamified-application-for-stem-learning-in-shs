@@ -55,11 +55,11 @@ const RecommendedCard = ({
 
   const handleStartContent = () => {
     if (type === 'module') {
-      navigate(`/subjects/${subject.toLowerCase()}/${id}`);
+      navigate(`/modules/${id}`);
     } else if (type === 'quiz') {
       navigate(`/quizzes/${id}`);
     } else if (type === 'lab') {
-      navigate(`/labs/${id}`);
+      navigate(`/virtual-lab`);
     }
   };
 

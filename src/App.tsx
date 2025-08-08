@@ -52,6 +52,8 @@ function App() {
                       <Route path="profile" element={<Profile />} />
                       <Route path="virtual-lab" element={<VirtualLab />} />
                       <Route path="teacher/quizzes" element={<TeacherQuizzes />} />
+                      <Route path="quizzes/:quizId" element={<Quiz />} />
+                      <Route path="modules/:moduleId" element={<ModuleRedirect />} />
                     </Route>
                     <Route path="*" element={<NotFound />} />
                   </Routes>

@@ -72,7 +72,7 @@ const ModuleCard = ({
       </CardContent>
       <CardFooter>
         <Button 
-          onClick={() => navigate(`/subjects/${subject}/${id}`)} 
+          onClick={() => navigate(`/modules/${id}`)} 
           className="btn-stem w-full"
         >
           <PlayCircle className="h-4 w-4 mr-2" />
