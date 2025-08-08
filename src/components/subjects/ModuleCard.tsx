@@ -4,15 +4,17 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { PlayCircle, Clock, Check } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { formatDifficulty, formatDuration, getDifficultyColor } from "@/lib/utils";
 
 interface ModuleCardProps {
   id: string;
   title: string;
   description: string;
-  subject: string;
-  duration: string;
+  subjectId: string;
+  subjectName: string;
+  duration: number | null;
   isCompleted: boolean;
-  difficulty: 'Beginner' | 'Intermediate' | 'Advanced';
+  difficulty: string | null;
   hasQuiz: boolean;
 }
 
@@ -20,26 +22,17 @@ const ModuleCard = ({
   id,
   title,
   description,
-  subject,
+  subjectId,
+  subjectName,
   duration,
   isCompleted,
   difficulty,
   hasQuiz
 }: ModuleCardProps) => {
   const navigate = useNavigate();
-  
-  const getDifficultyColor = () => {
-    switch (difficulty) {
-      case 'Beginner':
-        return "bg-stemGreen/20 text-stemGreen-dark";
-      case 'Intermediate':
-        return "bg-stemOrange/20 text-stemOrange-dark";
-      case 'Advanced':
-        return "bg-destructive/20 text-destructive";
-      default:
-        return "bg-muted text-muted-foreground";
-    }
-  };
+
+  const formattedDifficulty = formatDifficulty(difficulty);
+  const formattedDuration = formatDuration(duration);
 
   return (
     <Card className={`card-stem ${isCompleted ? 'border-stemGreen' : ''}`}>
@@ -52,8 +45,8 @@ const ModuleCard = ({
                 <Check className="h-3 w-3 mr-1" /> Completed
               </Badge>
             )}
-            <Badge className={getDifficultyColor()}>
-              {difficulty}
+            <Badge className={getDifficultyColor(formattedDifficulty)}>
+              {formattedDifficulty}
             </Badge>
           </div>
         </div>
@@ -63,7 +56,7 @@ const ModuleCard = ({
         <div className="flex justify-between text-sm text-muted-foreground">
           <div className="flex items-center">
             <Clock className="h-4 w-4 mr-1" />
-            {duration}
+            {formattedDuration}
           </div>
           {hasQuiz && (
             <Badge variant="outline">Includes Quiz</Badge>
@@ -71,8 +64,8 @@ const ModuleCard = ({
         </div>
       </CardContent>
       <CardFooter>
-        <Button 
-          onClick={() => navigate(`/modules/${id}`)} 
+        <Button
+          onClick={() => navigate(`/subjects/${subjectId}/${id}`)}
           className="btn-stem w-full"
         >
           <PlayCircle className="h-4 w-4 mr-2" />

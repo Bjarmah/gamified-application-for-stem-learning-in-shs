@@ -1,6 +1,6 @@
 
 import React from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import ModuleCard from "@/components/subjects/ModuleCard";
 import QuizCard from "@/components/quiz/QuizCard";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -13,6 +13,7 @@ import { formatDifficulty, formatDuration, formatTimeLimit } from "@/lib/utils";
 
 const SubjectDetail = () => {
   const { subjectId } = useParams<{ subjectId: string }>();
+  const navigate = useNavigate();
 
   const { data: subject, isLoading: subjectLoading } = useSubject(subjectId || '');
   const { data: modules, isLoading: modulesLoading } = useModules(subjectId);
@@ -111,8 +112,8 @@ const SubjectDetail = () => {
                 description={quiz.description || ''}
                 subject={subject.name.toLowerCase()}
                 questionsCount={(quiz.questions as any[])?.length || 0}
-                timeLimit={formatTimeLimit(quiz.time_limit)}
-                difficulty="Beginner" // Default since quizzes don't have difficulty in schema
+                timeLimit={formatTimeLimit(quiz.time_limit)} // Use formatTimeLimit for seconds
+                difficulty="Beginner"
                 isCompleted={false}
                 score={undefined}
                 points={undefined}

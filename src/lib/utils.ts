@@ -22,10 +22,24 @@ export function formatDifficulty(difficulty: string | null): 'Beginner' | 'Inter
   }
 }
 
-// Format duration to "N minutes"
+// Format duration from minutes to "N minutes"
 export function formatDuration(minutes: number | null): string {
-  if (!minutes) return '30 minutes';
+  if (!minutes || minutes <= 0) return '15 minutes';
   return `${minutes} minutes`;
+}
+
+// Get difficulty color class
+export function getDifficultyColor(difficulty: 'Beginner' | 'Intermediate' | 'Advanced'): string {
+  switch (difficulty) {
+    case 'Beginner':
+      return "bg-stemGreen/20 text-stemGreen-dark";
+    case 'Intermediate':
+      return "bg-stemOrange/20 text-stemOrange-dark";
+    case 'Advanced':
+      return "bg-destructive/20 text-destructive";
+    default:
+      return "bg-muted text-muted-foreground";
+  }
 }
 
 // Format time limit from seconds to "N minutes"

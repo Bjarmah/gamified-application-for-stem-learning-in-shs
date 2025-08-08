@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect, useMemo, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import ModuleCard from "@/components/subjects/ModuleCard";
@@ -8,8 +7,7 @@ import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
 import RecommendedCard from "@/components/dashboard/RecommendedCard";
 import { supabase } from "@/integrations/supabase/client";
-import { formatDifficulty, formatDuration } from "@/lib/utils";
-import ErrorBoundary from "@/components/ErrorBoundary";
+import { formatDifficulty, formatDuration, formatTimeLimit } from "@/lib/utils";
 
 interface FiltersProps {
   subjects: string[];
@@ -28,9 +26,10 @@ interface BaseContentItem {
   id: string;
   title: string;
   description: string;
-  subject: string;
-  duration: string;
-  difficulty: string;
+  subjectId: string;
+  subjectName: string;
+  duration: number | null;
+  difficulty: string | null;
   type: string;
   keywords: string[];
 }
@@ -55,7 +54,7 @@ const extractSearchableText = (item: ContentItem): string => {
   const textParts = [
     item.title || '',
     item.description || '',
-    item.subject || '',
+    item.subjectName || '',
     Array.isArray(item.keywords) ? item.keywords.join(' ') : '',
   ];
 
@@ -65,241 +64,220 @@ const extractSearchableText = (item: ContentItem): string => {
 const SearchResults: React.FC<SearchResultsProps> = ({ query, filters, resultType }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [results, setResults] = useState<ContentItem[]>([]);
-  const [error, setError] = useState<string | null>(null);
   const { isOnline } = useOffline();
   const { toast } = useToast();
   const navigate = useNavigate();
 
-  // Memoized search function
-  const performSearch = useCallback(async () => {
-    setIsLoading(true);
-    setError(null);
-
-    try {
-      let content: ContentItem[] = [];
-
-      // Build query based on filters
-      const queryConditions: string[] = [];
-      if (filters.subjects.length > 0) {
-        queryConditions.push(`subject in (${filters.subjects.map(s => `'${s}'`).join(',')})`);
-      }
-      if (filters.difficulty && filters.difficulty !== 'all') {
-        queryConditions.push(`difficulty_level = '${filters.difficulty.toLowerCase()}'`);
-      }
-
-      // Fetch modules and quizzes in parallel
-      const [modulesResponse, quizzesResponse] = await Promise.all([
-        supabase
-          .from('modules')
-          .select(`
-            *,
-            subject:subjects(name, color)
-          `)
-          .order('order_index'),
-        supabase
-          .from('quizzes')
-          .select(`
-            *,
-            module:modules(
-              subject_id,
-              subject:subjects(name, color)
-            )
-          `)
-      ]);
-
-      if (modulesResponse.error) throw modulesResponse.error;
-      if (quizzesResponse.error) throw quizzesResponse.error;
-
-      // Transform modules data
-      const modules: ModuleContentItem[] = (modulesResponse.data || []).map(module => ({
-        id: module.id,
-        title: module.title,
-        description: module.description || '',
-        subject: module.subject?.name || 'Unknown',
-        duration: formatDuration(module.estimated_duration),
-        difficulty: formatDifficulty(module.difficulty_level),
-        type: 'module',
-        isCompleted: false,
-        hasQuiz: false,
-        keywords: []
-      }));
-
-      // Transform quizzes data
-      const quizzes: QuizLabContentItem[] = (quizzesResponse.data || []).map(quiz => ({
-        id: quiz.id,
-        title: quiz.title,
-        description: quiz.description || '',
-        subject: quiz.module?.subject?.name || 'Unknown',
-        duration: formatDuration(quiz.time_limit),
-        difficulty: formatDifficulty(quiz.module?.difficulty_level),
-        type: 'quiz',
-        keywords: []
-      }));
-
-      content = [...modules, ...quizzes];
-
-      // Apply filters
-      if (filters.subjects.length > 0) {
-        content = content.filter(item =>
-          filters.subjects.some(subject =>
-            item.subject.toLowerCase() === subject.toLowerCase()
-          )
-        );
-      }
-
-      if (filters.difficulty && filters.difficulty !== 'all') {
-        content = content.filter(item =>
-          item.difficulty.toLowerCase() === filters.difficulty.toLowerCase()
-        );
-      }
-
-      if (filters.type.length > 0) {
-        content = content.filter(item =>
-          filters.type.includes(item.type)
-        );
-      }
-
-      if (resultType !== 'all') {
-        content = content.filter(item => item.type === resultType);
-      }
-
-      // Apply search query
-      if (query.trim()) {
-        const searchTerms = query.toLowerCase().split(' ').filter(term => term.length > 0);
-        content = content.filter(item => {
-          const searchableText = extractSearchableText(item);
-          return searchTerms.some(term =>
-            searchableText.includes(term) ||
-            item.title.toLowerCase().includes(term) ||
-            item.subject.toLowerCase().includes(term)
-          );
-        });
-      }
-
-      setResults(content);
-    } catch (err) {
-      console.error("Error fetching search results:", err);
-      setError(err instanceof Error ? err.message : 'An error occurred');
-      toast({
-        title: "Search Error",
-        description: "Failed to fetch search results. Please try again.",
-        variant: "destructive",
-      });
-    } finally {
-      setIsLoading(false);
-    }
-  }, [query, filters, resultType, toast]);
-
   useEffect(() => {
-    performSearch();
-  }, [performSearch]);
+    const fetchResults = async () => {
+      setIsLoading(true);
+      try {
+        let content: ContentItem[] = [];
 
-  // Memoized results count
-  const resultsCount = useMemo(() => results.length, [results]);
+        // Fetch real data from Supabase
+        try {
+          let modulesQuery = supabase
+            .from('modules')
+            .select(`
+              *,
+              subject:subjects(id, name, color)
+            `)
+            .order('order_index');
 
-  if (error) {
-    return (
-      <div className="text-center py-8">
-        <p className="text-muted-foreground mb-4">
-          Failed to load search results: {error}
-        </p>
-        {/* Assuming Button is available, otherwise remove this */}
-        {/* <Button onClick={performSearch} variant="outline">
-          Try Again
-        </Button> */}
-      </div>
-    );
-  }
+          // Apply subject filters
+          if (filters.subjects.length > 0) {
+            // Get subject IDs from their names
+            const { data: subjectData } = await supabase
+              .from('subjects')
+              .select('id, name')
+              .in('name', filters.subjects);
+
+            if (subjectData && subjectData.length > 0) {
+              const subjectIds = subjectData.map(subject => subject.id);
+              modulesQuery = modulesQuery.in('subject_id', subjectIds);
+            }
+          }
+
+          // Apply difficulty filter
+          if (filters.difficulty && filters.difficulty !== 'all') {
+            modulesQuery = modulesQuery.eq('difficulty_level', filters.difficulty.toLowerCase());
+          }
+
+          const { data: modulesData, error: modulesError } = await modulesQuery;
+
+          if (modulesError) throw modulesError;
+
+          // Transform modules data
+          const modules: ModuleContentItem[] = (modulesData || []).map(module => ({
+            id: module.id,
+            title: module.title,
+            description: module.description || '',
+            subjectId: module.subject_id,
+            subjectName: module.subject?.name || 'Unknown',
+            duration: module.estimated_duration,
+            difficulty: module.difficulty_level,
+            type: 'module',
+            isCompleted: false, // This would come from user progress
+            hasQuiz: false, // This would be determined by checking if module has quizzes
+            keywords: [] // This would be extracted from content or metadata
+          }));
+
+          content.push(...modules);
+
+          // Fetch quizzes if needed
+          if (resultType === 'all' || resultType === 'quiz') {
+            let quizzesQuery = supabase
+              .from('quizzes')
+              .select(`
+                *,
+                module:modules(
+                  subject_id,
+                  subject:subjects(id, name)
+                )
+              `);
+
+            // Apply subject filters to quizzes
+            if (filters.subjects.length > 0) {
+              const { data: subjectData } = await supabase
+                .from('subjects')
+                .select('id, name')
+                .in('name', filters.subjects);
+
+              if (subjectData && subjectData.length > 0) {
+                const subjectIds = subjectData.map(subject => subject.id);
+                quizzesQuery = quizzesQuery.in('module.subject_id', subjectIds);
+              }
+            }
+
+            const { data: quizzesData, error: quizzesError } = await quizzesQuery;
+
+            if (quizzesError) throw quizzesError;
+
+            // Transform quizzes data
+            const quizzes: QuizLabContentItem[] = (quizzesData || []).map(quiz => ({
+              id: quiz.id,
+              title: quiz.title,
+              description: quiz.description || '',
+              subjectId: quiz.module?.subject_id || '',
+              subjectName: quiz.module?.subject?.name || 'Unknown',
+              duration: quiz.time_limit,
+              difficulty: quiz.module?.difficulty_level || null,
+              type: 'quiz',
+              keywords: [] // This would be extracted from questions or metadata
+            }));
+
+            content.push(...quizzes);
+          }
+
+        } catch (error) {
+          console.error('Error fetching search results:', error);
+          // Fallback to offline data if available
+          if (!isOnline) {
+            // Use offline data
+            content = [];
+          }
+        }
+
+        // Filter by search query
+        if (query.trim()) {
+          content = content.filter(item =>
+            extractSearchableText(item).includes(query.toLowerCase())
+          );
+        }
+
+        // Apply type filter
+        if (resultType !== 'all') {
+          content = content.filter(item => item.type === resultType);
+        }
+
+        setResults(content);
+      } catch (error) {
+        console.error('Search error:', error);
+        toast({
+          title: "Search failed",
+          description: "Unable to fetch search results. Please try again.",
+          variant: "destructive"
+        });
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchResults();
+  }, [query, filters, resultType, isOnline]);
 
   if (isLoading) {
     return (
-      <div className="space-y-4" role="status" aria-label="Loading search results">
-        {[1, 2, 3].map(i => (
+      <div className="space-y-4">
+        {[1, 2, 3].map((i) => (
           <div key={i} className="border rounded-md p-4 space-y-3">
             <Skeleton className="h-6 w-2/3" />
             <Skeleton className="h-4 w-full" />
             <Skeleton className="h-4 w-3/4" />
-            <div className="flex gap-2 pt-2">
-              <Skeleton className="h-8 w-20" />
-              <Skeleton className="h-8 w-20" />
-            </div>
           </div>
         ))}
       </div>
     );
   }
 
-  if (resultsCount === 0) {
+  if (results.length === 0) {
     return (
-      <div className="text-center py-8" role="status">
-        <p className="text-muted-foreground text-lg mb-2">
-          {query
-            ? `No results found for "${query}"`
-            : "No content matches your filters"}
+      <div className="text-center py-8">
+        <p className="text-muted-foreground">
+          {query ? `No results found for "${query}"` : "No content available"}
         </p>
-        <p className="text-sm text-muted-foreground">
-          Try adjusting your search terms or filters
-        </p>
-        {!isOnline && (
-          <p className="text-sm text-muted-foreground mt-2">
-            Limited results while offline. Connect to internet for more content.
-          </p>
-        )}
       </div>
     );
   }
 
   return (
-    <ErrorBoundary>
-      <div className="space-y-4">
-        <div className="flex justify-between items-center">
+    <div className="space-y-4">
+      <div className="flex justify-between items-center">
+        <p className="text-sm text-muted-foreground">
+          {results.length} {results.length === 1 ? 'result' : 'results'} found
+        </p>
+        {query && (
           <p className="text-sm text-muted-foreground">
-            {resultsCount} {resultsCount === 1 ? 'result' : 'results'} found
+            Searching for: <span className="font-medium">"{query}"</span>
           </p>
-          {query && (
-            <p className="text-sm text-muted-foreground">
-              Searching for: <span className="font-medium">"{query}"</span>
-            </p>
-          )}
-        </div>
+        )}
+      </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {results.map((item, index) => {
-            if (item.type === 'module') {
-              const moduleItem = item as ModuleContentItem;
-              return (
-                <ModuleCard
-                  key={`${moduleItem.id}-${index}`}
-                  id={moduleItem.id}
-                  title={moduleItem.title}
-                  description={moduleItem.description}
-                  subject={moduleItem.subject}
-                  duration={moduleItem.duration}
-                  isCompleted={moduleItem.isCompleted}
-                  difficulty={moduleItem.difficulty as 'Beginner' | 'Intermediate' | 'Advanced'}
-                  hasQuiz={moduleItem.hasQuiz}
-                />
-              );
-            }
-
-            const quizLabItem = item as QuizLabContentItem;
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        {results.map((item, index) => {
+          if (item.type === 'module') {
             return (
-              <RecommendedCard
-                key={`${quizLabItem.id}-${index}`}
-                id={quizLabItem.id}
-                title={quizLabItem.title}
-                description={quizLabItem.description}
-                subject={quizLabItem.subject}
-                estimatedTime={quizLabItem.duration}
-                difficulty={quizLabItem.difficulty as 'Beginner' | 'Intermediate' | 'Advanced'}
-                type={quizLabItem.type as 'module' | 'quiz' | 'lab'}
+              <ModuleCard
+                key={item.id}
+                id={item.id}
+                title={item.title}
+                description={item.description}
+                subject={item.subjectName}
+                duration={`${item.duration || 30} minutes`}
+                isCompleted={item.isCompleted}
+                difficulty={formatDifficulty(item.difficulty)}
+                hasQuiz={item.hasQuiz}
               />
             );
-          })}
-        </div>
+          } else {
+            return (
+              <RecommendedCard
+                key={item.id}
+                id={item.id}
+                title={item.title}
+                description={item.description}
+                subject={item.subjectName}
+                estimatedTime={`${item.duration || 15} minutes`}
+                difficulty={formatDifficulty(item.difficulty)}
+                type={item.type}
+              />
+            );
+          }
+        })}
       </div>
-    </ErrorBoundary>
+    </div>
   );
 };
 
 export default SearchResults;
+

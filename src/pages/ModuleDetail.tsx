@@ -11,6 +11,7 @@ import MathGames from "@/components/games/MathGames";
 import PhysicsGames from "@/components/games/PhysicsGames";
 import ChemistryGames from "@/components/games/ChemistryGames";
 import BiologyGames from "@/components/games/BiologyGames";
+import { formatDifficulty } from "@/lib/utils";
 
 const ModuleDetail = () => {
   const { moduleId, subjectId } = useParams<{ moduleId: string; subjectId: string }>();
@@ -368,7 +369,7 @@ const ModuleDetail = () => {
               </div>
 
               <Badge className={getDifficultyColor()}>
-                {module?.difficulty_level?.charAt(0).toUpperCase() + module?.difficulty_level?.slice(1) || 'Beginner'}
+                {formatDifficulty(module?.difficulty_level)}
               </Badge>
 
               {gameScore > 0 && (

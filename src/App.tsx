@@ -8,7 +8,6 @@ import { AuthProvider } from "@/context/AuthContext";
 import { ThemeProvider } from "@/context/ThemeContext";
 import { OfflineProvider } from "@/context/OfflineContext";
 import { NotificationProvider } from "@/context/NotificationContext";
-import ErrorBoundary from "@/components/ErrorBoundary";
 import AppLayout from "@/components/layout/AppLayout";
 import Index from "./pages/Index";
 import Dashboard from "./pages/Dashboard";
@@ -25,6 +24,10 @@ import Register from "./pages/Register";
 import TeacherQuizzes from "./pages/TeacherQuizzes";
 import Quiz from "./pages/Quiz";
 import ModuleRedirect from "./pages/ModuleRedirect";
+import AdminDashboard from "./pages/AdminDashboard";
+import AdminSubjects from "./pages/AdminSubjects";
+import AdminModules from "./pages/AdminModules";
+import AdminQuizzes from "./pages/AdminQuizzes";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient({
@@ -39,44 +42,48 @@ const queryClient = new QueryClient({
 
 function App() {
   return (
-    <ErrorBoundary>
-      <QueryClientProvider client={queryClient}>
-        <ThemeProvider>
-          <AuthProvider>
-            <OfflineProvider>
-              <NotificationProvider>
-                <TooltipProvider>
-                  <Toaster />
-                  <Sonner />
-                  <BrowserRouter>
-                    <Routes>
-                      <Route path="/" element={<Index />} />
-                      <Route path="/login" element={<Login />} />
-                      <Route path="/register" element={<Register />} />
-                      <Route path="/*" element={<AppLayout />}>
-                        <Route path="dashboard" element={<Dashboard />} />
-                        <Route path="subjects" element={<Subjects />} />
-                        <Route path="subjects/:subjectId" element={<SubjectDetail />} />
-                        <Route path="subjects/:subjectId/:moduleId" element={<ModuleDetail />} />
-                        <Route path="search" element={<Search />} />
-                        <Route path="communities" element={<Communities />} />
-                        <Route path="achievements" element={<Achievements />} />
-                        <Route path="profile" element={<Profile />} />
-                        <Route path="virtual-lab" element={<VirtualLab />} />
-                        <Route path="teacher/quizzes" element={<TeacherQuizzes />} />
-                        <Route path="quizzes/:quizId" element={<Quiz />} />
-                        <Route path="modules/:moduleId" element={<ModuleRedirect />} />
-                      </Route>
-                      <Route path="*" element={<NotFound />} />
-                    </Routes>
-                  </BrowserRouter>
-                </TooltipProvider>
-              </NotificationProvider>
-            </OfflineProvider>
-          </AuthProvider>
-        </ThemeProvider>
-      </QueryClientProvider>
-    </ErrorBoundary>
+    <QueryClientProvider client={queryClient}>
+      <ThemeProvider>
+        <AuthProvider>
+          <OfflineProvider>
+            <NotificationProvider>
+              <TooltipProvider>
+                <Toaster />
+                <Sonner />
+                <BrowserRouter>
+                  <Routes>
+                    <Route path="/" element={<Index />} />
+                    <Route path="/login" element={<Login />} />
+                    <Route path="/register" element={<Register />} />
+                    <Route path="/*" element={<AppLayout />}>
+                      <Route path="dashboard" element={<Dashboard />} />
+                      <Route path="subjects" element={<Subjects />} />
+                      <Route path="subjects/:subjectId" element={<SubjectDetail />} />
+                      <Route path="subjects/:subjectId/:moduleId" element={<ModuleDetail />} />
+                      <Route path="search" element={<Search />} />
+                      <Route path="communities" element={<Communities />} />
+                      <Route path="achievements" element={<Achievements />} />
+                      <Route path="profile" element={<Profile />} />
+                      <Route path="virtual-lab" element={<VirtualLab />} />
+                      <Route path="teacher/quizzes" element={<TeacherQuizzes />} />
+                      <Route path="quizzes/:quizId" element={<Quiz />} />
+                      <Route path="modules/:moduleId" element={<ModuleRedirect />} />
+
+                      {/* Admin Routes */}
+                      <Route path="admin" element={<AdminDashboard />} />
+                      <Route path="admin/subjects" element={<AdminSubjects />} />
+                      <Route path="admin/modules" element={<AdminModules />} />
+                      <Route path="admin/quizzes" element={<AdminQuizzes />} />
+                    </Route>
+                    <Route path="*" element={<NotFound />} />
+                  </Routes>
+                </BrowserRouter>
+              </TooltipProvider>
+            </NotificationProvider>
+          </OfflineProvider>
+        </AuthProvider>
+      </ThemeProvider>
+    </QueryClientProvider>
   );
 }
 

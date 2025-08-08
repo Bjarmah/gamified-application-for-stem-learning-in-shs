@@ -1,104 +1,91 @@
 
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import React from "react";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { PlayCircle } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Clock, Play, BookOpen, Activity } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import BookmarkButton from "@/components/bookmarks/BookmarkButton";
+import { getDifficultyColor } from "@/lib/utils";
 
 interface RecommendedCardProps {
+  id: string;
   title: string;
   description: string;
   subject: string;
-  difficulty: 'Beginner' | 'Intermediate' | 'Advanced';
   estimatedTime: string;
-  id: string;
-  type: 'module' | 'quiz' | 'lab';
+  difficulty: 'Beginner' | 'Intermediate' | 'Advanced';
+  type: 'module' | 'quiz';
+  onClick?: () => void;
 }
 
-const RecommendedCard = ({
+const RecommendedCard: React.FC<RecommendedCardProps> = ({
+  id,
   title,
   description,
   subject,
-  difficulty,
   estimatedTime,
-  id,
-  type
-}: RecommendedCardProps) => {
+  difficulty,
+  type,
+  onClick
+}) => {
   const navigate = useNavigate();
-  
-  const getDifficultyColor = () => {
-    switch (difficulty) {
-      case 'Beginner':
-        return "bg-stemGreen/20 text-stemGreen-dark";
-      case 'Intermediate':
-        return "bg-stemOrange/20 text-stemOrange-dark";
-      case 'Advanced':
-        return "bg-destructive/20 text-destructive";
-      default:
-        return "bg-muted text-muted-foreground";
-    }
-  };
-  
-  const getTypeColor = () => {
-    switch (type) {
-      case 'module':
-        return "bg-stemPurple/20 text-stemPurple";
-      case 'quiz':
-        return "bg-stemGreen/20 text-stemGreen-dark";
-      case 'lab':
-        return "bg-stemYellow/20 text-stemYellow-dark";
-      default:
-        return "bg-muted text-muted-foreground";
+
+  const handleClick = () => {
+    if (onClick) {
+      onClick();
+    } else {
+      // Default navigation based on type
+      if (type === 'module') {
+        navigate(`/modules/${id}`);
+      } else if (type === 'quiz') {
+        navigate(`/quizzes/${id}`);
+      }
     }
   };
 
-  const handleStartContent = () => {
-    if (type === 'module') {
-      navigate(`/modules/${id}`);
-    } else if (type === 'quiz') {
-      navigate(`/quizzes/${id}`);
-    } else if (type === 'lab') {
-      navigate(`/virtual-lab`);
+  const getIcon = () => {
+    switch (type) {
+      case 'module':
+        return <BookOpen className="h-4 w-4" />;
+      case 'quiz':
+        return <Activity className="h-4 w-4" />;
+      default:
+        return <Play className="h-4 w-4" />;
     }
   };
 
   return (
-    <Card className="card-stem animate-fade-in">
-      <CardHeader className="pb-2">
-        <div className="flex justify-between items-start gap-2">
-          <CardTitle className="text-lg font-medium flex-1">{title}</CardTitle>
-          <BookmarkButton
-            itemId={id}
-            itemType={type}
-            itemTitle={title}
-          />
+    <Card className="cursor-pointer hover:shadow-md transition-shadow" onClick={handleClick}>
+      <CardHeader className="pb-3">
+        <div className="flex items-start justify-between">
+          <div className="space-y-1">
+            <CardTitle className="text-base">{title}</CardTitle>
+            <CardDescription className="line-clamp-2 text-sm">
+              {description}
+            </CardDescription>
+          </div>
+          <div className="flex flex-col gap-1">
+            <Badge className={getDifficultyColor(difficulty)}>
+              {difficulty}
+            </Badge>
+            <Badge variant="outline" className="text-xs">
+              {type}
+            </Badge>
+          </div>
         </div>
-        <div className="flex gap-2 flex-wrap">
-          <Badge className={getTypeColor()}>
-            {type.charAt(0).toUpperCase() + type.slice(1)}
-          </Badge>
-          <Badge className={getDifficultyColor()}>
-            {difficulty}
-          </Badge>
-        </div>
-        <CardDescription className="line-clamp-2">{description}</CardDescription>
       </CardHeader>
-      <CardContent>
-        <div className="flex justify-between items-center text-sm text-muted-foreground">
-          <span>Subject: {subject}</span>
-          <span>{estimatedTime}</span>
+      <CardContent className="pt-0">
+        <div className="flex items-center justify-between text-sm text-muted-foreground">
+          <div className="flex items-center gap-1">
+            <Clock className="h-3 w-3" />
+            {estimatedTime}
+          </div>
+          <div className="flex items-center gap-1">
+            {getIcon()}
+            <span className="capitalize">{subject}</span>
+          </div>
         </div>
       </CardContent>
-      <CardFooter>
-        <Button 
-          className="btn-stem w-full"
-          onClick={handleStartContent}
-        >
-          <PlayCircle className="mr-2 h-4 w-4" />
-          Start Now
-        </Button>
-      </CardFooter>
     </Card>
   );
 };

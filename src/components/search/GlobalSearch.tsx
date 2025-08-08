@@ -13,6 +13,8 @@ import { Badge } from "@/components/ui/badge";
 import { Book, Calculator, Atom, FlaskConical, Activity, Search, Beaker } from "lucide-react";
 import { DialogTitle } from "@/components/ui/dialog";
 import { supabase } from "@/integrations/supabase/client";
+import { useQuery } from "@tanstack/react-query";
+import { formatDifficulty } from "@/lib/utils";
 
 const extractSearchableText = (item: any): string => {
   const textParts = [
@@ -36,6 +38,21 @@ const GlobalSearch: React.FC<GlobalSearchProps> = ({ isOpen, onClose }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
 
+  // Fetch subjects for filters
+  const { data: subjects } = useQuery({
+    queryKey: ['subjects'],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from('subjects')
+        .select('id, name, color')
+        .order('name');
+
+      if (error) throw error;
+      return data || [];
+    },
+    staleTime: 5 * 60 * 1000, // 5 minutes
+  });
+
   useEffect(() => {
     if (isOpen) {
       setIsLoading(true);
@@ -57,7 +74,7 @@ const GlobalSearch: React.FC<GlobalSearchProps> = ({ isOpen, onClose }) => {
         .from('modules')
         .select(`
           *,
-          subject:subjects(name, color)
+          subject:subjects(id, name, color)
         `)
         .order('order_index');
 
@@ -70,12 +87,13 @@ const GlobalSearch: React.FC<GlobalSearchProps> = ({ isOpen, onClose }) => {
           *,
           module:modules(
             subject_id,
-            subject:subjects(name, color)
+            subject:subjects(id, name, color)
           )
         `);
 
       if (quizzesError) throw quizzesError;
 
+      // Combine and transform results
       const results = [
         ...(modulesData || []).map((module: any) => ({
           id: module.id,
@@ -83,8 +101,7 @@ const GlobalSearch: React.FC<GlobalSearchProps> = ({ isOpen, onClose }) => {
           description: module.description,
           subject: module.subject?.name || '',
           duration: `${module.estimated_duration || 30} minutes`,
-          difficulty: module.difficulty_level ?
-            (module.difficulty_level.charAt(0).toUpperCase() + module.difficulty_level.slice(1)) : 'Beginner',
+          difficulty: formatDifficulty(module.difficulty_level),
           type: 'module',
           keywords: module.keywords || [],
           isCompleted: false,
@@ -105,178 +122,109 @@ const GlobalSearch: React.FC<GlobalSearchProps> = ({ isOpen, onClose }) => {
       setSearchResults(results);
     } catch (error) {
       console.error('Error fetching search results:', error);
-      setSearchResults([]);
     } finally {
       setIsLoading(false);
     }
   };
 
-  // Effect to filter results when searchTerm changes
-  useEffect(() => {
-    if (!searchTerm.trim()) {
-      fetchSearchResults(); // Reset to all results when search is cleared
-      return;
-    }
-
-    const searchableText = searchTerm.toLowerCase();
-    const filteredResults = searchResults.filter(item => {
-      const itemText = extractSearchableText(item);
-      return itemText.includes(searchableText);
-    });
-
-    setSearchResults(filteredResults);
-  }, [searchTerm]);
-
-  const handleSearch = (term: string) => {
-    setSearchTerm(term);
-  };
-
-  const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (e.key === 'Enter' && searchTerm.trim()) {
-      // Navigate to search page with the query
-      navigate(`/search?q=${encodeURIComponent(searchTerm.trim())}`);
-      onClose();
-    }
-  };
+  const filteredResults = searchResults.filter(item =>
+    extractSearchableText(item).includes(searchTerm.toLowerCase())
+  );
 
   const handleSelect = (item: any) => {
-    if (item.type === "advanced-search") {
-      const searchParams = new URLSearchParams();
-      if (searchTerm) searchParams.set('q', searchTerm);
-      navigate(`/search?${searchParams.toString()}`);
-    } else if (item.type === "virtual-lab") {
-      navigate("/virtual-lab");
-    } else if (item.type === "module") {
-      navigate(`/modules/${item.id}`);
-    } else if (item.type === "quiz") {
+    if (item.type === 'module') {
+      navigate(`/subjects/${item.subjectId}/${item.id}`);
+    } else if (item.type === 'quiz') {
       navigate(`/quizzes/${item.id}`);
-    } else if (typeof item === 'string' && item.startsWith('subject:')) {
-      const subject = item.replace('subject:', '');
-      navigate(`/subjects/${subject}`);
     }
     onClose();
   };
 
-  const getSubjectIcon = (subject: string) => {
-    switch (subject?.toLowerCase()) {
-      case "mathematics":
-        return <Calculator className="h-4 w-4 mr-2" />;
-      case "physics":
-        return <Atom className="h-4 w-4 mr-2" />;
-      case "chemistry":
-        return <FlaskConical className="h-4 w-4 mr-2" />;
-      case "biology":
-        return <Activity className="h-4 w-4 mr-2" />;
+  const getIcon = (type: string) => {
+    switch (type) {
+      case 'module':
+        return <Book className="h-4 w-4" />;
+      case 'quiz':
+        return <Activity className="h-4 w-4" />;
       default:
-        return <Book className="h-4 w-4 mr-2" />;
+        return <Search className="h-4 w-4" />;
+    }
+  };
+
+  const getSubjectIcon = (subjectName: string) => {
+    const subject = subjectName?.toLowerCase();
+    switch (subject) {
+      case 'physics':
+        return <Atom className="h-4 w-4" />;
+      case 'chemistry':
+        return <FlaskConical className="h-4 w-4" />;
+      case 'mathematics':
+        return <Calculator className="h-4 w-4" />;
+      case 'biology':
+        return <Beaker className="h-4 w-4" />;
+      default:
+        return <Book className="h-4 w-4" />;
     }
   };
 
   return (
     <CommandDialog open={isOpen} onOpenChange={onClose}>
-      <DialogTitle className="text-lg font-semibold mb-2">Search Content</DialogTitle>
+      <DialogTitle className="sr-only">Search</DialogTitle>
       <CommandInput
-        placeholder="Search modules, quizzes, and more..."
+        placeholder="Search modules, quizzes, and subjects..."
         value={searchTerm}
-        onValueChange={handleSearch}
-        onKeyDown={handleKeyDown}
+        onValueChange={setSearchTerm}
       />
       <CommandList>
         <CommandEmpty>No results found.</CommandEmpty>
-        {isLoading ? (
-          <CommandGroup heading="Loading...">
-            <CommandItem disabled>Searching...</CommandItem>
-          </CommandGroup>
-        ) : (
-          <>
-            {searchTerm.trim() === "" && (
-              <>
-                <CommandGroup heading="Quick Access">
-                  <CommandItem
-                    value="virtual-lab"
-                    onSelect={() => handleSelect({ type: 'virtual-lab' })}
-                  >
-                    <Beaker className="h-4 w-4 mr-2 text-blue-600" />
-                    <div className="flex flex-col">
-                      <span>Virtual Laboratory</span>
-                      <span className="text-xs text-muted-foreground">
-                        Interactive science experiments
-                      </span>
-                    </div>
-                    <Badge className="ml-auto bg-blue-100 text-blue-800" variant="outline">
-                      Featured
-                    </Badge>
-                  </CommandItem>
-                </CommandGroup>
 
-                <CommandGroup heading="Subjects">
-                  <CommandItem value="subject:mathematics" onSelect={() => handleSelect('subject:mathematics')}>
-                    <Calculator className="h-4 w-4 mr-2" />
-                    <span>Mathematics</span>
-                  </CommandItem>
-                  <CommandItem value="subject:physics" onSelect={() => handleSelect('subject:physics')}>
-                    <Atom className="h-4 w-4 mr-2" />
-                    <span>Physics</span>
-                  </CommandItem>
-                  <CommandItem value="subject:chemistry" onSelect={() => handleSelect('subject:chemistry')}>
-                    <FlaskConical className="h-4 w-4 mr-2" />
-                    <span>Chemistry</span>
-                  </CommandItem>
-                  <CommandItem value="subject:biology" onSelect={() => handleSelect('subject:biology')}>
-                    <Activity className="h-4 w-4 mr-2" />
-                    <span>Biology</span>
-                  </CommandItem>
-                  <CommandItem value="subject:computerscience" onSelect={() => handleSelect('subject:computerscience')}>
-                    <Book className="h-4 w-4 mr-2" />
-                    <span>Computer Science</span>
-                  </CommandItem>
-                </CommandGroup>
-
-                <CommandSeparator />
-              </>
-            )}
-
-            {searchResults.length > 0 && (
-              <CommandGroup heading="Results">
-                {searchResults.map((item) => (
-                  <CommandItem
-                    key={item.id}
-                    value={item.title}
-                    onSelect={() => handleSelect(item)}
-                  >
+        {filteredResults.length > 0 && (
+          <CommandGroup heading="Results">
+            {filteredResults.slice(0, 10).map((item) => (
+              <CommandItem
+                key={`${item.type}-${item.id}`}
+                onSelect={() => handleSelect(item)}
+                className="flex items-center gap-3"
+              >
+                <div className="flex items-center gap-2">
+                  {getIcon(item.type)}
+                  <div className="flex-1">
                     <div className="flex items-center gap-2">
-                      {item.type === 'module' ? (
-                        <Book className="h-4 w-4" />
-                      ) : (
-                        <FlaskConical className="h-4 w-4" />
-                      )}
-                      <span>{item.title}</span>
-                      {item.subject && (
-                        <Badge variant="outline" className="ml-2">
-                          {item.subject}
-                        </Badge>
-                      )}
+                      <span className="font-medium">{item.title}</span>
+                      <Badge variant="outline" className="text-xs">
+                        {item.type}
+                      </Badge>
                     </div>
-                  </CommandItem>
-                ))}
-              </CommandGroup>
-            )}
+                    <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                      {getSubjectIcon(item.subjectName)}
+                      <span>{item.subjectName}</span>
+                    </div>
+                  </div>
+                </div>
+              </CommandItem>
+            ))}
+          </CommandGroup>
+        )}
+
+        {subjects && subjects.length > 0 && (
+          <>
             <CommandSeparator />
-            <CommandGroup heading="Quick Actions">
-              <CommandItem
-                value="advanced-search"
-                onSelect={() => handleSelect({ type: 'advanced-search' })}
-              >
-                <Search className="mr-2 h-4 w-4" />
-                <span>Advanced Search</span>
-              </CommandItem>
-              <CommandItem
-                value="virtual-lab"
-                onSelect={() => handleSelect({ type: 'virtual-lab' })}
-              >
-                <Beaker className="mr-2 h-4 w-4" />
-                <span>Virtual Laboratory</span>
-              </CommandItem>
+            <CommandGroup heading="Subjects">
+              {subjects.map((subject) => (
+                <CommandItem
+                  key={`subject-${subject.id}`}
+                  onSelect={() => {
+                    navigate(`/subjects/${subject.id}`);
+                    onClose();
+                  }}
+                  className="flex items-center gap-3"
+                >
+                  <div className="flex items-center gap-2">
+                    {getSubjectIcon(subject.name)}
+                    <span>{subject.name}</span>
+                  </div>
+                </CommandItem>
+              ))}
             </CommandGroup>
           </>
         )}

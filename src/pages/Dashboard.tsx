@@ -10,18 +10,18 @@ import RecommendedCard from "@/components/dashboard/RecommendedCard";
 import StreakCard from "@/components/dashboard/StreakCard";
 import LeaderboardCard from "@/components/dashboard/LeaderboardCard";
 import VirtualLabCard from "@/components/dashboard/VirtualLabCard";
-import { useAdaptiveLearning } from "@/hooks/use-offline-learning";
+import { useAdaptiveLearning } from "@/hooks/use-adaptive-learning";
 import { useQuery } from "@tanstack/react-query";
-import { formatDifficulty, formatDuration, formatTimeLimit } from "@/lib/utils";
+import { formatDifficulty } from "@/lib/utils";
 
 const Dashboard = () => {
   const navigate = useNavigate();
-  const { getRecommendations } = useAdaptiveLearning();
-
-  const { data: recommendations, isLoading } = useQuery({
-    queryKey: ['dashboard-recommendations'],
-    queryFn: () => getRecommendations([], []),
-  });
+  const {
+    recommendedModules,
+    recommendedQuizzes,
+    learningInsights,
+    isLoading: adaptiveLoading
+  } = useAdaptiveLearning();
 
   const quickActions = [
     {
@@ -53,172 +53,156 @@ const Dashboard = () => {
       <div>
         <h1 className="text-2xl font-bold tracking-tight">Dashboard</h1>
         <p className="text-muted-foreground">
-          Welcome back! Continue your STEM learning journey.
+          Welcome back! Here's your learning overview.
         </p>
       </div>
 
-      {/* Featured Virtual Lab Section */}
-      <Card className="border-2 border-blue-200 bg-gradient-to-br from-blue-50 via-purple-50 to-indigo-50 dark:from-blue-950 dark:via-purple-950 dark:to-indigo-950">
-        <CardHeader>
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              <div className="p-2 bg-blue-600 rounded-lg">
-                <Beaker className="h-6 w-6 text-white" />
-              </div>
-              <div>
-                <CardTitle className="text-xl text-blue-700 dark:text-blue-300">
-                  Virtual Laboratory
-                </CardTitle>
-                <CardDescription className="text-blue-600 dark:text-blue-400">
-                  Hands-on science simulations and experiments
-                </CardDescription>
-              </div>
-            </div>
-            <Badge className="bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-100">
-              Featured
-            </Badge>
-          </div>
-        </CardHeader>
-        <CardContent>
-          <div className="grid grid-cols-3 gap-3 mb-4">
-            <div className="text-center p-3 bg-white/50 dark:bg-gray-800/50 rounded-lg">
-              <div className="text-sm font-medium text-blue-700 dark:text-blue-300">Chemistry</div>
-              <div className="text-xs text-muted-foreground">2 experiments</div>
-            </div>
-            <div className="text-center p-3 bg-white/50 dark:bg-gray-800/50 rounded-lg">
-              <div className="text-sm font-medium text-blue-700 dark:text-blue-300">Physics</div>
-              <div className="text-xs text-muted-foreground">2 experiments</div>
-            </div>
-            <div className="text-center p-3 bg-white/50 dark:bg-gray-800/50 rounded-lg">
-              <div className="text-sm font-medium text-blue-700 dark:text-blue-300">Mathematics</div>
-              <div className="text-xs text-muted-foreground">2 experiments</div>
-            </div>
-          </div>
-          <Button
-            onClick={() => navigate('/virtual-lab')}
-            className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white flex justify-between items-center group"
-          >
-            <span className="flex items-center gap-2">
-              <Play className="h-4 w-4" />
-              Start Experimenting
-            </span>
-            <ChevronRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
-          </Button>
-        </CardContent>
-      </Card>
-
-      {/* Progress Overview */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <ProgressCard
-          title="Learning Progress"
-          progress={8}
-          total={15}
-          description="Modules completed this week"
-          type="module"
-        />
-        <StreakCard
-          currentStreak={5}
-          longestStreak={12}
-          lastActivity="2 hours ago"
-        />
-        <LeaderboardCard
-          title="Weekly Leaderboard"
-          users={[
-            {
-              id: "user-1",
-              name: "You",
-              points: 850,
-              rank: 3,
-              avatarInitials: "YU",
-              school: "Your School",
-              isCurrentUser: true
-            },
-            {
-              id: "user-2",
-              name: "Alex Chen",
-              points: 920,
-              rank: 1,
-              avatarInitials: "AC",
-              school: "Tech High School"
-            },
-            {
-              id: "user-3",
-              name: "Sarah Kim",
-              points: 875,
-              rank: 2,
-              avatarInitials: "SK",
-              school: "Science Academy"
-            }
-          ]}
-        />
-        <VirtualLabCard />
-      </div>
-
       {/* Quick Actions */}
-      <div>
-        <h2 className="text-lg font-semibold mb-4">Quick Actions</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-          {quickActions.map((action, index) => (
-            <Card
-              key={index}
-              className={`cursor-pointer hover:shadow-lg transition-all duration-200 ${action.featured ? 'ring-2 ring-blue-200 dark:ring-blue-800' : ''
-                }`}
-              onClick={action.action}
-            >
-              <CardContent className="p-4">
-                <div className="flex items-center space-x-3">
-                  <div className={`p-2 rounded-lg ${action.color}`}>
-                    <action.icon className="h-5 w-5 text-white" />
-                  </div>
-                  <div className="flex-1">
-                    <h3 className="font-medium text-sm">{action.title}</h3>
-                    <p className="text-xs text-muted-foreground">{action.description}</p>
-                  </div>
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        {quickActions.map((action, index) => (
+          <Card
+            key={index}
+            className={`cursor-pointer hover:shadow-md transition-shadow ${action.featured ? 'ring-2 ring-blue-500' : ''
+              }`}
+            onClick={action.action}
+          >
+            <CardContent className="p-6">
+              <div className="flex items-center space-x-4">
+                <div className={`p-3 rounded-lg ${action.color} text-white`}>
+                  <action.icon className="h-6 w-6" />
                 </div>
-              </CardContent>
-            </Card>
-          ))}
-        </div>
+                <div className="flex-1">
+                  <h3 className="font-semibold">{action.title}</h3>
+                  <p className="text-sm text-muted-foreground">{action.description}</p>
+                </div>
+                <ChevronRight className="h-4 w-4 text-muted-foreground" />
+              </div>
+            </CardContent>
+          </Card>
+        ))}
       </div>
 
-      {/* Recommendations */}
-      {!isLoading && recommendations && (
-        <div>
-          <div className="flex items-center justify-between mb-4">
-            <h2 className="text-lg font-semibold">Recommended for You</h2>
-            <Button variant="outline" size="sm" onClick={() => navigate("/subjects")}>
-              View All
-            </Button>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {recommendations.modules.slice(0, 3).map((module, index) => {
-              // Fix the difficulty normalization
-              const normalizedDifficulty = (() => {
-                const difficulty = module.difficulty?.toLowerCase();
-                switch (difficulty) {
-                  case 'beginner': return 'Beginner';
-                  case 'intermediate': return 'Intermediate';
-                  case 'advanced': return 'Advanced';
-                  default: return 'Beginner';
-                }
-              })();
+      {/* Learning Insights */}
+      {learningInsights && (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <Card>
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+              <CardTitle className="text-sm font-medium">Modules Completed</CardTitle>
+              <BookOpen className="h-4 w-4 text-muted-foreground" />
+            </CardHeader>
+            <CardContent>
+              <div className="text-2xl font-bold">{learningInsights.totalModulesCompleted}</div>
+              <p className="text-xs text-muted-foreground">
+                Keep up the great work!
+              </p>
+            </CardContent>
+          </Card>
 
-              return (
-                <RecommendedCard
-                  key={index}
-                  id={module.id}
-                  title={module.title}
-                  description={module.description}
-                  subject={module.subject}
-                  estimatedTime={module.duration || "15 minutes"}
-                  difficulty={normalizedDifficulty}
-                  type="module"
-                />
-              );
-            })}
-          </div>
+          <Card>
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+              <CardTitle className="text-sm font-medium">Quiz Score</CardTitle>
+              <TrendingUp className="h-4 w-4 text-muted-foreground" />
+            </CardHeader>
+            <CardContent>
+              <div className="text-2xl font-bold">{Math.round(learningInsights.averageScore)}%</div>
+              <p className="text-xs text-muted-foreground">
+                {learningInsights.totalQuizzesTaken} quizzes taken
+              </p>
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+              <CardTitle className="text-sm font-medium">Learning Streak</CardTitle>
+              <Trophy className="h-4 w-4 text-muted-foreground" />
+            </CardHeader>
+            <CardContent>
+              <div className="text-2xl font-bold">{learningInsights.currentStreak}</div>
+              <p className="text-xs text-muted-foreground">
+                days in a row
+              </p>
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+              <CardTitle className="text-sm font-medium">Time Spent</CardTitle>
+              <Play className="h-4 w-4 text-muted-foreground" />
+            </CardHeader>
+            <CardContent>
+              <div className="text-2xl font-bold">{Math.round(learningInsights.totalTimeSpent / 60)}m</div>
+              <p className="text-xs text-muted-foreground">
+                total learning time
+              </p>
+            </CardContent>
+          </Card>
         </div>
       )}
+
+      {/* Progress and Recommendations */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div className="lg:col-span-2 space-y-6">
+          <ProgressCard />
+
+          {/* Recommended Modules */}
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <BookOpen className="h-5 w-5" />
+                Recommended for You
+              </CardTitle>
+              <CardDescription>
+                Based on your learning progress and preferences
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              {adaptiveLoading ? (
+                <div className="space-y-4">
+                  {[1, 2, 3].map((i) => (
+                    <div key={i} className="flex items-center space-x-4">
+                      <div className="h-12 w-12 bg-muted rounded-lg animate-pulse" />
+                      <div className="space-y-2 flex-1">
+                        <div className="h-4 bg-muted rounded animate-pulse" />
+                        <div className="h-3 bg-muted rounded w-2/3 animate-pulse" />
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              ) : recommendedModules && recommendedModules.length > 0 ? (
+                <div className="space-y-4">
+                  {recommendedModules.slice(0, 3).map((module) => (
+                    <RecommendedCard
+                      key={module.id}
+                      title={module.title}
+                      description={module.description || ''}
+                      subject={module.subject?.name || 'Unknown'}
+                      difficulty={formatDifficulty(module.difficulty_level)}
+                      onClick={() => navigate(`/subjects/${module.subject?.id}/${module.id}`)}
+                    />
+                  ))}
+                </div>
+              ) : (
+                <div className="text-center py-8">
+                  <BookOpen className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
+                  <h3 className="text-lg font-semibold mb-2">No recommendations yet</h3>
+                  <p className="text-muted-foreground mb-4">
+                    Complete some modules to get personalized recommendations.
+                  </p>
+                  <Button onClick={() => navigate("/subjects")}>
+                    Explore Subjects
+                  </Button>
+                </div>
+              )}
+            </CardContent>
+          </Card>
+        </div>
+
+        <div className="space-y-6">
+          <StreakCard />
+          <LeaderboardCard />
+          <VirtualLabCard />
+        </div>
+      </div>
     </div>
   );
 };
