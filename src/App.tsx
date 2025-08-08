@@ -22,6 +22,8 @@ import VirtualLab from "./pages/VirtualLab";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import TeacherQuizzes from "./pages/TeacherQuizzes";
+import Quiz from "./pages/Quiz";
+import ModuleRedirect from "./pages/ModuleRedirect";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
