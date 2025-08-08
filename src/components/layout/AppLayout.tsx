@@ -36,7 +36,7 @@ const AppLayout = () => {
       badge: "New"
     },
     { path: "/achievements", label: "Achievements", icon: Trophy },
-    { path: "/rooms", label: "Study Rooms", icon: Users },
+    
     { path: "/profile", label: "Profile", icon: User },
   ];
 

@@ -45,13 +45,6 @@ const Dashboard = () => {
       action: () => navigate("/achievements"),
       color: "bg-stemYellow"
     },
-    {
-      title: "Study Rooms",
-      description: "Join collaborative sessions",
-      icon: Users,
-      action: () => navigate("/rooms"),
-      color: "bg-stemGreen"
-    }
   ];
 
   return (

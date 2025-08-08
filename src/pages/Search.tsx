@@ -56,7 +56,7 @@ const SearchPage = () => {
       <div>
         <h1 className="text-2xl font-bold tracking-tight">Search</h1>
         <p className="text-muted-foreground">
-          Find modules, quizzes, and study rooms across all subjects
+          Find modules, quizzes, and labs across all subjects
         </p>
       </div>
 
