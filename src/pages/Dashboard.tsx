@@ -10,9 +10,10 @@ import RecommendedCard from "@/components/dashboard/RecommendedCard";
 import StreakCard from "@/components/dashboard/StreakCard";
 import LeaderboardCard from "@/components/dashboard/LeaderboardCard";
 import VirtualLabCard from "@/components/dashboard/VirtualLabCard";
+import { SyncStatus } from "@/components/sync/SyncStatus";
 import { useAdaptiveLearning } from "@/hooks/use-adaptive-learning";
 import { useQuery } from "@tanstack/react-query";
-import { formatDifficulty } from "@/lib/utils";
+import { formatDifficulty, formatDuration } from "@/lib/utils";
 
 const Dashboard = () => {
   const navigate = useNavigate();
@@ -142,7 +143,7 @@ const Dashboard = () => {
       {/* Progress and Recommendations */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <div className="lg:col-span-2 space-y-6">
-          <ProgressCard />
+          {/* <ProgressCard /> */}
 
           {/* Recommended Modules */}
           <Card>
@@ -173,10 +174,13 @@ const Dashboard = () => {
                   {recommendedModules.slice(0, 3).map((module) => (
                     <RecommendedCard
                       key={module.id}
+                      id={module.id}
                       title={module.title}
                       description={module.description || ''}
                       subject={module.subject?.name || 'Unknown'}
+                      estimatedTime={formatDuration(module.estimated_duration)}
                       difficulty={formatDifficulty(module.difficulty_level)}
+                      type="module"
                       onClick={() => navigate(`/subjects/${module.subject?.id}/${module.id}`)}
                     />
                   ))}
@@ -198,9 +202,10 @@ const Dashboard = () => {
         </div>
 
         <div className="space-y-6">
-          <StreakCard />
-          <LeaderboardCard />
-          <VirtualLabCard />
+          <SyncStatus />
+          {/* <StreakCard /> */}
+          {/* <LeaderboardCard /> */}
+          {/* <VirtualLabCard /> */}
         </div>
       </div>
     </div>

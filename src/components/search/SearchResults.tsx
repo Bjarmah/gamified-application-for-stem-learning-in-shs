@@ -7,7 +7,7 @@ import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
 import RecommendedCard from "@/components/dashboard/RecommendedCard";
 import { supabase } from "@/integrations/supabase/client";
-import { formatDifficulty, formatDuration, formatTimeLimit } from "@/lib/utils";
+import { formatDifficulty, formatDuration } from "@/lib/utils";
 
 interface FiltersProps {
   subjects: string[];
@@ -269,7 +269,7 @@ const SearchResults: React.FC<SearchResultsProps> = ({ query, filters, resultTyp
                 title={item.title}
                 description={item.description}
                 subject={item.subjectName}
-                estimatedTime={`${item.duration || 15} minutes`}
+                estimatedTime={formatDuration(item.duration)}
                 difficulty={formatDifficulty(item.difficulty)}
                 type={item.type as "module" | "quiz"}
               />

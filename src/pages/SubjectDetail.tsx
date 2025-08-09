@@ -93,8 +93,9 @@ const SubjectDetail = () => {
                 id={module.id}
                 title={module.title}
                 description={module.description || ''}
-                subject={subject.name.toLowerCase()}
-                duration={formatDuration(module.estimated_duration)}
+                subjectId={subject.id}
+                subjectName={subject.name}
+                duration={module.estimated_duration}
                 isCompleted={false} // This would come from user progress
                 difficulty={formatDifficulty(module.difficulty_level)}
                 hasQuiz={quizzes?.some(quiz => quiz.module_id === module.id) || false}
