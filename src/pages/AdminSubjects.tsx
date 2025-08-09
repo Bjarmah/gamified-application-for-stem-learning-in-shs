@@ -224,7 +224,7 @@ const AdminSubjects = () => {
         <div className="space-y-6 pb-8">
             <div className="flex items-center gap-4">
                 <Button variant="ghost" onClick={() => navigate('/admin')}>
-                    <ArrowLeft className="h-4 w-4 mr-2" />
+                    <ArrowLeft className="h-4 w-4 mr-2" aria-hidden="true" />
                     Back
                 </Button>
                 <div>
@@ -327,9 +327,7 @@ const AdminSubjects = () => {
                                                 value={formData.color}
                                                 onChange={(e) => {
                                                     const value = e.target.value;
-                                                    if (/^#[0-9A-F]{6}$/i.test(value)) {
-                                                        setFormData({ ...formData, color: value });
-                                                    }
+                                                    setFormData({ ...formData, color: value });
                                                 }}
                                                 className="w-16 h-10"
                                                 aria-label="Choose subject color"
@@ -338,13 +336,14 @@ const AdminSubjects = () => {
                                                 value={formData.color}
                                                 onChange={(e) => {
                                                     const value = e.target.value;
-                                                    if (/^#[0-9A-F]{6}$/i.test(value)) {
+                                                    if (value.startsWith('#') && value.length <= 7) {
                                                         setFormData({ ...formData, color: value });
                                                     }
                                                 }}
                                                 placeholder="#6366f1"
                                                 pattern="^#[0-9A-F]{6}$"
                                                 title="Please enter a valid hex color code (e.g. #6366f1)"
+                                                aria-label="Enter color hex code"
                                             />
                                         </div>
                                     </div>
@@ -371,12 +370,10 @@ const AdminSubjects = () => {
                         <p className="text-muted-foreground mb-4">
                             Get started by adding your first subject.
                         </p>
-                        <DialogTrigger asChild>
-                            <Button>
-                                <Plus className="h-4 w-4 mr-2" aria-hidden="true" />
-                                Add First Subject
-                            </Button>
-                        </DialogTrigger>
+                        <Button onClick={() => setIsDialogOpen(true)}>
+                            <Plus className="h-4 w-4 mr-2" aria-hidden="true" />
+                            Add First Subject
+                        </Button>
                     </CardContent>
                 </Card>
             ) : (
@@ -391,7 +388,7 @@ const AdminSubjects = () => {
                                             style={{ backgroundColor: subject.color || '#6366f1' }}
                                             className="text-white"
                                         >
-                                            {subject.icon || 'BookOpen'}
+                                            <span aria-hidden="true">{subject.icon || 'BookOpen'}</span>
                                         </Badge>
                                     </div>
                                     <div className="flex space-x-1">
