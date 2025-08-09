@@ -1,0 +1,20 @@
+{
+  "name": "stem-stars-ghana-sample-data",
+  "version": "1.0.0",
+  "description": "Scripts to generate sample data for STEM Stars Ghana application",
+  "private": true,
+  "scripts": {
+    "users": "node create-sample-users.js",
+    "progress": "node create-sample-user-progress.js",
+    "quizzes": "node create-sample-quiz-attempts.js",
+    "all": "npm run users && npm run progress && npm run quizzes",
+    "setup": "cp .env.example .env && echo 'Created .env file. Please edit it with your Supabase service key.'"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.39.0",
+    "dotenv": "^16.3.1"
+  },
+  "engines": {
+    "node": ">=14.0.0"
+  }
+}
