@@ -7,10 +7,6 @@ import {
   getLastSyncTime
 } from './offlineStorage';
 import { supabase } from '@/integrations/supabase/client';
-import { TablesInsert } from '@/integrations/supabase/types';
-
-type UserProgressInsert = TablesInsert<'user_progress'>;
-type QuizAttemptInsert = TablesInsert<'quiz_attempts'>;
 
 // Sync configuration
 const SYNC_CONFIG = {
