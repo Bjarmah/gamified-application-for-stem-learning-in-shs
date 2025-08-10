@@ -1,12 +1,28 @@
 
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
-import { Tables, TablesInsert } from '@/integrations/supabase/types';
 import { useAuth } from '@/context/AuthContext';
 import { useToast } from '@/hooks/use-toast';
 
-type UserProgress = Tables<'user_progress'>;
-type UserProgressInsert = TablesInsert<'user_progress'>;
+interface UserProgress {
+  id: string;
+  user_id: string;
+  module_id: string | null;
+  completed: boolean | null;
+  score: number | null;
+  time_spent: number | null;
+  last_accessed: string | null;
+  created_at: string | null;
+}
+
+type UserProgressInsert = {
+  module_id: string;
+  completed?: boolean;
+  score?: number;
+  time_spent?: number;
+  last_accessed?: string;
+  created_at?: string;
+};
 
 export const useUserProgress = (moduleId?: string) => {
   const { user } = useAuth();

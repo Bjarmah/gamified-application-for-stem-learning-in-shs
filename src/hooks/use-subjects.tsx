@@ -1,9 +1,12 @@
 
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
-import { Tables } from '@/integrations/supabase/types';
-
-type Subject = Tables<'subjects'>;
+interface Subject {
+  id: string;
+  name: string;
+  description?: string | null;
+  color?: string | null;
+}
 
 export const useSubjects = () => {
   return useQuery({

@@ -1,9 +1,16 @@
 
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
-import { Tables } from '@/integrations/supabase/types';
-
-type Module = Tables<'modules'>;
+interface Module {
+  id: string;
+  title: string;
+  description?: string | null;
+  content?: string | null;
+  subject_id: string;
+  difficulty_level?: string;
+  order_index?: number;
+  estimated_duration?: number | null;
+}
 
 export const useModules = (subjectId?: string) => {
   return useQuery({

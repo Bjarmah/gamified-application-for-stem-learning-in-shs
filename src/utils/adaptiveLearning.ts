@@ -1,5 +1,5 @@
 import { supabase } from '@/integrations/supabase/client';
-import { Tables } from '@/integrations/supabase/types';
+
 import { useAuth } from '@/context/AuthContext';
 
 export interface LearningProfile {
