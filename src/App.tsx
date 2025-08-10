@@ -26,8 +26,6 @@ import Quiz from "./pages/Quiz";
 import ModuleRedirect from "./pages/ModuleRedirect";
 import AdminDashboard from "./pages/AdminDashboard";
 import AdminSubjects from "./pages/AdminSubjects";
-import AdminModules from "./pages/AdminModules";
-import AdminQuizzes from "./pages/AdminQuizzes";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient({
@@ -72,8 +70,6 @@ function App() {
                       {/* Admin Routes */}
                       <Route path="admin" element={<AdminDashboard />} />
                       <Route path="admin/subjects" element={<AdminSubjects />} />
-                      <Route path="admin/modules" element={<AdminModules />} />
-                      <Route path="admin/quizzes" element={<AdminQuizzes />} />
                     </Route>
                     <Route path="*" element={<NotFound />} />
                   </Routes>

@@ -193,8 +193,8 @@ export function useOfflineLearning() {
 
   const clearOfflineData = async () => {
     try {
-      const keys = await keys();
-      const moduleKeys = keys.filter(key =>
+      const allKeys = await keys();
+      const moduleKeys = allKeys.filter(key =>
         typeof key === 'string' && key.startsWith('module_')
       );
 

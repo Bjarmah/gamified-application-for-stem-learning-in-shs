@@ -234,10 +234,7 @@ export const getRecommendedModules = async (userId: string): Promise<any[]> => {
         // Prioritize modules in weak subjects
         const isWeakSubject = profile.weaknesses.includes(module.subject?.id);
 
-        // Prioritize modules in subjects where user has made progress but not completed
-        const hasProgress = userProgress?.some(p => p.module_id === module.id && !p.completed);
-
-        return matchesDifficulty || isWeakSubject || hasProgress;
+        return matchesDifficulty || isWeakSubject;
       })
       .sort((a, b) => {
         // Sort by priority: weak subjects first, then difficulty match, then progress
@@ -293,13 +290,7 @@ export const getRecommendedQuizzes = async (userId: string): Promise<any[]> => {
         // Prioritize quizzes in weak subjects
         const isWeakSubject = profile.weaknesses.includes(quiz.module?.subject?.id);
 
-        // Filter out quizzes the user has already attempted recently
-        const hasRecentAttempt = quizAttempts?.some(attempt =>
-          attempt.quiz_id === quiz.id &&
-          new Date(attempt.completed_at || '').getTime() > Date.now() - 7 * 24 * 60 * 60 * 1000 // 7 days
-        );
-
-        return !hasRecentAttempt && (matchesDifficulty || isWeakSubject);
+        return matchesDifficulty || isWeakSubject;
       })
       .sort((a, b) => {
         // Sort by priority: weak subjects first, then difficulty match
