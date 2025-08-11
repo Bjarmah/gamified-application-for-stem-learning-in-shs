@@ -8,6 +8,7 @@ import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { ArrowLeft, Clock, CheckCircle, ListChecks, BookOpen, Play } from "lucide-react";
+import { formatDifficulty, getDifficultyColor } from "@/lib/utils";
 
 
 const ModuleDetail: React.FC = () => {
@@ -75,26 +76,10 @@ const ModuleDetail: React.FC = () => {
     );
   }
 
-  const prettyDifficulty = (difficulty: string | null): 'Beginner' | 'Intermediate' | 'Advanced' => {
-    if (!difficulty) return 'Beginner';
-    const d = difficulty.toLowerCase();
-    if (d === 'advanced') return 'Advanced';
-    if (d === 'intermediate') return 'Intermediate';
-    return 'Beginner';
-  };
-
+  // Using the imported formatDifficulty and getDifficultyColor functions
   const difficultyBadge = () => {
-    const lvl = module?.difficulty_level || "beginner";
-    switch (lvl.toLowerCase()) {
-      case "beginner":
-        return "bg-stemGreen/20 text-stemGreen-dark";
-      case "intermediate":
-        return "bg-stemOrange/20 text-stemOrange-dark";
-      case "advanced":
-        return "bg-destructive/20 text-destructive";
-      default:
-        return "bg-muted text-muted-foreground";
-    }
+    const formattedDifficulty = formatDifficulty(module?.difficulty_level || "beginner");
+    return getDifficultyColor(formattedDifficulty);
   };
 
   return (
@@ -163,7 +148,7 @@ const ModuleDetail: React.FC = () => {
                 {module.title}
               </CardTitle>
               <div className="flex items-center gap-2">
-                <Badge className={difficultyBadge()}>{prettyDifficulty(module.difficulty_level)}</Badge>
+                <Badge className={difficultyBadge()}>{formatDifficulty(module.difficulty_level)}</Badge>
                 <Badge variant="outline" className="flex items-center gap-1">
                   <Clock className="h-3 w-3" /> ~{module.estimated_duration || 30} mins
                 </Badge>
