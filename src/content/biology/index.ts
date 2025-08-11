@@ -2,7 +2,7 @@ import module1 from './module1.json';
 import module2 from './module2.json';
 import module3 from './module3.json';
 
-export type StructuredModule = any;
+export type StructuredModule = unknown;
 
 const mapByTitle: Record<string, StructuredModule> = {
   'Cell Structure & Function': module1,

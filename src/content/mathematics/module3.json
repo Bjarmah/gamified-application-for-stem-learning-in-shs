@@ -1,0 +1,89 @@
+{
+  "moduleId": "math-statistics-probability",
+  "moduleTitle": "Statistics & Probability",
+  "subject": "Mathematics",
+  "level": "SHS 3",
+  "objectives": [
+    "Classify data types, choose sampling methods, and present data effectively",
+    "Calculate and interpret measures of central tendency and dispersion",
+    "Apply probability rules and basic distributions to real decisions"
+  ],
+  "learningPath": ["Topic Introduction", "Core Concepts", "Knowledge Checks", "Practice Challenges", "Module Assessment"],
+  "xpRules": {"lessonCompletion": 10, "correctAnswer": 5, "scenarioSolved": 15, "moduleCompletionBonus": 50},
+  "milestones": [{"threshold": 25, "unlock": "practice"}, {"threshold": 50, "unlock": "scenarios"}, {"threshold": 75, "unlock": "bonus"}, {"threshold": 100, "unlock": "certificate"}],
+  "achievements": [{"id": "data-detective", "title": "Data Detective", "criteria": "Complete statistics and probability"}],
+  "alignment": {"exam": "WASSCE Core/ Elective Maths", "notes": "Data handling, measures, probability", "careers": ["Data science", "Public health", "Economics"]},
+  "lessons": [
+    {
+      "id": "data-collection-presentation",
+      "title": "Data Collection and Presentation",
+      "text": "**Data** can be **qualitative** (categories) or **quantitative** (numerical). Quantitative data may be **discrete** (counts) or **continuous** (measurements). Good **sampling** (random, stratified, systematic) reduces bias and improves validity. Data are presented using **tables**, **bar charts**, **pie charts**, **histograms**, and **line graphs**. In Ghana, sources include the **Ghana Statistical Service (GSS)** and school surveys. Accurate presentation helps reveal trends in population, agriculture yield, or market prices. Choosing the right chart depends on the data type and the message you want to convey.",
+      "knowledgeChecks": {
+        "mcq": [
+          {"id": "sp-l1-q1", "type": "mcq", "stem": "Number of goals scored is:", "options": {"A": "Qualitative", "B": "Quantitative discrete", "C": "Quantitative continuous", "D": "Categorical ordinal only"}, "answer": "B", "explanation": "Goals are counted (0,1,2,…)."},
+          {"id": "sp-l1-q2", "type": "mcq", "stem": "Best graph for class frequencies:", "options": {"A": "Histogram", "B": "Pie chart", "C": "Scatter plot", "D": "Time series line"}, "answer": "A", "explanation": "Histograms show grouped continuous data."},
+          {"id": "sp-l1-q3", "type": "mcq", "stem": "Stratified sampling means:", "options": {"A": "Everyone is sampled", "B": "Population split into groups then sampled", "C": "Only volunteers", "D": "Haphazard selection"}, "answer": "B", "explanation": "Ensures representation from key subgroups."},
+          {"id": "sp-l1-q4", "type": "mcq", "stem": "Continuous data example:", "options": {"A": "Students per class", "B": "Type of crop", "C": "Height (cm)", "D": "Jersey number"}, "answer": "C", "explanation": "Heights vary continuously."},
+          {"id": "sp-l1-q5", "type": "mcq", "stem": "Pie charts are best for:", "options": {"A": "Showing parts of a whole", "B": "Trends over time", "C": "Correlation", "D": "Cumulative frequency"}, "answer": "A", "explanation": "Parts of a whole at a snapshot."}
+        ],
+        "graphInterpretation": [
+          {"id": "sp-l1-g1", "prompt": "Given a bar chart of maize yields across regions, identify the highest-yield region.", "answer": "Ashanti (example answer; use provided chart in app)."},
+          {"id": "sp-l1-g2", "prompt": "A histogram shows test scores clustered near 60–70. What does this suggest?", "answer": "Most students scored in the 60–70 range (central tendency)."}
+        ]
+      },
+      "scenarioChallenges": [
+        {"id": "sp-l1-s1", "scenario": "You are analyzing **Ghana's population census** age distribution.", "question": "Which presentation best highlights the proportion of youth vs adults?", "options": {"A": "Pie chart", "B": "Scatter plot", "C": "Box plot only", "D": "Random table"}, "answer": "A", "explanation": "Pie charts show proportions clearly."}
+      ]
+    },
+    {
+      "id": "central-tendency-dispersion",
+      "title": "Measures of Central Tendency and Dispersion",
+      "text": "Measures of **central tendency** (mean, median, mode) summarize the centre of data. **Dispersion** (range, interquartile range, variance, **standard deviation**) shows spread. The mean is sensitive to outliers, while median is robust. Standard deviation indicates how far values typically deviate from the mean. In comparing schools or regions in Ghana, both centre and spread matter—small differences in means may be unimportant if variability is large.",
+      "knowledgeChecks": {
+        "calculationExercises": [
+          {"id": "sp-l2-c1", "prompt": "Find mean of 10, 12, 14, 20.", "answer": "(10+12+14+20)/4 = 14"},
+          {"id": "sp-l2-c2", "prompt": "Median of 2, 3, 9, 11, 15.", "answer": "9"},
+          {"id": "sp-l2-c3", "prompt": "Mode of 5, 7, 7, 8, 9.", "answer": "7"},
+          {"id": "sp-l2-c4", "prompt": "Range of 12, 4, 9, 20.", "answer": "20 − 4 = 16"},
+          {"id": "sp-l2-c5", "prompt": "Sample variance of 2, 4, 4 (show formula).", "answer": "Mean = 10/3; s^2 = Σ(x−x̄)^2/(n−1) = [(−4/3)^2 + (2/3)^2 + (2/3)^2]/2 = (16/9+4/9+4/9)/2 = (24/9)/2 = 4/3 ≈ 1.33"},
+          {"id": "sp-l2-c6", "prompt": "Standard deviation for 5, 5, 5.", "answer": "0 (no spread)"}
+        ],
+        "mcq": [
+          {"id": "sp-l2-q1", "type": "mcq", "stem": "Mean is most affected by:", "options": {"A": "Outliers", "B": "Sample size only", "C": "Units", "D": "None"}, "answer": "A", "explanation": "Outliers pull the mean."},
+          {"id": "sp-l2-q2", "type": "mcq", "stem": "Interquartile range measures:", "options": {"A": "Centre", "B": "Spread of middle 50%", "C": "Skew only", "D": "Correlation"}, "answer": "B", "explanation": "IQR = Q3 − Q1."},
+          {"id": "sp-l2-q3", "type": "mcq", "stem": "A dataset with same mean but larger SD is:", "options": {"A": "More spread out", "B": "Less spread out", "C": "Identical", "D": "Undefined"}, "answer": "A", "explanation": "Higher SD indicates more variability."},
+          {"id": "sp-l2-q4", "type": "mcq", "stem": "Median is preferred when:", "options": {"A": "Data symmetric with no outliers", "B": "Data skewed with outliers", "C": "Data categorical", "D": "Always"}, "answer": "B", "explanation": "Median resists outliers."}
+        ]
+      },
+      "scenarioChallenges": [
+        {"id": "sp-l2-s1", "scenario": "Two SHS schools compare maths test results. School A: mean 65, SD 12. School B: mean 67, SD 25.", "question": "Which statement is most accurate?", "options": {"A": "School A has higher average", "B": "School B has less variation", "C": "Means are similar but B is more variable", "D": "Both are identical"}, "answer": "C", "explanation": "Means close, but SD shows B more spread out."}
+      ]
+    },
+    {
+      "id": "probability-distributions",
+      "title": "Probability and Distributions",
+      "text": "**Probability** quantifies chance between 0 and 1. For independent events A and B, P(A∩B) = P(A)P(B); for mutually exclusive events, P(A∪B)=P(A)+P(B). Counting with **combinations** supports binomial outcomes. The **normal distribution** is bell-shaped, often used to model test scores around a mean. Probability informs decisions in agriculture (rainfall), sports (match outcomes), and business (demand).",
+      "knowledgeChecks": {
+        "mcq": [
+          {"id": "sp-l3-q1", "type": "mcq", "stem": "A fair die: P(odd) =", "options": {"A": "1/6", "B": "1/3", "C": "1/2", "D": "2/3"}, "answer": "C", "explanation": "3 odd faces out of 6."},
+          {"id": "sp-l3-q2", "type": "mcq", "stem": "P(A∩B) for independent A, B equals:", "options": {"A": "P(A)+P(B)", "B": "P(A)P(B)", "C": "P(A)/P(B)", "D": "P(A)−P(B)"}, "answer": "B", "explanation": "Definition of independence."},
+          {"id": "sp-l3-q3", "type": "mcq", "stem": "Choose 3 players from 8. Number of ways:", "options": {"A": "56", "B": "48", "C": "336", "D": "512"}, "answer": "A", "explanation": "C(8,3)=56."},
+          {"id": "sp-l3-q4", "type": "mcq", "stem": "Normal distribution is characterized by:", "options": {"A": "Mean and variance", "B": "Median only", "C": "Mode only", "D": "No parameters"}, "answer": "A", "explanation": "N(μ, σ^2)."},
+          {"id": "sp-l3-q5", "type": "mcq", "stem": "A coin tossed 5 times: P(exactly 3 heads) =", "options": {"A": "10/32", "B": "5/32", "C": "3/32", "D": "1/32"}, "answer": "A", "explanation": "C(5,3)/2^5 = 10/32."}
+        ],
+        "treeDiagrams": [
+          {"id": "sp-l3-t1", "prompt": "Draw a tree for two coin tosses and list outcomes.", "answer": "HH, HT, TH, TT (each 1/4)."},
+          {"id": "sp-l3-t2", "prompt": "Two balls drawn without replacement from 2 red, 1 blue. Find P(both red).", "answer": "(2/3)·(1/2)=1/3"},
+          {"id": "sp-l3-t3", "prompt": "From a bag with 3 A and 2 B mangoes, draw two with replacement. P(one A then one B).", "answer": "(3/5)·(2/5)=6/25"}
+        ]
+      },
+      "scenarioChallenges": [
+        {"id": "sp-l3-s1", "scenario": "A lottery game in Ghana sells tickets for GHS 2. A player picks 2 distinct numbers from 1–10; order doesn’t matter. A winning draw selects 2 numbers uniformly.", "question": "What is the probability of winning with one ticket?", "options": {"A": "1/45", "B": "1/90", "C": "2/45", "D": "1/10"}, "answer": "A", "explanation": "Total combinations C(10,2)=45; favourable = 1."}
+      ]
+    }
+  ],
+  "finalAssessment": {"notes": "20 questions across data, measures, and probability", "questions": [
+    {"id": "sp-fa-q1", "type": "mcq", "stem": "Quantitative continuous data example:", "options": {"A": "Number of goals", "B": "Weight (kg)", "C": "Jersey number", "D": "Type of crop"}, "answer": "B", "explanation": "Weights vary continuously."},
+    {"id": "sp-fa-q2", "type": "mcq", "stem": "Mean of 2, 6, 10:", "options": {"A": "4", "B": "6", "C": "8", "D": "10"}, "answer": "B", "explanation": "(2+6+10)/3=6."}
+  ]}
+}

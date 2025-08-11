@@ -1,0 +1,96 @@
+{
+  "moduleId": "math-quadratics",
+  "moduleTitle": "Quadratic Functions & Equations",
+  "subject": "Mathematics",
+  "level": "SHS 1",
+  "objectives": [
+    "Identify and interpret quadratic functions and their graphs",
+    "Solve quadratic equations by factoring, completing the square, and quadratic formula",
+    "Analyze vertex, axis of symmetry, and intercepts",
+    "Apply quadratics to real Ghanaian contexts (projectiles, business optimization, design)"
+  ],
+  "learningPath": ["Topic Introduction", "Core Concepts", "Knowledge Checks", "Practice Challenges", "Module Assessment"],
+  "xpRules": {"lessonCompletion": 10, "correctAnswer": 5, "scenarioSolved": 15, "moduleCompletionBonus": 50},
+  "milestones": [{"threshold": 25, "unlock": "practice"}, {"threshold": 50, "unlock": "scenarios"}, {"threshold": 75, "unlock": "bonus"}, {"threshold": 100, "unlock": "certificate"}],
+  "achievements": [{"id": "equation-master", "title": "Equation Master", "criteria": "Complete quadratic functions module"}],
+  "alignment": {"exam": "WASSCE Core/ Elective Maths", "notes": "Functions, equations, graphs", "careers": ["Engineering", "Finance", "Architecture"]},
+  "lessons": [
+    {
+      "id": "intro-quadratic-functions",
+      "title": "Introduction to Quadratic Functions",
+      "text": "A **quadratic function** is any function of the form f(x) = ax^2 + bx + c where a ≠ 0. The graph is a **parabola** opening upwards if a > 0 and downwards if a < 0. Standard form is y = ax^2 + bx + c. **Vertex form** is y = a(x − h)^2 + k, where (h, k) is the **vertex**, the turning point of the parabola. The **axis of symmetry** is x = −b/(2a) (or x = h in vertex form). Quadratics model many real situations: the path of a thrown ball, the shape of arches, or profit functions with a maximum. In Ghana, students often meet quadratics in **projectile motion** for physics labs, **business profit** analysis for entrepreneurship, and **design** problems such as building arches over paths at schools or parks. Recognizing whether a rule is quadratic helps you choose the correct methods for graphing and solving. Key terms include **vertex**, **axis of symmetry**, **x-intercepts** (or roots), and **y-intercept** (at x = 0).",
+      "knowledgeChecks": {
+        "mcq": [
+          {"id": "qf-l1-q1", "type": "mcq", "stem": "Which is a quadratic function?", "options": {"A": "y = 3x + 2", "B": "y = x^2 − 4x + 1", "C": "y = 2/x", "D": "y = √x"}, "answer": "B", "explanation": "A quadratic has the highest power of x equal to 2."},
+          {"id": "qf-l1-q2", "type": "mcq", "stem": "For y = −2x^2 + 5x − 1, the parabola opens:", "options": {"A": "Upwards", "B": "Downwards", "C": "Sideways", "D": "It is a line"}, "answer": "B", "explanation": "a = −2 < 0 so it opens downwards."},
+          {"id": "qf-l1-q3", "type": "mcq", "stem": "Axis of symmetry of y = x^2 − 6x + 5 is:", "options": {"A": "x = 3", "B": "x = −3", "C": "x = 6", "D": "x = −6"}, "answer": "A", "explanation": "x = −b/(2a) = 6/2 = 3."},
+          {"id": "qf-l1-q4", "type": "mcq", "stem": "Vertex form is:", "options": {"A": "y = ax + b", "B": "y = a/x", "C": "y = a(x − h)^2 + k", "D": "y = a^x"}, "answer": "C", "explanation": "Vertex form shows the turning point (h, k)."},
+          {"id": "qf-l1-q5", "type": "mcq", "stem": "The y-intercept of y = 2x^2 − 3x + 4 is:", "options": {"A": "2", "B": "−3", "C": "4", "D": "0"}, "answer": "C", "explanation": "Set x = 0, y = 4."}
+        ],
+        "trueFalse": [
+          {"id": "qf-l1-tf1", "statement": "Every quadratic graph is a parabola.", "answer": true, "explanation": "Quadratics always produce parabolas."},
+          {"id": "qf-l1-tf2", "statement": "If a > 0, the vertex is always a maximum.", "answer": false, "explanation": "If a > 0, the vertex is a minimum."},
+          {"id": "qf-l1-tf3", "statement": "The axis of symmetry passes through the vertex.", "answer": true, "explanation": "By definition, it is x = h in vertex form."}
+        ]
+      },
+      "scenarioChallenges": [
+        {"id": "qf-l1-s1", "scenario": "A football is kicked and follows y(t) = −4.9t^2 + 18t + 1 (height in metres after t seconds).", "question": "At what time does it reach maximum height?", "options": {"A": "t = 1.84 s", "B": "t = 2.5 s", "C": "t = 3.67 s", "D": "t = 9.8 s"}, "answer": "A", "explanation": "For y = at^2 + bt + c with a < 0, max at t = −b/(2a) = −18/(2×−4.9) ≈ 1.84 s."}
+      ]
+    },
+    {
+      "id": "solving-quadratics",
+      "title": "Solving Quadratic Equations",
+      "text": "Quadratic equations can be solved by **factoring**, **completing the square**, or using the **quadratic formula** x = [−b ± √(b^2 − 4ac)]/(2a). Choose the method based on the structure. If the trinomial factors neatly, factoring is quick. Completing the square converts ax^2 + bx + c into a perfect square to reveal the roots and vertex. The quadratic formula works **for all** quadratics but may involve surds. Checking the **discriminant** Δ = b^2 − 4ac helps determine the nature of roots: Δ > 0 gives two real roots, Δ = 0 one repeated root, Δ < 0 complex roots. In Ghanaian contexts, quadratics model **profit** and **cost** to find optimal production levels or prices. Always verify solutions by substitution. Keep units consistent, particularly with Cedis (GHS) in business problems.",
+      "knowledgeChecks": {
+        "workedExamples": [
+          {"id": "qf-l2-ex1", "problem": "Solve x^2 − 5x + 6 = 0 by factoring.", "steps": ["Factor: (x − 2)(x − 3) = 0", "Set each factor to zero", "x = 2 or x = 3"], "answer": "x = 2, 3"},
+          {"id": "qf-l2-ex2", "problem": "Solve 2x^2 + 7x + 3 = 0 by formula.", "steps": ["a=2,b=7,c=3", "Δ=b^2−4ac=49−24=25", "x = [−7 ± √25]/4", "x = (−7 ± 5)/4", "x = −3 or x = −0.5"], "answer": "x = −3, −0.5"},
+          {"id": "qf-l2-ex3", "problem": "Complete the square: x^2 + 4x − 1 = 0.", "steps": ["x^2+4x = 1", "Add (4/2)^2 = 4 both sides", "(x+2)^2 = 5", "x = −2 ± √5"], "answer": "x = −2 ± √5"},
+          {"id": "qf-l2-ex4", "problem": "Nature of roots of x^2 − 2x + 5 = 0.", "steps": ["Δ = (−2)^2 − 4(1)(5) = 4 − 20 = −16", "Δ < 0 → complex roots"], "answer": "Complex (no real roots)"},
+          {"id": "qf-l2-ex5", "problem": "Solve 3x^2 − 12x = 0.", "steps": ["Factor out 3x: 3x(x − 4)=0", "x = 0 or x = 4"], "answer": "x = 0, 4"},
+          {"id": "qf-l2-ex6", "problem": "Maximum value of y = −x^2 + 8x − 7.", "steps": ["Vertex at x = −b/(2a) = −8/(−2)=4", "y(4)= −16 + 32 − 7 = 9"], "answer": "Max 9 at x = 4"}
+        ],
+        "mcq": [
+          {"id": "qf-l2-q1", "type": "mcq", "stem": "Best method for x^2 − 9x + 20 = 0?", "options": {"A": "Factoring", "B": "Graphing only", "C": "Cubic formula", "D": "None"}, "answer": "A", "explanation": "It factors to (x−4)(x−5)=0."},
+          {"id": "qf-l2-q2", "type": "mcq", "stem": "Discriminant of 4x^2 + 4x + 1 is:", "options": {"A": "> 0", "B": "= 0", "C": "< 0", "D": "Undefined"}, "answer": "B", "explanation": "Δ=b^2−4ac=16−16=0 → one repeated root."},
+          {"id": "qf-l2-q3", "type": "mcq", "stem": "Equation with no real roots:", "options": {"A": "x^2−5x+6=0", "B": "x^2+2x+2=0", "C": "x^2−4=0", "D": "x^2=0"}, "answer": "B", "explanation": "Δ=4−8=−4 < 0."},
+          {"id": "qf-l2-q4", "type": "mcq", "stem": "Quadratic formula is useful because it:", "options": {"A": "Works only for factorable trinomials", "B": "Works for all quadratics", "C": "Finds linear roots only", "D": "Finds cubic roots"}, "answer": "B", "explanation": "General method for any quadratic."}
+        ]
+      },
+      "scenarioChallenges": [
+        {"id": "qf-l2-s1", "scenario": "A small shop in Kumasi has profit P(x)= −2x^2 + 80x − 300 (in GHS) where x is number of units sold per day.", "question": "What number of units maximizes profit?", "options": {"A": "x = 10", "B": "x = 15", "C": "x = 20", "D": "x = 40"}, "answer": "C", "explanation": "Max at vertex x = −b/(2a) = −80/(−4) = 20. Profit is maximized at x = 20."}
+      ]
+    },
+    {
+      "id": "graphing-applications",
+      "title": "Graphing and Applications",
+      "text": "Graphing quadratics highlights the **vertex**, **axis of symmetry**, **x-intercepts** (solutions), and **y-intercept**. Transformations include vertical/horizontal shifts and stretches/compressions by |a|. If |a| is large, the parabola is narrow; if |a| is small, it is wide. Real applications include designing arches and goal posts, optimizing structures for strength and appearance, and interpreting trajectories. In Ghana, school projects may involve building a simple parabolic arch over a walkway using locally available materials. Interpreting graphs helps judge how changes to coefficients a, b, c affect the shape and position of the parabola, crucial for safe and efficient design.",
+      "knowledgeChecks": {
+        "mcq": [
+          {"id": "qf-l3-q1", "type": "mcq", "stem": "y = (x−2)^2 + 3 has vertex:", "options": {"A": "(−2, 3)", "B": "(2, 3)", "C": "(3, 2)", "D": "(2, −3)"}, "answer": "B", "explanation": "Vertex is (h, k) = (2, 3)."},
+          {"id": "qf-l3-q2", "type": "mcq", "stem": "Axis of symmetry of y = −(x+1)^2 is:", "options": {"A": "x = 1", "B": "x = −1", "C": "y = −1", "D": "x = 0"}, "answer": "B", "explanation": "x = h = −1."},
+          {"id": "qf-l3-q3", "type": "mcq", "stem": "If a increases in |y = ax^2|, the parabola becomes:", "options": {"A": "Wider", "B": "Narrower", "C": "Shifts right", "D": "Reflects over y-axis"}, "answer": "B", "explanation": "Larger |a| makes it steeper (narrower)."},
+          {"id": "qf-l3-q4", "type": "mcq", "stem": "x-intercepts of y = x^2 − 9 are:", "options": {"A": "x = 9 only", "B": "x = −9 only", "C": "x = ±3", "D": "None"}, "answer": "C", "explanation": "Solve x^2 − 9 = 0 → x = ±3."},
+          {"id": "qf-l3-q5", "type": "mcq", "stem": "Effect of y = (x − 4)^2:", "options": {"A": "Shift left 4", "B": "Shift right 4", "C": "Shift up 4", "D": "Reflect x-axis"}, "answer": "B", "explanation": "h = 4 shifts right."}
+        ],
+        "matching": [
+          {"id": "qf-l3-m1", "prompt": "Match equation to graph feature", "pairs": [{"left": "y = (x−1)^2", "right": "Vertex at (1,0)"}, {"left": "y = −(x+2)^2", "right": "Opens downward, vertex (−2,0)"}], "answerKey": {"y = (x−1)^2": "Vertex at (1,0)", "y = −(x+2)^2": "Opens downward, vertex (−2,0)"}},
+          {"id": "qf-l3-m2", "prompt": "Match form to meaning", "pairs": [{"left": "Standard form", "right": "y = ax^2 + bx + c"}, {"left": "Vertex form", "right": "y = a(x − h)^2 + k"}], "answerKey": {"Standard form": "y = ax^2 + bx + c", "Vertex form": "y = a(x − h)^2 + k"}}
+        ]
+      },
+      "scenarioChallenges": [
+        {"id": "qf-l3-s1", "scenario": "A school designs a parabolic goal post arch with x-intercepts at 0 m and 6 m and vertex at (3, 4).", "question": "Which equation models the arch height y (m) vs horizontal distance x (m)?", "options": {"A": "y = −(x−3)^2 + 4", "B": "y = −(1/2)(x−3)^2 + 4", "C": "y = −(4/9)(x−3)^2 + 4", "D": "y = (x−3)^2 + 4"}, "answer": "C", "explanation": "Roots at x=0 and 6 imply symmetric about x=3. Using y = a(x−3)^2 + 4 and y(0)=0 → 0 = a(9)+4 ⇒ a = −4/9."}
+      ]
+    }
+  ],
+  "finalAssessment": {
+    "notes": "20 mixed questions focusing on identification, solving, and graph interpretation",
+    "questions": [
+      {"id": "qf-fa-q1", "type": "mcq", "stem": "Identify the quadratic:", "options": {"A": "y = 2x + 1", "B": "y = x^2 − x + 5", "C": "y = 1/x", "D": "y = 2^x"}, "answer": "B", "explanation": "Highest power is 2."},
+      {"id": "qf-fa-q2", "type": "mcq", "stem": "Solve x^2 − 7x + 10 = 0:", "options": {"A": "x=2,5", "B": "x=−2,−5", "C": "x=−10,−1", "D": "No real roots"}, "answer": "A", "explanation": "(x−2)(x−5)=0."},
+      {"id": "qf-fa-q3", "type": "mcq", "stem": "Axis of symmetry for y = 3x^2 + 12x + 1:", "options": {"A": "x = −2", "B": "x = 2", "C": "x = −12", "D": "x = 0"}, "answer": "A", "explanation": "−b/(2a)= −12/6= −2."},
+      {"id": "qf-fa-q4", "type": "mcq", "stem": "Discriminant tells:", "options": {"A": "Only vertex location", "B": "Number/nature of roots", "C": "Only y-intercept", "D": "Coefficient a"}, "answer": "B", "explanation": "Δ determines real/complex and multiplicity."},
+      {"id": "qf-fa-q5", "type": "mcq", "stem": "Maximum of y = −2x^2 + 8x − 5 occurs at:", "options": {"A": "x=2", "B": "x=−2", "C": "x=4", "D": "x=0"}, "answer": "A", "explanation": "x = −b/(2a) = −8/(−4)=2."}
+    ]
+  }
+}
