@@ -1,4 +1,3 @@
-
 import React, { useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -13,14 +12,17 @@ import { formatDifficulty, formatTimeLimit } from "@/lib/utils";
 import { ArrowLeft, Clock, CheckCircle, PlayCircle, BookOpen, Trophy, Target } from "lucide-react";
 
 const SubjectDetail: React.FC = () => {
-  const { subjectId } = useParams<{ subjectId: string }>();
+  const params = useParams<{ subjectId: string }>();
   const navigate = useNavigate();
+  const subjectId = params?.subjectId;
 
   const { data: subject, isLoading: subjectLoading } = useSubject(subjectId || "");
   const { data: modules, isLoading: modulesLoading } = useModules(subjectId);
 
   useEffect(() => {
-    if (subject?.name) document.title = `${subject.name} • STEM Learner`;
+    if (subject?.name) {
+      document.title = `${subject.name} • STEM Learner`;
+    }
   }, [subject?.name]);
 
   // Fetch quizzes for this subject
