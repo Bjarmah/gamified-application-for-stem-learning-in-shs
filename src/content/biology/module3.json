@@ -1,0 +1,108 @@
+{
+  "moduleId": "bio-human-body-systems",
+  "moduleTitle": "Human Body Systems",
+  "subject": "Biology",
+  "level": "SHS 3",
+  "objectives": [
+    "Describe heart anatomy and blood circulation",
+    "Explain respiratory mechanics and gas exchange",
+    "Discuss neural and endocrine coordination and homeostasis",
+    "Apply systems biology to Ghanaian health contexts"
+  ],
+  "learningPath": ["Topic Introduction", "Core Concepts", "Knowledge Checks", "Practice Challenges", "Module Assessment"],
+  "xpRules": {"lessonCompletion": 10, "correctAnswer": 5, "scenarioSolved": 15, "moduleCompletionBonus": 50},
+  "milestones": [{"threshold": 25, "unlock": "practice"}, {"threshold": 50, "unlock": "scenarios"}, {"threshold": 75, "unlock": "bonus"}, {"threshold": 100, "unlock": "certificate"}],
+  "achievements": [{"id": "body-system-specialist", "title": "Body System Specialist", "criteria": "Complete human systems module"}],
+  "alignment": {"exam": "WASSCE Biology", "notes": "Clinical reasoning and labeling", "careers": ["Medicine", "Nursing", "Public health"]},
+  "lessons": [
+    {
+      "id": "circulatory-system",
+      "title": "Circulatory System",
+      "text": "The **heart** is a muscular pump with four chambers: right atrium/ventricle and left atrium/ventricle. **Valves** ensure one-way flow. The **pulmonary circuit** sends deoxygenated blood to the lungs for gas exchange; the **systemic circuit** delivers oxygenated blood to tissues. **Arteries** carry blood away from the heart at high pressure, **veins** return blood at lower pressure with valves, and **capillaries** allow exchange of gases and nutrients. **Plasma**, **red blood cells**, **white blood cells**, and **platelets** are major blood components.\n\nIn Ghana, lifestyle factors like diet, physical activity, and salt intake influence **hypertension** and heart disease risk. Regular exercise and balanced diets (e.g., vegetables, legumes, fish) support cardiovascular health.",
+      "knowledgeChecks": {
+        "mcq": [
+          {"id": "m3-l1-q1", "type": "mcq", "stem": "Which chamber pumps blood to the body?", "options": {"A": "Right ventricle", "B": "Left ventricle", "C": "Right atrium", "D": "Left atrium"}, "answer": "B", "explanation": "The left ventricle pumps oxygenated blood into the aorta."},
+          {"id": "m3-l1-q2", "type": "mcq", "stem": "Which vessels allow nutrient exchange?", "options": {"A": "Arteries", "B": "Veins", "C": "Capillaries", "D": "Venules"}, "answer": "C", "explanation": "Thin walls facilitate exchange in capillaries."},
+          {"id": "m3-l1-q3", "type": "mcq", "stem": "Primary function of platelets is:", "options": {"A": "Carry oxygen", "B": "Defend against pathogens", "C": "Blood clotting", "D": "Regulate pH"}, "answer": "C", "explanation": "Platelets initiate clot formation."},
+          {"id": "m3-l1-q4", "type": "mcq", "stem": "Which statement about veins is true?", "options": {"A": "They always carry deoxygenated blood", "B": "They have thick muscular walls", "C": "They have valves to prevent backflow", "D": "They carry blood at highest pressure"}, "answer": "C", "explanation": "Valves maintain one-way flow in low-pressure veins."},
+          {"id": "m3-l1-q5", "type": "mcq", "stem": "The pulmonary artery carries:", "options": {"A": "Oxygenated blood to lungs", "B": "Deoxygenated blood to lungs", "C": "Deoxygenated blood to body", "D": "Oxygenated blood to body"}, "answer": "B", "explanation": "Pulmonary artery carries deoxygenated blood from right ventricle to lungs."},
+          {"id": "m3-l1-q6", "type": "mcq", "stem": "Which factor most increases hypertension risk?", "options": {"A": "Regular exercise", "B": "High salt diet", "C": "Adequate sleep", "D": "Hydration"}, "answer": "B", "explanation": "Excess salt promotes fluid retention and higher blood pressure."}
+        ],
+        "labeling": [
+          {"id": "m3-l1-lab1", "prompt": "Label heart structures", "labels": ["Right atrium", "Right ventricle", "Left atrium", "Left ventricle", "Aorta", "Pulmonary artery", "Pulmonary vein", "Vena cava"], "answerKey": ["Right atrium", "Right ventricle", "Left atrium", "Left ventricle", "Aorta", "Pulmonary artery", "Pulmonary vein", "Vena cava"]}
+        ]
+      },
+      "scenarioChallenges": [
+        {"id": "m3-l1-s1", "scenario": "A 50-year-old trader in Accra has high blood pressure and smokes.", "question": "Which lifestyle change most reduces cardiovascular risk?", "options": {"A": "Increase salt", "B": "Stop smoking and exercise regularly", "C": "Skip fruits/vegetables", "D": "Drink less water"}, "answer": "B", "explanation": "Quitting smoking and exercising lower risk substantially."}
+      ]
+    },
+    {
+      "id": "respiratory-system",
+      "title": "Respiratory System",
+      "text": "Breathing involves **ventilation** (air movement) and **gas exchange**. The **diaphragm** and intercostal muscles change thoracic volume to draw air in and out. In **alveoli**, oxygen diffuses into blood and carbon dioxide diffuses out, driven by **partial pressure gradients**. Efficient gas exchange requires large surface area, thin walls, and moist surfaces.\n\nAt high altitude areas like parts of the Kwahu Plateau, lower oxygen pressure challenges breathing, causing faster ventilation and sometimes shortness of breath until acclimatization occurs.",
+      "knowledgeChecks": {
+        "mcq": [
+          {"id": "m3-l2-q1", "type": "mcq", "stem": "Main muscle of inspiration is:", "options": {"A": "Diaphragm", "B": "Biceps", "C": "Quadriceps", "D": "Triceps"}, "answer": "A", "explanation": "The diaphragm contracts to increase thoracic volume."},
+          {"id": "m3-l2-q2", "type": "mcq", "stem": "Gas exchange occurs in the:", "options": {"A": "Bronchi", "B": "Trachea", "C": "Alveoli", "D": "Larynx"}, "answer": "C", "explanation": "Alveoli provide thin, moist surfaces for diffusion."},
+          {"id": "m3-l2-q3", "type": "mcq", "stem": "At high altitude, oxygen diffusion to blood:", "options": {"A": "Increases", "B": "Decreases", "C": "Unchanged", "D": "Stops"}, "answer": "B", "explanation": "Lower atmospheric O2 reduces gradient for diffusion."},
+          {"id": "m3-l2-q4", "type": "mcq", "stem": "Which factor impairs gas exchange?", "options": {"A": "Large surface area", "B": "Thicker alveolar walls", "C": "Moist surfaces", "D": "Rich capillary supply"}, "answer": "B", "explanation": "Thickening increases diffusion distance and hinders exchange."},
+          {"id": "m3-l2-q5", "type": "mcq", "stem": "CO2 primarily travels in blood as:", "options": {"A": "Dissolved CO2 only", "B": "Carbaminohemoglobin", "C": "Bicarbonate ion (HCO3-)", "D": "Carbonic acid only"}, "answer": "C", "explanation": "Most CO2 is converted to bicarbonate in plasma."}
+        ],
+        "processExplanation": [
+          {"id": "m3-l2-proc1", "prompt": "Explain how diaphragm movement causes inhalation.", "expectedPoints": ["Diaphragm contracts and flattens", "Thoracic volume increases", "Intrapulmonary pressure falls", "Air flows into lungs"]},
+          {"id": "m3-l2-proc2", "prompt": "Explain gas exchange at alveolus.", "expectedPoints": ["O2 diffuses into blood due to gradient", "CO2 diffuses into alveolus", "Thin membranes facilitate diffusion"]}
+        ]
+      },
+      "scenarioChallenges": [
+        {"id": "m3-l2-s1", "scenario": "A student hikes to a high-altitude town and feels dizzy.", "question": "Best immediate response?", "options": {"A": "Hold breath", "B": "Descend slightly and rest", "C": "Run faster", "D": "Drink salty water"}, "answer": "B", "explanation": "Rest and partial descent aid acclimatization and oxygenation."}
+      ]
+    },
+    {
+      "id": "coordination-control",
+      "title": "Coordination & Control",
+      "text": "The **nervous system** provides rapid electrical signaling via **neurons**, while the **endocrine system** uses **hormones** for slower, longer-lasting effects. **Homeostasis** maintains stable internal conditions (e.g., blood glucose, temperature). Negative feedback loops stabilize variables; positive feedback amplifies changes temporarily (e.g., childbirth).\n\nIn Ghana, increasing cases of **diabetes** highlight the importance of insulin and lifestyle in blood sugar control.",
+      "knowledgeChecks": {
+        "mcq": [
+          {"id": "m3-l3-q1", "type": "mcq", "stem": "Which carries impulses to the cell body?", "options": {"A": "Axon", "B": "Dendrite", "C": "Synapse", "D": "Myelin"}, "answer": "B", "explanation": "Dendrites receive signals toward the soma."},
+          {"id": "m3-l3-q2", "type": "mcq", "stem": "Insulin lowers blood glucose by:", "options": {"A": "Stimulating glycogen breakdown", "B": "Promoting glucose uptake/storage", "C": "Inhibiting cellular respiration", "D": "Increasing glucagon"}, "answer": "B", "explanation": "Insulin increases uptake and glycogen synthesis."},
+          {"id": "m3-l3-q3", "type": "mcq", "stem": "Which is a positive feedback example?", "options": {"A": "Blood glucose regulation", "B": "Thermoregulation", "C": "Uterine contractions in labor", "D": "Blood pressure control"}, "answer": "C", "explanation": "Oxytocin intensifies contractions until birth."},
+          {"id": "m3-l3-q4", "type": "mcq", "stem": "Endocrine signals travel via:", "options": {"A": "Axons", "B": "Bloodstream", "C": "Synaptic cleft only", "D": "Lymph only"}, "answer": "B", "explanation": "Hormones are secreted into blood to reach targets."},
+          {"id": "m3-l3-q5", "type": "mcq", "stem": "Homeostasis relies mainly on:", "options": {"A": "Positive feedback", "B": "Random changes", "C": "Negative feedback", "D": "No feedback"}, "answer": "C", "explanation": "Negative feedback restores set points."},
+          {"id": "m3-l3-q6", "type": "mcq", "stem": "Which gland secretes insulin?", "options": {"A": "Thyroid", "B": "Adrenal", "C": "Pancreas", "D": "Pituitary"}, "answer": "C", "explanation": "Pancreatic beta cells secrete insulin."},
+          {"id": "m3-l3-q7", "type": "mcq", "stem": "Neurotransmitters cross the synapse by:", "options": {"A": "Diffusion", "B": "Active transport only", "C": "Osmosis", "D": "Photosynthesis"}, "answer": "A", "explanation": "They diffuse across the synaptic cleft."}
+        ],
+        "causeEffect": [
+          {"id": "m3-l3-ce1", "prompt": "Match cause to effect in glucose control", "pairs": [{"left": "Insulin", "right": "Decreases blood glucose"}, {"left": "Glucagon", "right": "Increases blood glucose"}, {"left": "Exercise", "right": "Enhances glucose uptake"}], "answerKey": {"Insulin": "Decreases blood glucose", "Glucagon": "Increases blood glucose", "Exercise": "Enhances glucose uptake"}}
+        ]
+      },
+      "scenarioChallenges": [
+        {"id": "m3-l3-s1", "scenario": "A patient with Type 2 diabetes has frequent high blood sugar.", "question": "Which plan is most effective?", "options": {"A": "Skip medication", "B": "Balanced diet + regular exercise + adhere to medication", "C": "Only rest", "D": "More sugary drinks"}, "answer": "B", "explanation": "Lifestyle plus adherence improves insulin sensitivity and control."}
+      ]
+    }
+  ],
+  "finalAssessment": {
+    "notes": "20 WASSCE-style MCQs across three systems",
+    "questions": [
+      {"id": "m3-fa-q1", "type": "mcq", "stem": "Which vessel returns blood to the heart?", "options": {"A": "Aorta", "B": "Vena cava", "C": "Pulmonary artery", "D": "Coronary artery"}, "answer": "B", "explanation": "Venae cavae drain systemic circulation."},
+      {"id": "m3-fa-q2", "type": "mcq", "stem": "Blood leaving the lungs via pulmonary veins is:", "options": {"A": "Deoxygenated", "B": "Oxygenated", "C": "Mixed", "D": "Carbonated"}, "answer": "B", "explanation": "Pulmonary veins carry oxygenated blood to the left atrium."},
+      {"id": "m3-fa-q3", "type": "mcq", "stem": "Which structure prevents backflow in veins?", "options": {"A": "Sphincters", "B": "Valves", "C": "Thick muscle", "D": "Elastic lamina"}, "answer": "B", "explanation": "Valves ensure one-way flow in low-pressure veins."},
+      {"id": "m3-fa-q4", "type": "mcq", "stem": "Primary site of gas exchange in lungs:", "options": {"A": "Bronchi", "B": "Alveoli", "C": "Trachea", "D": "Bronchioles"}, "answer": "B", "explanation": "Alveoli provide thin surfaces for diffusion."},
+      {"id": "m3-fa-q5", "type": "mcq", "stem": "Which change occurs during inhalation?", "options": {"A": "Diaphragm relaxes", "B": "Thoracic volume decreases", "C": "Intrapulmonary pressure falls", "D": "Ribs move down"}, "answer": "C", "explanation": "Volume increases, pressure falls, air flows in."},
+      {"id": "m3-fa-q6", "type": "mcq", "stem": "Most CO2 is transported as:", "options": {"A": "Dissolved gas", "B": "Bicarbonate", "C": "Carbaminohemoglobin", "D": "Carbonic acid only"}, "answer": "B", "explanation": "Converted to bicarbonate in plasma."},
+      {"id": "m3-fa-q7", "type": "mcq", "stem": "Which is a positive feedback loop?", "options": {"A": "Blood glucose regulation", "B": "Thermoregulation", "C": "Labor contractions", "D": "Blood pressure control"}, "answer": "C", "explanation": "Oxytocin amplifies uterine contractions."},
+      {"id": "m3-fa-q8", "type": "mcq", "stem": "Hormones travel mainly via:", "options": {"A": "Nerves", "B": "Bloodstream", "C": "Lymph only", "D": "Air"}, "answer": "B", "explanation": "Endocrine hormones reach distant targets in blood."},
+      {"id": "m3-fa-q9", "type": "mcq", "stem": "Insulin is secreted by:", "options": {"A": "Thyroid", "B": "Pituitary", "C": "Pancreas", "D": "Adrenal"}, "answer": "C", "explanation": "Beta cells in pancreatic islets."},
+      {"id": "m3-fa-q10", "type": "mcq", "stem": "Which blood component carries oxygen?", "options": {"A": "Platelets", "B": "Leukocytes", "C": "Erythrocytes", "D": "Plasma proteins"}, "answer": "C", "explanation": "Red cells with hemoglobin transport O2."},
+      {"id": "m3-fa-q11", "type": "mcq", "stem": "Gas exchange efficiency decreases when:", "options": {"A": "Surface area increases", "B": "Membrane thickens", "C": "Gradient increases", "D": "Moisture is adequate"}, "answer": "B", "explanation": "Thicker membranes slow diffusion."},
+      {"id": "m3-fa-q12", "type": "mcq", "stem": "Dendrites function to:", "options": {"A": "Transmit signals away", "B": "Receive signals", "C": "Secrete hormones", "D": "Store glucose"}, "answer": "B", "explanation": "Dendrites receive input toward the soma."},
+      {"id": "m3-fa-q13", "type": "mcq", "stem": "Explain homeostasis mainly uses:", "options": {"A": "Negative feedback", "B": "Positive feedback", "C": "Random fluctuation", "D": "No feedback"}, "answer": "A", "explanation": "Negative feedback stabilizes internal conditions."},
+      {"id": "m3-fa-q14", "type": "mcq", "stem": "Which vessel carries oxygenated blood?", "options": {"A": "Pulmonary artery", "B": "Vena cava", "C": "Pulmonary vein", "D": "Coronary sinus"}, "answer": "C", "explanation": "Pulmonary veins carry oxygenated blood from lungs to heart."},
+      {"id": "m3-fa-q15", "type": "mcq", "stem": "During exercise, which change occurs?", "options": {"A": "Heart rate decreases", "B": "Breathing rate decreases", "C": "Cardiac output increases", "D": "Blood pressure falls to zero"}, "answer": "C", "explanation": "More blood is pumped per minute to meet demand."},
+      {"id": "m3-fa-q16", "type": "mcq", "stem": "Glucagon acts to:", "options": {"A": "Lower blood glucose", "B": "Raise blood glucose", "C": "Lower insulin levels only", "D": "Stop respiration"}, "answer": "B", "explanation": "Glucagon stimulates glycogen breakdown and gluconeogenesis."},
+      {"id": "m3-fa-q17", "type": "mcq", "stem": "Alveoli are suited for exchange because they:", "options": {"A": "Have thick walls", "B": "Provide large surface area and thin walls", "C": "Contain more platelets", "D": "Hold solid nutrients"}, "answer": "B", "explanation": "Structure optimizes diffusion."},
+      {"id": "m3-fa-q18", "type": "mcq", "stem": "Which prevents blood backflow between atrium and ventricle?", "options": {"A": "Semilunar valve", "B": "Atrioventricular valve", "C": "Capillary sphincter", "D": "Chordae only"}, "answer": "B", "explanation": "AV valves separate atria and ventricles."},
+      {"id": "m3-fa-q19", "type": "mcq", "stem": "Neurotransmitters cross synapses mainly by:", "options": {"A": "Active pumping", "B": "Diffusion", "C": "Osmosis of water", "D": "Photosynthesis"}, "answer": "B", "explanation": "They diffuse across the cleft."},
+      {"id": "m3-fa-q20", "type": "mcq", "stem": "Lifestyle change most beneficial for hypertension:", "options": {"A": "Increase salt", "B": "Quit smoking, reduce salt, exercise", "C": "Avoid all water", "D": "Only rest"}, "answer": "B", "explanation": "Combined lifestyle changes reduce blood pressure risk."}
+    ]
+  }
+}

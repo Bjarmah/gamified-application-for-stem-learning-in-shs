@@ -1,0 +1,279 @@
+{
+  "moduleId": "bio-cell-structure",
+  "moduleTitle": "Cell Structure & Function",
+  "subject": "Biology",
+  "level": "SHS 1",
+  "objectives": [
+    "Describe structures of the cell membrane, nucleus, and key organelles",
+    "Explain selective permeability and mechanisms of membrane transport",
+    "Relate organelle functions to energy, protein synthesis, and homeostasis",
+    "Outline phases of mitosis and importance of controlled cell division",
+    "Apply cell biology to Ghanaian contexts (health, agriculture, industry)"
+  ],
+  "learningPath": [
+    "Topic Introduction",
+    "Core Concepts",
+    "Knowledge Checks",
+    "Practice Challenges",
+    "Module Assessment"
+  ],
+  "xpRules": {
+    "lessonCompletion": 10,
+    "correctAnswer": 5,
+    "scenarioSolved": 15,
+    "moduleCompletionBonus": 50
+  },
+  "milestones": [
+    {"threshold": 25, "unlock": "practice"},
+    {"threshold": 50, "unlock": "scenarios"},
+    {"threshold": 75, "unlock": "bonus"},
+    {"threshold": 100, "unlock": "certificate"}
+  ],
+  "achievements": [
+    {"id": "cell-detective", "title": "Cell Detective", "criteria": "Complete all cell structure lessons"}
+  ],
+  "alignment": {
+    "exam": "WASSCE Biology",
+    "notes": "Stems and distractors reflect WASSCE style",
+    "careers": ["Healthcare", "Agriculture", "Biotech"]
+  },
+  "lessons": [
+    {
+      "id": "cell-membrane-transport",
+      "title": "Cell Membrane & Transport",
+      "text": "The cell membrane is a thin, flexible boundary that surrounds the cell. It is made of a **phospholipid bilayer** with embedded **proteins**, **cholesterol**, and **carbohydrate** chains. This structure creates a **selectively permeable** barrier, allowing some substances to pass while restricting others. Small nonpolar molecules like oxygen diffuse easily, while ions and large polar molecules require **transport proteins**.\n\nCells move substances by **passive transport** (no energy) and **active transport** (uses **ATP**). Passive transport includes **diffusion**, **osmosis** (water through aquaporins), and **facilitated diffusion** (via channels/carriers). Active transport pumps substances against concentration gradients (e.g., the **sodium–potassium pump**). In bulk transport, **endocytosis** brings materials in, and **exocytosis** exports them.\n\nIn Ghanaian agriculture, cells in **cassava** and **cocoa** roots rely on osmosis to maintain **turgor pressure** for firmness. If soil becomes salty (e.g., coastal farms), water may leave root cells by osmosis, causing wilting. Understanding membrane transport helps explain food preservation with salt and sugar, which draw water out of microbial cells, slowing spoilage.",
+      "knowledgeChecks": {
+        "mcq": [
+          {
+            "id": "m1-l1-q1",
+            "type": "mcq",
+            "stem": "Which feature best explains the membrane’s selective permeability?",
+            "options": {"A": "Single layer of lipids", "B": "Phospholipid bilayer with proteins", "C": "Only carbohydrate chains", "D": "Cell wall components"},
+            "answer": "B",
+            "explanation": "Selective permeability arises from the phospholipid bilayer and specific transport proteins controlling entry and exit.",
+            "feedback": {"A": "Membranes are bilayers, not single layers.", "B": "Correct! Proteins regulate specific transport.", "C": "Carbohydrates aid recognition, not permeability.", "D": "Cell walls are absent in animal cells and are not the main barrier."},
+            "difficulty": "basic"
+          },
+          {
+            "id": "m1-l1-q2",
+            "type": "mcq",
+            "stem": "Osmosis is defined as the movement of water across a membrane from:",
+            "options": {"A": "Low to high water potential", "B": "High to low solute concentration", "C": "High to low water potential", "D": "Low to high solute concentration"},
+            "answer": "A",
+            "explanation": "Water moves from higher water potential (lower solute) to lower water potential (higher solute) across a selectively permeable membrane.",
+            "feedback": {"A": "Correct! This is osmosis.", "B": "That describes the solute gradient indirectly.", "C": "Reverse of osmosis.", "D": "This would require energy and refers to solute, not water."},
+            "difficulty": "basic"
+          },
+          {
+            "id": "m1-l1-q3",
+            "type": "mcq",
+            "stem": "Which process requires ATP?",
+            "options": {"A": "Diffusion", "B": "Facilitated diffusion", "C": "Active transport", "D": "Osmosis"},
+            "answer": "C",
+            "explanation": "Active transport moves substances against gradients using ATP-driven pumps.",
+            "feedback": {"A": "Diffusion is passive.", "B": "Carrier-mediated but passive.", "C": "Correct! ATP is required.", "D": "Osmosis is passive water movement."},
+            "difficulty": "basic"
+          },
+          {
+            "id": "m1-l1-q4",
+            "type": "mcq",
+            "stem": "A red blood cell placed in a hypertonic solution will:",
+            "options": {"A": "Swell and burst", "B": "Remain unchanged", "C": "Shrink (crenate)", "D": "Undergo mitosis"},
+            "answer": "C",
+            "explanation": "Water exits the cell, causing shrinkage in a hypertonic medium.",
+            "feedback": {"A": "Swelling happens in hypotonic solutions.", "B": "Tonicity causes changes.", "C": "Correct!", "D": "Tonicity does not induce mitosis."},
+            "difficulty": "basic"
+          },
+          {
+            "id": "m1-l1-q5",
+            "type": "mcq",
+            "stem": "Which statement describes facilitated diffusion?",
+            "options": {"A": "Moves solutes against gradient", "B": "Uses channels or carriers without ATP", "C": "Requires aquaporins only", "D": "Is a form of endocytosis"},
+            "answer": "B",
+            "explanation": "Facilitated diffusion uses membrane proteins to move substances down their gradient without ATP.",
+            "feedback": {"A": "That is active transport.", "B": "Correct!", "C": "Aquaporins are for water specifically.", "D": "Endocytosis is bulk transport."},
+            "difficulty": "intermediate"
+          }
+        ],
+        "trueFalse": [
+          {"id": "m1-l1-tf1", "statement": "Cholesterol helps maintain membrane fluidity.", "answer": true, "explanation": "Cholesterol buffers fluidity across temperature changes."},
+          {"id": "m1-l1-tf2", "statement": "All ions easily diffuse through the lipid bilayer.", "answer": false, "explanation": "Ions require channels or transporters due to charge."},
+          {"id": "m1-l1-tf3", "statement": "Exocytosis exports materials out of the cell.", "answer": true, "explanation": "Vesicles fuse with the membrane to release contents."}
+        ]
+      },
+      "scenarioChallenges": [
+        {
+          "id": "m1-l1-s1",
+          "scenario": "A cabbage vendor in Kumasi sprinkles salt on shredded cabbage to make kelewele topping last longer on a hot day.",
+          "question": "What best explains the slowed spoilage?",
+          "options": {"A": "Active transport removes bacteria", "B": "Salt increases bacterial growth", "C": "Osmosis draws water out of microbes", "D": "Endocytosis traps microbes"},
+          "answer": "C",
+          "explanation": "The hypertonic environment causes water to leave microbial cells by osmosis, inhibiting growth and slowing spoilage.",
+          "difficulty": "intermediate"
+        }
+      ]
+    },
+    {
+      "id": "nucleus-genetic-control",
+      "title": "Nucleus & Genetic Control",
+      "text": "The **nucleus** is the information center of eukaryotic cells. It is enclosed by a **double membrane** with **nuclear pores** that regulate traffic. Inside, **chromatin** (DNA + proteins) stores genetic information. The **nucleolus** produces **ribosomal RNA (rRNA)** and assembles ribosomal subunits. Genes are **expressed** through **transcription** (DNA → RNA) and **translation** (RNA → protein), allowing cells to build proteins that determine traits and functions.\n\nNuclear control ensures that liver cells, neurons, and muscle cells in the human body, or leaf and root cells in **maize**, express different genes while sharing the same DNA. When nuclear DNA is damaged (e.g., by radiation), cells may trigger **cell cycle checkpoints** or **apoptosis** to protect the organism. Persistent damage can lead to **mutations** that contribute to disease. Understanding nuclear control links biology to **public health** in Ghana, such as studying genetic conditions and cancer risk.",
+      "knowledgeChecks": {
+        "mcq": [
+          {
+            "id": "m1-l2-q1",
+            "type": "mcq",
+            "stem": "What is the primary function of the nucleolus?",
+            "options": {"A": "DNA replication", "B": "rRNA synthesis and ribosome assembly", "C": "Lipid synthesis", "D": "ATP production"},
+            "answer": "B",
+            "explanation": "The nucleolus synthesizes rRNA and assembles ribosomal subunits.",
+            "feedback": {"A": "DNA replication occurs in the nucleus but not specifically the nucleolus.", "B": "Correct!", "C": "Lipid synthesis occurs in the ER.", "D": "ATP production occurs mainly in mitochondria."},
+            "difficulty": "basic"
+          },
+          {
+            "id": "m1-l2-q2",
+            "type": "mcq",
+            "stem": "Which sequence correctly represents gene expression?",
+            "options": {"A": "RNA → DNA → protein", "B": "DNA → protein → RNA", "C": "DNA → RNA → protein", "D": "Protein → RNA → DNA"},
+            "answer": "C",
+            "explanation": "Transcription produces RNA from DNA; translation produces protein from RNA.",
+            "feedback": {"A": "Reverse transcription is rare and not standard expression.", "B": "Protein is not made before RNA.", "C": "Correct!", "D": "Not biological information flow."},
+            "difficulty": "basic"
+          },
+          {
+            "id": "m1-l2-q3",
+            "type": "mcq",
+            "stem": "If nuclear pores are blocked, which process is directly affected?",
+            "options": {"A": "Glycolysis", "B": "Export of mRNA to cytoplasm", "C": "Protein folding in Golgi", "D": "Membrane transport"},
+            "answer": "B",
+            "explanation": "mRNA must exit the nucleus through nuclear pores for translation.",
+            "feedback": {"A": "Glycolysis occurs in the cytosol.", "B": "Correct!", "C": "Golgi functions later in the pathway.", "D": "General term, not specific to nuclear pores."},
+            "difficulty": "intermediate"
+          },
+          {
+            "id": "m1-l2-q4",
+            "type": "mcq",
+            "stem": "DNA damage that bypasses checkpoints most likely leads to:",
+            "options": {"A": "Apoptosis only", "B": "Immediate cell death", "C": "Mutations and possible cancer", "D": "More nucleoli"},
+            "answer": "C",
+            "explanation": "Unchecked DNA damage can cause mutations that accumulate and contribute to carcinogenesis.",
+            "feedback": {"A": "Checkpoints can trigger apoptosis, but bypass changes outcome.", "B": "Not necessarily immediate.", "C": "Correct!", "D": "Nucleoli number is unrelated."},
+            "difficulty": "intermediate"
+          }
+        ],
+        "matching": [
+          {
+            "id": "m1-l2-match1",
+            "prompt": "Match structure to function",
+            "pairs": [
+              {"left": "Nuclear pore", "right": "Controls RNA/protein traffic"},
+              {"left": "Chromatin", "right": "DNA + proteins"},
+              {"left": "Nucleolus", "right": "rRNA synthesis"},
+              {"left": "Nuclear envelope", "right": "Double membrane"}
+            ],
+            "answerKey": {"Nuclear pore": "Controls RNA/protein traffic", "Chromatin": "DNA + proteins", "Nucleolus": "rRNA synthesis", "Nuclear envelope": "Double membrane"}
+          },
+          {
+            "id": "m1-l2-match2",
+            "prompt": "Match process to location",
+            "pairs": [
+              {"left": "Transcription", "right": "Nucleus"},
+              {"left": "Translation", "right": "Cytoplasm/ribosome"},
+              {"left": "DNA replication", "right": "Nucleus"}
+            ],
+            "answerKey": {"Transcription": "Nucleus", "Translation": "Cytoplasm/ribosome", "DNA replication": "Nucleus"}
+          }
+        ]
+      },
+      "scenarioChallenges": [
+        {
+          "id": "m1-l2-s1",
+          "scenario": "A lab accident exposes onion root tip cells to radiation that damages DNA.",
+          "question": "Which immediate cellular response preserves organismal health?",
+          "options": {"A": "Uncontrolled mitosis", "B": "Apoptosis of heavily damaged cells", "C": "Increased transcription speed", "D": "Blocking all nuclear pores"},
+          "answer": "B",
+          "explanation": "Apoptosis removes severely damaged cells, preventing propagation of mutations.",
+          "difficulty": "intermediate"
+        }
+      ]
+    },
+    {
+      "id": "organelles-functions",
+      "title": "Organelles & Their Functions",
+      "text": "Cells contain specialized **organelles** that perform vital tasks. **Mitochondria** generate ATP through **cellular respiration**; in plants, **chloroplasts** carry out **photosynthesis**. **Ribosomes** build proteins, while the **endoplasmic reticulum (ER)** and **Golgi apparatus** process and package them for use or export. **Lysosomes** digest waste; **peroxisomes** detoxify harmful by-products. **Cytoskeleton** filaments maintain shape and enable movement.\n\nIn a cocoa plant leaf, chloroplasts capture light to produce sugars that fuel growth. In Ghana’s hospitals, understanding mitochondrial diseases helps explain fatigue and muscle weakness. When organelles malfunction—such as defective lysosomes—waste accumulates, harming cells. Efficient coordination among organelles ensures cells adapt to stress, maintain **homeostasis**, and support life.",
+      "knowledgeChecks": {
+        "mcq": [
+          {"id": "m1-l3-q1", "type": "mcq", "stem": "Which organelle is the site of ATP production?", "options": {"A": "Golgi", "B": "Mitochondrion", "C": "Ribosome", "D": "Nucleus"}, "answer": "B", "explanation": "Mitochondria carry out aerobic respiration to generate ATP.", "feedback": {"A": "Golgi modifies and packages.", "B": "Correct!", "C": "Ribosomes synthesize proteins.", "D": "Nucleus stores DNA."}, "difficulty": "basic"},
+          {"id": "m1-l3-q2", "type": "mcq", "stem": "Protein synthesis begins at the:", "options": {"A": "Ribosome", "B": "Lysosome", "C": "Chloroplast", "D": "Peroxisome"}, "answer": "A", "explanation": "Ribosomes translate mRNA into polypeptides.", "feedback": {"A": "Correct!", "B": "Lysosomes digest.", "C": "Chloroplasts photosynthesize in plants.", "D": "Peroxisomes detoxify."}, "difficulty": "basic"},
+          {"id": "m1-l3-q3", "type": "mcq", "stem": "A cell with abundant rough ER likely specializes in:", "options": {"A": "Lipid storage", "B": "Protein secretion", "C": "DNA replication", "D": "Anaerobic respiration"}, "answer": "B", "explanation": "Rough ER with ribosomes supports protein synthesis for export.", "feedback": {"A": "Smooth ER handles lipids.", "B": "Correct!", "C": "Occurs in the nucleus.", "D": "Not related to ER."}, "difficulty": "intermediate"},
+          {"id": "m1-l3-q4", "type": "mcq", "stem": "Which pair is correctly matched?", "options": {"A": "Golgi—ATP production", "B": "Lysosome—intracellular digestion", "C": "Nucleus—protein folding", "D": "Peroxisome—photosynthesis"}, "answer": "B", "explanation": "Lysosomes contain enzymes for digestion.", "feedback": {"A": "ATP is mitochondrial.", "B": "Correct!", "C": "Protein folding occurs in ER/Golgi.", "D": "Photosynthesis occurs in chloroplasts."}, "difficulty": "basic"},
+          {"id": "m1-l3-q5", "type": "mcq", "stem": "Loss of mitochondrial function first reduces:", "options": {"A": "DNA replication", "B": "ATP supply", "C": "Ribosome number", "D": "Cell wall thickness"}, "answer": "B", "explanation": "Mitochondria produce ATP; failure leads to energy shortage.", "feedback": {"A": "Not direct.", "B": "Correct!", "C": "Ribosomes are separate.", "D": "Animal cells lack cell walls."}, "difficulty": "intermediate"},
+          {"id": "m1-l3-q6", "type": "mcq", "stem": "In plant cells, the organelle capturing light energy is the:", "options": {"A": "Chloroplast", "B": "Mitochondrion", "C": "Ribosome", "D": "Golgi"}, "answer": "A", "explanation": "Chloroplasts house chlorophyll for photosynthesis.", "feedback": {"A": "Correct!", "B": "Respiration site.", "C": "Protein synthesis.", "D": "Processing center."}, "difficulty": "basic"}
+        ],
+        "sequencing": [
+          {
+            "id": "m1-l3-seq1",
+            "prompt": "Sequence the protein pathway",
+            "items": ["Ribosome synthesis", "Protein enters rough ER", "Vesicle to Golgi", "Golgi modification", "Vesicle to membrane", "Exocytosis"],
+            "correctOrder": ["Ribosome synthesis", "Protein enters rough ER", "Vesicle to Golgi", "Golgi modification", "Vesicle to membrane", "Exocytosis"]
+          }
+        ]
+      },
+      "scenarioChallenges": [
+        {
+          "id": "m1-l3-s1",
+          "scenario": "A farmer notices maize leaves turning pale with slow growth despite sufficient water.",
+          "question": "Which organelle malfunction best explains reduced sugar production?",
+          "options": {"A": "Ribosome", "B": "Chloroplast", "C": "Golgi", "D": "Lysosome"},
+          "answer": "B",
+          "explanation": "Chloroplast defects reduce photosynthesis, lowering sugar production and causing chlorosis.",
+          "difficulty": "intermediate"
+        }
+      ]
+    },
+    {
+      "id": "cell-division-mitosis",
+      "title": "Cell Division Process",
+      "text": "Cells divide to grow, repair tissues, and reproduce. **Mitosis** produces two genetically identical daughter cells. The cell cycle includes **interphase** (G1, S, G2) and **M phase** (mitosis + cytokinesis). Mitosis proceeds through **prophase**, **metaphase**, **anaphase**, and **telophase**. Checkpoints ensure DNA is intact and division is accurate.\n\nControlled division maintains healthy tissues, such as skin renewal after minor cuts. When control fails, cells may divide uncontrollably, leading to **cancer**. Early detection and prevention (e.g., reducing tobacco smoke exposure and promoting healthy diets common in Ghanaian households—vegetables, fish) help reduce risk. Understanding mitosis clarifies how growth occurs and why some diseases arise.",
+      "knowledgeChecks": {
+        "mcq": [
+          {"id": "m1-l4-q1", "type": "mcq", "stem": "DNA replication occurs in:", "options": {"A": "G1", "B": "S phase", "C": "Mitosis", "D": "Cytokinesis"}, "answer": "B", "explanation": "DNA is duplicated in S phase before mitosis.", "feedback": {"A": "Growth occurs here.", "B": "Correct!", "C": "Mitosis separates chromosomes.", "D": "Division of cytoplasm."}, "difficulty": "basic"},
+          {"id": "m1-l4-q2", "type": "mcq", "stem": "Chromosomes align at the equator during:", "options": {"A": "Prophase", "B": "Metaphase", "C": "Anaphase", "D": "Telophase"}, "answer": "B", "explanation": "Metaphase alignment ensures accurate segregation.", "feedback": {"A": "Chromosomes condense.", "B": "Correct!", "C": "Sister chromatids separate.", "D": "Nuclei reform."}, "difficulty": "basic"},
+          {"id": "m1-l4-q3", "type": "mcq", "stem": "Which phase sees sister chromatids pulled apart?", "options": {"A": "Anaphase", "B": "Prophase", "C": "Metaphase", "D": "Telophase"}, "answer": "A", "explanation": "Spindle fibers shorten, separating chromatids in anaphase.", "feedback": {"A": "Correct!", "B": "Condensation stage.", "C": "Alignment stage.", "D": "Reformation stage."}, "difficulty": "basic"},
+          {"id": "m1-l4-q4", "type": "mcq", "stem": "Uncontrolled cell division results in:", "options": {"A": "Apoptosis", "B": "Cancer", "C": "Differentiation", "D": "Meiosis"}, "answer": "B", "explanation": "Cancer arises when regulatory mechanisms fail.", "feedback": {"A": "Programmed cell death.", "B": "Correct!", "C": "Specialization.", "D": "Gamete formation."}, "difficulty": "basic"},
+          {"id": "m1-l4-q5", "type": "mcq", "stem": "The spindle apparatus attaches to chromosomes at the:", "options": {"A": "Centromere", "B": "Telomere", "C": "Nucleolus", "D": "Histone"}, "answer": "A", "explanation": "Microtubules bind kinetochores at centromeres.", "feedback": {"A": "Correct!", "B": "Ends of chromosomes.", "C": "rRNA synthesis site.", "D": "DNA-packaging protein."}, "difficulty": "intermediate"}
+        ],
+        "ordering": [
+          {"id": "m1-l4-ord1", "prompt": "Order mitosis phases", "items": ["Prophase", "Metaphase", "Anaphase", "Telophase"], "correctOrder": ["Prophase", "Metaphase", "Anaphase", "Telophase"]}
+        ]
+      },
+      "scenarioChallenges": [
+        {"id": "m1-l4-s1", "scenario": "A clinician observes a tumor with rapidly dividing cells lacking proper checkpoints.", "question": "Which treatment strategy targets this problem?", "options": {"A": "Enhancing mitotic spindle formation", "B": "Blocking cell cycle progression", "C": "Increasing nutrient supply", "D": "Stimulating telomerase"}, "answer": "B", "explanation": "Chemotherapies often slow or block the cell cycle to reduce uncontrolled division.", "difficulty": "advanced"}
+      ]
+    }
+  ],
+  "finalAssessment": {
+    "notes": "WASSCE-style mix: 60% basic, 30% intermediate, 10% advanced",
+    "questions": [
+      {"id": "m1-fa-q1", "type": "mcq", "difficulty": "basic", "stem": "Which component primarily forms channels for ion transport?", "options": {"A": "Phospholipids", "B": "Membrane proteins", "C": "Cholesterol", "D": "Carbohydrates"}, "answer": "B", "explanation": "Transmembrane proteins create selective channels."},
+      {"id": "m1-fa-q2", "type": "mcq", "difficulty": "basic", "stem": "Which statement about osmosis is correct?", "options": {"A": "Requires ATP", "B": "Moves solute only", "C": "Water moves to hypertonic side", "D": "Occurs only in plants"}, "answer": "C", "explanation": "Water moves toward higher solute (hypertonic)."},
+      {"id": "m1-fa-q3", "type": "mcq", "difficulty": "basic", "stem": "Nuclear pores allow:", "options": {"A": "ATP synthesis", "B": "mRNA export", "C": "Photosynthesis", "D": "Protein folding"}, "answer": "B", "explanation": "mRNA exits nucleus for translation."},
+      {"id": "m1-fa-q4", "type": "mcq", "difficulty": "basic", "stem": "Which organelle packages proteins for secretion?", "options": {"A": "Golgi apparatus", "B": "Nucleolus", "C": "Lysosome", "D": "Chloroplast"}, "answer": "A", "explanation": "Golgi modifies, sorts, and packages proteins."},
+      {"id": "m1-fa-q5", "type": "mcq", "difficulty": "basic", "stem": "During which phase do chromosomes condense?", "options": {"A": "Metaphase", "B": "Prophase", "C": "Anaphase", "D": "Telophase"}, "answer": "B", "explanation": "Condensation marks prophase."},
+      {"id": "m1-fa-q6", "type": "mcq", "difficulty": "basic", "stem": "Ribosomes are composed mainly of:", "options": {"A": "rRNA and proteins", "B": "DNA and lipids", "C": "Phospholipids", "D": "Cholesterol"}, "answer": "A", "explanation": "Ribosomes = rRNA + protein."},
+      {"id": "m1-fa-q7", "type": "mcq", "difficulty": "basic", "stem": "Function of lysosomes is:", "options": {"A": "Protein synthesis", "B": "Intracellular digestion", "C": "ATP production", "D": "Transcription"}, "answer": "B", "explanation": "Contain hydrolytic enzymes."},
+      {"id": "m1-fa-q8", "type": "mcq", "difficulty": "intermediate", "stem": "Blocking Na+/K+ pump will immediately affect:", "options": {"A": "Facilitated diffusion", "B": "Membrane potential", "C": "Osmosis", "D": "Endocytosis"}, "answer": "B", "explanation": "Pump maintains ion gradients essential for membrane potential."},
+      {"id": "m1-fa-q9", "type": "mcq", "difficulty": "intermediate", "stem": "A maize leaf with pale chloroplasts likely has reduced:", "options": {"A": "Respiration", "B": "Photosynthesis", "C": "Protein translation", "D": "DNA replication"}, "answer": "B", "explanation": "Chlorosis reduces photosynthesis."},
+      {"id": "m1-fa-q10", "type": "mcq", "difficulty": "intermediate", "stem": "Checkpoint failure most directly increases:", "options": {"A": "Apoptosis", "B": "Mutation accumulation", "C": "Protein secretion", "D": "Chromosome number"}, "answer": "B", "explanation": "Unchecked errors persist as mutations."},
+      {"id": "m1-fa-q11", "type": "mcq", "difficulty": "basic", "stem": "Chromosomes separate at:", "options": {"A": "Anaphase", "B": "Prophase", "C": "Metaphase", "D": "Telophase"}, "answer": "A", "explanation": "Sister chromatids pulled apart."},
+      {"id": "m1-fa-q12", "type": "mcq", "difficulty": "basic", "stem": "Which is NOT part of the endomembrane system?", "options": {"A": "Golgi", "B": "Rough ER", "C": "Mitochondrion", "D": "Vesicles"}, "answer": "C", "explanation": "Mitochondria are not endomembrane components."},
+      {"id": "m1-fa-q13", "type": "mcq", "difficulty": "intermediate", "stem": "If aquaporins are inhibited, what decreases most?", "options": {"A": "Active transport", "B": "Water permeability", "C": "Protein synthesis", "D": "DNA replication"}, "answer": "B", "explanation": "Aquaporins facilitate water movement."},
+      {"id": "m1-fa-q14", "type": "mcq", "difficulty": "basic", "stem": "Genetic information is stored primarily in:", "options": {"A": "rRNA", "B": "DNA", "C": "ATP", "D": "Lipids"}, "answer": "B", "explanation": "DNA stores hereditary information."},
+      {"id": "m1-fa-q15", "type": "mcq", "difficulty": "intermediate", "stem": "A liver cell has extensive smooth ER. It likely specializes in:", "options": {"A": "Protein export", "B": "Lipid metabolism and detoxification", "C": "Photosynthesis", "D": "DNA repair"}, "answer": "B", "explanation": "Smooth ER handles lipids and detox enzymes."},
+      {"id": "m1-fa-q16", "type": "mcq", "difficulty": "advanced", "stem": "A drug stabilizes microtubules, preventing depolymerization. Mitosis arrests at:", "options": {"A": "G1", "B": "Metaphase", "C": "Anaphase", "D": "Telophase"}, "answer": "B", "explanation": "Chromosomes cannot segregate if spindles cannot shorten, triggering metaphase arrest."},
+      {"id": "m1-fa-q17", "type": "mcq", "difficulty": "basic", "stem": "Which best describes chromatin?", "options": {"A": "DNA + proteins", "B": "RNA + lipids", "C": "Proteins only", "D": "DNA only"}, "answer": "A", "explanation": "Chromatin consists of DNA wrapped around histones."},
+      {"id": "m1-fa-q18", "type": "mcq", "difficulty": "basic", "stem": "Primary site of transcription is the:", "options": {"A": "Cytoplasm", "B": "Nucleus", "C": "Mitochondrion", "D": "Golgi"}, "answer": "B", "explanation": "Transcription occurs in the nucleus."},
+      {"id": "m1-fa-q19", "type": "mcq", "difficulty": "intermediate", "stem": "Cells in salty soil often wilt because:", "options": {"A": "Gain water by osmosis", "B": "Lose water to hypertonic soil", "C": "Lack ATP", "D": "Undergo meiosis"}, "answer": "B", "explanation": "Water leaves cells into hypertonic environment, reducing turgor."},
+      {"id": "m1-fa-q20", "type": "mcq", "difficulty": "basic", "stem": "Function common to mitochondria and chloroplasts:", "options": {"A": "ATP generation", "B": "DNA replication of nucleus", "C": "Protein secretion", "D": "Chromosome condensation"}, "answer": "A", "explanation": "Both generate ATP (via respiration/photosynthesis)."}
+    ]
+  }
+}

@@ -1,0 +1,107 @@
+{
+  "moduleId": "bio-photosynthesis-respiration",
+  "moduleTitle": "Photosynthesis & Respiration",
+  "subject": "Biology",
+  "level": "SHS 2",
+  "objectives": [
+    "Explain light reactions and Calvin cycle with key inputs/outputs",
+    "Describe glycolysis, Krebs cycle, and electron transport chain",
+    "Relate ATP production to cellular work and energy flow",
+    "Compare photosynthesis and respiration in structure and function",
+    "Apply concepts to Ghanaian agriculture and sports performance"
+  ],
+  "learningPath": ["Topic Introduction", "Core Concepts", "Knowledge Checks", "Practice Challenges", "Module Assessment"],
+  "xpRules": {"lessonCompletion": 10, "correctAnswer": 5, "scenarioSolved": 15, "moduleCompletionBonus": 50},
+  "milestones": [{"threshold": 25, "unlock": "practice"}, {"threshold": 50, "unlock": "scenarios"}, {"threshold": 75, "unlock": "bonus"}, {"threshold": 100, "unlock": "certificate"}],
+  "achievements": [{"id": "energy-expert", "title": "Energy Expert", "criteria": "Master photosynthesis and respiration"}],
+  "alignment": {"exam": "WASSCE Biology", "notes": "Energy transformations and stoichiometry", "careers": ["Agronomy", "Nutrition", "Sports science"]},
+  "lessons": [
+    {
+      "id": "photosynthesis-process",
+      "title": "Photosynthesis Process",
+      "text": "Photosynthesis occurs in **chloroplasts** and has two stages: **light reactions** and the **Calvin cycle**. In the thylakoid membranes, light energy excites electrons in **chlorophyll**, splitting water (photolysis) to release **O2**, producing **ATP** and **NADPH**. In the stroma, the Calvin cycle uses CO2, ATP, and NADPH to produce **glucose** through carbon fixation (RuBisCO), reduction, and regeneration of RuBP. Rates depend on **light intensity**, **CO2 concentration**, **temperature**, and water availability.\n\nFor Ghanaian crops like maize and cocoa, optimizing shade, spacing, and irrigation improves photosynthetic efficiency and yield. Understanding limiting factors helps farmers decide when to provide shade nets or irrigation during the dry season.",
+      "knowledgeChecks": {
+        "mcq": [
+          {"id": "m2-l1-q1", "type": "mcq", "stem": "Where do light reactions occur?", "options": {"A": "Stroma", "B": "Thylakoid membranes", "C": "Matrix", "D": "Cytosol"}, "answer": "B", "explanation": "Light reactions are on thylakoid membranes in chloroplasts.", "feedback": {"A": "Calvin cycle site.", "B": "Correct!", "C": "Mitochondrial site.", "D": "Outside chloroplast."}, "difficulty": "basic"},
+          {"id": "m2-l1-q2", "type": "mcq", "stem": "Primary product of water splitting is:", "options": {"A": "CO2", "B": "O2", "C": "Glucose", "D": "Lactic acid"}, "answer": "B", "explanation": "Photolysis releases oxygen from water.", "feedback": {"A": "CO2 is consumed later.", "B": "Correct!", "C": "Formed in Calvin cycle.", "D": "Not involved."}, "difficulty": "basic"},
+          {"id": "m2-l1-q3", "type": "mcq", "stem": "Which factor directly limits photosynthesis at night?", "options": {"A": "Light intensity", "B": "CO2", "C": "Minerals", "D": "Chlorophyll type"}, "answer": "A", "explanation": "Without light, light reactions cannot proceed.", "feedback": {"A": "Correct!", "B": "CO2 still available.", "C": "Needed but not limiting at night.", "D": "Pigment type unchanged."}, "difficulty": "basic"},
+          {"id": "m2-l1-q4", "type": "mcq", "stem": "Calvin cycle requires:", "options": {"A": "ATP and NADPH", "B": "Light directly", "C": "O2 only", "D": "Pyruvate"}, "answer": "A", "explanation": "ATP and NADPH from light reactions drive carbon fixation.", "feedback": {"A": "Correct!", "B": "It is light-independent but uses products of light reactions.", "C": "O2 is by-product of light reactions.", "D": "Pyruvate is from glycolysis."}, "difficulty": "intermediate"},
+          {"id": "m2-l1-q5", "type": "mcq", "stem": "Which is NOT typically a limiting factor?", "options": {"A": "Light", "B": "CO2", "C": "Temperature", "D": "Chloroplast DNA sequence"}, "answer": "D", "explanation": "DNA sequence is not a direct short-term limiting factor.", "feedback": {"A": "Can limit.", "B": "Can limit.", "C": "Can limit.", "D": "Correct!"}, "difficulty": "intermediate"}
+        ],
+        "equationCompletion": [
+          {"id": "m2-l1-eq1", "prompt": "Complete the photosynthesis equation", "equationWithBlanks": "__ CO2 + __ H2O → C6H12O6 + __ O2", "answer": ["6", "6", "6"]},
+          {"id": "m2-l1-eq2", "prompt": "Identify the molecule fixed by RuBisCO", "equationWithBlanks": "RuBP + __ → 3-PGA", "answer": ["CO2"]}
+        ]
+      },
+      "scenarioChallenges": [
+        {"id": "m2-l1-s1", "scenario": "A tomato greenhouse in Accra adds CO2 enrichment during cloudy days.", "question": "What outcome is most likely?", "options": {"A": "Reduced photosynthesis", "B": "No change", "C": "Increased photosynthesis if light is adequate", "D": "Plant death"}, "answer": "C", "explanation": "CO2 enrichment boosts rates when light is not severely limiting."}
+      ]
+    },
+    {
+      "id": "cellular-respiration",
+      "title": "Cellular Respiration",
+      "text": "Cells extract energy from food through **cellular respiration**, a multi-step process: **glycolysis** (cytosol) breaks glucose into pyruvate, yielding ATP and **NADH**; the **Krebs cycle** (mitochondrial matrix) oxidizes acetyl-CoA, producing more NADH/FADH2; the **electron transport chain (ETC)** (inner mitochondrial membrane) uses these electrons to pump protons and drive **ATP synthase** to produce ATP. Oxygen is the final electron acceptor. Without sufficient oxygen, cells switch to **anaerobic respiration/fermentation**, producing lactate (in muscles) with far less ATP.\n\nIn Ghanaian athletics, sprinting relies more on anaerobic pathways for quick bursts, while long-distance running depends on sustained aerobic respiration.",
+      "knowledgeChecks": {
+        "mcq": [
+          {"id": "m2-l2-q1", "type": "mcq", "stem": "Where does glycolysis occur?", "options": {"A": "Cytosol", "B": "Matrix", "C": "Thylakoid", "D": "Nucleus"}, "answer": "A", "explanation": "Glycolysis occurs in cytosol of all cells."},
+          {"id": "m2-l2-q2", "type": "mcq", "stem": "Final electron acceptor in aerobic respiration is:", "options": {"A": "CO2", "B": "O2", "C": "NAD+", "D": "FAD"}, "answer": "B", "explanation": "Oxygen accepts electrons to form water."},
+          {"id": "m2-l2-q3", "type": "mcq", "stem": "Most ATP is produced during:", "options": {"A": "Glycolysis", "B": "Krebs cycle", "C": "Electron transport/oxidative phosphorylation", "D": "Fermentation"}, "answer": "C", "explanation": "ETC with ATP synthase yields the most ATP."},
+          {"id": "m2-l2-q4", "type": "mcq", "stem": "Anaerobic respiration in human muscle produces:", "options": {"A": "Ethanol", "B": "Lactate", "C": "O2", "D": "Glucose"}, "answer": "B", "explanation": "Lactate is formed in human anaerobic metabolism."},
+          {"id": "m2-l2-q5", "type": "mcq", "stem": "Which molecule carries high-energy electrons to the ETC?", "options": {"A": "ATP", "B": "NADH", "C": "ADP", "D": "CO2"}, "answer": "B", "explanation": "NADH/FADH2 donate electrons to ETC."},
+          {"id": "m2-l2-q6", "type": "mcq", "stem": "A poison that perforates the inner mitochondrial membrane will:", "options": {"A": "Increase ATP yield", "B": "Stop proton gradient formation", "C": "Speed up glycolysis only", "D": "Enhance Krebs cycle"}, "answer": "B", "explanation": "No gradient means ATP synthase cannot work efficiently."}
+        ],
+        "energyCalculation": [
+          {"id": "m2-l2-en1", "prompt": "Estimate ATP from aerobic respiration per glucose (textbook value)", "workingsHint": "Glycolysis (2), Krebs (2), oxidative phosphorylation (~26–28)", "answer": 30}
+        ]
+      },
+      "scenarioChallenges": [
+        {"id": "m2-l2-s1", "scenario": "A footballer fatigues late in a match with rapid breathing.", "question": "Which physiological shift explains the fatigue?", "options": {"A": "Switch to fermentation due to O2 debt", "B": "Increased photosynthesis", "C": "Shutdown of glycolysis", "D": "Extra ATP from DNA"}, "answer": "A", "explanation": "Low oxygen triggers anaerobic metabolism and lactate accumulation."}
+      ]
+    },
+    {
+      "id": "energy-flow-systems",
+      "title": "Energy Flow in Living Systems",
+      "text": "Cells use **ATP** as the immediate energy currency. Metabolic pathways transform energy with limits set by **thermodynamics**. **Photosynthesis** stores energy in glucose; **respiration** releases it for cellular work. Efficiency varies, and heat is lost. In ecosystems, energy flows from producers to consumers; only a fraction (about 10%) transfers between trophic levels.\n\nIn Ghana’s food systems, efficient energy use relates to nutrition and crop yield, influencing health and economic outcomes.",
+      "knowledgeChecks": {
+        "mcq": [
+          {"id": "m2-l3-q1", "type": "mcq", "stem": "ATP primarily provides energy by:", "options": {"A": "Donating electrons", "B": "Hydrolysis of phosphate bonds", "C": "Absorbing sunlight", "D": "Forming DNA"}, "answer": "B", "explanation": "ATP hydrolysis releases energy for work."},
+          {"id": "m2-l3-q2", "type": "mcq", "stem": "Energy transfer between trophic levels is about:", "options": {"A": "100%", "B": "50%", "C": "10%", "D": "1%"}, "answer": "C", "explanation": "Rule of thumb ~10% efficiency."},
+          {"id": "m2-l3-q3", "type": "mcq", "stem": "Which pathway stores energy?", "options": {"A": "Photosynthesis", "B": "Glycolysis", "C": "Krebs cycle", "D": "ETC"}, "answer": "A", "explanation": "Photosynthesis stores energy in glucose."},
+          {"id": "m2-l3-q4", "type": "mcq", "stem": "Which best compares photosynthesis vs respiration?", "options": {"A": "Both consume O2", "B": "Both produce O2", "C": "Photosynthesis consumes CO2; respiration produces CO2", "D": "Both occur only in plants"}, "answer": "C", "explanation": "Photosynthesis uses CO2, respiration releases it."}
+        ],
+        "comparison": [
+          {"id": "m2-l3-comp1", "prompt": "Compare photosynthesis to respiration (inputs/outputs)", "expectedPoints": ["Photosynthesis: inputs CO2, H2O, light; outputs glucose, O2", "Respiration: inputs glucose, O2; outputs CO2, H2O, ATP"]},
+          {"id": "m2-l3-comp2", "prompt": "Contrast locations and energy roles", "expectedPoints": ["Photosynthesis in chloroplasts stores energy", "Respiration in mitochondria releases energy"]}
+        ]
+      },
+      "scenarioChallenges": [
+        {"id": "m2-l3-s1", "scenario": "A fish farm manages feed to maximize growth.", "question": "Which strategy conserves energy transfer to fish?", "options": {"A": "Lengthen food chain", "B": "Shorten food chain by feeding lower trophic levels", "C": "Rely on sunlight directly", "D": "Increase water salinity"}, "answer": "B", "explanation": "Shorter chains reduce energy loss between levels."}
+      ]
+    }
+  ],
+  "finalAssessment": {
+    "notes": "20 mixed questions with basic/intermediate/advanced distribution",
+    "questions": [
+      {"id": "m2-fa-q1", "type": "mcq", "stem": "Main products of light reactions are:", "options": {"A": "Glucose and O2", "B": "ATP and NADPH", "C": "Pyruvate and CO2", "D": "Ethanol and CO2"}, "answer": "B", "explanation": "ATP and NADPH power Calvin cycle."},
+      {"id": "m2-fa-q2", "type": "mcq", "stem": "Calvin cycle occurs in the:", "options": {"A": "Thylakoid lumen", "B": "Stroma", "C": "Matrix", "D": "Cytosol"}, "answer": "B", "explanation": "Stroma houses enzymes for carbon fixation."},
+      {"id": "m2-fa-q3", "type": "mcq", "stem": "Where is the ETC for respiration located?", "options": {"A": "Outer membrane", "B": "Inner mitochondrial membrane", "C": "Chloroplast stroma", "D": "Cytosol"}, "answer": "B", "explanation": "ETC complexes sit in the inner membrane."},
+      {"id": "m2-fa-q4", "type": "mcq", "stem": "During vigorous exercise, muscles produce:", "options": {"A": "Ethanol", "B": "Lactate", "C": "Glucose", "D": "RuBP"}, "answer": "B", "explanation": "Anaerobic pathway produces lactate."},
+      {"id": "m2-fa-q5", "type": "mcq", "stem": "Which factor increases photosynthesis up to a point then plateaus?", "options": {"A": "Light intensity", "B": "Salt concentration", "C": "Pigment color", "D": "Leaf age only"}, "answer": "A", "explanation": "Light is a classic limiting factor with saturation."},
+      {"id": "m2-fa-q6", "type": "mcq", "stem": "Most ATP per glucose comes from:", "options": {"A": "Glycolysis", "B": "Krebs cycle", "C": "Oxidative phosphorylation", "D": "Fermentation"}, "answer": "C", "explanation": "ETC-driven ATP synthase yields majority."},
+      {"id": "m2-fa-q7", "type": "mcq", "stem": "If mitochondrial membrane is uncoupled, what happens?", "options": {"A": "More ATP", "B": "Heat production increases, ATP drops", "C": "No glycolysis", "D": "No oxygen use"}, "answer": "B", "explanation": "Proton gradient dissipates as heat; ATP synthesis falls."},
+      {"id": "m2-fa-q8", "type": "mcq", "stem": "Which molecule is reduced in light reactions?", "options": {"A": "NADP+", "B": "O2", "C": "ATP", "D": "CO2"}, "answer": "A", "explanation": "NADP+ is reduced to NADPH."},
+      {"id": "m2-fa-q9", "type": "mcq", "stem": "Net ATP from glycolysis is:", "options": {"A": "0", "B": "2", "C": "4", "D": "6"}, "answer": "B", "explanation": "Gross 4, net 2 ATP."},
+      {"id": "m2-fa-q10", "type": "mcq", "stem": "Best comparison of processes:", "options": {"A": "Both release CO2", "B": "Photosynthesis releases CO2", "C": "Respiration consumes CO2", "D": "Photosynthesis consumes CO2; respiration releases CO2"}, "answer": "D", "explanation": "Accurate complementarity."},
+      {"id": "m2-fa-q11", "type": "mcq", "stem": "Increased CO2 in a greenhouse will:", "options": {"A": "Always decrease yield", "B": "Increase photosynthesis up to a limit", "C": "Stop light reactions", "D": "Cause fermentation"}, "answer": "B", "explanation": "CO2 enhances Calvin cycle when other factors are adequate."},
+      {"id": "m2-fa-q12", "type": "mcq", "stem": "Which is directly required for Calvin cycle?", "options": {"A": "Light", "B": "ATP and NADPH", "C": "O2", "D": "Lactate"}, "answer": "B", "explanation": "Uses products of light reactions."},
+      {"id": "m2-fa-q13", "type": "mcq", "stem": "Which statement about trophic levels is true?", "options": {"A": "Energy transfer is efficient (~90%)", "B": "About 10% transfers between levels", "C": "Producers rely on respiration only", "D": "Consumers perform photosynthesis"}, "answer": "B", "explanation": "~10% rule."},
+      {"id": "m2-fa-q14", "type": "mcq", "stem": "ETC requires which gas?", "options": {"A": "CO2", "B": "O2", "C": "N2", "D": "CH4"}, "answer": "B", "explanation": "Oxygen is terminal electron acceptor."},
+      {"id": "m2-fa-q15", "type": "mcq", "stem": "Photolysis directly produces:", "options": {"A": "RuBP", "B": "O2", "C": "Glucose", "D": "Pyruvate"}, "answer": "B", "explanation": "Water splitting releases oxygen."},
+      {"id": "m2-fa-q16", "type": "mcq", "stem": "Which situation favors fermentation?", "options": {"A": "High oxygen availability", "B": "Low oxygen in muscle", "C": "Bright sunlight", "D": "High CO2"}, "answer": "B", "explanation": "Oxygen debt triggers anaerobic metabolism."},
+      {"id": "m2-fa-q17", "type": "mcq", "stem": "Main role of ATP synthase is to:", "options": {"A": "Pump electrons", "B": "Synthesize ATP using proton gradient", "C": "Fix CO2", "D": "Split water"}, "answer": "B", "explanation": "Chemiosmosis produces ATP."},
+      {"id": "m2-fa-q18", "type": "mcq", "stem": "Which agricultural practice can increase photosynthesis?", "options": {"A": "Overcrowding plants", "B": "Optimizing spacing and irrigation", "C": "Removing all shade in dry season", "D": "Low CO2 greenhouse"}, "answer": "B", "explanation": "Improved light and water access optimize rates."},
+      {"id": "m2-fa-q19", "type": "mcq", "stem": "How many CO2 molecules are fixed to produce one glucose?", "options": {"A": "3", "B": "6", "C": "12", "D": "2"}, "answer": "B", "explanation": "Six CO2 are required per glucose."},
+      {"id": "m2-fa-q20", "type": "mcq", "stem": "ETC inhibition immediately decreases:", "options": {"A": "ATP yield", "B": "Light absorption", "C": "CO2 levels", "D": "Glycolysis rate to zero"}, "answer": "A", "explanation": "No gradient means less ATP."}
+    ]
+  }
+}
