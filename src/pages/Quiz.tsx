@@ -47,6 +47,25 @@ const Quiz: React.FC = () => {
         .eq("id", quizId)
         .maybeSingle();
       if (error) throw error;
+      
+      // Process the questions data
+      if (data) {
+        // If questions is a string, try to parse it
+        if (typeof data.questions === 'string') {
+          try {
+            data.questions = JSON.parse(data.questions);
+          } catch (e) {
+            console.error('Failed to parse questions JSON:', e);
+            data.questions = [];
+          }
+        }
+        
+        // Ensure questions is an array
+        if (!data.questions || !Array.isArray(data.questions)) {
+          data.questions = [];
+        }
+      }
+      
       return data as DbQuiz | null;
     },
     enabled: !!quizId,
@@ -72,7 +91,7 @@ const Quiz: React.FC = () => {
   const [index, setIndex] = useState(0);
   const [correct, setCorrect] = useState(0);
   const [answers, setAnswers] = useState<any[]>([]);
-  const total = quiz?.questions?.length || 0;
+  const total = quiz?.questions && Array.isArray(quiz.questions) ? quiz.questions.length : 0;
   const timeLimit = quiz?.time_limit ?? 300;
   const [secondsLeft, setSecondsLeft] = useState(timeLimit);
   const [finished, setFinished] = useState(false);
@@ -80,6 +99,13 @@ const Quiz: React.FC = () => {
   useEffect(() => {
     if (!quiz) return;
     setSecondsLeft(quiz.time_limit ?? 300);
+    
+    // Debug the quiz data structure
+    console.log('Quiz data:', quiz);
+    console.log('Questions array:', quiz.questions);
+    if (quiz.questions && quiz.questions.length > 0) {
+      console.log('First question:', quiz.questions[0]);
+    }
   }, [quizId, quiz]);
 
   useEffect(() => {
@@ -96,20 +122,24 @@ const Quiz: React.FC = () => {
   }, [finished]);
 
   const currentQuestion: QuizQuestionType | null = useMemo(() => {
-    if (!quiz || index >= total) return null;
+    if (!quiz || !quiz.questions || index >= total) return null;
     const q = quiz.questions[index];
+    if (!q) return null;
+    
     return {
       id: q.id ?? String(index),
       question: q.question,
-      options: q.options,
+      options: q.options || [],
       correctOption: q.correctOption,
       explanation: q.explanation,
     } as QuizQuestionType;
   }, [quiz, index, total]);
 
   const recordAnswer = (isCorrect: boolean) => {
-    if (!quiz) return;
+    if (!quiz || !quiz.questions) return;
     const q = quiz.questions[index];
+    if (!q) return;
+    
     setAnswers((prev) => ([...prev, {
       questionId: q.id ?? String(index),
       selected: undefined, // captured in UI; optional here
