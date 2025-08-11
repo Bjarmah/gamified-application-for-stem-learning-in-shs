@@ -9,7 +9,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Skeleton } from "@/components/ui/skeleton";
 import { ArrowLeft, Clock, CheckCircle, ListChecks, BookOpen, Play } from "lucide-react";
 import { formatDifficulty, getDifficultyColor } from "@/lib/utils";
-
+import { findBiologyModuleByTitle } from "@/content/biology";
 
 const ModuleDetail: React.FC = () => {
   const { moduleId, subjectId } = useParams<{ moduleId: string; subjectId: string }>();
@@ -76,11 +76,17 @@ const ModuleDetail: React.FC = () => {
     );
   }
 
-  // Using the imported formatDifficulty and getDifficultyColor functions
+// Using the imported formatDifficulty and getDifficultyColor functions
   const difficultyBadge = () => {
     const formattedDifficulty = formatDifficulty(module?.difficulty_level || "beginner");
     return getDifficultyColor(formattedDifficulty);
   };
+
+  const structured = findBiologyModuleByTitle(module?.title || null);
+  const toHTML = (txt?: string) =>
+    (txt || "")
+      .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+      .replace(/\n\n/g, '<br/><br/>' );
 
   return (
     <div className="space-y-6 pb-8">
@@ -147,22 +153,59 @@ const ModuleDetail: React.FC = () => {
                 <BookOpen className="h-5 w-5" />
                 {module.title}
               </CardTitle>
-              <div className="flex items-center gap-2">
+<div className="flex items-center gap-2">
                 <Badge className={difficultyBadge()}>{formatDifficulty(module.difficulty_level)}</Badge>
                 <Badge variant="outline" className="flex items-center gap-1">
                   <Clock className="h-3 w-3" /> ~{module.estimated_duration || 30} mins
                 </Badge>
+                {structured?.level && (
+                  <Badge variant="secondary">{structured.level}</Badge>
+                )}
               </div>
             </CardHeader>
             <CardContent className="space-y-6">
-              {module.content ? (
-                <div className="prose prose-sm max-w-none bg-muted/30 p-4 rounded-lg">
-                  <div className="whitespace-pre-wrap text-sm">{module.content}</div>
+{structured ? (
+                <div className="space-y-6">
+                  <section>
+                    <h2 className="text-lg font-semibold">Objectives</h2>
+                    <ul className="list-disc pl-5 text-sm mt-2">
+                      {structured.objectives?.map((o) => (
+                        <li key={o}>{o}</li>
+                      ))}
+                    </ul>
+                  </section>
+
+                  <section>
+                    <h3 className="text-sm font-medium">Learning Path</h3>
+                    <div className="flex flex-wrap gap-2 mt-2">
+                      {structured.learningPath?.map((step) => (
+                        <Badge key={step} variant="outline">{step}</Badge>
+                      ))}
+                    </div>
+                  </section>
+
+                  <section className="space-y-4">
+                    {structured.lessons?.map((lesson) => (
+                      <article key={lesson.id} className="p-4 rounded-md bg-muted/30">
+                        <h4 className="font-medium">{lesson.title}</h4>
+                        <div
+                          className="prose prose-sm max-w-none mt-2"
+                          dangerouslySetInnerHTML={{ __html: toHTML(lesson.text) }}
+                        />
+                      </article>
+                    ))}
+                  </section>
                 </div>
               ) : (
-                <p className="text-sm text-muted-foreground">
-                  Content for this module will be available soon.
-                </p>
+                module.content ? (
+                  <div className="prose prose-sm max-w-none bg-muted/30 p-4 rounded-lg">
+                    <div className="whitespace-pre-wrap text-sm">{module.content}</div>
+                  </div>
+                ) : (
+                  <p className="text-sm text-muted-foreground">
+                    Content for this module will be available soon.
+                  </p>
+                )
               )}
 
               <div className="pt-2 flex flex-col sm:flex-row gap-3">

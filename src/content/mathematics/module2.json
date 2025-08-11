@@ -1,0 +1,86 @@
+{
+  "moduleId": "math-trigonometry",
+  "moduleTitle": "Trigonometry",
+  "subject": "Mathematics",
+  "level": "SHS 2",
+  "objectives": [
+    "Use SOH-CAH-TOA to solve right triangles and apply unit circle values",
+    "Verify identities and solve basic trigonometric equations",
+    "Apply trigonometry to Ghanaian contexts: surveying, navigation, periodic models"
+  ],
+  "learningPath": ["Topic Introduction", "Core Concepts", "Knowledge Checks", "Practice Challenges", "Module Assessment"],
+  "xpRules": {"lessonCompletion": 10, "correctAnswer": 5, "scenarioSolved": 15, "moduleCompletionBonus": 50},
+  "milestones": [{"threshold": 25, "unlock": "practice"}, {"threshold": 50, "unlock": "scenarios"}, {"threshold": 75, "unlock": "bonus"}, {"threshold": 100, "unlock": "certificate"}],
+  "achievements": [{"id": "angle-explorer", "title": "Angle Explorer", "criteria": "Master trigonometry concepts"}],
+  "alignment": {"exam": "WASSCE Core/ Elective Maths", "notes": "Ratios, identities, equations, applications", "careers": ["Surveying", "Navigation", "Engineering"]},
+  "lessons": [
+    {
+      "id": "basic-ratios",
+      "title": "Basic Trigonometric Ratios",
+      "text": "Trigonometry relates **angles** to **sides** of triangles. For a right triangle, **SOH-CAH-TOA** defines sine, cosine, and tangent in terms of opposite, adjacent, and hypotenuse. Special angles (30°, 45°, 60°) have known exact values. The **unit circle** extends these definitions to all angles by placing a radius-1 circle on the coordinate plane. Cosine equals the x-coordinate and sine equals the y-coordinate of a point on the circle. Trigonometry supports real tasks in Ghana: estimating the height of a **Kakum canopy** tower, measuring distances in surveying, and analyzing periodic patterns such as tides or electrical signals.",
+      "knowledgeChecks": {
+        "mcq": [
+          {"id": "tr-l1-q1", "type": "mcq", "stem": "tan θ equals:", "options": {"A": "adj/opp", "B": "opp/adj", "C": "hyp/opp", "D": "adj/hyp"}, "answer": "B", "explanation": "tan θ = opposite/adjacent."},
+          {"id": "tr-l1-q2", "type": "mcq", "stem": "sin 30° =", "options": {"A": "√3/2", "B": "1/2", "C": "√2/2", "D": "1"}, "answer": "B", "explanation": "Special angle value."},
+          {"id": "tr-l1-q3", "type": "mcq", "stem": "cos 60° =", "options": {"A": "1/2", "B": "√3/2", "C": "√2/2", "D": "0"}, "answer": "A", "explanation": "Cos 60° = 1/2."},
+          {"id": "tr-l1-q4", "type": "mcq", "stem": "On the unit circle, a point at angle θ has coordinates:", "options": {"A": "(sin θ, cos θ)", "B": "(cos θ, sin θ)", "C": "(tan θ, 1)", "D": "(1, tan θ)"}, "answer": "B", "explanation": "Definition of unit circle coordinates."},
+          {"id": "tr-l1-q5", "type": "mcq", "stem": "If hypotenuse = 10 and opposite = 6, sin θ is:", "options": {"A": "0.6", "B": "0.8", "C": "1.2", "D": "1.6"}, "answer": "A", "explanation": "sin θ = opp/hyp = 6/10."},
+          {"id": "tr-l1-q6", "type": "mcq", "stem": "A right triangle with legs 3 and 4 has tan θ (θ opposite 3):", "options": {"A": "3/4", "B": "4/3", "C": "3/5", "D": "4/5"}, "answer": "A", "explanation": "tan = opp/adj = 3/4."}
+        ],
+        "angleIdentification": [
+          {"id": "tr-l1-ai1", "prompt": "Identify quadrant for 140°.", "expected": "Quadrant II (sin +, cos −)"},
+          {"id": "tr-l1-ai2", "prompt": "Give reference angle for 315°.", "expected": "45° (in Quadrant IV)"},
+          {"id": "tr-l1-ai3", "prompt": "Convert 60° to radians.", "expected": "π/3"}
+        ]
+      },
+      "scenarioChallenges": [
+        {"id": "tr-l1-s1", "scenario": "At Kakum National Park, a ranger estimates the height of a canopy tower. From 45 m away on level ground, the angle of elevation to the top is 53°.", "question": "Estimate the height (nearest metre), ignoring eye level.", "options": {"A": "36 m", "B": "45 m", "C": "59 m", "D": "71 m"}, "answer": "C", "explanation": "tan 53° ≈ 1.327; height ≈ 45×1.327 ≈ 59.7 m."}
+      ]
+    },
+    {
+      "id": "identities-equations",
+      "title": "Trigonometric Equations and Identities",
+      "text": "Trigonometric **identities** simplify expressions and support solving equations. Core identities include sin^2θ + cos^2θ = 1, tan θ = sin θ / cos θ, and reciprocal identities. To solve equations like 2sin θ = 1, isolate the ratio and use known values or inverse functions, considering all solutions in [0°, 360°) or specified intervals. Applying identities such as angle sum or double-angle may be necessary. Always check for extraneous solutions. These skills support understanding wave phenomena and **radio frequency** calculations used in broadcasting.",
+      "knowledgeChecks": {
+        "mcq": [
+          {"id": "tr-l2-q1", "type": "mcq", "stem": "Which is an identity?", "options": {"A": "sin^2θ + cos^2θ = 1", "B": "sin θ = 2", "C": "tan θ = cos θ", "D": "cos θ = 0 for all θ"}, "answer": "A", "explanation": "Pythagorean identity."},
+          {"id": "tr-l2-q2", "type": "mcq", "stem": "Solve sin θ = 1/2 in 0° ≤ θ < 360°.", "options": {"A": "θ = 30°, 150°", "B": "θ = 45°, 225°", "C": "θ = 60°, 300°", "D": "θ = 90° only"}, "answer": "A", "explanation": "sin positive in Quadrants I & II."},
+          {"id": "tr-l2-q3", "type": "mcq", "stem": "If tan θ = √3, one principal solution is:", "options": {"A": "θ = 30°", "B": "θ = 45°", "C": "θ = 60°", "D": "θ = 90°"}, "answer": "C", "explanation": "tan 60° = √3."},
+          {"id": "tr-l2-q4", "type": "mcq", "stem": "cos(θ + 90°) equals:", "options": {"A": "sin θ", "B": "−sin θ", "C": "cos θ", "D": "−cos θ"}, "answer": "B", "explanation": "Phase shift identity: cos(θ+90°)=−sin θ."},
+          {"id": "tr-l2-q5", "type": "mcq", "stem": "Simplify tan θ · cos θ:", "options": {"A": "sin θ", "B": "cos^2 θ", "C": "sec θ", "D": "1"}, "answer": "A", "explanation": "tan θ = sin θ/cos θ; multiply by cos θ → sin θ."}
+        ],
+        "equationExercises": [
+          {"id": "tr-l2-eq1", "prompt": "Solve 2cos θ = √3 in 0° ≤ θ < 360°.", "answer": ["θ = 30°, 330°"]},
+          {"id": "tr-l2-eq2", "prompt": "Solve tan^2 θ = 3.", "answer": ["tan θ = ±√3", "θ = 60°, 120°, 240°, 300°"]}
+        ]
+      },
+      "scenarioChallenges": [
+        {"id": "tr-l2-s1", "scenario": "A radio station near Accra aligns antenna angles to optimize signal. The phase shift requires cos(θ − 30°) = 0.5.", "question": "Which θ values in 0° ≤ θ < 360° satisfy this?", "options": {"A": "θ = 90°, 330°", "B": "θ = 60°, 0°", "C": "θ = 60°, 360°", "D": "θ = 30°, 90°"}, "answer": "A", "explanation": "cos(θ − 30°)=0.5 ⇒ θ − 30° = ±60° ⇒ θ = 90°, 330°."}
+      ]
+    },
+    {
+      "id": "trig-applications",
+      "title": "Applications in Real Life",
+      "text": "Trigonometry supports **surveying**, **navigation**, and **periodic modelling**. The **sine** and **cosine** functions model repeating behaviour such as tides, seasonal temperatures, and AC electricity. Surveyors use angle and distance measurements to determine inaccessible lengths using the **sine** or **cosine rules**. Sailors and pilots navigate bearings with trigonometric relationships. In Ghana, estimating distances across **Lake Volta** or the height of buildings often uses trigonometric techniques when direct measurement is impractical.",
+      "knowledgeChecks": {
+        "mcq": [
+          {"id": "tr-l3-q1", "type": "mcq", "stem": "Which rule is best for two sides and included angle?", "options": {"A": "Sine rule", "B": "Cosine rule", "C": "Pythagoras only", "D": "No rule"}, "answer": "B", "explanation": "Cosine rule for SAS."},
+          {"id": "tr-l3-q2", "type": "mcq", "stem": "A sine model y = A sin(ωt) has period:", "options": {"A": "2π/ω", "B": "ω/2π", "C": "A/ω", "D": "Aω"}, "answer": "A", "explanation": "Period = 2π/ω."},
+          {"id": "tr-l3-q3", "type": "mcq", "stem": "For bearings, due East corresponds to:", "options": {"A": "0°", "B": "90°", "C": "180°", "D": "270°"}, "answer": "B", "explanation": "Standard bearings: North 0°, East 90°."},
+          {"id": "tr-l3-q4", "type": "mcq", "stem": "Given sides a=5, b=7, angle C=60°, find c using:", "options": {"A": "Sine rule", "B": "Cosine rule", "C": "Area formula only", "D": "No method"}, "answer": "B", "explanation": "c^2 = a^2 + b^2 − 2ab cos C."}
+        ],
+        "wordProblems": [
+          {"id": "tr-l3-w1", "prompt": "Two villages on opposite shores of Lake Volta are observed from a headland 3 km away at bearings 40° and 110°. Approximate distance between villages.", "hint": "Form triangle with included angle 70°, use cosine rule.", "answer": "c^2 = 3^2 + 3^2 − 2·3·3·cos 70° ⇒ c ≈ 3.1 km"},
+          {"id": "tr-l3-w2", "prompt": "A surveyor measures two sides 120 m and 150 m with included angle 50°. Find the third side.", "answer": "c^2=120^2+150^2−2·120·150·cos50° ⇒ c ≈ 118.6 m"}
+        ]
+      },
+      "scenarioChallenges": [
+        {"id": "tr-l3-s1", "scenario": "A navigator crosses a wide section of Lake Volta. He sails 4 km East, then 3 km at bearing 150°.", "question": "How far from start is he (nearest 0.1 km)?", "options": {"A": "2.6 km", "B": "5.3 km", "C": "6.4 km", "D": "7.0 km"}, "answer": "C", "explanation": "Vector addition with cosine rule: resultant ≈ 6.4 km."}
+      ]
+    }
+  ],
+  "finalAssessment": {"notes": "20 questions across ratios, identities, and applications", "questions": [
+    {"id": "tr-fa-q1", "type": "mcq", "stem": "sin^2θ + cos^2θ equals:", "options": {"A": "0", "B": "1", "C": "2", "D": "tan θ"}, "answer": "B", "explanation": "Pythagorean identity."},
+    {"id": "tr-fa-q2", "type": "mcq", "stem": "Solve cos θ = 0.5 in 0°≤θ<360°:", "options": {"A": "60°, 300°", "B": "30°, 330°", "C": "45°, 225°", "D": "90°, 270°"}, "answer": "A", "explanation": "Cos positive in Quadrants I & IV."}
+  ]}
+}
