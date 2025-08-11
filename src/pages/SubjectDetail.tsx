@@ -8,7 +8,7 @@ import { useSubject } from "@/hooks/use-subjects";
 import { useModules } from "@/hooks/use-modules";
 import { supabase } from "@/integrations/supabase/client";
 import { useQuery } from "@tanstack/react-query";
-import { formatDifficulty, formatTimeLimit } from "@/lib/utils";
+
 import { ArrowLeft, Clock, CheckCircle, PlayCircle, BookOpen, Trophy, Target } from "lucide-react";
 
 const SubjectDetail: React.FC = () => {
@@ -24,6 +24,14 @@ const SubjectDetail: React.FC = () => {
       document.title = `${subject.name} • STEM Learner`;
     }
   }, [subject?.name]);
+
+  const prettyDifficulty = (difficulty: string | null): 'Beginner' | 'Intermediate' | 'Advanced' => {
+    if (!difficulty) return 'Beginner';
+    const d = difficulty.toLowerCase();
+    if (d === 'intermediate') return 'Intermediate';
+    if (d === 'advanced') return 'Advanced';
+    return 'Beginner';
+  };
 
   // Fetch quizzes for this subject
   const { data: quizzes, isLoading: quizzesLoading } = useQuery({
@@ -138,7 +146,7 @@ const SubjectDetail: React.FC = () => {
                                 ~{module.estimated_duration || 30} mins
                               </div>
                               <Badge variant="outline" className="text-xs">
-                                {formatDifficulty(module.difficulty_level)}
+                                {prettyDifficulty(module.difficulty_level)}
                               </Badge>
                               {moduleQuiz && (
                                 <Badge variant="secondary" className="text-xs">
