@@ -101,10 +101,12 @@ const Quiz: React.FC = () => {
     setSecondsLeft(quiz.time_limit ?? 300);
     
     // Debug the quiz data structure
-    console.log('Quiz data:', quiz);
-    console.log('Questions array:', quiz.questions);
-    if (quiz.questions && quiz.questions.length > 0) {
-      console.log('First question:', quiz.questions[0]);
+    if (quiz) {
+      console.log('Quiz loaded:', quiz.title);
+      console.log('Questions count:', quiz.questions?.length || 0);
+      if (!quiz.questions || quiz.questions.length === 0) {
+        console.warn('No questions found in quiz data');
+      }
     }
   }, [quizId, quiz]);
 
@@ -252,6 +254,22 @@ const Quiz: React.FC = () => {
           onAnswer={recordAnswer}
           onNext={onNext}
         />
+      )}
+
+      {!finished && !currentQuestion && total === 0 && (
+        <Card className="card-stem max-w-xl mx-auto">
+          <CardHeader>
+            <CardTitle>No Questions Available</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <p className="text-sm text-muted-foreground mb-3">
+              This quiz doesn't have any questions yet. Please contact your instructor.
+            </p>
+            <Button onClick={() => navigate(-1)} variant="outline">
+              <ArrowLeft className="h-4 w-4 mr-2" /> Go Back
+            </Button>
+          </CardContent>
+        </Card>
       )}
 
       {finished && (
