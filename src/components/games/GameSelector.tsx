@@ -94,8 +94,6 @@ const GameSelector: React.FC<GameSelectorProps> = ({ subject, moduleId, onGameCo
         ];
       case 'biology':
         return [
-          { id: 'cell-city', name: 'Cell City Manager', description: 'Manage cellular organelles like a city simulation', difficulty: 'Beginner', available: true, features: ['City Building', 'Organelle Functions', 'Resource Management'] },
-          { id: 'dna-detective', name: 'DNA Detective', description: 'Solve genetic puzzles and heredity mysteries', difficulty: 'Intermediate', available: true, features: ['Genetic Analysis', 'Mystery Solving', 'Heredity Patterns'] },
           { id: 'ecosystem-builder', name: 'Ecosystem Builder', description: 'Balance predator-prey relationships in ecosystems', difficulty: 'Advanced', available: true, features: ['Food Webs', 'Population Dynamics', 'Environmental Balance'] },
         ];
       default:
