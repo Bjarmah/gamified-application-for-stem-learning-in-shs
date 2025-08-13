@@ -6,6 +6,7 @@ import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useSubject } from "@/hooks/use-subjects";
 import { useModules } from "@/hooks/use-modules";
+import { useAuth } from "@/context/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
 import { useQuery } from "@tanstack/react-query";
 
@@ -15,6 +16,7 @@ const SubjectDetail: React.FC = () => {
   const params = useParams<{ subjectId: string }>();
   const navigate = useNavigate();
   const subjectId = params?.subjectId;
+  const { user } = useAuth();
 
   const { data: subject, isLoading: subjectLoading } = useSubject(subjectId || "");
   const { data: modules, isLoading: modulesLoading } = useModules(subjectId);
@@ -71,7 +73,67 @@ const SubjectDetail: React.FC = () => {
     enabled: !!subjectId,
   });
 
-  const isLoading = subjectLoading || modulesLoading || quizzesLoading;
+  // Fetch user progress for modules and quizzes
+  const { data: userProgress, isLoading: progressLoading } = useQuery({
+    queryKey: ["user-progress", user?.id, subjectId],
+    queryFn: async () => {
+      if (!user || !subjectId) return { modules: [], quizzes: [] };
+
+      // Get user progress for modules in this subject
+      const { data: moduleProgress, error: moduleError } = await supabase
+        .from("user_progress")
+        .select(`
+          module_id,
+          completed,
+          modules!inner(subject_id)
+        `)
+        .eq("user_id", user.id)
+        .eq("modules.subject_id", subjectId);
+
+      if (moduleError) {
+        console.error("Error fetching module progress:", moduleError);
+        return { modules: [], quizzes: [] };
+      }
+
+      // Get user quiz attempts for this subject
+      const { data: quizAttempts, error: quizError } = await supabase
+        .from("quiz_attempts")
+        .select(`
+          quiz_id,
+          completed_at,
+          quizzes!inner(
+            module_id,
+            modules!inner(subject_id)
+          )
+        `)
+        .eq("user_id", user.id)
+        .eq("quizzes.modules.subject_id", subjectId)
+        .not("completed_at", "is", null);
+
+      if (quizError) {
+        console.error("Error fetching quiz attempts:", quizError);
+        return { modules: moduleProgress || [], quizzes: [] };
+      }
+
+      return {
+        modules: moduleProgress || [],
+        quizzes: quizAttempts || []
+      };
+    },
+    enabled: !!user && !!subjectId,
+  });
+
+  // Calculate completion counts
+  const completedModules = userProgress?.modules?.filter(p => p.completed)?.length || 0;
+  const completedQuizzes = userProgress?.quizzes?.length || 0;
+  const totalModules = modules?.length || 0;
+  const totalQuizzes = quizzes?.length || 0;
+
+  // Calculate progress percentages
+  const moduleProgressPercentage = totalModules > 0 ? Math.round((completedModules / totalModules) * 100) : 0;
+  const quizProgressPercentage = totalQuizzes > 0 ? Math.round((completedQuizzes / totalQuizzes) * 100) : 0;
+
+  const isLoading = subjectLoading || modulesLoading || quizzesLoading || progressLoading;
 
   if (isLoading) {
     return (
@@ -129,7 +191,7 @@ const SubjectDetail: React.FC = () => {
               <div className="space-y-4">
                 {modules?.map((module, idx) => {
                   const moduleQuiz = quizzes?.find((q) => q.module_id === module.id);
-                  const isCompleted = false; // This would come from user progress
+                  const isCompleted = userProgress?.modules?.some(p => p.module_id === module.id && p.completed) || false;
 
                   return (
                     <div
@@ -216,30 +278,59 @@ const SubjectDetail: React.FC = () => {
               <CardTitle className="text-lg">Progress</CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
-              <div className="space-y-2">
-                <div className="flex justify-between text-sm">
-                  <span>Modules</span>
-                  <span>0/{modules?.length || 0}</span>
+              {progressLoading ? (
+                <div className="space-y-4">
+                  <div className="space-y-2">
+                    <div className="flex justify-between text-sm">
+                      <span>Modules</span>
+                      <Skeleton className="h-4 w-12" />
+                    </div>
+                    <Skeleton className="h-2 w-full rounded-full" />
+                  </div>
+                  <div className="space-y-2">
+                    <div className="flex justify-between text-sm">
+                      <span>Quizzes</span>
+                      <Skeleton className="h-4 w-12" />
+                    </div>
+                    <Skeleton className="h-2 w-full rounded-full" />
+                  </div>
                 </div>
-                <div className="w-full bg-muted rounded-full h-2">
-                  <div className="bg-primary h-2 rounded-full" style={{ width: "0%" }} />
-                </div>
-              </div>
+              ) : (
+                <>
+                  <div className="space-y-2">
+                    <div className="flex justify-between text-sm">
+                      <span>Modules</span>
+                      <span>{completedModules}/{totalModules}</span>
+                    </div>
+                    <div className="w-full bg-muted rounded-full h-2">
+                      <div className="bg-primary h-2 rounded-full transition-all duration-300" style={{ width: `${moduleProgressPercentage}%` }} />
+                    </div>
+                  </div>
 
-              <div className="space-y-2">
-                <div className="flex justify-between text-sm">
-                  <span>Quizzes</span>
-                  <span>0/{quizzes?.length || 0}</span>
-                </div>
-                <div className="w-full bg-muted rounded-full h-2">
-                  <div className="bg-stemGreen h-2 rounded-full" style={{ width: "0%" }} />
-                </div>
-              </div>
+                  <div className="space-y-2">
+                    <div className="flex justify-between text-sm">
+                      <span>Quizzes</span>
+                      <span>{completedQuizzes}/{totalQuizzes}</span>
+                    </div>
+                    <div className="w-full bg-muted rounded-full h-2">
+                      <div className="bg-stemGreen h-2 rounded-full transition-all duration-300" style={{ width: `${quizProgressPercentage}%` }} />
+                    </div>
+                  </div>
+                </>
+              )}
 
               <div className="pt-2 text-center">
-                <Badge variant="outline" className="text-xs">
-                  Just Getting Started
-                </Badge>
+                {progressLoading ? (
+                  <Skeleton className="h-5 w-24 mx-auto rounded-full" />
+                ) : (
+                  <Badge variant="outline" className="text-xs">
+                    {moduleProgressPercentage === 100 ? "Subject Mastered!" :
+                      moduleProgressPercentage >= 75 ? "Almost There!" :
+                        moduleProgressPercentage >= 50 ? "Halfway There!" :
+                          moduleProgressPercentage >= 25 ? "Making Progress!" :
+                            "Just Getting Started"}
+                  </Badge>
+                )}
               </div>
             </CardContent>
           </Card>
