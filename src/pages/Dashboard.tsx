@@ -63,7 +63,7 @@ const Dashboard = () => {
         {quickActions.map((action, index) => (
           <Card
             key={index}
-            className={`cursor-pointer hover:shadow-md transition-shadow ${action.featured ? 'ring-2 ring-blue-500' : ''
+            className={`curs/or-pointer hover:shadow-md transition-shadow ${action.featured ? 'ring-2 ring-blue-500' : ''
               }`}
             onClick={action.action}
           >

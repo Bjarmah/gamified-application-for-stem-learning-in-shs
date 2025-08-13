@@ -1,0 +1,246 @@
+{
+  "id": "chem-module-3",
+  "title": "Acids, Bases & Salts",
+  "description": "Explore acid-base chemistry, neutralization reactions, and the formation of salts with practical applications in daily life.",
+  "subject": "chemistry",
+  "level": "shs",
+  "estimatedTime": 120,
+  "xpReward": 150,
+  "achievement": "Reaction Master",
+  "achievementDescription": "Complete acids, bases and salts module and understand chemical reactions in everyday life",
+  "content": {
+    "text": {
+      "introduction": "Acids and bases are fundamental to chemistry and play crucial roles in our daily lives. From the food we eat to the medicines we take, understanding acid-base chemistry helps us make informed decisions about health, agriculture, and environmental protection in Ghana.",
+      "sections": [
+        {
+          "title": "Acid-Base Theories and Properties",
+          "content": "The Arrhenius theory defines acids as substances that produce H+ ions in water, while bases produce OH- ions. The Brønsted-Lowry theory expands this to include proton donors (acids) and proton acceptors (bases). The pH scale ranges from 0-14, with 7 being neutral, below 7 acidic, and above 7 basic. Strong acids and bases completely dissociate in water, while weak ones partially dissociate."
+        },
+        {
+          "title": "Neutralization and Salt Formation",
+          "content": "When acids react with bases, they undergo neutralization reactions, producing water and a salt. The salt formed depends on the acid and base used. For example, hydrochloric acid (HCl) reacting with sodium hydroxide (NaOH) produces table salt (NaCl) and water. Different types of salts have various properties and uses, from food seasoning to industrial applications."
+        },
+        {
+          "title": "Applications in Daily Life",
+          "content": "Acids and bases are everywhere around us. Citrus fruits contain citric acid, while baking soda is a base. Our stomach produces hydrochloric acid for digestion, and blood must maintain a specific pH range. Understanding acid-base chemistry helps us make better choices about food, medicine, and environmental protection."
+        }
+      ]
+    },
+    "questions": [
+      {
+        "type": "multiple_choice",
+        "question": "According to Arrhenius theory, what ion do acids produce in water?",
+        "options": ["OH-", "H+", "Cl-", "Na+"],
+        "correctAnswer": 1,
+        "explanation": "Arrhenius theory states that acids produce H+ (hydrogen) ions when dissolved in water."
+      },
+      {
+        "type": "multiple_choice",
+        "question": "What is the pH of a neutral solution?",
+        "options": ["0", "7", "14", "10"],
+        "correctAnswer": 1,
+        "explanation": "A neutral solution has a pH of 7, which is neither acidic nor basic."
+      },
+      {
+        "type": "multiple_choice",
+        "question": "What products are formed when an acid reacts with a base?",
+        "options": ["Salt and water", "Salt and acid", "Base and water", "Acid and base"],
+        "correctAnswer": 0,
+        "explanation": "Neutralization reactions between acids and bases always produce a salt and water."
+      },
+      {
+        "type": "multiple_choice",
+        "question": "Which substance is most likely to be a base?",
+        "options": ["Lemon juice", "Vinegar", "Baking soda", "Orange juice"],
+        "correctAnswer": 2,
+        "explanation": "Baking soda (sodium bicarbonate) is a base, while the others are acids."
+      },
+      {
+        "type": "multiple_choice",
+        "question": "What happens to the pH when you add a base to an acidic solution?",
+        "options": ["pH decreases", "pH increases", "pH stays the same", "pH becomes negative"],
+        "correctAnswer": 1,
+        "explanation": "Adding a base to an acidic solution increases the pH, making it less acidic and more basic."
+      }
+    ],
+    "exercises": [
+      {
+        "type": "equation_writing",
+        "title": "Writing Neutralization Equations",
+        "instructions": "Write balanced chemical equations for the following acid-base reactions: HCl + NaOH, H2SO4 + KOH, and HNO3 + Ca(OH)2.",
+        "reactions": [
+          {"acid": "HCl", "base": "NaOH"},
+          {"acid": "H2SO4", "base": "KOH"},
+          {"acid": "HNO3", "base": "Ca(OH)2"}
+        ],
+        "hint": "Remember that acids and bases react to form water and a salt. Balance the equations by ensuring equal numbers of atoms on both sides."
+      },
+      {
+        "type": "equation_writing",
+        "title": "Predicting Salt Products",
+        "instructions": "Predict the salt formed when these acids react with bases: HCl + KOH, H2SO4 + NaOH, and HNO3 + LiOH.",
+        "reactions": [
+          {"acid": "HCl", "base": "KOH"},
+          {"acid": "H2SO4", "base": "NaOH"},
+          {"acid": "HNO3", "base": "LiOH"}
+        ],
+        "hint": "The salt contains the positive ion from the base and the negative ion from the acid."
+      },
+      {
+        "type": "ph_calculation",
+        "title": "pH Calculations",
+        "instructions": "Calculate the pH for solutions with the following H+ concentrations: 1 x 10^-3 M, 1 x 10^-7 M, and 1 x 10^-11 M.",
+        "concentrations": ["1 x 10^-3 M", "1 x 10^-7 M", "1 x 10^-11 M"],
+        "hint": "Use the formula pH = -log[H+]. Remember that pH = 7 is neutral, <7 is acidic, and >7 is basic."
+      },
+      {
+        "type": "ph_calculation",
+        "title": "H+ Concentration from pH",
+        "instructions": "Calculate the H+ concentration for solutions with pH values of 2, 7, and 12.",
+        "phValues": [2, 7, 12],
+        "hint": "Use the formula [H+] = 10^(-pH). This is the inverse of the pH calculation."
+      },
+      {
+        "type": "identification_exercise",
+        "title": "Acid-Base Identification",
+        "instructions": "Classify each of the following as an acid, base, or neutral: lemon juice (pH 2), pure water (pH 7), soap solution (pH 10), and stomach acid (pH 1).",
+        "substances": [
+          {"name": "Lemon juice", "ph": 2},
+          {"name": "Pure water", "ph": 7},
+          {"name": "Soap solution", "ph": 10},
+          {"name": "Stomach acid", "ph": 1}
+        ],
+        "hint": "pH < 7 is acidic, pH = 7 is neutral, and pH > 7 is basic."
+      }
+    ],
+    "scenarioChallenges": [
+      {
+        "title": "Testing Soil Acidity for Cocoa Farming",
+        "scenario": "You're helping your family test the soil in your cocoa farm. Cocoa plants prefer slightly acidic soil (pH 6.0-6.5). Your neighbor gave you some pH testing strips and you found the soil pH is 5.2. You need to understand what this means and how to adjust it for optimal cocoa growth.",
+        "tasks": [
+          "Explain what pH 5.2 means in terms of soil acidity",
+          "Describe why cocoa plants prefer slightly acidic soil",
+          "Identify whether the current soil pH is too acidic or too basic for cocoa",
+          "Suggest methods to raise the soil pH to the optimal range",
+          "Explain the chemical reactions involved in soil pH adjustment"
+        ],
+        "learningObjectives": [
+          "Understand pH scale and its meaning",
+          "Recognize optimal pH ranges for different plants",
+          "Apply acid-base concepts to agriculture",
+          "Connect chemistry to farming practices"
+        ],
+        "ghanaContext": "Cocoa farming is a major agricultural activity in Ghana. Understanding soil chemistry helps farmers improve crop yields and maintain sustainable farming practices. This knowledge is crucial for Ghana's economy and food security."
+      },
+      {
+        "title": "Making Soap from Palm Oil (Saponification)",
+        "scenario": "Your grandmother wants to teach you traditional soap making using palm oil from your village. She mentions that this process involves mixing palm oil with a strong base solution. You're curious about the chemistry behind this reaction and why it produces soap.",
+        "tasks": [
+          "Explain what saponification means in chemical terms",
+          "Identify the type of chemical reaction (acid-base, neutralization, etc.)",
+          "Describe the role of the base in the saponification process",
+          "Explain why palm oil (a triglyceride) reacts with bases to form soap",
+          "Describe the products of the saponification reaction"
+        ],
+        "learningObjectives": [
+          "Understand saponification reactions",
+          "Recognize acid-base reactions in traditional processes",
+          "Apply chemical concepts to traditional practices",
+          "Connect chemistry to cultural heritage"
+        ],
+        "ghanaContext": "Traditional soap making is a cultural practice in many Ghanaian communities. Understanding the chemistry helps preserve these traditions and potentially improve the process. Palm oil is a major agricultural product in Ghana."
+      },
+      {
+        "title": "Water Treatment for Safe Drinking in Rural Ghana",
+        "scenario": "Your village is experiencing water quality issues, and the local health worker suggests treating the water with lime (calcium hydroxide) to make it safer for drinking. You want to understand how this treatment works and why it's effective.",
+        "tasks": [
+          "Identify whether lime (calcium hydroxide) is an acid or base",
+          "Explain how adding lime affects the pH of water",
+          "Describe why adjusting water pH is important for safety",
+          "Explain the chemical reactions that occur during water treatment",
+          "Identify potential risks and benefits of this treatment method"
+        ],
+        "learningObjectives": [
+          "Understand acid-base properties of common substances",
+          "Recognize pH adjustment in water treatment",
+          "Apply chemical concepts to public health",
+          "Connect chemistry to community safety"
+        ],
+        "ghanaContext": "Access to clean drinking water is a critical issue in rural Ghana. Understanding water treatment chemistry helps communities implement safe water practices and protect public health."
+      }
+    ]
+  },
+  "gamification": {
+    "achievements": [
+      {
+        "id": "reaction-master",
+        "title": "Reaction Master",
+        "description": "Complete all acid-base reaction exercises with 100% accuracy",
+        "xpReward": 50
+      },
+      {
+        "id": "ph-expert",
+        "title": "pH Expert",
+        "description": "Successfully calculate pH for 20 different solutions",
+        "xpReward": 40
+      },
+      {
+        "id": "salt-predictor",
+        "title": "Salt Predictor",
+        "description": "Correctly predict salt products for 15 acid-base reactions",
+        "xpReward": 35
+      }
+    ],
+    "milestones": [
+      {
+        "id": "first-reaction",
+        "title": "First Reaction",
+        "description": "Complete your first acid-base reaction exercise",
+        "xpReward": 10
+      },
+      {
+        "id": "ph-calculator",
+        "title": "pH Calculator",
+        "description": "Calculate pH for 5 different solutions correctly",
+        "xpReward": 20
+      },
+      {
+        "id": "neutralization-expert",
+        "title": "Neutralization Expert",
+        "description": "Complete all neutralization reaction exercises",
+        "xpReward": 25
+      }
+    ],
+    "xpRules": {
+      "correctAnswer": 5,
+      "completedExercise": 15,
+      "scenarioChallenge": 25,
+      "moduleCompletion": 50
+    }
+  },
+  "ghanaContext": {
+    "localExamples": [
+      "Cocoa farming and soil pH management",
+      "Traditional soap making with palm oil",
+      "Water treatment in rural communities",
+      "Food preservation using acids and bases",
+      "Traditional medicine preparation"
+    ],
+    "culturalConnections": [
+      "Preserving traditional chemical processes",
+      "Connecting science to agricultural practices",
+      "Understanding local health and safety practices",
+      "Applying chemistry to community development"
+    ],
+    "realWorldApplications": [
+      "Improving agricultural productivity",
+      "Better water treatment practices",
+      "Safer food preservation methods",
+      "Understanding traditional medicine",
+      "Environmental protection and monitoring"
+    ]
+  },
+  "prerequisites": ["chem-module-1", "chem-module-2"],
+  "nextModule": null,
+  "tags": ["acids", "bases", "salts", "neutralization", "ph", "saponification", "water treatment"]
+}

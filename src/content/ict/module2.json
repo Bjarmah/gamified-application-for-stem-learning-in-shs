@@ -1,0 +1,272 @@
+{
+  "id": "ict-module-2",
+  "title": "Computer Networks & Internet",
+  "description": "Learn about network fundamentals, internet services, and cybersecurity practices essential for the digital age.",
+  "subject": "ict",
+  "level": "shs",
+  "estimatedTime": 120,
+  "xpReward": 150,
+  "achievement": "Network Navigator",
+  "achievementDescription": "Master computer networks and internet concepts for safe and effective digital communication",
+  "content": {
+    "text": {
+      "introduction": "Computer networks and the internet have revolutionized how we communicate, learn, and do business. In Ghana's digital transformation journey, understanding networks and internet technology is crucial for participating in the global digital economy and protecting personal information online.",
+      "sections": [
+        {
+          "title": "Network Fundamentals",
+          "content": "Computer networks connect devices to share resources and information. Network types include Local Area Networks (LANs) for small areas like homes or schools, and Wide Area Networks (WANs) that connect larger geographical areas. Network topology describes how devices are arranged, while protocols are rules that govern data transmission. The OSI model provides a framework for understanding network communication layers."
+        },
+        {
+          "title": "Internet Services and Applications",
+          "content": "The internet offers various services including web browsing, email communication, social media platforms, and e-commerce. Web browsers access websites using HTTP/HTTPS protocols. Email systems use SMTP for sending and POP/IMAP for receiving messages. Social media platforms enable global communication and content sharing. E-commerce allows online buying and selling, transforming business practices worldwide."
+        },
+        {
+          "title": "Network Security and Safety",
+          "content": "Cybersecurity protects networks and devices from threats like malware, phishing, and unauthorized access. Strong passwords, two-factor authentication, and regular software updates are essential security practices. Safe browsing habits include avoiding suspicious links, using secure websites (HTTPS), and being cautious with personal information. Understanding these practices helps protect against online threats."
+        }
+      ]
+    },
+    "questions": [
+      {
+        "type": "multiple_choice",
+        "question": "What does LAN stand for in computer networking?",
+        "options": ["Large Area Network", "Local Area Network", "Long Area Network", "Limited Area Network"],
+        "correctAnswer": 1,
+        "explanation": "LAN stands for Local Area Network, which connects devices in a small geographical area like a home, office, or school."
+      },
+      {
+        "type": "multiple_choice",
+        "question": "Which protocol is used for secure web browsing?",
+        "options": ["HTTP", "HTTPS", "FTP", "SMTP"],
+        "correctAnswer": 1,
+        "explanation": "HTTPS (Hypertext Transfer Protocol Secure) provides encrypted communication for secure web browsing."
+      },
+      {
+        "type": "multiple_choice",
+        "question": "What is the purpose of a firewall in network security?",
+        "options": ["To speed up internet connection", "To block unauthorized access to networks", "To store data", "To connect devices"],
+        "correctAnswer": 1,
+        "explanation": "A firewall acts as a barrier to block unauthorized access to networks while allowing legitimate traffic to pass through."
+      },
+      {
+        "type": "multiple_choice",
+        "question": "Which of the following is a social media platform?",
+        "options": ["Microsoft Word", "Facebook", "Adobe Photoshop", "Windows"],
+        "correctAnswer": 1,
+        "explanation": "Facebook is a social media platform that allows users to connect, share content, and communicate with others."
+      },
+      {
+        "type": "multiple_choice",
+        "question": "What should you do if you receive a suspicious email asking for personal information?",
+        "options": ["Reply immediately with the information", "Forward it to friends", "Delete it without responding", "Click on all links in the email"],
+        "correctAnswer": 2,
+        "explanation": "Suspicious emails should be deleted without responding, as they may be phishing attempts to steal personal information."
+      }
+    ],
+    "exercises": [
+      {
+        "type": "diagram_labeling",
+        "title": "Network Topology Diagrams",
+        "instructions": "Label the components in these network diagrams: a simple home network, a school computer lab network, and a small business network.",
+        "networks": [
+          "Home network",
+          "School computer lab network",
+          "Small business network"
+        ],
+        "hint": "Identify devices like computers, routers, switches, and cables. Consider how data flows between devices."
+      },
+      {
+        "type": "diagram_labeling",
+        "title": "OSI Model Layers",
+        "instructions": "Label the seven layers of the OSI model and provide one example of what happens at each layer during data transmission.",
+        "layers": [
+          "Physical", "Data Link", "Network", "Transport",
+          "Session", "Presentation", "Application"
+        ],
+        "hint": "Start from the bottom (Physical) and work up to the top (Application). Think about what happens to data at each level."
+      },
+      {
+        "type": "application_matching",
+        "title": "Internet Service Matching",
+        "instructions": "Match each internet service with its primary purpose: web browsing, email, social media, e-commerce, and online banking.",
+        "services": [
+          "Web browsing",
+          "Email",
+          "Social media",
+          "E-commerce",
+          "Online banking"
+        ],
+        "hint": "Consider what each service is primarily used for. Some services may have multiple purposes."
+      },
+      {
+        "type": "application_matching",
+        "title": "Protocol Identification",
+        "instructions": "Match each protocol with its function: HTTP, HTTPS, SMTP, POP3, and FTP.",
+        "protocols": [
+          "HTTP",
+          "HTTPS",
+          "SMTP",
+          "POP3",
+          "FTP"
+        ],
+        "hint": "Think about what each protocol does in network communication. Some are for web browsing, others for email or file transfer."
+      },
+      {
+        "type": "threat_identification",
+        "title": "Cybersecurity Threat Recognition",
+        "instructions": "Identify whether each scenario represents a cybersecurity threat: suspicious email links, software update notifications, public Wi-Fi networks, and strong passwords.",
+        "scenarios": [
+          "Suspicious email links",
+          "Software update notifications",
+          "Public Wi-Fi networks",
+          "Strong passwords"
+        ],
+        "hint": "Consider which scenarios could potentially compromise security and which are actually security measures."
+      },
+      {
+        "type": "threat_identification",
+        "title": "Safe Browsing Practices",
+        "instructions": "Identify which browsing practices are safe: using HTTPS websites, clicking on pop-up ads, sharing passwords with friends, and logging out of accounts on public computers.",
+        "practices": [
+          "Using HTTPS websites",
+          "Clicking on pop-up ads",
+          "Sharing passwords with friends",
+          "Logging out of accounts on public computers"
+        ],
+        "hint": "Think about which practices protect your information and which could expose you to security risks."
+      }
+    ],
+    "scenarioChallenges": [
+      {
+        "title": "Setting Up Internet for a Rural School",
+        "scenario": "Your village school has received funding to set up internet access for students. The school has 20 computers and needs reliable internet for educational purposes. You need to plan the network infrastructure and consider the challenges of rural connectivity in Ghana.",
+        "tasks": [
+          "Design a network topology suitable for the school's needs",
+          "Identify the hardware components needed for the network",
+          "Consider connectivity options available in rural Ghana",
+          "Plan for network security and content filtering",
+          "Estimate costs and maintenance requirements"
+        ],
+        "learningObjectives": [
+          "Apply network design principles to real-world scenarios",
+          "Consider infrastructure limitations in different environments",
+          "Plan for network security and management",
+          "Understand the costs and challenges of rural connectivity",
+          "Connect technology solutions to educational needs"
+        ],
+        "ghanaContext": "Rural connectivity is a key challenge in Ghana's digital transformation. Understanding how to set up networks in rural areas can help bridge the digital divide and provide educational opportunities for rural students."
+      },
+      {
+        "title": "Creating an Online Business in Ghana",
+        "scenario": "You want to start an online business selling traditional Ghanaian crafts and clothing. You need to understand how to set up an e-commerce website, handle online payments, and ensure secure transactions for your customers.",
+        "tasks": [
+          "Research e-commerce platforms suitable for Ghanaian businesses",
+          "Plan the website structure and user interface",
+          "Identify secure payment methods available in Ghana",
+          "Plan for customer data protection and privacy",
+          "Consider logistics and delivery challenges in Ghana"
+        ],
+        "learningObjectives": [
+          "Understand e-commerce business models",
+          "Apply web design principles to business needs",
+          "Recognize the importance of cybersecurity in business",
+          "Plan for customer service and logistics",
+          "Connect technology to business opportunities"
+        ],
+        "ghanaContext": "E-commerce is growing rapidly in Ghana, offering opportunities for local businesses to reach global markets. Understanding online business fundamentals can help Ghanaian entrepreneurs succeed in the digital economy."
+      },
+      {
+        "title": "Protecting Personal Data on Social Media",
+        "scenario": "You're active on social media and want to ensure your personal information is protected. You've heard about data privacy issues and want to understand how to use social media safely while maintaining your online presence.",
+        "tasks": [
+          "Review your current social media privacy settings",
+          "Identify what personal information should not be shared online",
+          "Plan strategies for safe social media use",
+          "Understand how social media platforms use your data",
+          "Create guidelines for responsible online behavior"
+        ],
+        "learningObjectives": [
+          "Apply privacy protection principles to social media",
+          "Recognize the value and risks of personal data",
+          "Develop safe online behavior strategies",
+          "Understand data privacy and protection concepts",
+          "Connect cybersecurity to personal online safety"
+        ],
+        "ghanaContext": "Social media use is growing rapidly in Ghana, especially among young people. Understanding how to protect personal information online is crucial for safe participation in digital communities and protecting against identity theft and other online threats."
+      }
+    ]
+  },
+  "gamification": {
+    "achievements": [
+      {
+        "id": "network-architect",
+        "title": "Network Architect",
+        "description": "Design networks for 5 different scenarios",
+        "xpReward": 50
+      },
+      {
+        "id": "security-expert",
+        "title": "Security Expert",
+        "description": "Complete all cybersecurity exercises",
+        "xpReward": 45
+      },
+      {
+        "id": "internet-navigator",
+        "title": "Internet Navigator",
+        "description": "Master all internet service concepts",
+        "xpReward": 40
+      }
+    ],
+    "milestones": [
+      {
+        "id": "first-network",
+        "title": "First Network",
+        "description": "Design your first network topology",
+        "xpReward": 15
+      },
+      {
+        "id": "security-aware",
+        "title": "Security Aware",
+        "description": "Complete your first cybersecurity exercise",
+        "xpReward": 20
+      },
+      {
+        "id": "protocol-master",
+        "title": "Protocol Master",
+        "description": "Identify 10 different network protocols",
+        "xpReward": 25
+      }
+    ],
+    "xpRules": {
+      "correctAnswer": 5,
+      "completedExercise": 15,
+      "scenarioChallenge": 25,
+      "moduleCompletion": 50
+    }
+  },
+  "ghanaContext": {
+    "localExamples": [
+      "Rural school internet connectivity",
+      "Ghanaian e-commerce businesses",
+      "Mobile money and digital payments",
+      "Social media usage patterns",
+      "Cybersecurity awareness campaigns"
+    ],
+    "culturalConnections": [
+      "Supporting Ghana's digital transformation",
+      "Connecting rural communities to digital opportunities",
+      "Protecting Ghanaian digital identity and privacy",
+      "Building local technological expertise"
+    ],
+    "realWorldApplications": [
+      "Improving rural education through internet access",
+      "Supporting local business digital transformation",
+      "Enhancing cybersecurity awareness in Ghana",
+      "Bridging the digital divide",
+      "Protecting personal and business data"
+    ]
+  },
+  "prerequisites": ["ict-module-1"],
+  "nextModule": "ict-module-3",
+  "tags": ["networks", "internet", "cybersecurity", "protocols", "topology", "social media", "e-commerce"]
+}

@@ -1,0 +1,266 @@
+{
+  "id": "ict-module-1",
+  "title": "Programming Fundamentals",
+  "description": "Learn the basics of programming including algorithms, flowcharts, and fundamental programming constructs with real-world applications.",
+  "subject": "ict",
+  "level": "shs",
+  "estimatedTime": 120,
+  "xpReward": 150,
+  "achievement": "Code Warrior",
+  "achievementDescription": "Complete programming fundamentals module and understand basic programming concepts",
+  "content": {
+    "text": {
+      "introduction": "Programming is the foundation of modern technology and digital innovation. In Ghana's rapidly developing digital economy, understanding programming fundamentals opens doors to countless opportunities in software development, business automation, and technological advancement.",
+      "sections": [
+        {
+          "title": "Introduction to Programming Concepts",
+          "content": "Programming is the process of creating instructions for computers to follow. An algorithm is a step-by-step procedure for solving a problem. Flowcharts use symbols to represent program flow, while pseudocode is a simplified programming language that helps plan programs before writing actual code. Different programming languages have different syntax but share common fundamental concepts."
+        },
+        {
+          "title": "Basic Programming Constructs",
+          "content": "Variables are containers that store data in programs. Data types include integers (whole numbers), strings (text), and booleans (true/false). Input/output operations allow programs to receive data from users and display results. Operators perform mathematical and logical operations on data. Understanding these constructs is essential for building functional programs."
+        },
+        {
+          "title": "Control Structures and Logic",
+          "content": "Control structures determine the flow of program execution. If statements make decisions based on conditions. Loops repeat actions multiple times. Nested structures combine multiple control elements. Logical operators (AND, OR, NOT) combine conditions to create complex decision-making processes. These structures form the backbone of program logic."
+        }
+      ]
+    },
+    "questions": [
+      {
+        "type": "multiple_choice",
+        "question": "What is an algorithm in programming?",
+        "options": ["A computer program", "A step-by-step problem-solving procedure", "A programming language", "A computer hardware component"],
+        "correctAnswer": 1,
+        "explanation": "An algorithm is a step-by-step procedure designed to solve a specific problem or perform a specific task."
+      },
+      {
+        "type": "multiple_choice",
+        "question": "Which symbol is commonly used in flowcharts to represent a decision?",
+        "options": ["Rectangle", "Diamond", "Circle", "Triangle"],
+        "correctAnswer": 1,
+        "explanation": "A diamond shape in flowcharts represents decision points where the program flow can take different paths."
+      },
+      {
+        "type": "multiple_choice",
+        "question": "What is a variable in programming?",
+        "options": ["A mathematical equation", "A container that stores data", "A programming language", "A computer file"],
+        "correctAnswer": 1,
+        "explanation": "A variable is a named container that can store different types of data that can change during program execution."
+      },
+      {
+        "type": "multiple_choice",
+        "question": "Which data type would you use to store a person's name?",
+        "options": ["Integer", "String", "Boolean", "Float"],
+        "correctAnswer": 1,
+        "explanation": "A string data type is used to store text data, such as names, addresses, or any sequence of characters."
+      },
+      {
+        "type": "multiple_choice",
+        "question": "What does an if statement do in programming?",
+        "options": ["Repeats code multiple times", "Makes decisions based on conditions", "Stores data", "Performs calculations"],
+        "correctAnswer": 1,
+        "explanation": "An if statement evaluates a condition and executes different code blocks based on whether the condition is true or false."
+      }
+    ],
+    "exercises": [
+      {
+        "type": "algorithm_design",
+        "title": "Designing Simple Algorithms",
+        "instructions": "Design algorithms for the following tasks: making a cup of tea, calculating the average of three numbers, and finding the largest number in a list of five numbers.",
+        "tasks": [
+          "Making a cup of tea",
+          "Calculating average of three numbers",
+          "Finding largest number in a list"
+        ],
+        "hint": "Break each task into clear, sequential steps. Consider what inputs are needed and what the output should be."
+      },
+      {
+        "type": "algorithm_design",
+        "title": "Flowchart Creation",
+        "instructions": "Create flowcharts for: a simple login system, a grade calculator, and a basic calculator that can add, subtract, multiply, and divide.",
+        "systems": [
+          "Simple login system",
+          "Grade calculator",
+          "Basic calculator"
+        ],
+        "hint": "Use appropriate flowchart symbols: rectangles for processes, diamonds for decisions, and ovals for start/end points."
+      },
+      {
+        "type": "code_completion",
+        "title": "Variable Declaration and Assignment",
+        "instructions": "Write code to declare and assign values to variables for: student name (string), age (integer), grade (float), and isPassing (boolean).",
+        "variables": [
+          {"name": "studentName", "type": "string", "value": "Kwame"},
+          {"name": "age", "type": "integer", "value": 16},
+          {"name": "grade", "type": "float", "value": 85.5},
+          {"name": "isPassing", "type": "boolean", "value": true}
+        ],
+        "hint": "Use appropriate data types and follow proper naming conventions for variables."
+      },
+      {
+        "type": "code_completion",
+        "title": "Input and Output Operations",
+        "instructions": "Write code that asks the user for their name and age, then displays a personalized message like 'Hello [name], you are [age] years old.'",
+        "requirements": [
+          "Ask for user input",
+          "Store input in variables",
+          "Display personalized message"
+        ],
+        "hint": "Use input functions to get user data and output functions to display results. Remember to handle the data types correctly."
+      },
+      {
+        "type": "code_completion",
+        "title": "Basic Calculations",
+        "instructions": "Write code to calculate the area of a rectangle (length × width) and the perimeter (2 × length + 2 × width). Ask the user for length and width values.",
+        "calculations": [
+          "Area = length × width",
+          "Perimeter = 2 × length + 2 × width"
+        ],
+        "hint": "Use arithmetic operators (* for multiplication, + for addition) and store results in variables before displaying them."
+      },
+      {
+        "type": "logic_puzzle",
+        "title": "Conditional Logic Puzzles",
+        "instructions": "Solve these logic puzzles: 1) If a student's score is 80 or above, they pass; otherwise, they fail. 2) If it's raining AND you have an umbrella, you can go outside; otherwise, stay inside.",
+        "puzzles": [
+          "Student score evaluation",
+          "Weather and umbrella decision"
+        ],
+        "hint": "Use if-else statements and logical operators (AND, OR) to create the appropriate conditions."
+      }
+    ],
+    "scenarioChallenges": [
+      {
+        "title": "Creating a Program to Calculate School Fees",
+        "scenario": "You're helping your school's administration office create a simple program to calculate school fees for students. The program needs to consider different fee structures based on grade level, whether the student is a boarder or day student, and any applicable discounts for siblings or academic excellence.",
+        "tasks": [
+          "Design an algorithm for calculating school fees with multiple variables",
+          "Create a flowchart showing the decision-making process",
+          "Write pseudocode for the fee calculation program",
+          "Identify the variables and data types needed",
+          "Plan the input/output operations for user interaction"
+        ],
+        "learningObjectives": [
+          "Apply algorithm design to real-world problems",
+          "Create complex flowcharts with multiple decisions",
+          "Write structured pseudocode",
+          "Identify appropriate data types for different information",
+          "Plan user interface requirements"
+        ],
+        "ghanaContext": "School fee management is a common administrative task in Ghanaian schools. Understanding how to automate this process can help schools improve efficiency and reduce errors in fee calculations."
+      },
+      {
+        "title": "Building a Simple Calculator Program",
+        "scenario": "Your younger sibling is struggling with basic math calculations and you want to create a simple calculator program to help them practice. The program should be able to perform basic operations (addition, subtraction, multiplication, division) and provide immediate feedback on their answers.",
+        "tasks": [
+          "Design the user interface flow for the calculator",
+          "Create a flowchart for the calculation process",
+          "Write pseudocode for handling different mathematical operations",
+          "Plan how to handle division by zero errors",
+          "Design a scoring system to track correct answers"
+        ],
+        "learningObjectives": [
+          "Design user-friendly program interfaces",
+          "Handle error conditions in programs",
+          "Create scoring and feedback systems",
+          "Apply mathematical operations in programming",
+          "Plan program flow and user experience"
+        ],
+        "ghanaContext": "Educational technology can help address learning challenges in Ghanaian schools. Creating simple educational programs can support students' learning and make education more accessible and engaging."
+      },
+      {
+        "title": "Programming a Traffic Light System",
+        "scenario": "Your community is planning to install traffic lights at a busy intersection, and you want to create a simulation program to test different timing patterns. The program should control the sequence of red, yellow, and green lights and allow users to adjust timing parameters.",
+        "tasks": [
+          "Design the traffic light sequence algorithm",
+          "Create a flowchart for the light changing logic",
+          "Write pseudocode for the timing control system",
+          "Plan how to handle different traffic flow scenarios",
+          "Design user controls for adjusting timing parameters"
+        ],
+        "learningObjectives": [
+          "Create timing and sequencing algorithms",
+          "Design state-based systems",
+          "Plan user control interfaces",
+          "Apply logical thinking to real-world systems",
+          "Consider safety and efficiency in program design"
+        ],
+        "ghanaContext": "Traffic management is becoming increasingly important in Ghana's growing cities. Understanding how to program traffic control systems can contribute to improving urban infrastructure and road safety."
+      }
+    ]
+  },
+  "gamification": {
+    "achievements": [
+      {
+        "id": "algorithm-master",
+        "title": "Algorithm Master",
+        "description": "Design algorithms for 10 different problems",
+        "xpReward": 50
+      },
+      {
+        "id": "flowchart-expert",
+        "title": "Flowchart Expert",
+        "description": "Create flowcharts for 8 different systems",
+        "xpReward": 40
+      },
+      {
+        "id": "code-builder",
+        "title": "Code Builder",
+        "description": "Complete all code completion exercises",
+        "xpReward": 45
+      }
+    ],
+    "milestones": [
+      {
+        "id": "first-algorithm",
+        "title": "First Algorithm",
+        "description": "Design your first algorithm",
+        "xpReward": 10
+      },
+      {
+        "id": "flowchart-creator",
+        "title": "Flowchart Creator",
+        "description": "Create your first flowchart",
+        "xpReward": 15
+      },
+      {
+        "id": "code-writer",
+        "title": "Code Writer",
+        "description": "Complete your first code exercise",
+        "xpReward": 20
+      }
+    ],
+    "xpRules": {
+      "correctAnswer": 5,
+      "completedExercise": 15,
+      "scenarioChallenge": 25,
+      "moduleCompletion": 50
+    }
+  },
+  "ghanaContext": {
+    "localExamples": [
+      "School fee calculation systems",
+      "Educational technology programs",
+      "Traffic management systems",
+      "Business automation tools",
+      "Community service applications"
+    ],
+    "culturalConnections": [
+      "Supporting Ghana's digital transformation",
+      "Creating solutions for local challenges",
+      "Building technological skills for the future",
+      "Contributing to community development"
+    ],
+    "realWorldApplications": [
+      "Improving school administration efficiency",
+      "Supporting student learning and development",
+      "Addressing urban infrastructure needs",
+      "Creating business automation solutions",
+      "Developing community service applications"
+    ]
+  },
+  "prerequisites": [],
+  "nextModule": "ict-module-2",
+  "tags": ["programming", "algorithms", "flowcharts", "pseudocode", "variables", "control structures", "logic"]
+}

@@ -1,0 +1,303 @@
+{
+    "id": "ict-module-3",
+    "title": "Database Management",
+    "description": "Learn database concepts, design principles, and basic operations for managing and analyzing data effectively.",
+    "subject": "ict",
+    "level": "shs",
+    "estimatedTime": 120,
+    "xpReward": 150,
+    "achievement": "Data Architect",
+    "achievementDescription": "Complete database management module and understand how to organize and analyze data",
+    "content": {
+        "text": {
+            "introduction": "Databases are essential for organizing, storing, and retrieving information in today's digital world. From school records to business operations, understanding database management helps create efficient systems for handling data. In Ghana's digital transformation, database skills are crucial for improving organizational efficiency and decision-making.",
+            "sections": [
+                {
+                    "title": "Database Concepts and Design",
+                    "content": "A database is an organized collection of data stored electronically. Data represents raw facts, while information is processed data that has meaning. Database Management Systems (DBMS) are software applications that manage databases. Different database types include relational databases (using tables), flat-file databases, and object-oriented databases. Entity-Relationship (ER) diagrams help visualize database structure."
+                },
+                {
+                    "title": "Database Operations",
+                    "content": "Basic database operations include creating tables, entering data, querying information, and generating reports. Tables store data in rows (records) and columns (fields). Data entry involves inserting, updating, and deleting records. Queries retrieve specific information using criteria. Reports present data in organized, readable formats. Understanding these operations is essential for effective data management."
+                },
+                {
+                    "title": "Database Applications",
+                    "content": "Databases have countless real-world applications including student record systems, inventory management, customer databases, and financial records. They support decision-making by providing organized access to information. Data analysis helps identify patterns and trends. Understanding database applications helps recognize opportunities to improve processes through better data organization."
+                }
+            ]
+        },
+        "questions": [
+            {
+                "type": "multiple_choice",
+                "question": "What is the difference between data and information?",
+                "options": [
+                    "They are the same thing",
+                    "Data is raw facts, information is processed data",
+                    "Information is raw facts, data is processed",
+                    "There is no difference"
+                ],
+                "correctAnswer": 1,
+                "explanation": "Data refers to raw facts and figures, while information is data that has been processed, organized, and given meaning."
+            },
+            {
+                "type": "multiple_choice",
+                "question": "What does DBMS stand for?",
+                "options": [
+                    "Database Management System",
+                    "Data Base Management Software",
+                    "Digital Business Management System",
+                    "Database Business Management System"
+                ],
+                "correctAnswer": 0,
+                "explanation": "DBMS stands for Database Management System, which is software that manages databases and provides tools for data manipulation."
+            },
+            {
+                "type": "multiple_choice",
+                "question": "In a database table, what are the vertical columns called?",
+                "options": [
+                    "Rows",
+                    "Fields",
+                    "Records",
+                    "Files"
+                ],
+                "correctAnswer": 1,
+                "explanation": "In database tables, vertical columns are called fields, which define the type of data stored in each column."
+            },
+            {
+                "type": "multiple_choice",
+                "question": "What is the purpose of a query in a database?",
+                "instructions": "To store data",
+                "To retrieve specific information",
+                "To delete data",
+                "To create tables"
+            ],
+            "correctAnswer": 1,
+            "explanation": "A query is used to retrieve specific information from a database based on specified criteria or conditions."
+        },
+        {
+            "type": "multiple_choice",
+            "question": "Which of the following is an example of a database application?",
+            "options": [
+                "A word processor",
+                "A student record system",
+                "A web browser",
+                "An email client"
+            ],
+            "correctAnswer": 1,
+            "explanation": "A student record system is a database application that stores and manages student information like grades, attendance, and personal details."
+        }
+    ],
+    "exercises": [
+        {
+            "type": "design_exercise",
+            "title": "Simple ER Diagram Design",
+            "instructions": "Design simple Entity-Relationship diagrams for: a school library system, a small shop inventory, and a student registration system.",
+            "systems": [
+                "School library system",
+                "Small shop inventory",
+                "Student registration system"
+            ],
+            "hint": "Identify the main entities (like students, books, products) and their relationships. Use rectangles for entities and lines for relationships."
+        },
+        {
+            "type": "design_exercise",
+            "title": "Table Structure Design",
+            "instructions": "Design table structures for: a customer database, a product catalog, and an employee record system.",
+            "databases": [
+                "Customer database",
+                "Product catalog",
+                "Employee record system"
+            ],
+            "hint": "Identify what fields each table needs. Consider data types (text, numbers, dates) and which fields are required."
+        },
+        {
+            "type": "sql_query",
+            "title": "Basic SELECT Statements",
+            "instructions": "Write SQL SELECT statements to: find all students with grades above 80, list products with prices less than 100 cedis, and show employees hired after 2020.",
+            "queries": [
+                "Students with grades above 80",
+                "Products under 100 cedis",
+                "Employees hired after 2020"
+            ],
+            "hint": "Use SELECT * FROM table_name WHERE condition. Remember to use appropriate comparison operators (> for greater than, < for less than)."
+        },
+        {
+            "type": "sql_query",
+            "title": "Data Filtering Queries",
+            "instructions": "Write queries to: find customers from Accra, list products in the 'Electronics' category, and show students in Grade 12.",
+            "filters": [
+                "Customers from Accra",
+                "Electronics products",
+                "Grade 12 students"
+            ],
+            "hint": "Use WHERE clauses with text comparisons. Remember that text values in SQL are usually enclosed in single quotes."
+        },
+        {
+            "type": "operation_identification",
+            "title": "Database Operation Recognition",
+            "instructions": "Identify whether each action is a CREATE, READ, UPDATE, or DELETE operation: adding a new student, viewing student grades, changing a student's address, and removing a student record.",
+            "operations": [
+                "Adding a new student",
+                "Viewing student grades",
+                "Changing a student's address",
+                "Removing a student record"
+            ],
+            "hint": "CREATE adds new data, READ retrieves data, UPDATE modifies existing data, and DELETE removes data."
+        },
+        {
+            "type": "data_interpretation",
+            "title": "Data Analysis Exercises",
+            "instructions": "Analyze sample data to: calculate the average grade in a class, find the most expensive product, and count students in each grade level.",
+            "analyses": [
+                "Calculate average class grade",
+                "Find most expensive product",
+                "Count students by grade level"
+            ],
+            "hint": "Look for patterns in the data. For averages, sum all values and divide by the count. For maximums, find the highest value."
+        }
+    ],
+    "scenarioChallenges": [
+        {
+            "title": "Designing a Student Record System",
+            "scenario": "Your school needs a new student record system to replace the old paper-based system. The system should track student personal information, academic records, attendance, and fees. You need to design the database structure and plan how to implement it effectively.",
+            "tasks": [
+                "Design the database tables needed for the student record system",
+                "Create an Entity-Relationship diagram showing table relationships",
+                "Plan the data entry process for new students",
+                "Design queries for common reports (attendance, grades, fees)",
+                "Consider data security and access control requirements"
+            ],
+            "learningObjectives": [
+                "Apply database design principles to real-world systems",
+                "Create comprehensive database structures",
+                "Plan for data management and reporting",
+                "Consider security and access control",
+                "Connect database design to organizational needs"
+            ],
+            "ghanaContext": "Many Ghanaian schools are transitioning from paper-based to digital record systems. Understanding database design can help improve school administration efficiency and provide better access to student information for teachers and administrators."
+        },
+        {
+            "title": "Managing Inventory for a Shop",
+            "scenario": "Your family owns a small shop selling household goods and groceries. The current inventory system is disorganized, leading to stock-outs and overstocking. You want to create a simple database system to track products, monitor stock levels, and generate reports for better business management.",
+            "tasks": [
+                "Design inventory tables for products, suppliers, and transactions",
+                "Plan how to track stock levels and reorder points",
+                "Create queries for low stock alerts and sales reports",
+                "Design a simple data entry interface for daily operations",
+                "Plan for regular data backup and maintenance"
+            ],
+            "learningObjectives": [
+                "Apply database concepts to business operations",
+                "Design inventory management systems",
+                "Create business intelligence queries",
+                "Plan for data maintenance and backup",
+                "Connect technology solutions to business needs"
+            ],
+            "ghanaContext": "Small businesses are the backbone of Ghana's economy. Understanding how to implement simple database systems can help local shop owners improve their operations, reduce waste, and increase profitability."
+        },
+        {
+            "title": "Using Databases for Agricultural Record Keeping",
+            "scenario": "Your village farming cooperative wants to improve their record-keeping system. They need to track crop yields, weather data, fertilizer usage, and market prices to make better farming decisions. You want to design a database system that can help with this agricultural planning.",
+            "tasks": [
+                "Design database tables for farming data (crops, weather, inputs, yields)",
+                "Create queries for analyzing crop performance trends",
+                "Plan data collection methods for rural farming communities",
+                "Design reports for seasonal planning and market analysis",
+                "Consider how to make the system accessible to farmers with limited computer skills"
+            ],
+            "learningObjectives": [
+                "Apply database design to agricultural applications",
+                "Create data analysis and reporting systems",
+                "Consider user accessibility and usability",
+                "Plan for data collection in different environments",
+                "Connect technology to agricultural development"
+            ],
+            "ghanaContext": "Agriculture is a major sector in Ghana's economy. Using databases for agricultural record-keeping can help farmers make better decisions, improve crop yields, and access market information, contributing to food security and economic development."
+        }
+    ]
+},
+"gamification": {
+    "achievements": [
+        {
+            "id": "database-designer",
+            "title": "Database Designer",
+            "description": "Design database structures for 5 different systems",
+            "xpReward": 50
+        },
+        {
+            "id": "query-master",
+            "title": "Query Master",
+            "description": "Write successful SQL queries for 15 different scenarios",
+            "xpReward": 45
+        },
+        {
+            "id": "data-analyst",
+            "title": "Data Analyst",
+            "description": "Complete all data analysis exercises",
+            "xpReward": 40
+        }
+    ],
+    "milestones": [
+        {
+            "id": "first-database",
+            "title": "First Database",
+            "description": "Design your first database structure",
+            "xpReward": 15
+        },
+        {
+            "id": "query-writer",
+            "title": "Query Writer",
+            "description": "Write your first SQL query",
+            "xpReward": 20
+        },
+        {
+            "id": "data-interpreter",
+            "title": "Data Interpreter",
+            "description": "Complete your first data analysis exercise",
+            "xpReward": 25
+        }
+    ],
+    "xpRules": {
+        "correctAnswer": 5,
+        "completedExercise": 15,
+        "scenarioChallenge": 25,
+        "moduleCompletion": 50
+    }
+},
+"ghanaContext": {
+    "localExamples": [
+        "School student record systems",
+        "Small business inventory management",
+        "Agricultural cooperative databases",
+        "Community health records",
+        "Local government data systems"
+    ],
+    "culturalConnections": [
+        "Supporting Ghana's digital transformation",
+        "Improving organizational efficiency",
+        "Connecting traditional practices with modern technology",
+        "Building local technological expertise"
+    ],
+    "realWorldApplications": [
+        "Improving school administration",
+        "Supporting local business growth",
+        "Enhancing agricultural productivity",
+        "Improving community services",
+        "Supporting government digitalization"
+    ]
+},
+"prerequisites": [
+    "ict-module-1",
+    "ict-module-2"
+],
+"nextModule": null,
+"tags": [
+    "databases",
+    "data management",
+    "SQL",
+    "ER diagrams",
+    "inventory systems",
+    "student records",
+    "agricultural data"
+]
+}

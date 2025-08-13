@@ -1,0 +1,241 @@
+{
+  "id": "chem-module-2",
+  "title": "Chemical Bonding",
+  "description": "Master the fundamentals of chemical bonding, from ionic and covalent bonds to molecular geometry and intermolecular forces.",
+  "subject": "chemistry",
+  "level": "shs",
+  "estimatedTime": 120,
+  "xpReward": 150,
+  "achievement": "Bond Builder",
+  "achievementDescription": "Master chemical bonding concepts and understand how atoms combine to form molecules",
+  "content": {
+    "text": {
+      "introduction": "Chemical bonding is the foundation of chemistry - it explains how atoms combine to form molecules and compounds. In this module, we'll explore different types of bonds and understand how they determine the properties of substances we encounter daily in Ghana.",
+      "sections": [
+        {
+          "title": "Ionic and Covalent Bonding",
+          "content": "Atoms form bonds to achieve stability. Ionic bonds occur when electrons are transferred between atoms, creating charged ions that attract each other. This happens between metals and non-metals, like in table salt (NaCl). Covalent bonds form when atoms share electrons, typically between non-metals. The number of shared electrons determines the bond strength and molecular properties."
+        },
+        {
+          "title": "Lewis Structures and Bond Properties",
+          "content": "Lewis structures show how valence electrons are arranged around atoms in molecules. Single bonds share one pair of electrons, double bonds share two pairs, and triple bonds share three pairs. Bond length decreases as bond order increases, while bond energy increases. Understanding these structures helps predict molecular behavior and reactivity."
+        },
+        {
+          "title": "Molecular Geometry and Polarity",
+          "content": "VSEPR theory (Valence Shell Electron Pair Repulsion) explains molecular shapes. Electron pairs around the central atom arrange themselves to minimize repulsion. This determines whether molecules are polar or nonpolar. Polar molecules have uneven electron distribution, while nonpolar molecules have even distribution. Polarity affects solubility, melting points, and chemical behavior."
+        },
+        {
+          "title": "Intermolecular Forces",
+          "content": "Forces between molecules determine physical properties like boiling points and solubility. Hydrogen bonding occurs when hydrogen bonds to highly electronegative atoms like oxygen or nitrogen. Van der Waals forces are weaker attractions between all molecules. These forces explain why some substances dissolve in water while others don't, and why alcohol evaporates faster than water."
+        }
+      ]
+    },
+    "questions": [
+      {
+        "type": "multiple_choice",
+        "question": "Which type of bond forms between sodium (Na) and chlorine (Cl) in table salt?",
+        "options": ["Covalent bond", "Ionic bond", "Metallic bond", "Hydrogen bond"],
+        "correctAnswer": 1,
+        "explanation": "Sodium is a metal and chlorine is a non-metal, so they form an ionic bond where sodium loses an electron to chlorine."
+      },
+      {
+        "type": "multiple_choice",
+        "question": "What determines the shape of a molecule according to VSEPR theory?",
+        "options": ["Atomic mass", "Electron pair repulsion", "Nuclear charge", "Bond length"],
+        "correctAnswer": 1,
+        "explanation": "VSEPR theory states that electron pairs around the central atom arrange themselves to minimize repulsion."
+      },
+      {
+        "type": "multiple_choice",
+        "question": "Which molecule is most likely to be polar?",
+        "options": ["CO2", "H2O", "CH4", "N2"],
+        "correctAnswer": 1,
+        "explanation": "H2O is polar because it has a bent shape with oxygen being more electronegative than hydrogen."
+      },
+      {
+        "type": "multiple_choice",
+        "question": "What type of intermolecular force is strongest between water molecules?",
+        "options": ["Van der Waals forces", "Hydrogen bonding", "Ionic bonding", "Covalent bonding"],
+        "correctAnswer": 1,
+        "explanation": "Hydrogen bonding between water molecules is the strongest intermolecular force, explaining water's high boiling point."
+      },
+      {
+        "type": "multiple_choice",
+        "question": "How many electrons are shared in a double covalent bond?",
+        "options": ["1", "2", "4", "6"],
+        "correctAnswer": 2,
+        "explanation": "A double bond shares two pairs of electrons (4 total electrons) between the bonded atoms."
+      }
+    ],
+    "exercises": [
+      {
+        "type": "bonding_exercise",
+        "title": "Drawing Lewis Structures",
+        "instructions": "Draw Lewis structures for the following molecules: H2O, CO2, NH3, and CH4. Show all valence electrons and identify bond types.",
+        "molecules": ["H2O", "CO2", "NH3", "CH4"],
+        "hint": "Remember to count valence electrons and ensure each atom achieves a stable electron configuration."
+      },
+      {
+        "type": "bonding_exercise",
+        "title": "Bond Type Identification",
+        "instructions": "Classify each of the following as ionic or covalent: NaCl, H2O, CO2, MgO, CH4, and CaCl2.",
+        "compounds": ["NaCl", "H2O", "CO2", "MgO", "CH4", "CaCl2"],
+        "hint": "Look at the types of elements involved - metals with non-metals usually form ionic bonds."
+      },
+      {
+        "type": "shape_prediction",
+        "title": "Molecular Shape Prediction",
+        "instructions": "Predict the molecular geometry for: H2O (2 bonding pairs, 2 lone pairs), CO2 (2 bonding pairs, 0 lone pairs), and NH3 (3 bonding pairs, 1 lone pair).",
+        "molecules": [
+          {"formula": "H2O", "bondingPairs": 2, "lonePairs": 2},
+          {"formula": "CO2", "bondingPairs": 2, "lonePairs": 0},
+          {"formula": "NH3", "bondingPairs": 3, "lonePairs": 1}
+        ],
+        "hint": "Use VSEPR theory: 2 bonding pairs = linear, 3 bonding pairs = trigonal planar, 4 bonding pairs = tetrahedral."
+      },
+      {
+        "type": "polarity_determination",
+        "title": "Polarity Analysis",
+        "instructions": "Determine whether each molecule is polar or nonpolar: CO2, H2O, CH4, and NH3. Consider molecular geometry and electronegativity differences.",
+        "molecules": ["CO2", "H2O", "CH4", "NH3"],
+        "hint": "Polar molecules have uneven electron distribution due to differences in electronegativity or asymmetric geometry."
+      },
+      {
+        "type": "property_comparison",
+        "title": "Physical Properties Comparison",
+        "instructions": "Compare the boiling points and solubility of ethanol (CH3CH2OH) and propane (CH3CH2CH3). Explain the differences based on intermolecular forces.",
+        "compounds": ["Ethanol", "Propane"],
+        "hint": "Consider hydrogen bonding in ethanol versus only van der Waals forces in propane."
+      }
+    ],
+    "scenarioChallenges": [
+      {
+        "title": "Why Table Salt Dissolves in Water but Oil Doesn't",
+        "scenario": "You're cooking in your kitchen and notice that when you add salt to water, it dissolves completely. However, when you try to mix oil and water, they separate into layers. Explain this phenomenon using your knowledge of chemical bonding and intermolecular forces.",
+        "tasks": [
+          "Describe the type of bond in table salt (NaCl) and explain how it forms",
+          "Explain why water molecules are polar and how this affects their behavior",
+          "Describe the intermolecular forces between water molecules",
+          "Explain why salt dissolves in water using the concept of 'like dissolves like'",
+          "Describe why oil doesn't dissolve in water, focusing on molecular structure and polarity"
+        ],
+        "learningObjectives": [
+          "Understand ionic bonding and its properties",
+          "Recognize molecular polarity and its effects",
+          "Apply intermolecular force concepts to solubility",
+          "Connect chemical bonding to everyday observations"
+        ],
+        "ghanaContext": "This scenario relates to everyday cooking practices in Ghana, where salt is commonly used and oil is essential for many traditional dishes. Understanding why these substances behave differently helps with food preparation and preservation."
+      },
+      {
+        "title": "How Soap Works to Clean Clothes",
+        "scenario": "You're doing laundry and wondering how soap manages to remove dirt and oil from your clothes. Your friend says it's because soap is 'amphiphilic,' but you're not sure what that means. Investigate how soap molecules work at the molecular level to clean clothes.",
+        "tasks": [
+          "Explain what 'amphiphilic' means in terms of molecular structure",
+          "Describe the structure of a soap molecule (hydrophilic head and hydrophobic tail)",
+          "Explain how soap molecules interact with both water and oil molecules",
+          "Describe the process of micelle formation and how it traps dirt",
+          "Explain why soap is more effective than water alone for cleaning oily stains"
+        ],
+        "learningObjectives": [
+          "Understand molecular structure and polarity",
+          "Recognize how molecular structure determines function",
+          "Apply bonding concepts to real-world applications",
+          "Connect chemistry to everyday household tasks"
+        ],
+        "ghanaContext": "Soap making and laundry are common activities in Ghana. Understanding how soap works helps with proper laundry practices and can relate to traditional soap-making methods using local materials like palm oil."
+      },
+      {
+        "title": "Why Alcohol Evaporates Faster than Water",
+        "scenario": "You're using rubbing alcohol to clean a wound and notice it dries much faster than water would. Your science teacher mentioned this is related to intermolecular forces, but you want to understand exactly why. Investigate the molecular differences between alcohol and water that cause this behavior.",
+        "tasks": [
+          "Compare the molecular structures of ethanol (CH3CH2OH) and water (H2O)",
+          "Identify the types of intermolecular forces present in each substance",
+          "Explain why water has stronger intermolecular forces than ethanol",
+          "Connect intermolecular force strength to evaporation rate",
+          "Explain how this relates to the concept of vapor pressure"
+        ],
+        "learningObjectives": [
+          "Understand molecular structure and bonding",
+          "Recognize different types of intermolecular forces",
+          "Apply force concepts to physical properties",
+          "Connect molecular behavior to observable phenomena"
+        ],
+        "ghanaContext": "Understanding evaporation rates is important in Ghana's climate, where humidity and temperature affect daily activities. This knowledge applies to food preservation, medicine storage, and understanding weather patterns."
+      }
+    ]
+  },
+  "gamification": {
+    "achievements": [
+      {
+        "id": "bond-master",
+        "title": "Bond Master",
+        "description": "Complete all bonding exercises with 100% accuracy",
+        "xpReward": 50
+      },
+      {
+        "id": "structure-builder",
+        "title": "Structure Builder",
+        "description": "Successfully predict molecular shapes for 10 different molecules",
+        "xpReward": 30
+      },
+      {
+        "id": "polarity-expert",
+        "title": "Polarity Expert",
+        "description": "Correctly identify polarity for 15 different molecules",
+        "xpReward": 40
+      }
+    ],
+    "milestones": [
+      {
+        "id": "first-bond",
+        "title": "First Bond",
+        "description": "Complete your first bonding exercise",
+        "xpReward": 10
+      },
+      {
+        "id": "shape-predictor",
+        "title": "Shape Predictor",
+        "description": "Predict 5 molecular shapes correctly",
+        "xpReward": 20
+      },
+      {
+        "id": "force-understander",
+        "title": "Force Understander",
+        "description": "Complete all intermolecular force exercises",
+        "xpReward": 25
+      }
+    ],
+    "xpRules": {
+      "correctAnswer": 5,
+      "completedExercise": 15,
+      "scenarioChallenge": 25,
+      "moduleCompletion": 50
+    }
+  },
+  "ghanaContext": {
+    "localExamples": [
+      "Table salt production from Ghana's coastal areas",
+      "Traditional soap making using palm oil",
+      "Alcohol-based traditional medicines",
+      "Water purification methods in rural communities",
+      "Food preservation techniques using salt"
+    ],
+    "culturalConnections": [
+      "Understanding traditional chemical processes",
+      "Connecting classroom learning to local practices",
+      "Recognizing chemistry in everyday Ghanaian life",
+      "Applying scientific knowledge to local challenges"
+    ],
+    "realWorldApplications": [
+      "Improving traditional soap-making methods",
+      "Understanding food preservation techniques",
+      "Better water treatment practices",
+      "Safer handling of household chemicals",
+      "Improving traditional medicine preparation"
+    ]
+  },
+  "prerequisites": ["chem-module-1"],
+  "nextModule": "chem-module-3",
+  "tags": ["chemical bonding", "molecular geometry", "intermolecular forces", "lewis structures", "polarity"]
+}
