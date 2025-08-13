@@ -154,8 +154,6 @@ const Subjects = () => {
               totalModules={totalModules}
               icon={getSubjectIcon(subject.name)}
               color={subject.color || 'bg-stemPurple'}
-              quizzesCompleted={modulesCompleted}
-              totalQuizzes={totalModules}
             />
           );
         })}

@@ -14,8 +14,6 @@ interface SubjectCardProps {
   totalModules: number;
   icon?: React.ReactNode;
   color: string;
-  quizzesCompleted: number;
-  totalQuizzes: number;
 }
 
 const SubjectCard = ({
@@ -26,11 +24,9 @@ const SubjectCard = ({
   totalModules,
   icon,
   color,
-  quizzesCompleted,
-  totalQuizzes,
 }: SubjectCardProps) => {
   const navigate = useNavigate();
-  const progressPercentage = Math.round((modulesCompleted / totalModules) * 100);
+  const progressPercentage = totalModules > 0 ? Math.round((modulesCompleted / totalModules) * 100) : 0;
   
   return (
     <Card className="card-stem overflow-hidden">
@@ -56,7 +52,7 @@ const SubjectCard = ({
           <Progress value={progressPercentage} className="h-2" />
         </div>
         <div className="flex justify-between text-sm text-muted-foreground">
-          <span>{quizzesCompleted}/{totalQuizzes} modules completed</span>
+          <span>{modulesCompleted}/{totalModules} modules completed</span>
         </div>
       </CardContent>
       <CardFooter>
