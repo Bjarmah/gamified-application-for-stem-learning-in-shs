@@ -39,16 +39,27 @@ const SubjectDetail: React.FC = () => {
     queryFn: async () => {
       if (!subjectId) return [];
 
+      // First get modules for this subject, then get quizzes for those modules
+      const { data: subjectModules, error: modulesError } = await supabase
+        .from("modules")
+        .select("id")
+        .eq("subject_id", subjectId);
+
+      if (modulesError) {
+        console.error("Error fetching modules:", modulesError);
+        throw modulesError;
+      }
+
+      if (!subjectModules || subjectModules.length === 0) {
+        return [];
+      }
+
+      const moduleIds = subjectModules.map(m => m.id);
+
       const { data, error } = await supabase
         .from("quizzes")
-        .select(`
-          *,
-          module:modules(
-            subject_id,
-            subject:subjects(name)
-          )
-        `)
-        .eq("module.subject_id", subjectId);
+        .select("*")
+        .in("module_id", moduleIds);
 
       if (error) {
         console.error("Error fetching quizzes:", error);

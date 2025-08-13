@@ -15,7 +15,7 @@ interface DbQuiz {
   id: string;
   title: string;
   description: string | null;
-  questions: any[];
+  questions: any[] | { questions: any[] } | any;
   time_limit: number | null;
   passing_score: number | null;
 }
@@ -91,7 +91,16 @@ const Quiz: React.FC = () => {
   const [index, setIndex] = useState(0);
   const [correct, setCorrect] = useState(0);
   const [answers, setAnswers] = useState<any[]>([]);
-  const total = quiz?.questions && Array.isArray(quiz.questions) ? quiz.questions.length : 0;
+  
+  // Calculate total questions, handling nested structure
+  const total = useMemo(() => {
+    if (!quiz?.questions) return 0;
+    if (Array.isArray(quiz.questions)) return quiz.questions.length;
+    if (typeof quiz.questions === 'object' && quiz.questions.questions && Array.isArray(quiz.questions.questions)) {
+      return quiz.questions.questions.length;
+    }
+    return 0;
+  }, [quiz?.questions]);
   const timeLimit = quiz?.time_limit ?? 300;
   const [secondsLeft, setSecondsLeft] = useState(timeLimit);
   const [finished, setFinished] = useState(false);
@@ -125,21 +134,51 @@ const Quiz: React.FC = () => {
 
   const currentQuestion: QuizQuestionType | null = useMemo(() => {
     if (!quiz || !quiz.questions || index >= total) return null;
-    const q = quiz.questions[index];
+    
+    // Handle nested questions structure
+    let questions = quiz.questions;
+    if (typeof quiz.questions === 'object' && !Array.isArray(quiz.questions) && quiz.questions.questions && Array.isArray(quiz.questions.questions)) {
+      questions = quiz.questions.questions;
+    }
+    
+    const q = questions[index];
     if (!q) return null;
+    
+    // Handle different question formats
+    let options = [];
+    let correctOption = 0;
+    
+    if (Array.isArray(q.options)) {
+      // Format: options: ["A", "B", "C", "D"], correct_answer: 1
+      options = q.options;
+      correctOption = q.correct_answer ?? q.correctOption ?? 0;
+    } else if (typeof q.options === 'object') {
+      // Format: options: {"A": "...", "B": "..."}, answer: "B"
+      const optionKeys = Object.keys(q.options).sort();
+      options = optionKeys.map(key => q.options[key]);
+      const correctLetter = q.answer;
+      correctOption = optionKeys.indexOf(correctLetter);
+    }
     
     return {
       id: q.id ?? String(index),
-      question: q.question,
-      options: q.options || [],
-      correctOption: q.correctOption,
+      question: q.question || q.stem,
+      options,
+      correctOption,
       explanation: q.explanation,
     } as QuizQuestionType;
   }, [quiz, index, total]);
 
   const recordAnswer = (isCorrect: boolean) => {
     if (!quiz || !quiz.questions) return;
-    const q = quiz.questions[index];
+    
+    // Handle nested questions structure for recording answers
+    let questions = quiz.questions;
+    if (typeof quiz.questions === 'object' && !Array.isArray(quiz.questions) && quiz.questions.questions && Array.isArray(quiz.questions.questions)) {
+      questions = quiz.questions.questions;
+    }
+    
+    const q = Array.isArray(questions) ? questions[index] : null;
     if (!q) return;
     
     setAnswers((prev) => ([...prev, {
