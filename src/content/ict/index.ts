@@ -71,16 +71,20 @@ export interface StructuredModule {
     tags: string[];
 }
 
-export const mapByTitle: Record<string, StructuredModule> = {
+// Create a map for easy lookup by title
+const mapByTitle: Record<string, StructuredModule> = {
     'Programming Fundamentals': module1,
     'Computer Networks & Internet': module2,
     'Database Management': module3,
 };
 
+// Utility function to find a module by title
 export const findICTModuleByTitle = (title: string): StructuredModule | undefined => {
     return mapByTitle[title];
 };
 
+// Export all ICT modules
 export const ictModules: StructuredModule[] = [module1, module2, module3];
 
-export default ictModules;
+// Export individual modules
+export { module1, module2, module3 };

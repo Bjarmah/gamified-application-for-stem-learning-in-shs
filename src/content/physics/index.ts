@@ -3,52 +3,152 @@ import module2 from './module2.json';
 import module3 from './module3.json';
 
 export interface StructuredModule {
-    moduleId?: string;
-    moduleTitle?: string;
-    subject?: string;
-    level?: string;
-    objectives?: string[];
-    learningPath?: string[];
-    lessons?: Array<{
-        id: string;
+  id: string;
+  title: string;
+  description: string;
+  subject: string;
+  level: string;
+  estimatedTime: number;
+  xpReward: number;
+  achievement: string;
+  achievementDescription: string;
+  content: {
+    text: {
+      introduction: string;
+      sections: Array<{
         title: string;
-        text?: string;
-        knowledgeChecks?: {
-            mcq?: Array<any>;
-            trueFalse?: Array<any>;
-            workedExamples?: Array<any>;
-            matching?: Array<any>;
-            graphInterpretation?: Array<any>;
-            forceDiagram?: Array<any>;
-            waveDiagram?: Array<any>;
-            frequencyExercises?: Array<any>;
-            patternRecognition?: Array<any>;
-            circuitAnalysis?: Array<any>;
-            fieldDiagram?: Array<any>;
-            efficiencyCalculation?: Array<any>;
-        };
-        scenarioChallenges?: Array<any>;
+        content: string;
+      }>;
+    };
+    questions: Array<{
+      type: string;
+      question: string;
+      options: string[];
+      correctAnswer: number;
+      explanation: string;
     }>;
-    finalAssessment?: unknown;
-    xpRules?: unknown;
-    milestones?: unknown;
-    achievements?: unknown;
-    alignment?: unknown;
+    exercises: Array<{
+      type: string;
+      title: string;
+      instructions: string;
+      hint: string;
+    }>;
+    scenarioChallenges: Array<{
+      title: string;
+      scenario: string;
+      tasks: string[];
+      learningObjectives: string[];
+      ghanaContext: string;
+    }>;
+  };
+  gamification: {
+    achievements: Array<{
+      id: string;
+      title: string;
+      description: string;
+      xpReward: number;
+    }>;
+    milestones: Array<{
+      id: string;
+      title: string;
+      description: string;
+      xpReward: number;
+    }>;
+    xpRules: {
+      correctAnswer: number;
+      completedExercise: number;
+      scenarioChallenge: number;
+      moduleCompletion: number;
+    };
+  };
+  ghanaContext: {
+    localExamples: string[];
+    culturalConnections: string[];
+    realWorldApplications: string[];
+  };
+  prerequisites: string[];
+  nextModule: string | null;
+  tags: string[];
 }
 
-const mapByTitle: Record<string, StructuredModule> = {
-    'Forces and Motion': module1,
-    'Waves and Sound': module2,
-    'Electricity and Magnetism': module3,
+// Convert the existing physics modules to match the expected interface
+const convertPhysicsModule = (module: any): StructuredModule => {
+  return {
+    id: module.moduleId || `physics-${Math.random().toString(36).substr(2, 9)}`,
+    title: module.moduleTitle || 'Physics Module',
+    description: module.objectives?.join('. ') || 'Physics learning module',
+    subject: 'Physics',
+    level: module.level || 'Intermediate',
+    estimatedTime: 60, // Default 60 minutes
+    xpReward: 100, // Default 100 XP
+    achievement: 'Physics Explorer',
+    achievementDescription: 'Complete physics module',
+    content: {
+      text: {
+        introduction: module.lessons?.[0]?.text || 'Introduction to physics concepts',
+        sections: module.lessons?.map((lesson: any, index: number) => ({
+          title: lesson.title || `Lesson ${index + 1}`,
+          content: lesson.text || 'Lesson content'
+        })) || []
+      },
+      questions: [], // Convert knowledge checks if available
+      exercises: [], // Convert exercises if available
+      scenarioChallenges: module.lessons?.flatMap((lesson: any) => 
+        lesson.scenarioChallenges?.map((challenge: any) => ({
+          title: challenge.title || 'Scenario Challenge',
+          scenario: challenge.scenario || 'Challenge description',
+          tasks: challenge.tasks || [],
+          learningObjectives: challenge.learningObjectives || [],
+          ghanaContext: challenge.ghanaContext || 'Local context'
+        })) || []
+      ) || []
+    },
+    gamification: {
+      achievements: [
+        {
+          id: 'physics-explorer',
+          title: 'Physics Explorer',
+          description: 'Complete physics module',
+          xpReward: 100
+        }
+      ],
+      milestones: [],
+      xpRules: {
+        correctAnswer: 10,
+        completedExercise: 25,
+        scenarioChallenge: 50,
+        moduleCompletion: 100
+      }
+    },
+    ghanaContext: {
+      localExamples: ['Local physics examples'],
+      culturalConnections: ['Cultural physics connections'],
+      realWorldApplications: ['Real-world physics applications']
+    },
+    prerequisites: [],
+    nextModule: null,
+    tags: ['physics', 'science', 'ghana', 'shs']
+  };
 };
 
-export function findPhysicsModuleByTitle(title?: string | null): StructuredModule | null {
-    if (!title) return null;
-    const key = title.trim().toLowerCase();
-    for (const [t, mod] of Object.entries(mapByTitle)) {
-        if (t.toLowerCase() === key) return mod;
-    }
-    return null;
-}
+// Create a map for easy lookup by title
+const mapByTitle: Record<string, StructuredModule> = {
+  'Forces and Motion': convertPhysicsModule(module1),
+  'Waves and Sound': convertPhysicsModule(module2),
+  'Electricity and Magnetism': convertPhysicsModule(module3),
+};
 
-export const physicsModules = [module1, module2, module3];
+// Utility function to find a module by title
+export const findPhysicsModuleByTitle = (title: string): StructuredModule | undefined => {
+  return mapByTitle[title];
+};
+
+// Export all physics modules
+export const physicsModules: StructuredModule[] = [
+  convertPhysicsModule(module1),
+  convertPhysicsModule(module2),
+  convertPhysicsModule(module3)
+];
+
+// Export individual modules
+export { module1, module2, module3 };

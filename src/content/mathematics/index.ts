@@ -73,18 +73,18 @@ export interface StructuredModule {
 
 // Create a map for easy lookup by title
 const mapByTitle: Record<string, StructuredModule> = {
-  'Atomic Structure & Electron Configuration': module1,
-  'Chemical Bonding': module2,
-  'Acids, Bases & Salts': module3,
+  [module1.title]: module1,
+  [module2.title]: module2,
+  [module3.title]: module3,
 };
 
 // Utility function to find a module by title
-export const findChemistryModuleByTitle = (title: string): StructuredModule | undefined => {
+export const findMathematicsModuleByTitle = (title: string): StructuredModule | undefined => {
   return mapByTitle[title];
 };
 
-// Export all chemistry modules
-export const chemistryModules: StructuredModule[] = [module1, module2, module3];
+// Export all mathematics modules
+export const mathematicsModules: StructuredModule[] = [module1, module2, module3];
 
 // Export individual modules
 export { module1, module2, module3 };
