@@ -66,14 +66,15 @@
             {
                 "type": "multiple_choice",
                 "question": "What is the purpose of a query in a database?",
-                "instructions": "To store data",
-                "To retrieve specific information",
-                "To delete data",
-                "To create tables"
-            ],
-            "correctAnswer": 1,
-            "explanation": "A query is used to retrieve specific information from a database based on specified criteria or conditions."
-        },
+                "options": [
+                    "To store data",
+                    "To retrieve specific information",
+                    "To delete data",
+                    "To create tables"
+                ],
+                "correctAnswer": 1,
+                "explanation": "A query is used to retrieve specific information from a database based on specified criteria or conditions."
+            },
         {
             "type": "multiple_choice",
             "question": "Which of the following is an example of a database application?",
