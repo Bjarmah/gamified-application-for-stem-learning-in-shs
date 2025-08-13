@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { BookOpen, Trophy, Users, TrendingUp, Beaker, Play, ChevronRight } from "lucide-react";
+import { BookOpen, Trophy, Users, TrendingUp, Beaker, Play, ChevronRight, Gamepad2, Search } from "lucide-react";
 import ProgressCard from "@/components/dashboard/ProgressCard";
 import RecommendedCard from "@/components/dashboard/RecommendedCard";
 import StreakCard from "@/components/dashboard/StreakCard";
@@ -14,6 +14,7 @@ import { SyncStatus } from "@/components/sync/SyncStatus";
 import { useAdaptiveLearning } from "@/hooks/use-adaptive-learning";
 import { useQuery } from "@tanstack/react-query";
 import { formatDifficulty, formatDuration } from "@/lib/utils";
+import { thmRooms, getContentStats } from "@/content";
 
 const Dashboard = () => {
   const navigate = useNavigate();
@@ -24,6 +25,9 @@ const Dashboard = () => {
     isLoading: adaptiveLoading
   } = useAdaptiveLearning();
 
+  // Get content statistics
+  const contentStats = getContentStats();
+
   const quickActions = [
     {
       title: "Continue Learning",
@@ -33,12 +37,19 @@ const Dashboard = () => {
       color: "bg-stemPurple"
     },
     {
+      title: "TryHackMe Rooms",
+      description: "Interactive challenges & gamified learning",
+      icon: Gamepad2,
+      action: () => navigate("/search"),
+      color: "bg-gradient-to-r from-green-600 to-emerald-600",
+      featured: true
+    },
+    {
       title: "Virtual Laboratory",
       description: "Interactive science experiments",
       icon: Beaker,
       action: () => navigate("/virtual-lab"),
-      color: "bg-gradient-to-r from-blue-600 to-purple-600",
-      featured: true
+      color: "bg-gradient-to-r from-blue-600 to-purple-600"
     },
     {
       title: "View Achievements",
@@ -48,6 +59,9 @@ const Dashboard = () => {
       color: "bg-stemYellow"
     },
   ];
+
+  // Get featured TryHackMe rooms (first 3)
+  const featuredRooms = thmRooms.slice(0, 3);
 
   return (
     <div className="space-y-6 pb-8">
@@ -59,11 +73,11 @@ const Dashboard = () => {
       </div>
 
       {/* Quick Actions */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         {quickActions.map((action, index) => (
           <Card
             key={index}
-            className={`curs/or-pointer hover:shadow-md transition-shadow ${action.featured ? 'ring-2 ring-blue-500' : ''
+            className={`cursor-pointer hover:shadow-md transition-shadow ${action.featured ? 'ring-2 ring-green-500' : ''
               }`}
             onClick={action.action}
           >
@@ -81,6 +95,74 @@ const Dashboard = () => {
             </CardContent>
           </Card>
         ))}
+      </div>
+
+      {/* TryHackMe Rooms Section */}
+      <div>
+        <div className="flex items-center justify-between mb-4">
+          <div>
+            <h2 className="text-xl font-semibold">TryHackMe-Style Learning Rooms</h2>
+            <p className="text-sm text-muted-foreground">
+              Interactive, gamified challenges with Ghanaian context
+            </p>
+          </div>
+          <Button variant="outline" onClick={() => navigate("/search")}>
+            <Search className="h-4 w-4 mr-2" />
+            View All
+          </Button>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          {featuredRooms.map((room) => (
+            <Card
+              key={room.roomId}
+              className="cursor-pointer hover:shadow-md transition-shadow"
+              onClick={() => navigate(`/rooms/${room.roomId}`)}
+            >
+              <CardHeader className="pb-3">
+                <div className="flex items-start justify-between">
+                  <div className="flex items-center gap-2">
+                    <Gamepad2 className="h-5 w-5 text-green-600" />
+                    <div>
+                      <CardTitle className="text-lg">{room.roomName}</CardTitle>
+                      <CardDescription className="text-sm">
+                        {room.category} • {room.difficulty}
+                      </CardDescription>
+                    </div>
+                  </div>
+                  <Badge variant="secondary" className="text-xs">
+                    {room.points} pts
+                  </Badge>
+                </div>
+              </CardHeader>
+
+              <CardContent className="pt-0">
+                <p className="text-gray-600 text-sm mb-3 line-clamp-2">
+                  {room.description}
+                </p>
+
+                <div className="flex items-center justify-between">
+                  <div className="flex flex-wrap gap-1">
+                    {room.tags.slice(0, 2).map(tag => (
+                      <Badge key={tag} variant="outline" className="text-xs">
+                        {tag}
+                      </Badge>
+                    ))}
+                    {room.tags.length > 2 && (
+                      <Badge variant="outline" className="text-xs">
+                        +{room.tags.length - 2} more
+                      </Badge>
+                    )}
+                  </div>
+
+                  <div className="text-sm text-gray-500">
+                    {room.estimatedTime}
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
       </div>
 
       {/* Learning Insights */}

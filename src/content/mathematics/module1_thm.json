@@ -1,0 +1,296 @@
+{
+    "roomId": "quadratic-functions-ghana",
+    "roomName": "Quadratic Functions & Equations",
+    "difficulty": "Medium",
+    "category": "Mathematics",
+    "tags": [
+        "quadratics",
+        "functions",
+        "equations",
+        "ghana",
+        "shs",
+        "algebra"
+    ],
+    "description": "Master quadratic functions and equations through Ghanaian contexts. Learn to solve real-world problems using mathematical modeling and analysis.",
+    "estimatedTime": "4 hours",
+    "points": 250,
+    "creator": "Ghana STEM Learning Platform",
+    "status": "published",
+    "tasks": [
+        {
+            "taskId": "task-1",
+            "taskNumber": 1,
+            "title": "Introduction to Quadratic Functions",
+            "description": "Begin your journey into quadratic functions by understanding their basic structure and importance in modeling real-world phenomena.",
+            "questions": [
+                {
+                    "questionId": "q1-1",
+                    "type": "multiple_choice",
+                    "question": "What is the standard form of a quadratic function?",
+                    "options": [
+                        "f(x) = ax + b",
+                        "f(x) = ax² + bx + c",
+                        "f(x) = ax³ + bx² + cx + d",
+                        "f(x) = a/x + b"
+                    ],
+                    "correctAnswer": 1,
+                    "explanation": "The standard form of a quadratic function is f(x) = ax² + bx + c, where a, b, and c are constants and a ≠ 0.",
+                    "points": 20
+                },
+                {
+                    "questionId": "q1-2",
+                    "type": "text_input",
+                    "question": "What is the degree of a quadratic function?",
+                    "correctAnswer": "2",
+                    "explanation": "A quadratic function has degree 2 because the highest power of x is x².",
+                    "points": 15
+                },
+                {
+                    "questionId": "q1-3",
+                    "type": "multiple_choice",
+                    "question": "Which of these is NOT a quadratic function?",
+                    "options": [
+                        "f(x) = x² + 3x + 2",
+                        "f(x) = 2x² - 5",
+                        "f(x) = x + 5",
+                        "f(x) = -x² + 4"
+                    ],
+                    "correctAnswer": 2,
+                    "explanation": "f(x) = x + 5 is a linear function (degree 1), not a quadratic function.",
+                    "points": 20
+                }
+            ],
+            "hints": [
+                "Look for the highest power of x",
+                "Remember the standard form structure",
+                "Check the degree of each function"
+            ],
+            "completionMessage": "Excellent! You understand quadratic functions. Now let's explore their graphical properties."
+        },
+        {
+            "taskId": "task-2",
+            "taskNumber": 2,
+            "title": "Graphing and Properties",
+            "description": "Learn to graph quadratic functions and understand their key properties including vertex, axis of symmetry, and intercepts.",
+            "questions": [
+                {
+                    "questionId": "q2-1",
+                    "type": "multiple_choice",
+                    "question": "What is the shape of the graph of a quadratic function?",
+                    "options": [
+                        "Straight line",
+                        "Parabola",
+                        "Circle",
+                        "Triangle"
+                    ],
+                    "correctAnswer": 1,
+                    "explanation": "The graph of a quadratic function is a parabola, which is a U-shaped curve.",
+                    "points": 20
+                },
+                {
+                    "questionId": "q2-2",
+                    "type": "text_input",
+                    "question": "For the function f(x) = x² + 4x + 3, what is the x-coordinate of the vertex? (Use the formula x = -b/(2a))",
+                    "correctAnswer": "-2",
+                    "explanation": "Using x = -b/(2a), where a = 1 and b = 4: x = -4/(2×1) = -4/2 = -2.",
+                    "points": 25
+                },
+                {
+                    "questionId": "q2-3",
+                    "type": "multiple_choice",
+                    "question": "If a > 0 in f(x) = ax² + bx + c, the parabola opens:",
+                    "options": [
+                        "Downward",
+                        "Upward",
+                        "To the left",
+                        "To the right"
+                    ],
+                    "correctAnswer": 1,
+                    "explanation": "When a > 0, the parabola opens upward. When a < 0, it opens downward.",
+                    "points": 20
+                }
+            ],
+            "hints": [
+                "Remember the vertex formula: x = -b/(2a)",
+                "Think about the coefficient 'a' and its effect",
+                "Visualize the U-shape of a parabola"
+            ],
+            "completionMessage": "Great! You're mastering the graphical properties. Let's move to solving equations."
+        },
+        {
+            "taskId": "task-3",
+            "taskNumber": 3,
+            "title": "Solving Quadratic Equations",
+            "description": "Master different methods for solving quadratic equations: factoring, completing the square, and the quadratic formula.",
+            "questions": [
+                {
+                    "questionId": "q3-1",
+                    "type": "text_input",
+                    "question": "Solve the equation x² + 5x + 6 = 0 by factoring. What are the solutions? (Enter as 'x1,x2')",
+                    "correctAnswer": "-2,-3",
+                    "explanation": "x² + 5x + 6 = (x + 2)(x + 3) = 0, so x = -2 or x = -3.",
+                    "points": 30
+                },
+                {
+                    "questionId": "q3-2",
+                    "type": "multiple_choice",
+                    "question": "What is the quadratic formula?",
+                    "options": [
+                        "x = (-b ± √(b² - 4ac))/(2a)",
+                        "x = (-b ± √(b² + 4ac))/(2a)",
+                        "x = (b ± √(b² - 4ac))/(2a)",
+                        "x = (-b ± √(b² - 4ac))/a"
+                    ],
+                    "correctAnswer": 0,
+                    "explanation": "The quadratic formula is x = (-b ± √(b² - 4ac))/(2a), which gives the solutions to ax² + bx + c = 0.",
+                    "points": 25
+                },
+                {
+                    "questionId": "q3-3",
+                    "type": "text_input",
+                    "question": "Use the quadratic formula to solve 2x² - 7x + 3 = 0. What is the larger solution? (Round to 2 decimal places)",
+                    "correctAnswer": "3.00",
+                    "explanation": "Using the quadratic formula with a=2, b=-7, c=3: x = (7 ± √(49-24))/4 = (7 ± √25)/4 = (7 ± 5)/4. So x = 12/4 = 3 or x = 2/4 = 0.5. The larger solution is 3.00.",
+                    "points": 30
+                }
+            ],
+            "hints": [
+                "Look for factors that multiply to 6 and add to 5",
+                "Remember the quadratic formula structure",
+                "Be careful with signs and calculations"
+            ],
+            "completionMessage": "Excellent! You're becoming a quadratic equation solver. Now let's apply this to Ghanaian scenarios."
+        },
+        {
+            "taskId": "task-4",
+            "taskNumber": 4,
+            "title": "Ghanaian Applications",
+            "description": "Apply quadratic functions to real-world problems in Ghana, including projectile motion, business optimization, and agricultural planning.",
+            "questions": [
+                {
+                    "questionId": "q4-1",
+                    "type": "scenario",
+                    "question": "A Ghanaian farmer is planning to build a rectangular chicken coop with a perimeter of 40 meters. If the length is x meters, write a quadratic function for the area A(x) of the coop.",
+                    "correctAnswer": "A(x) = -x² + 20x",
+                    "explanation": "If length = x and perimeter = 40, then 2(length + width) = 40, so length + width = 20. Therefore width = 20 - x. Area = length × width = x(20 - x) = 20x - x² = -x² + 20x.",
+                    "points": 35
+                },
+                {
+                    "questionId": "q4-2",
+                    "type": "multiple_choice",
+                    "question": "In the chicken coop problem, what is the maximum area possible?",
+                    "options": [
+                        "50 square meters",
+                        "100 square meters",
+                        "150 square meters",
+                        "200 square meters"
+                    ],
+                    "correctAnswer": 1,
+                    "explanation": "The maximum occurs at the vertex. Using x = -b/(2a) = -20/(2×(-1)) = 10. So A(10) = -(10)² + 20(10) = -100 + 200 = 100 square meters.",
+                    "points": 25
+                }
+            ],
+            "hints": [
+                "Use the perimeter to find the relationship between length and width",
+                "Remember that area = length × width",
+                "Find the vertex to get the maximum area"
+            ],
+            "completionMessage": "Fantastic! You've applied quadratics to real Ghanaian farming scenarios."
+        },
+        {
+            "taskId": "task-5",
+            "taskNumber": 5,
+            "title": "Final Challenge: Mathematical Modeling",
+            "description": "Create mathematical models for complex Ghanaian problems using quadratic functions.",
+            "questions": [
+                {
+                    "questionId": "q5-1",
+                    "type": "scenario",
+                    "question": "A Ghanaian business owner wants to maximize profit from selling handmade crafts. The profit function is P(x) = -2x² + 120x - 800, where x is the number of items sold. Find the number of items that maximizes profit and the maximum profit.",
+                    "correctAnswer": "30 items, 1000 cedis",
+                    "explanation": "To find maximum profit, find the vertex: x = -b/(2a) = -120/(2×(-2)) = 30. P(30) = -2(30)² + 120(30) - 800 = -1800 + 3600 - 800 = 1000. So sell 30 items for maximum profit of 1000 cedis.",
+                    "points": 40
+                },
+                {
+                    "questionId": "q5-2",
+                    "type": "multiple_choice",
+                    "question": "In the profit function P(x) = -2x² + 120x - 800, what does the negative coefficient of x² tell us about the graph?",
+                    "options": [
+                        "The parabola opens upward",
+                        "The parabola opens downward",
+                        "The graph is a straight line",
+                        "The graph is a circle"
+                    ],
+                    "correctAnswer": 1,
+                    "explanation": "Since the coefficient of x² is negative (-2), the parabola opens downward, which makes sense for a profit function that eventually decreases due to market saturation.",
+                    "points": 20
+                }
+            ],
+            "hints": [
+                "Use the vertex formula to find the maximum",
+                "Substitute the x-value back into the function",
+                "Think about what the negative coefficient means"
+            ],
+            "completionMessage": "Congratulations! You've completed the Quadratic Functions room and earned the 'Equation Master' badge!"
+        }
+    ],
+    "achievements": [
+        {
+            "id": "equation-master",
+            "name": "Equation Master",
+            "description": "Complete the Quadratic Functions room",
+            "icon": "📐",
+            "points": 100
+        },
+        {
+            "id": "graphing-expert",
+            "name": "Graphing Expert",
+            "description": "Score 100% on graphing questions",
+            "icon": "📊",
+            "points": 75
+        },
+        {
+            "id": "ghana-mathematician",
+            "name": "Ghana Mathematician",
+            "description": "Complete all Ghanaian applications questions",
+            "icon": "🇬🇭",
+            "points": 60
+        }
+    ],
+    "roomInfo": {
+        "prerequisites": "Basic algebra and graphing",
+        "tools": "Calculator, graphing software (optional)",
+        "learningOutcomes": [
+            "Understand quadratic functions and their properties",
+            "Master methods for solving quadratic equations",
+            "Apply mathematical modeling to real-world problems",
+            "Solve Ghanaian business and agricultural problems"
+        ],
+        "estimatedCompletionTime": "4 hours",
+        "difficultyProgression": "Medium → Hard",
+        "relatedRooms": [
+            "trigonometry-ghana",
+            "statistics-probability-ghana"
+        ]
+    },
+    "ghanaContext": {
+        "localExamples": [
+            "Agricultural planning and optimization",
+            "Business profit maximization",
+            "Construction and design projects",
+            "Market analysis and pricing"
+        ],
+        "culturalConnections": [
+            "Supporting local business development",
+            "Improving agricultural efficiency",
+            "Building mathematical problem-solving skills",
+            "Connecting math to everyday life"
+        ],
+        "realWorldApplications": [
+            "Farming and agricultural planning",
+            "Small business optimization",
+            "Construction and engineering",
+            "Economic analysis and planning"
+        ]
+    }
+}

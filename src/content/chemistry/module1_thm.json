@@ -1,0 +1,254 @@
+{
+  "roomId": "atomic-structure-ghana",
+  "roomName": "Atomic Structure & Electron Configuration",
+  "difficulty": "Easy",
+  "category": "Chemistry",
+  "tags": ["atoms", "electrons", "chemistry", "ghana", "shs"],
+  "description": "Explore the fundamental building blocks of matter through Ghanaian contexts. Learn atomic structure, electron configuration, and their applications in local industries.",
+  "estimatedTime": "2 hours",
+  "points": 150,
+  "creator": "Ghana STEM Learning Platform",
+  "status": "published",
+  "tasks": [
+    {
+      "taskId": "task-1",
+      "taskNumber": 1,
+      "title": "Welcome to the Atomic World",
+      "description": "Begin your journey into atomic structure by understanding the basic components of atoms and their significance in Ghanaian chemistry.",
+      "questions": [
+        {
+          "questionId": "q1-1",
+          "type": "multiple_choice",
+          "question": "What are the three main subatomic particles found in an atom?",
+          "options": [
+            "Protons, neutrons, and electrons",
+            "Protons, photons, and neutrons",
+            "Electrons, photons, and neutrons",
+            "Protons, electrons, and photons"
+          ],
+          "correctAnswer": 0,
+          "explanation": "Atoms consist of three main subatomic particles: protons (positively charged), neutrons (neutral), and electrons (negatively charged).",
+          "points": 10
+        },
+        {
+          "questionId": "q1-2",
+          "type": "text_input",
+          "question": "In Ghana's gold mining industry, what element symbol represents gold?",
+          "correctAnswer": "Au",
+          "explanation": "Gold is represented by the symbol 'Au' from the Latin word 'aurum'. Ghana is one of Africa's leading gold producers.",
+          "points": 15
+        }
+      ],
+      "hints": [
+        "Think about the basic structure of an atom",
+        "Consider Ghana's natural resources"
+      ],
+      "completionMessage": "Great! You've mastered the basics of atomic structure. Now let's explore how electrons are arranged."
+    },
+    {
+      "taskId": "task-2",
+      "taskNumber": 2,
+      "title": "Electron Configuration Challenge",
+      "description": "Learn how electrons are arranged around the nucleus and practice writing electron configurations for common elements.",
+      "questions": [
+        {
+          "questionId": "q2-1",
+          "type": "multiple_choice",
+          "question": "What is the maximum number of electrons that can occupy the first energy level (n=1)?",
+          "options": ["2", "8", "18", "32"],
+          "correctAnswer": 0,
+          "explanation": "The first energy level can hold a maximum of 2 electrons according to the formula 2n².",
+          "points": 10
+        },
+        {
+          "questionId": "q2-2",
+          "type": "text_input",
+          "question": "Write the electron configuration for carbon (C) which has 6 electrons.",
+          "correctAnswer": "1s²2s²2p²",
+          "explanation": "Carbon has 6 electrons: 2 in the 1s orbital, 2 in the 2s orbital, and 2 in the 2p orbitals.",
+          "points": 20
+        },
+        {
+          "questionId": "q2-3",
+          "type": "multiple_choice",
+          "question": "Which rule states that electrons fill orbitals of lower energy first?",
+          "options": [
+            "Hund's rule",
+            "Aufbau principle",
+            "Pauli exclusion principle",
+            "Heisenberg uncertainty principle"
+          ],
+          "correctAnswer": 1,
+          "explanation": "The Aufbau principle states that electrons fill orbitals of lower energy before filling higher energy orbitals.",
+          "points": 15
+        }
+      ],
+      "hints": [
+        "Remember the energy level formula: 2n²",
+        "Electrons fill from lowest to highest energy",
+        "Use the periodic table to help with configurations"
+      ],
+      "completionMessage": "Excellent! You're now an electron configuration expert. Let's move to practical applications."
+    },
+    {
+      "taskId": "task-3",
+      "taskNumber": 3,
+      "title": "Ghanaian Applications",
+      "description": "Explore how atomic structure knowledge applies to Ghana's industries and daily life.",
+      "questions": [
+        {
+          "questionId": "q3-1",
+          "type": "multiple_choice",
+          "question": "In Ghana's cocoa farming, what element is essential for plant growth and is found in fertilizers?",
+          "options": ["Nitrogen (N)", "Gold (Au)", "Carbon (C)", "Oxygen (O)"],
+          "correctAnswer": 0,
+          "explanation": "Nitrogen (N) is essential for plant growth and is a key component of fertilizers used in Ghana's cocoa farming.",
+          "points": 15
+        },
+        {
+          "questionId": "q3-2",
+          "type": "text_input",
+          "question": "What is the atomic number of the element that makes up about 78% of Earth's atmosphere and is essential for breathing?",
+          "correctAnswer": "7",
+          "explanation": "Nitrogen has atomic number 7 and makes up about 78% of Earth's atmosphere.",
+          "points": 20
+        },
+        {
+          "questionId": "q3-3",
+          "type": "multiple_choice",
+          "question": "Which of these elements is commonly used in Ghana's traditional medicine and has atomic number 79?",
+          "options": ["Silver (Ag)", "Gold (Au)", "Copper (Cu)", "Iron (Fe)"],
+          "correctAnswer": 1,
+          "explanation": "Gold (Au) has atomic number 79 and is used in traditional medicine in Ghana.",
+          "points": 15
+        }
+      ],
+      "hints": [
+        "Think about what plants need to grow",
+        "Consider the air we breathe",
+        "Remember Ghana's natural resources"
+      ],
+      "completionMessage": "Fantastic! You've connected atomic structure to real-world applications in Ghana."
+    },
+    {
+      "taskId": "task-4",
+      "taskNumber": 4,
+      "title": "Practical Lab Exercise",
+      "description": "Complete a virtual lab exercise to identify elements and their properties.",
+      "questions": [
+        {
+          "questionId": "q4-1",
+          "type": "multiple_choice",
+          "question": "If an element has 11 protons, 12 neutrons, and 11 electrons, what is its mass number?",
+          "options": ["11", "22", "23", "34"],
+          "correctAnswer": 2,
+          "explanation": "Mass number = protons + neutrons = 11 + 12 = 23.",
+          "points": 20
+        },
+        {
+          "questionId": "q4-2",
+          "type": "text_input",
+          "question": "What element has the electron configuration 1s²2s²2p⁶3s¹?",
+          "correctAnswer": "Sodium",
+          "explanation": "This configuration represents sodium (Na) with 11 electrons.",
+          "points": 25
+        }
+      ],
+      "hints": [
+        "Mass number = protons + neutrons",
+        "Count the total electrons in the configuration",
+        "Use the periodic table to identify the element"
+      ],
+      "completionMessage": "Outstanding! You've completed the virtual lab successfully."
+    },
+    {
+      "taskId": "task-5",
+      "taskNumber": 5,
+      "title": "Final Challenge: Element Detective",
+      "description": "Use your knowledge to solve a mystery involving element identification and properties.",
+      "questions": [
+        {
+          "questionId": "q5-1",
+          "type": "scenario",
+          "question": "You're a chemist working in Ghana's mining industry. You've found a sample that contains an element with 79 protons. What element is this, and what are three of its key properties?",
+          "correctAnswer": "Gold (Au) - Properties: 1) Shiny yellow metal, 2) Excellent conductor of electricity, 3) Resistant to corrosion",
+          "explanation": "Gold (Au) has atomic number 79. It's a precious metal with distinctive properties including its color, conductivity, and corrosion resistance.",
+          "points": 30
+        },
+        {
+          "questionId": "q5-2",
+          "type": "multiple_choice",
+          "question": "Which of these elements would you expect to have similar chemical properties to gold?",
+          "options": ["Silver (Ag)", "Iron (Fe)", "Carbon (C)", "Oxygen (O)"],
+          "correctAnswer": 0,
+          "explanation": "Silver (Ag) is in the same group as gold and has similar chemical properties.",
+          "points": 20
+        }
+      ],
+      "hints": [
+        "Use the periodic table to find element 79",
+        "Consider which elements are in the same group",
+        "Think about what makes gold valuable"
+      ],
+      "completionMessage": "Congratulations! You've completed the Atomic Structure room and earned the 'Atomic Explorer' badge!"
+    }
+  ],
+  "achievements": [
+    {
+      "id": "atomic-explorer",
+      "name": "Atomic Explorer",
+      "description": "Complete the Atomic Structure room",
+      "icon": "🔬",
+      "points": 50
+    },
+    {
+      "id": "electron-master",
+      "name": "Electron Master",
+      "description": "Score 100% on electron configuration questions",
+      "icon": "⚛️",
+      "points": 25
+    },
+    {
+      "id": "ghana-chemist",
+      "name": "Ghana Chemist",
+      "description": "Complete all Ghanaian applications questions",
+      "icon": "🇬🇭",
+      "points": 30
+    }
+  ],
+  "roomInfo": {
+    "prerequisites": "Basic understanding of chemistry",
+    "tools": "Periodic table, calculator",
+    "learningOutcomes": [
+      "Understand atomic structure and subatomic particles",
+      "Master electron configuration principles",
+      "Apply knowledge to Ghanaian contexts",
+      "Solve practical chemistry problems"
+    ],
+    "estimatedCompletionTime": "2 hours",
+    "difficultyProgression": "Easy → Medium",
+    "relatedRooms": [
+      "chemical-bonding-ghana",
+      "periodic-trends-ghana"
+    ]
+  },
+  "ghanaContext": {
+    "localExamples": [
+      "Gold mining in Ashanti region",
+      "Cocoa farming and nitrogen fertilizers",
+      "Traditional medicine practices",
+      "Local chemical industries"
+    ],
+    "culturalConnections": [
+      "Understanding local natural resources",
+      "Connecting chemistry to traditional practices",
+      "Supporting local industry development"
+    ],
+    "realWorldApplications": [
+      "Mining and mineral processing",
+      "Agricultural chemistry",
+      "Traditional medicine",
+      "Environmental chemistry"
+    ]
+  }
+}

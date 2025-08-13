@@ -1,0 +1,279 @@
+{
+  "roomId": "programming-fundamentals-ghana",
+  "roomName": "Programming Fundamentals",
+  "difficulty": "Easy",
+  "category": "ICT/Computing",
+  "tags": ["programming", "algorithms", "flowcharts", "ghana", "shs", "coding"],
+  "description": "Master the basics of programming through Ghanaian contexts. Learn algorithms, flowcharts, and fundamental programming constructs with real-world applications.",
+  "estimatedTime": "3 hours",
+  "points": 200,
+  "creator": "Ghana STEM Learning Platform",
+  "status": "published",
+  "tasks": [
+    {
+      "taskId": "task-1",
+      "taskNumber": 1,
+      "title": "Welcome to Programming",
+      "description": "Begin your programming journey by understanding basic concepts and their importance in Ghana's digital transformation.",
+      "questions": [
+        {
+          "questionId": "q1-1",
+          "type": "multiple_choice",
+          "question": "What is an algorithm in programming?",
+          "options": [
+            "A computer program",
+            "A step-by-step problem-solving procedure",
+            "A programming language",
+            "A computer hardware component"
+          ],
+          "correctAnswer": 1,
+          "explanation": "An algorithm is a step-by-step procedure designed to solve a specific problem or perform a specific task.",
+          "points": 15
+        },
+        {
+          "questionId": "q1-2",
+          "type": "text_input",
+          "question": "What symbol is commonly used in flowcharts to represent a decision point?",
+          "correctAnswer": "Diamond",
+          "explanation": "A diamond shape in flowcharts represents decision points where the program flow can take different paths.",
+          "points": 20
+        },
+        {
+          "questionId": "q1-3",
+          "type": "multiple_choice",
+          "question": "Which of these is NOT a programming language?",
+          "options": ["Python", "JavaScript", "HTML", "Java"],
+          "correctAnswer": 2,
+          "explanation": "HTML is a markup language, not a programming language. It's used for structuring web content.",
+          "points": 15
+        }
+      ],
+      "hints": [
+        "Think about problem-solving steps",
+        "Consider flowchart symbols",
+        "Remember the difference between markup and programming languages"
+      ],
+      "completionMessage": "Excellent! You've mastered the basics. Now let's explore programming constructs."
+    },
+    {
+      "taskId": "task-2",
+      "taskNumber": 2,
+      "title": "Programming Constructs",
+      "description": "Learn about variables, data types, and basic programming elements.",
+      "questions": [
+        {
+          "questionId": "q2-1",
+          "type": "multiple_choice",
+          "question": "What is a variable in programming?",
+          "options": [
+            "A mathematical equation",
+            "A container that stores data",
+            "A programming language",
+            "A computer file"
+          ],
+          "correctAnswer": 1,
+          "explanation": "A variable is a named container that can store different types of data that can change during program execution.",
+          "points": 15
+        },
+        {
+          "questionId": "q2-2",
+          "type": "text_input",
+          "question": "What data type would you use to store a student's name in a school management system?",
+          "correctAnswer": "String",
+          "explanation": "A string data type is used to store text data, such as names, addresses, or any sequence of characters.",
+          "points": 20
+        },
+        {
+          "questionId": "q2-3",
+          "type": "multiple_choice",
+          "question": "Which operator is used for multiplication in most programming languages?",
+          "options": ["+", "-", "*", "/"],
+          "correctAnswer": 2,
+          "explanation": "The asterisk (*) is used for multiplication in most programming languages.",
+          "points": 15
+        }
+      ],
+      "hints": [
+        "Variables store changing data",
+        "Consider what type of data a name represents",
+        "Think about mathematical operations"
+      ],
+      "completionMessage": "Great! You understand programming constructs. Let's move to control structures."
+    },
+    {
+      "taskId": "task-3",
+      "taskNumber": 3,
+      "title": "Control Structures",
+      "description": "Master decision-making and loops in programming.",
+      "questions": [
+        {
+          "questionId": "q3-1",
+          "type": "multiple_choice",
+          "question": "What does an if statement do in programming?",
+          "options": [
+            "Repeats code multiple times",
+            "Makes decisions based on conditions",
+            "Stores data",
+            "Performs calculations"
+          ],
+          "correctAnswer": 1,
+          "explanation": "An if statement evaluates a condition and executes different code blocks based on whether the condition is true or false.",
+          "points": 20
+        },
+        {
+          "questionId": "q3-2",
+          "type": "text_input",
+          "question": "What type of loop would you use to repeat an action exactly 5 times?",
+          "correctAnswer": "For loop",
+          "explanation": "A for loop is ideal when you know exactly how many times you want to repeat an action.",
+          "points": 25
+        },
+        {
+          "questionId": "q3-3",
+          "type": "multiple_choice",
+          "question": "Which logical operator means 'both conditions must be true'?",
+          "options": ["AND", "OR", "NOT", "XOR"],
+          "correctAnswer": 0,
+          "explanation": "AND requires both conditions to be true for the overall expression to be true.",
+          "points": 20
+        }
+      ],
+      "hints": [
+        "If statements make decisions",
+        "Consider when you know the exact number of repetitions",
+        "Think about combining conditions"
+      ],
+      "completionMessage": "Excellent! You're mastering control structures. Now let's apply this to Ghanaian scenarios."
+    },
+    {
+      "taskId": "task-4",
+      "taskNumber": 4,
+      "title": "Ghanaian Applications",
+      "description": "Apply programming concepts to real-world scenarios in Ghana.",
+      "questions": [
+        {
+          "questionId": "q4-1",
+          "type": "scenario",
+          "question": "You're creating a program to calculate school fees for a Ghanaian school. The program needs to consider: 1) Grade level (different fees for different grades), 2) Boarding status (boarders pay extra), 3) Sibling discount (10% off for second child). Write pseudocode for this program.",
+          "correctAnswer": "START\nInput studentGrade, isBoarding, hasSibling\nbaseFee = getBaseFee(studentGrade)\nif isBoarding then\n  totalFee = baseFee + boardingFee\nelse\n  totalFee = baseFee\nendif\nif hasSibling then\n  totalFee = totalFee * 0.9\nendif\nDisplay totalFee\nSTOP",
+          "explanation": "This pseudocode handles the three main factors: grade-based fees, boarding status, and sibling discounts using if statements and calculations.",
+          "points": 30
+        },
+        {
+          "questionId": "q4-2",
+          "type": "multiple_choice",
+          "question": "In Ghana's traffic light system, what control structure would be best for managing the sequence of red, yellow, and green lights?",
+          "options": [
+            "If-else statements only",
+            "A loop with if statements",
+            "Variables only",
+            "Functions only"
+          ],
+          "correctAnswer": 1,
+          "explanation": "A loop with if statements would continuously cycle through the traffic light sequence and make decisions about timing.",
+          "points": 25
+        }
+      ],
+      "hints": [
+        "Use if statements for different conditions",
+        "Consider the continuous nature of traffic lights",
+        "Think about the sequence of operations"
+      ],
+      "completionMessage": "Fantastic! You've applied programming to real Ghanaian scenarios."
+    },
+    {
+      "taskId": "task-5",
+      "taskNumber": 5,
+      "title": "Final Challenge: Algorithm Designer",
+      "description": "Design algorithms for common Ghanaian problems.",
+      "questions": [
+        {
+          "questionId": "q5-1",
+          "type": "scenario",
+          "question": "Design an algorithm for a Ghanaian farmer to calculate the optimal amount of fertilizer needed for their cocoa farm. The algorithm should consider: field size (in acres), soil type (sandy, loamy, clay), and crop age (young, mature, old).",
+          "correctAnswer": "START\nInput fieldSize, soilType, cropAge\nbaseFertilizer = fieldSize * 50\nif soilType = 'sandy' then\n  fertilizerMultiplier = 1.2\nelse if soilType = 'loamy' then\n  fertilizerMultiplier = 1.0\nelse if soilType = 'clay' then\n  fertilizerMultiplier = 0.8\nendif\nif cropAge = 'young' then\n  ageMultiplier = 1.5\nelse if cropAge = 'mature' then\n  ageMultiplier = 1.0\nelse if cropAge = 'old' then\n  ageMultiplier = 0.7\nendif\ntotalFertilizer = baseFertilizer * fertilizerMultiplier * ageMultiplier\nDisplay totalFertilizer\nSTOP",
+          "explanation": "This algorithm calculates fertilizer needs based on field size, adjusts for soil type, and considers crop age requirements.",
+          "points": 35
+        },
+        {
+          "questionId": "q5-2",
+          "type": "multiple_choice",
+          "question": "Which programming concept would be most useful for storing information about different types of soil?",
+          "options": [
+            "Variables",
+            "Arrays",
+            "Loops",
+            "Functions"
+          ],
+          "correctAnswer": 1,
+          "explanation": "Arrays would be useful for storing multiple pieces of information about different soil types in an organized way.",
+          "points": 20
+        }
+      ],
+      "hints": [
+        "Consider different conditions for each factor",
+        "Use if-else statements for multiple conditions",
+        "Think about data organization"
+      ],
+      "completionMessage": "Congratulations! You've completed the Programming Fundamentals room and earned the 'Code Warrior' badge!"
+    }
+  ],
+  "achievements": [
+    {
+      "id": "code-warrior",
+      "name": "Code Warrior",
+      "description": "Complete the Programming Fundamentals room",
+      "icon": "⚔️",
+      "points": 75
+    },
+    {
+      "id": "algorithm-master",
+      "name": "Algorithm Master",
+      "description": "Score 100% on algorithm questions",
+      "icon": "🧮",
+      "points": 50
+    },
+    {
+      "id": "ghana-programmer",
+      "name": "Ghana Programmer",
+      "description": "Complete all Ghanaian applications questions",
+      "icon": "🇬🇭",
+      "points": 40
+    }
+  ],
+  "roomInfo": {
+    "prerequisites": "Basic computer literacy",
+    "tools": "Text editor, flowchart software (optional)",
+    "learningOutcomes": [
+      "Understand programming fundamentals and algorithms",
+      "Master control structures and logic",
+      "Apply programming to Ghanaian contexts",
+      "Design solutions for local problems"
+    ],
+    "estimatedCompletionTime": "3 hours",
+    "difficultyProgression": "Easy → Medium",
+    "relatedRooms": [
+      "networks-internet-ghana",
+      "database-management-ghana"
+    ]
+  },
+  "ghanaContext": {
+    "localExamples": [
+      "School fee calculation systems",
+      "Traffic light management",
+      "Agricultural planning",
+      "Business automation"
+    ],
+    "culturalConnections": [
+      "Supporting Ghana's digital transformation",
+      "Solving local community problems",
+      "Building technological skills for the future"
+    ],
+    "realWorldApplications": [
+      "Educational technology",
+      "Urban infrastructure",
+      "Agricultural technology",
+      "Business systems"
+    ]
+  }
+}

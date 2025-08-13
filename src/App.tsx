@@ -15,6 +15,7 @@ import Subjects from "./pages/Subjects";
 import SubjectDetail from "./pages/SubjectDetail";
 import ModuleDetail from "./pages/ModuleDetail";
 import Search from "./pages/Search";
+import RoomDetail from "./pages/RoomDetail";
 import Communities from "./pages/Communities";
 import Achievements from "./pages/Achievements";
 import Profile from "./pages/Profile";
@@ -59,6 +60,7 @@ function App() {
                       <Route path="subjects/:subjectId" element={<SubjectDetail />} />
                       <Route path="subjects/:subjectId/:moduleId" element={<ModuleDetail />} />
                       <Route path="search" element={<Search />} />
+                      <Route path="rooms/:roomId" element={<RoomDetail />} />
                       <Route path="communities" element={<Communities />} />
                       <Route path="achievements" element={<Achievements />} />
                       <Route path="profile" element={<Profile />} />

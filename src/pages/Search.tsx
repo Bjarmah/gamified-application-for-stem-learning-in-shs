@@ -1,157 +1,251 @@
 
-import React, { useState, useEffect } from 'react';
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
-import { Search, Beaker, Filter } from 'lucide-react';
-import { useNavigate, useSearchParams } from 'react-router-dom';
-import SearchResults from '@/components/search/SearchResults';
-import SearchFilters from '@/components/search/SearchFilters';
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { Search as SearchIcon, Filter, BookOpen, Gamepad2 } from 'lucide-react';
+import { SearchableContent } from '../content';
+import ContentSearch from '../components/ContentSearch';
+import { Button } from '../components/ui/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../components/ui/card';
+import { Badge } from '../components/ui/badge';
 
-const SearchPage = () => {
+const Search: React.FC = () => {
   const navigate = useNavigate();
-  const [searchParams, setSearchParams] = useSearchParams();
-  
-  // Search state
-  const [query, setQuery] = useState(searchParams.get('q') || '');
-  const [activeTab, setActiveTab] = useState<"all" | "module" | "quiz" | "lab">("all");
-  const [filters, setFilters] = useState({
-    subjects: [],
-    difficulty: "",
-    type: []
-  });
-  const [isFiltersOpen, setIsFiltersOpen] = useState(false);
+  const [selectedContent, setSelectedContent] = useState<SearchableContent | null>(null);
 
-  // Update query from URL params
-  useEffect(() => {
-    const urlQuery = searchParams.get('q') || '';
-    setQuery(urlQuery);
-  }, [searchParams]);
+  const handleContentSelect = (content: SearchableContent) => {
+    setSelectedContent(content);
+  };
 
-  // Handle search input changes
-  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const newQuery = e.target.value;
-    setQuery(newQuery);
-    
-    // Update URL params
-    if (newQuery) {
-      setSearchParams({ q: newQuery });
+  const handleStartLearning = (content: SearchableContent) => {
+    if (content.type === 'module') {
+      // Navigate to module detail page
+      navigate(`/subjects/${content.subject.toLowerCase()}/modules/${content.id}`);
     } else {
-      setSearchParams({});
+      // Navigate to TryHackMe room page
+      navigate(`/rooms/${content.id}`);
     }
   };
 
-  const handleSearchSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (query.trim()) {
-      setSearchParams({ q: query.trim() });
-    }
+  const handleBackToSearch = () => {
+    setSelectedContent(null);
   };
+
+  if (selectedContent) {
+    return (
+      <div className="container mx-auto px-4 py-8">
+        <div className="mb-6">
+          <Button
+            variant="outline"
+            onClick={handleBackToSearch}
+            className="mb-4"
+          >
+            ← Back to Search
+          </Button>
+          
+          <Card>
+            <CardHeader>
+              <div className="flex items-start justify-between">
+                <div className="flex items-center gap-3">
+                  {selectedContent.type === 'module' ? (
+                    <BookOpen className="h-8 w-8 text-blue-600" />
+                  ) : (
+                    <Gamepad2 className="h-8 w-8 text-green-600" />
+                  )}
+                  <div>
+                    <CardTitle className="text-2xl">{selectedContent.title}</CardTitle>
+                    <CardDescription className="text-base">
+                      {selectedContent.description}
+                    </CardDescription>
+                  </div>
+                </div>
+                <div className="text-right">
+                  <Badge variant="outline" className="mb-2">
+                    {selectedContent.type === 'module' ? 'Module' : 'Room'}
+                  </Badge>
+                  <div className="text-sm text-gray-600">
+                    {selectedContent.subject}
+                    {selectedContent.difficulty && ` • ${selectedContent.difficulty}`}
+                  </div>
+                </div>
+              </div>
+            </CardHeader>
+            
+            <CardContent>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+                <div className="text-center">
+                  <div className="text-2xl font-bold text-blue-600">
+                    {selectedContent.type === 'module' ? selectedContent.xpReward : selectedContent.points}
+                  </div>
+                  <div className="text-sm text-gray-600">
+                    {selectedContent.type === 'module' ? 'XP Reward' : 'Points'}
+                  </div>
+                </div>
+                <div className="text-center">
+                  <div className="text-2xl font-bold text-green-600">
+                    {typeof selectedContent.estimatedTime === 'string' 
+                      ? selectedContent.estimatedTime 
+                      : `${selectedContent.estimatedTime} min`
+                    }
+                  </div>
+                  <div className="text-sm text-gray-600">Estimated Time</div>
+                </div>
+                <div className="text-center">
+                  <div className="text-2xl font-bold text-purple-600">
+                    {selectedContent.tags.length}
+                  </div>
+                  <div className="text-sm text-gray-600">Tags</div>
+                </div>
+              </div>
+
+              {/* Tags */}
+              <div className="mb-6">
+                <h3 className="text-lg font-semibold mb-3">Tags</h3>
+                <div className="flex flex-wrap gap-2">
+                  {selectedContent.tags.map(tag => (
+                    <Badge key={tag} variant="outline">
+                      {tag}
+                    </Badge>
+                  ))}
+                </div>
+              </div>
+
+              {/* Ghanaian Context */}
+              {selectedContent.ghanaContext && (
+                <div className="mb-6">
+                  <h3 className="text-lg font-semibold mb-3">Ghanaian Context</h3>
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div>
+                      <h4 className="font-medium text-gray-700 mb-2">Local Examples</h4>
+                      <ul className="text-sm text-gray-600 space-y-1">
+                        {selectedContent.ghanaContext.localExamples?.slice(0, 3).map((example, index) => (
+                          <li key={index}>• {example}</li>
+                        ))}
+                      </ul>
+                    </div>
+                    <div>
+                      <h4 className="font-medium text-gray-700 mb-2">Cultural Connections</h4>
+                      <ul className="text-sm text-gray-600 space-y-1">
+                        {selectedContent.ghanaContext.culturalConnections?.slice(0, 3).map((connection, index) => (
+                          <li key={index}>• {connection}</li>
+                        ))}
+                      </ul>
+                    </div>
+                    <div>
+                      <h4 className="font-medium text-gray-700 mb-2">Real-World Applications</h4>
+                      <ul className="text-sm text-gray-600 space-y-1">
+                        {selectedContent.ghanaContext.realWorldApplications?.slice(0, 3).map((app, index) => (
+                          <li key={index}>• {app}</li>
+                        ))}
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {/* Achievements */}
+              {selectedContent.achievements && selectedContent.achievements.length > 0 && (
+                <div className="mb-6">
+                  <h3 className="text-lg font-semibold mb-3">Achievements</h3>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    {selectedContent.achievements.map((achievement: any) => (
+                      <div
+                        key={achievement.id || achievement.name}
+                        className="flex items-center gap-3 p-3 border rounded-lg"
+                      >
+                        <div className="text-2xl">
+                          {achievement.icon || '🏆'}
+                        </div>
+                        <div className="flex-1">
+                          <div className="font-medium">
+                            {achievement.title || achievement.name}
+                          </div>
+                          <div className="text-sm text-gray-600">
+                            {achievement.description}
+                          </div>
+                          <div className="text-xs text-gray-500">
+                            {achievement.xpReward || achievement.points} 
+                            {achievement.xpReward ? ' XP' : ' points'}
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* Action Button */}
+              <div className="text-center">
+                <Button
+                  onClick={() => handleStartLearning(selectedContent)}
+                  size="lg"
+                  className="px-8"
+                >
+                  {selectedContent.type === 'module' ? 'Start Learning Module' : 'Enter Room'}
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+      </div>
+    );
+  }
 
   return (
-    <div className="space-y-6 pb-8">
-      <div>
-        <h1 className="text-2xl font-bold tracking-tight">Search</h1>
-        <p className="text-muted-foreground">
-          Find modules, quizzes, and labs across all subjects
-        </p>
-      </div>
-
-      {/* Search Input */}
-      <form onSubmit={handleSearchSubmit} className="relative">
-        <div className="relative">
-          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
-          <Input
-            type="text"
-            placeholder="Search for modules, quizzes, topics..."
-            value={query}
-            onChange={handleSearchChange}
-            className="pl-10 pr-4 py-2 text-base"
-          />
+    <div className="container mx-auto px-4 py-8">
+      <div className="max-w-4xl mx-auto">
+        {/* Header */}
+        <div className="text-center mb-8">
+          <h1 className="text-3xl font-bold text-gray-900 mb-4">
+            Search Learning Content
+          </h1>
+          <p className="text-lg text-gray-600">
+            Discover structured modules and interactive TryHackMe-style rooms across all STEM subjects
+          </p>
         </div>
-      </form>
 
-      {/* Search Controls */}
-      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-        <Tabs value={activeTab} onValueChange={(value) => setActiveTab(value as typeof activeTab)} className="w-full sm:w-auto">
-          <TabsList className="grid w-full grid-cols-4 sm:w-auto">
-            <TabsTrigger value="all">All</TabsTrigger>
-            <TabsTrigger value="module">Modules</TabsTrigger>
-            <TabsTrigger value="quiz">Quizzes</TabsTrigger>
-            <TabsTrigger value="lab">Labs</TabsTrigger>
-          </TabsList>
-        </Tabs>
+        {/* Search Component */}
+        <ContentSearch onContentSelect={handleContentSelect} />
 
-        <Sheet open={isFiltersOpen} onOpenChange={setIsFiltersOpen}>
-          <SheetTrigger asChild>
-            <Button variant="outline" className="flex items-center gap-2">
-              <Filter className="h-4 w-4" />
-              Filters
-              {(filters.subjects.length > 0 || filters.difficulty || filters.type.length > 0) && (
-                <Badge variant="secondary" className="ml-1">
-                  {filters.subjects.length + (filters.difficulty ? 1 : 0) + filters.type.length}
-                </Badge>
-              )}
-            </Button>
-          </SheetTrigger>
-          <SheetContent>
-            <SheetHeader>
-              <SheetTitle>Filter Results</SheetTitle>
-              <SheetDescription>
-                Narrow down your search results with these filters
-              </SheetDescription>
-            </SheetHeader>
-            <div className="mt-6">
-              <SearchFilters
-                appliedFilters={filters}
-                setAppliedFilters={setFilters}
-                onClose={() => setIsFiltersOpen(false)}
-              />
-            </div>
-          </SheetContent>
-        </Sheet>
-      </div>
-
-      {/* Search Results */}
-      <div className="min-h-[400px]">
-        <SearchResults 
-          query={query} 
-          filters={filters} 
-          resultType={activeTab} 
-        />
-      </div>
-
-      {/* Quick Access to Virtual Lab */}
-      <Card className="border-2 border-blue-200 bg-gradient-to-r from-blue-50 to-purple-50 dark:from-blue-950 dark:to-purple-950">
-        <CardHeader>
-          <div className="flex items-center justify-between">
-            <CardTitle className="flex items-center gap-2 text-blue-700 dark:text-blue-300">
-              <Beaker className="h-5 w-5" />
-              Virtual Laboratory
-            </CardTitle>
-            <Badge className="bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-100">
-              Interactive
-            </Badge>
+        {/* Quick Stats */}
+        <div className="mt-12">
+          <h2 className="text-xl font-semibold text-gray-900 mb-4">Learning Platform Overview</h2>
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+            <Card>
+              <CardContent className="text-center py-6">
+                <BookOpen className="h-8 w-8 text-blue-600 mx-auto mb-2" />
+                <div className="text-2xl font-bold text-blue-600">Structured Modules</div>
+                <div className="text-sm text-gray-600">Traditional learning format</div>
+              </CardContent>
+            </Card>
+            
+            <Card>
+              <CardContent className="text-center py-6">
+                <Gamepad2 className="h-8 w-8 text-green-600 mx-auto mb-2" />
+                <div className="text-2xl font-bold text-green-600">TryHackMe Rooms</div>
+                <div className="text-sm text-gray-600">Interactive challenges</div>
+              </CardContent>
+            </Card>
+            
+            <Card>
+              <CardContent className="text-center py-6">
+                <div className="text-2xl font-bold text-purple-600">🇬🇭</div>
+                <div className="text-2xl font-bold text-purple-600">Ghana Context</div>
+                <div className="text-sm text-gray-600">Local examples & applications</div>
+              </CardContent>
+            </Card>
+            
+            <Card>
+              <CardContent className="text-center py-6">
+                <div className="text-2xl font-bold text-orange-600">🎯</div>
+                <div className="text-2xl font-bold text-orange-600">Gamified</div>
+                <div className="text-sm text-gray-600">Points, achievements & progress</div>
+              </CardContent>
+            </Card>
           </div>
-          <CardDescription>
-            Explore hands-on science simulations in chemistry, physics, and mathematics
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <Button
-            variant="outline" 
-            onClick={() => navigate('/virtual-lab')}
-            className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white"
-          >
-            Launch Virtual Lab
-          </Button>
-        </CardContent>
-      </Card>
+        </div>
+      </div>
     </div>
   );
 };
 
-export default SearchPage;
+export default Search;
