@@ -167,30 +167,34 @@ const ModuleDetail: React.FC = () => {
 {structured ? (
                 <div className="space-y-6">
                   <section>
-                    <h2 className="text-lg font-semibold">Objectives</h2>
-                    <ul className="list-disc pl-5 text-sm mt-2">
-                      {structured.objectives?.map((o) => (
-                        <li key={o}>{o}</li>
-                      ))}
-                    </ul>
+                    <h2 className="text-lg font-semibold">Description</h2>
+                    <p className="text-sm mt-2">{structured.description}</p>
                   </section>
 
                   <section>
-                    <h3 className="text-sm font-medium">Learning Path</h3>
+                    <h3 className="text-sm font-medium">Tags</h3>
                     <div className="flex flex-wrap gap-2 mt-2">
-                      {structured.learningPath?.map((step) => (
-                        <Badge key={step} variant="outline">{step}</Badge>
+                      {structured.tags?.map((tag) => (
+                        <Badge key={tag} variant="outline">{tag}</Badge>
                       ))}
                     </div>
                   </section>
 
                   <section className="space-y-4">
-                    {structured.lessons?.map((lesson) => (
-                      <article key={lesson.id} className="p-4 rounded-md bg-muted/30">
-                        <h4 className="font-medium">{lesson.title}</h4>
+                    <h3 className="text-lg font-semibold">Content</h3>
+                    <div className="p-4 rounded-md bg-muted/30">
+                      <h4 className="font-medium">Introduction</h4>
+                      <div
+                        className="prose prose-sm max-w-none mt-2"
+                        dangerouslySetInnerHTML={{ __html: toHTML(structured.content.text.introduction) }}
+                      />
+                    </div>
+                    {structured.content.text.sections?.map((section, index) => (
+                      <article key={index} className="p-4 rounded-md bg-muted/30">
+                        <h4 className="font-medium">{section.title}</h4>
                         <div
                           className="prose prose-sm max-w-none mt-2"
-                          dangerouslySetInnerHTML={{ __html: toHTML(lesson.text) }}
+                          dangerouslySetInnerHTML={{ __html: toHTML(section.content) }}
                         />
                       </article>
                     ))}

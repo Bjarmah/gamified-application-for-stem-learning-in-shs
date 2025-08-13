@@ -184,7 +184,7 @@ export const searchableContent: SearchableContent[] = [
     tags: module.tags,
     level: module.level,
     content: module.content,
-    achievements: module.gamification.achievements,
+    achievements: module.gamification?.achievements || [],
     ghanaContext: module.ghanaContext,
   })),
   
