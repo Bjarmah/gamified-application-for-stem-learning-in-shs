@@ -1,0 +1,441 @@
+{
+    "moduleId": "physics-electricity-magnetism",
+    "moduleTitle": "Electricity and Magnetism",
+    "subject": "Physics",
+    "level": "SHS 3",
+    "objectives": [
+        "Analyze electric circuits using Ohm's law and circuit principles",
+        "Understand magnetic fields and electromagnetic induction",
+        "Apply electrical concepts to practical applications and safety",
+        "Connect electricity to Ghanaian infrastructure and energy systems"
+    ],
+    "learningPath": [
+        "Topic Introduction",
+        "Core Concepts",
+        "Knowledge Checks",
+        "Practice Challenges",
+        "Module Assessment"
+    ],
+    "xpRules": {
+        "lessonCompletion": 10,
+        "correctAnswer": 5,
+        "scenarioSolved": 15,
+        "moduleCompletionBonus": 50
+    },
+    "milestones": [
+        {
+            "threshold": 25,
+            "unlock": "practice"
+        },
+        {
+            "threshold": 50,
+            "unlock": "scenarios"
+        },
+        {
+            "threshold": 75,
+            "unlock": "bonus"
+        },
+        {
+            "threshold": 100,
+            "unlock": "certificate"
+        }
+    ],
+    "achievements": [
+        {
+            "id": "circuit-champion",
+            "title": "Circuit Champion",
+            "criteria": "Complete electricity and magnetism module"
+        }
+    ],
+    "alignment": {
+        "exam": "WASSCE Physics",
+        "notes": "Circuits, magnetism, electromagnetic induction",
+        "careers": [
+            "Electrical Engineering",
+            "Power Systems",
+            "Electronics"
+        ]
+    },
+    "lessons": [
+        {
+            "id": "electric-circuits-current",
+            "title": "Electric Circuits and Current",
+            "text": "**Electric current** is the flow of electric charge, measured in amperes (A). **Voltage** (V) is electrical pressure that drives current, while **resistance** (R) opposes current flow. **Ohm's Law** states that V = IR, where current is directly proportional to voltage and inversely proportional to resistance.\n\n**Series circuits** have components connected end-to-end, sharing the same current but dividing voltage. **Parallel circuits** have components connected across the same voltage source, dividing current but sharing voltage. **Electrical power** is calculated as P = VI = I²R = V²/R, measured in watts (W).\n\nIn Ghana, understanding circuits is essential for **safe house wiring**. Proper circuit design prevents overloads, uses appropriate wire sizes, and includes safety devices like circuit breakers and fuses. Electricians must understand voltage drops, power calculations, and safety regulations.",
+            "knowledgeChecks": {
+                "circuitAnalysis": [
+                    {
+                        "id": "em-l1-ca1",
+                        "prompt": "In a series circuit with 12V battery and 3 resistors (2Ω, 4Ω, 6Ω), find total resistance and current.",
+                        "answer": "R_total = 2+4+6 = 12Ω; I = V/R = 12/12 = 1A"
+                    },
+                    {
+                        "id": "em-l1-ca2",
+                        "prompt": "Calculate power dissipated in a 6Ω resistor carrying 2A current.",
+                        "answer": "P = I²R = 4 × 6 = 24W"
+                    },
+                    {
+                        "id": "em-l1-ca3",
+                        "prompt": "Find voltage across a 4Ω resistor in series with 8Ω, connected to 24V battery.",
+                        "answer": "I = 24/(4+8) = 2A; V = IR = 2×4 = 8V"
+                    },
+                    {
+                        "id": "em-l1-ca4",
+                        "prompt": "In parallel circuit, two 6Ω resistors connect to 12V. Find total current.",
+                        "answer": "R_total = 6×6/(6+6) = 3Ω; I = 12/3 = 4A"
+                    },
+                    {
+                        "id": "em-l1-ca5",
+                        "prompt": "Calculate energy used by 100W bulb in 5 hours.",
+                        "answer": "E = Pt = 100 × 5 × 3600 = 1,800,000 J = 0.5 kWh"
+                    },
+                    {
+                        "id": "em-l1-ca6",
+                        "prompt": "Find equivalent resistance of three 12Ω resistors in parallel.",
+                        "answer": "1/R = 1/12 + 1/12 + 1/12 = 3/12; R = 4Ω"
+                    }
+                ],
+                "mcq": [
+                    {
+                        "id": "em-l1-q1",
+                        "type": "mcq",
+                        "stem": "Ohm's Law states:",
+                        "options": {
+                            "A": "V = IR",
+                            "B": "I = VR",
+                            "C": "R = IV",
+                            "D": "P = VI"
+                        },
+                        "answer": "A",
+                        "explanation": "V = IR is the fundamental relationship."
+                    },
+                    {
+                        "id": "em-l1-q2",
+                        "type": "mcq",
+                        "stem": "In series circuits, current is:",
+                        "options": {
+                            "A": "Divided",
+                            "B": "Same everywhere",
+                            "C": "Variable",
+                            "D": "Zero"
+                        },
+                        "answer": "B",
+                        "explanation": "Series circuits share the same current."
+                    },
+                    {
+                        "id": "em-l1-q3",
+                        "type": "mcq",
+                        "stem": "Power equals:",
+                        "options": {
+                            "A": "V × I",
+                            "B": "V ÷ I",
+                            "C": "V + I",
+                            "D": "V - I"
+                        },
+                        "answer": "A",
+                        "explanation": "P = VI is the power formula."
+                    },
+                    {
+                        "id": "em-l1-q4",
+                        "type": "mcq",
+                        "stem": "Resistance is measured in:",
+                        "options": {
+                            "A": "Volts",
+                            "B": "Amperes",
+                            "C": "Ohms",
+                            "D": "Watts"
+                        },
+                        "answer": "C",
+                        "explanation": "Resistance unit is ohms (Ω)."
+                    },
+                    {
+                        "id": "em-l1-q5",
+                        "type": "mcq",
+                        "stem": "Parallel circuits have:",
+                        "options": {
+                            "A": "Same current",
+                            "B": "Same voltage",
+                            "C": "Same resistance",
+                            "D": "Same power"
+                        },
+                        "answer": "B",
+                        "explanation": "Parallel components share voltage."
+                    }
+                ]
+            },
+            "scenarioChallenges": [
+                {
+                    "id": "em-l1-s1",
+                    "scenario": "A homeowner wants to wire their house safely. They need to connect a 100W bulb, 500W refrigerator, and 2000W air conditioner to a 220V supply.",
+                    "question": "What minimum circuit breaker rating is needed for safety?",
+                    "options": {
+                        "A": "5A",
+                        "B": "10A",
+                        "C": "15A",
+                        "D": "20A"
+                    },
+                    "answer": "C",
+                    "explanation": "Total power = 100+500+2000 = 2600W. I = P/V = 2600/220 = 11.8A. Use 15A breaker for safety margin."
+                }
+            ]
+        },
+        {
+            "id": "magnetism-electromagnetic-induction",
+            "title": "Magnetism and Electromagnetic Induction",
+            "text": "**Magnetic fields** are regions where magnetic forces act. They are represented by field lines that show direction and strength. **Magnetic flux** (Φ) measures the number of field lines passing through an area, measured in webers (Wb).\n\n**Faraday's Law** states that induced electromotive force (emf) equals the rate of change of magnetic flux: ε = -N(ΔΦ/Δt), where N is the number of turns. **Lenz's Law** states that induced current creates a magnetic field that opposes the change causing it.\n\n**Generators** convert mechanical energy to electrical energy through electromagnetic induction. In Ghana, **Bui Dam** uses this principle—falling water spins turbines connected to coils in magnetic fields, generating electricity for the national grid.",
+            "knowledgeChecks": {
+                "mcq": [
+                    {
+                        "id": "em-l2-q1",
+                        "type": "mcq",
+                        "stem": "Magnetic field lines show:",
+                        "options": {
+                            "A": "Only direction",
+                            "B": "Only strength",
+                            "C": "Direction and strength",
+                            "D": "Neither"
+                        },
+                        "answer": "C",
+                        "explanation": "Field line density shows strength, direction shows force direction."
+                    },
+                    {
+                        "id": "em-l2-q2",
+                        "type": "mcq",
+                        "stem": "Faraday's Law relates emf to:",
+                        "options": {
+                            "A": "Current",
+                            "B": "Resistance",
+                            "C": "Rate of flux change",
+                            "D": "Power"
+                        },
+                        "answer": "C",
+                        "explanation": "ε = -N(ΔΦ/Δt)."
+                    },
+                    {
+                        "id": "em-l2-q3",
+                        "type": "mcq",
+                        "stem": "Lenz's Law states induced current:",
+                        "options": {
+                            "A": "Increases flux",
+                            "B": "Opposes flux change",
+                            "C": "Has no effect",
+                            "D": "Creates heat"
+                        },
+                        "answer": "B",
+                        "explanation": "Induced current opposes the change causing it."
+                    },
+                    {
+                        "id": "em-l2-q4",
+                        "type": "mcq",
+                        "stem": "Magnetic flux is measured in:",
+                        "options": {
+                            "A": "Teslas",
+                            "B": "Webers",
+                            "C": "Gauss",
+                            "D": "Amperes"
+                        },
+                        "answer": "B",
+                        "explanation": "Flux unit is weber (Wb)."
+                    }
+                ],
+                "fieldDiagram": [
+                    {
+                        "id": "em-l2-fd1",
+                        "prompt": "Draw magnetic field lines around a bar magnet, showing north and south poles.",
+                        "answer": "Lines emerge from north pole, curve around, and enter south pole. Lines never cross."
+                    },
+                    {
+                        "id": "em-l2-fd2",
+                        "prompt": "Sketch field lines around a current-carrying wire, showing direction.",
+                        "answer": "Concentric circles around wire, direction given by right-hand rule (thumb in current direction, fingers curl in field direction)."
+                    }
+                ]
+            },
+            "scenarioChallenges": [
+                {
+                    "id": "em-l2-s1",
+                    "scenario": "At Bui Dam, water flows through turbines at 500 m³/s, falling 100 m. The generator has 1000 turns and operates in a 2 T magnetic field.",
+                    "question": "If the turbine rotates at 300 rpm, what is the maximum induced emf?",
+                    "options": {
+                        "A": "15.7 kV",
+                        "B": "31.4 kV",
+                        "C": "47.1 kV",
+                        "D": "62.8 kV"
+                    },
+                    "answer": "B",
+                    "explanation": "ω = 300×2π/60 = 31.4 rad/s. ε = NBAω = 1000×2×area×31.4. With typical dimensions, ε ≈ 31.4 kV."
+                }
+            ]
+        },
+        {
+            "id": "practical-applications",
+            "title": "Practical Applications",
+            "text": "**Electric motors** convert electrical energy to mechanical energy using the motor effect—a current-carrying conductor in a magnetic field experiences a force. **Transformers** change voltage levels using electromagnetic induction, with V₁/V₂ = N₁/N₂ = I₂/I₁.\n\n**Electrical safety** is crucial in homes and workplaces. Proper grounding, circuit protection, and insulation prevent shocks and fires. **Energy efficiency** reduces costs and environmental impact through better design and smart usage.\n\nIn Ghana, understanding these principles helps reduce **electricity bills** through energy-efficient appliances, proper insulation, and smart power management. Electricians must follow safety codes and understand load calculations for safe installations.",
+            "knowledgeChecks": {
+                "mcq": [
+                    {
+                        "id": "em-l3-q1",
+                        "type": "mcq",
+                        "stem": "Electric motors use:",
+                        "options": {
+                            "A": "Motor effect",
+                            "B": "Generator effect",
+                            "C": "Transformer effect",
+                            "D": "Resistor effect"
+                        },
+                        "answer": "A",
+                        "explanation": "Current in magnetic field creates force (motor effect)."
+                    },
+                    {
+                        "id": "em-l3-q2",
+                        "type": "mcq",
+                        "stem": "Transformers change:",
+                        "options": {
+                            "A": "Current only",
+                            "B": "Voltage only",
+                            "C": "Both voltage and current",
+                            "D": "Power only"
+                        },
+                        "answer": "C",
+                        "explanation": "V₁/V₂ = N₁/N₂ = I₂/I₁."
+                    },
+                    {
+                        "id": "em-l3-q3",
+                        "type": "mcq",
+                        "stem": "Grounding protects against:",
+                        "options": {
+                            "A": "High voltage",
+                            "B": "Electric shock",
+                            "C": "Power loss",
+                            "D": "Magnetic fields"
+                        },
+                        "answer": "B",
+                        "explanation": "Grounding provides safe path for fault current."
+                    },
+                    {
+                        "id": "em-l3-q4",
+                        "type": "mcq",
+                        "stem": "Energy efficiency reduces:",
+                        "options": {
+                            "A": "Only cost",
+                            "B": "Only environmental impact",
+                            "C": "Both cost and impact",
+                            "D": "Neither"
+                        },
+                        "answer": "C",
+                        "explanation": "Efficiency saves money and reduces resource use."
+                    },
+                    {
+                        "id": "em-l3-q5",
+                        "type": "mcq",
+                        "stem": "Circuit breakers protect against:",
+                        "options": {
+                            "A": "Low voltage",
+                            "B": "Overcurrent",
+                            "C": "High resistance",
+                            "D": "Magnetic fields"
+                        },
+                        "answer": "B",
+                        "explanation": "Breakers trip when current exceeds safe limits."
+                    }
+                ],
+                "efficiencyCalculation": [
+                    {
+                        "id": "em-l3-ec1",
+                        "prompt": "A transformer has 1000 primary turns and 100 secondary turns. If input voltage is 220V, find output voltage.",
+                        "answer": "V₂ = V₁ × (N₂/N₁) = 220 × (100/1000) = 22V"
+                    },
+                    {
+                        "id": "em-l3-ec2",
+                        "prompt": "Calculate efficiency if input power is 1000W and output power is 950W.",
+                        "answer": "Efficiency = (950/1000) × 100 = 95%"
+                    }
+                ]
+            },
+            "scenarioChallenges": [
+                {
+                    "id": "em-l3-s1",
+                    "scenario": "A household wants to reduce their monthly electricity bill from GHS 200 to GHS 150. They can replace 100W incandescent bulbs with 15W LED bulbs.",
+                    "question": "If they use 10 bulbs for 6 hours daily, how much will they save monthly?",
+                    "options": {
+                        "A": "GHS 25",
+                        "B": "GHS 35",
+                        "C": "GHS 45",
+                        "D": "GHS 55"
+                    },
+                    "answer": "C",
+                    "explanation": "Daily savings = 10 × (100-15) × 6 × 0.15/1000 = 0.765 kWh. Monthly = 0.765 × 30 × 2 = GHS 45.90."
+                }
+            ]
+        }
+    ],
+    "finalAssessment": {
+        "notes": "20 questions covering circuits, magnetism, and practical applications",
+        "questions": [
+            {
+                "id": "em-fa-q1",
+                "type": "mcq",
+                "stem": "Ohm's Law is:",
+                "options": {
+                    "A": "V = IR",
+                    "B": "P = VI",
+                    "C": "I = V/R",
+                    "D": "R = V/I"
+                },
+                "answer": "A",
+                "explanation": "V = IR is the fundamental relationship."
+            },
+            {
+                "id": "em-fa-q2",
+                "type": "mcq",
+                "stem": "Power equals:",
+                "options": {
+                    "A": "V × I",
+                    "B": "V ÷ I",
+                    "C": "V + I",
+                    "D": "V - I"
+                },
+                "answer": "A",
+                "explanation": "P = VI is the power formula."
+            },
+            {
+                "id": "em-fa-q3",
+                "type": "mcq",
+                "stem": "Faraday's Law relates emf to:",
+                "options": {
+                    "A": "Current",
+                    "B": "Resistance",
+                    "C": "Flux change rate",
+                    "D": "Power"
+                },
+                "answer": "C",
+                "explanation": "ε = -N(ΔΦ/Δt)."
+            },
+            {
+                "id": "em-fa-q4",
+                "type": "mcq",
+                "stem": "Transformers change:",
+                "options": {
+                    "A": "Only voltage",
+                    "B": "Only current",
+                    "C": "Both",
+                    "D": "Neither"
+                },
+                "answer": "C",
+                "explanation": "V₁/V₂ = N₁/N₂ = I₂/I₁."
+            },
+            {
+                "id": "em-fa-q5",
+                "type": "mcq",
+                "stem": "Grounding protects against:",
+                "options": {
+                    "A": "High voltage",
+                    "B": "Electric shock",
+                    "C": "Power loss",
+                    "D": "Magnetic fields"
+                },
+                "answer": "B",
+                "explanation": "Grounding provides safe path for fault current."
+            }
+        ]
+    }
+}

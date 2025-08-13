@@ -1,0 +1,92 @@
+{
+  "moduleId": "physics-waves-sound",
+  "moduleTitle": "Waves and Sound",
+  "subject": "Physics",
+  "level": "SHS 2",
+  "objectives": [
+    "Analyze wave properties and characteristics using wave equations",
+    "Understand sound production, propagation, and acoustic principles",
+    "Apply wave interference concepts to practical applications",
+    "Connect wave physics to Ghanaian communication and infrastructure"
+  ],
+  "learningPath": ["Topic Introduction", "Core Concepts", "Knowledge Checks", "Practice Challenges", "Module Assessment"],
+  "xpRules": {"lessonCompletion": 10, "correctAnswer": 5, "scenarioSolved": 15, "moduleCompletionBonus": 50},
+  "milestones": [{"threshold": 25, "unlock": "practice"}, {"threshold": 50, "unlock": "scenarios"}, {"threshold": 75, "unlock": "bonus"}, {"threshold": 100, "unlock": "certificate"}],
+  "achievements": [{"id": "wave-wizard", "title": "Wave Wizard", "criteria": "Master waves and sound concepts"}],
+  "alignment": {"exam": "WASSCE Physics", "notes": "Wave properties, sound, interference", "careers": ["Acoustics", "Telecommunications", "Audio Engineering"]},
+  "lessons": [
+    {
+      "id": "wave-properties-types",
+      "title": "Wave Properties and Types",
+      "text": "**Waves** are disturbances that transfer energy without transferring matter. **Transverse waves** have oscillations perpendicular to wave direction (like water waves), while **longitudinal waves** have oscillations parallel to direction (like sound waves).\n\nKey wave properties include **wavelength** (λ, distance between consecutive crests), **frequency** (f, oscillations per second), **amplitude** (A, maximum displacement), and **period** (T, time for one complete oscillation). The **wave equation** relates these: v = fλ, where v is wave speed.\n\nIn Ghana, understanding wave properties helps explain **radio transmission** across the country. Different frequencies allow multiple stations to broadcast simultaneously without interference, and understanding wavelength helps design efficient antenna systems.",
+      "knowledgeChecks": {
+        "mcq": [
+          {"id": "ws-l1-q1", "type": "mcq", "stem": "Which wave has oscillations perpendicular to direction?", "options": {"A": "Longitudinal", "B": "Transverse", "C": "Both", "D": "Neither"}, "answer": "B", "explanation": "Transverse waves oscillate perpendicular to propagation."},
+          {"id": "ws-l1-q2", "type": "mcq", "stem": "Wavelength is the distance between:", "options": {"A": "Any two points", "B": "Consecutive crests", "C": "Crest and trough", "D": "Start and end"}, "answer": "B", "explanation": "Wavelength is distance between consecutive identical points."},
+          {"id": "ws-l1-q3", "type": "mcq", "stem": "If frequency doubles, wavelength:", "options": {"A": "Doubles", "B": "Halves", "C": "Stays same", "D": "Quadruples"}, "answer": "B", "explanation": "v = fλ, so if f doubles, λ must halve for constant v."},
+          {"id": "ws-l1-q4", "type": "mcq", "stem": "Wave speed depends on:", "options": {"A": "Frequency only", "B": "Wavelength only", "C": "Medium properties", "D": "Amplitude only"}, "answer": "C", "explanation": "Speed depends on medium (density, elasticity), not wave properties."},
+          {"id": "ws-l1-q5", "type": "mcq", "stem": "Period is related to frequency by:", "options": {"A": "T = f", "B": "T = 1/f", "C": "T = f²", "D": "T = √f"}, "answer": "B", "explanation": "Period is the reciprocal of frequency."}
+        ],
+        "waveDiagram": [
+          {"id": "ws-l1-wd1", "prompt": "Label a transverse wave diagram with wavelength, amplitude, crest, and trough.", "answer": "Wavelength: distance between consecutive crests; Amplitude: height from equilibrium to crest; Crest: highest point; Trough: lowest point."},
+          {"id": "ws-l1-wd2", "prompt": "Draw a longitudinal wave and label compression and rarefaction.", "answer": "Compression: regions where particles are close together; Rarefaction: regions where particles are far apart."}
+        ]
+      },
+      "scenarioChallenges": [
+        {"id": "ws-l1-s1", "scenario": "A radio station in Accra broadcasts at 100 MHz. If radio waves travel at 3×10⁸ m/s, calculate the wavelength.", "question": "What is the wavelength of the radio signal?", "options": {"A": "3 m", "B": "30 m", "C": "300 m", "D": "3000 m"}, "answer": "A", "explanation": "λ = v/f = 3×10⁸/100×10⁶ = 3 m."}
+      ]
+    },
+    {
+      "id": "sound-waves-acoustics",
+      "title": "Sound Waves and Acoustics",
+      "text": "**Sound** is a longitudinal wave that requires a medium (solid, liquid, or gas) to travel. **Sound waves** are pressure variations that travel through the medium. The **speed of sound** depends on the medium: fastest in solids, slower in liquids, slowest in gases.\n\n**Frequency** determines pitch: high frequencies (20,000+ Hz) are ultrasonic, low frequencies (<20 Hz) are infrasonic. Human hearing range is approximately 20 Hz to 20,000 Hz. **Resonance** occurs when an object vibrates at its natural frequency, amplifying the sound.\n\nIn Ghana, understanding acoustics helps design **performance spaces** like the National Theatre, where proper sound reflection and absorption create optimal listening experiences. Sound engineers use knowledge of frequency, amplitude, and resonance to create balanced audio systems.",
+      "knowledgeChecks": {
+        "mcq": [
+          {"id": "ws-l2-q1", "type": "mcq", "stem": "Sound travels fastest in:", "options": {"A": "Air", "B": "Water", "C": "Steel", "D": "Vacuum"}, "answer": "C", "explanation": "Sound travels fastest in solids due to closer particle spacing."},
+          {"id": "ws-l2-q2", "type": "mcq", "stem": "High frequency sound has:", "options": {"A": "Low pitch", "B": "High pitch", "C": "Loud volume", "D": "Long wavelength"}, "answer": "B", "explanation": "Frequency and pitch are directly related."},
+          {"id": "ws-l2-q3", "type": "mcq", "stem": "Resonance occurs when:", "options": {"A": "Frequency matches natural frequency", "B": "Amplitude is maximum", "C": "Wavelength is long", "D": "Speed is high"}, "answer": "A", "explanation": "Resonance happens at natural frequency."},
+          {"id": "ws-l2-q4", "type": "mcq", "stem": "Human hearing range is approximately:", "options": {"A": "2 Hz to 200 Hz", "B": "20 Hz to 20,000 Hz", "C": "200 Hz to 2,000 Hz", "D": "2,000 Hz to 20,000 Hz"}, "answer": "B", "explanation": "Typical human hearing range is 20 Hz to 20 kHz."}
+        ],
+        "frequencyExercises": [
+          {"id": "ws-l2-f1", "prompt": "Calculate wavelength of 440 Hz sound in air (speed = 340 m/s).", "answer": "λ = v/f = 340/440 = 0.77 m"},
+          {"id": "ws-l2-f2", "prompt": "Find frequency of sound with 2 m wavelength traveling at 1500 m/s.", "answer": "f = v/λ = 1500/2 = 750 Hz"},
+          {"id": "ws-l2-f3", "prompt": "A tuning fork vibrates at 256 Hz. How many vibrations in 5 seconds?", "answer": "256 × 5 = 1,280 vibrations"}
+        ]
+      },
+      "scenarioChallenges": [
+        {"id": "ws-l2-s1", "scenario": "An architect is designing the National Theatre in Accra. The main hall needs to accommodate 1000 people with optimal acoustics.", "question": "Which design feature would best improve sound quality?", "options": {"A": "Smooth, hard walls everywhere", "B": "Strategic placement of sound-absorbing materials", "C": "Maximum use of glass surfaces", "D": "Irregular, jagged wall shapes"}, "answer": "B", "explanation": "Strategic sound absorption reduces echoes and improves clarity while maintaining some reflection for natural sound."}
+      ]
+    },
+    {
+      "id": "wave-interference-applications",
+      "title": "Wave Interference and Applications",
+      "text": "**Wave interference** occurs when two or more waves meet. **Constructive interference** happens when waves combine to create larger amplitude (crests meet crests). **Destructive interference** occurs when waves cancel each other (crests meet troughs).\n\n**Standing waves** form when two identical waves travel in opposite directions, creating nodes (points of no motion) and antinodes (points of maximum motion). This principle is used in musical instruments and noise-canceling technology.\n\n**Noise-canceling headphones** work by producing sound waves that are 180° out of phase with unwanted noise, creating destructive interference. Understanding interference helps design better audio systems, reduce noise pollution, and create optimal acoustic environments.",
+      "knowledgeChecks": {
+        "mcq": [
+          {"id": "ws-l3-q1", "type": "mcq", "stem": "Constructive interference occurs when:", "options": {"A": "Crests meet troughs", "B": "Crests meet crests", "C": "Waves are out of phase", "D": "Amplitude decreases"}, "answer": "B", "explanation": "Crests meeting crests create larger amplitude."},
+          {"id": "ws-l3-q2", "type": "mcq", "stem": "Destructive interference results in:", "options": {"A": "Increased amplitude", "B": "Decreased amplitude", "C": "No change", "D": "Frequency change"}, "answer": "B", "explanation": "Destructive interference reduces or cancels amplitude."},
+          {"id": "ws-l3-q3", "type": "mcq", "stem": "Standing waves have:", "options": {"A": "Only nodes", "B": "Only antinodes", "C": "Both nodes and antinodes", "D": "Neither"}, "answer": "C", "explanation": "Standing waves have stationary nodes and antinodes."},
+          {"id": "ws-l3-q4", "type": "mcq", "stem": "Noise-canceling headphones use:", "options": {"A": "Constructive interference", "B": "Destructive interference", "C": "Resonance", "D": "Reflection"}, "answer": "B", "explanation": "They create destructive interference to cancel noise."},
+          {"id": "ws-l3-q5", "type": "mcq", "stem": "Two waves with same amplitude but opposite phase will:", "options": {"A": "Double in amplitude", "B": "Cancel completely", "C": "Create standing waves", "D": "Increase frequency"}, "answer": "B", "explanation": "Opposite phase waves create destructive interference."},
+          {"id": "ws-l3-q6", "type": "mcq", "stem": "Interference patterns depend on:", "options": {"A": "Wave speed only", "B": "Wave frequency only", "C": "Phase difference", "D": "Medium density only"}, "answer": "C", "explanation": "Phase difference determines interference type."}
+        ],
+        "patternRecognition": [
+          {"id": "ws-l3-pr1", "prompt": "Identify whether two waves will interfere constructively or destructively if they are in phase.", "answer": "Constructive interference (crests align with crests)."}
+        ]
+      },
+      "scenarioChallenges": [
+        {"id": "ws-l3-s1", "scenario": "A student is studying in a noisy library. They put on noise-canceling headphones that detect ambient sound and produce anti-noise.", "question": "How do the headphones reduce unwanted sound?", "options": {"A": "By blocking sound physically", "B": "By creating destructive interference", "C": "By amplifying background music", "D": "By reflecting sound away"}, "answer": "B", "explanation": "The headphones produce sound waves 180° out of phase with ambient noise, creating destructive interference that cancels the unwanted sound."}
+      ]
+    }
+  ],
+  "finalAssessment": {
+    "notes": "20 questions covering wave properties, sound, and interference concepts",
+    "questions": [
+      {"id": "ws-fa-q1", "type": "mcq", "stem": "Wave speed equals:", "options": {"A": "f × λ", "B": "f ÷ λ", "C": "f + λ", "D": "f - λ"}, "answer": "A", "explanation": "v = fλ is the wave equation."},
+      {"id": "ws-fa-q2", "type": "mcq", "stem": "Sound is a:", "options": {"A": "Transverse wave", "B": "Longitudinal wave", "C": "Electromagnetic wave", "D": "Surface wave"}, "answer": "B", "explanation": "Sound involves pressure variations parallel to direction."},
+      {"id": "ws-fa-q3", "type": "mcq", "stem": "High frequency means:", "options": {"A": "Low pitch", "B": "High pitch", "C": "Loud volume", "D": "Long wavelength"}, "answer": "B", "explanation": "Frequency and pitch are directly related."},
+      {"id": "ws-fa-q4", "type": "mcq", "stem": "Constructive interference creates:", "options": {"A": "Larger amplitude", "B": "Smaller amplitude", "C": "No change", "D": "Frequency change"}, "answer": "A", "explanation": "Waves add together to increase amplitude."},
+      {"id": "ws-fa-q5", "type": "mcq", "stem": "Standing waves have:", "options": {"A": "Moving nodes", "B": "Stationary nodes", "C": "No nodes", "D": "Random nodes"}, "answer": "B", "explanation": "Nodes are stationary points in standing waves."}
+    ]
+  }
+}

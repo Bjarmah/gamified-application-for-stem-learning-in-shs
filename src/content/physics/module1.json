@@ -1,0 +1,96 @@
+{
+  "moduleId": "physics-forces-motion",
+  "moduleTitle": "Forces and Motion",
+  "subject": "Physics",
+  "level": "SHS 1",
+  "objectives": [
+    "Analyze linear motion using kinematic equations and graphs",
+    "Apply Newton's laws to real-world situations and force diagrams",
+    "Calculate work, energy, and power in practical contexts",
+    "Apply physics concepts to Ghanaian transportation and infrastructure"
+  ],
+  "learningPath": ["Topic Introduction", "Core Concepts", "Knowledge Checks", "Practice Challenges", "Module Assessment"],
+  "xpRules": {"lessonCompletion": 10, "correctAnswer": 5, "scenarioSolved": 15, "moduleCompletionBonus": 50},
+  "milestones": [{"threshold": 25, "unlock": "practice"}, {"threshold": 50, "unlock": "scenarios"}, {"threshold": 75, "unlock": "bonus"}, {"threshold": 100, "unlock": "certificate"}],
+  "achievements": [{"id": "motion-master", "title": "Motion Master", "criteria": "Complete forces and motion module"}],
+  "alignment": {"exam": "WASSCE Physics", "notes": "Kinematics, dynamics, energy", "careers": ["Engineering", "Transportation", "Construction"]},
+  "lessons": [
+    {
+      "id": "linear-motion-kinematics",
+      "title": "Linear Motion and Kinematics",
+      "text": "**Kinematics** describes motion without considering forces. **Displacement** is the change in position (vector), while **distance** is the total path length (scalar). **Velocity** is displacement per unit time, and **acceleration** is the rate of change of velocity. The four key equations of motion are: v = u + at, s = ut + ½at², v² = u² + 2as, and s = ½(u + v)t, where u = initial velocity, v = final velocity, a = acceleration, s = displacement, and t = time.\n\nGraphs help visualize motion: displacement-time graphs show position changes, velocity-time graphs reveal acceleration (slope), and acceleration-time graphs show force changes. In Ghana, understanding stopping distance is crucial for **tro-tro safety**—a vehicle traveling at 60 km/h needs about 36 meters to stop on dry roads, considering reaction time and braking distance.",
+      "knowledgeChecks": {
+        "mcq": [
+          {"id": "fm-l1-q1", "type": "mcq", "stem": "Which quantity is a vector?", "options": {"A": "Distance", "B": "Displacement", "C": "Speed", "D": "Time"}, "answer": "B", "explanation": "Displacement has both magnitude and direction."},
+          {"id": "fm-l1-q2", "type": "mcq", "stem": "A car accelerates from 10 m/s to 30 m/s in 5 s. Acceleration is:", "options": {"A": "2 m/s²", "B": "4 m/s²", "C": "6 m/s²", "D": "8 m/s²"}, "answer": "B", "explanation": "a = (v-u)/t = (30-10)/5 = 4 m/s²."},
+          {"id": "fm-l1-q3", "type": "mcq", "stem": "On a velocity-time graph, the slope represents:", "options": {"A": "Distance", "B": "Acceleration", "C": "Speed", "D": "Time"}, "answer": "B", "explanation": "Slope = change in velocity/time = acceleration."},
+          {"id": "fm-l1-q4", "type": "mcq", "stem": "A body moving at constant velocity has:", "options": {"A": "Zero acceleration", "B": "Increasing speed", "C": "Changing direction", "D": "Maximum speed"}, "answer": "A", "explanation": "Constant velocity means no change in speed or direction."},
+          {"id": "fm-l1-q5", "type": "mcq", "stem": "The area under a velocity-time graph gives:", "options": {"A": "Acceleration", "B": "Displacement", "C": "Speed", "D": "Time"}, "answer": "B", "explanation": "Area = velocity × time = displacement."}
+        ],
+        "graphInterpretation": [
+          {"id": "fm-l1-g1", "prompt": "A velocity-time graph shows a straight line sloping upward from (0,5) to (10,25). Calculate acceleration.", "answer": "a = (25-5)/(10-0) = 2 m/s²"},
+          {"id": "fm-l1-g2", "prompt": "From the same graph, find total displacement.", "answer": "Area = ½ × (5+25) × 10 = 150 m"},
+          {"id": "fm-l1-g3", "prompt": "A displacement-time graph is horizontal. What does this indicate?", "answer": "The object is stationary (no change in position)."}
+        ]
+      },
+      "scenarioChallenges": [
+        {"id": "fm-l1-s1", "scenario": "A tro-tro driver traveling at 60 km/h sees a pedestrian 50 meters ahead and applies brakes. If reaction time is 0.5 s and deceleration is 8 m/s², will the tro-tro stop in time?", "question": "Calculate stopping distance and determine if collision is avoided.", "options": {"A": "Yes, stops with 5m to spare", "B": "No, hits pedestrian at 15 km/h", "C": "Yes, stops exactly at pedestrian", "D": "No, hits pedestrian at 30 km/h"}, "answer": "A", "explanation": "Reaction distance = 60×0.5×1000/3600 = 8.33m. Braking distance = v²/2a = (16.67)²/16 = 17.36m. Total = 25.69m. Safe with 24.31m to spare."}
+      ]
+    },
+    {
+      "id": "newtons-laws-motion",
+      "title": "Newton's Laws of Motion",
+      "text": "**Newton's First Law** states that objects remain at rest or in uniform motion unless acted upon by a net external force. **Newton's Second Law** relates force, mass, and acceleration: F = ma. **Newton's Third Law** states that for every action, there is an equal and opposite reaction.\n\nForce diagrams (free-body diagrams) show all forces acting on an object. Common forces include **weight** (mg, always downward), **normal force** (perpendicular to surface), **friction** (parallel to surface, opposing motion), and **tension** (pulling force in ropes/cables).\n\nIn Ghana, understanding these laws explains why **seatbelts save lives**—without them, passengers continue moving forward when a car suddenly stops, potentially hitting the windshield or dashboard.",
+      "knowledgeChecks": {
+        "mcq": [
+          {"id": "fm-l2-q1", "type": "mcq", "stem": "According to Newton's First Law, an object at rest:", "options": {"A": "Will move randomly", "B": "Will stay at rest unless acted upon", "C": "Will fall due to gravity", "D": "Will move in circles"}, "answer": "B", "explanation": "Objects maintain their state of motion unless a net force acts."},
+          {"id": "fm-l2-q2", "type": "mcq", "stem": "If F = ma, doubling the force on an object:", "options": {"A": "Doubles the mass", "B": "Doubles the acceleration", "C": "Halves the acceleration", "D": "Has no effect"}, "answer": "B", "explanation": "F and a are directly proportional when mass is constant."},
+          {"id": "fm-l2-q3", "type": "mcq", "stem": "A book on a table experiences:", "options": {"A": "Only weight", "B": "Weight and normal force", "C": "Weight and friction", "D": "No forces"}, "answer": "B", "explanation": "Weight downward, normal force upward (equal and opposite)."},
+          {"id": "fm-l2-q4", "type": "mcq", "stem": "Newton's Third Law explains:", "options": {"A": "Why objects fall", "B": "Action-reaction pairs", "C": "Gravitational attraction", "D": "Friction effects"}, "answer": "B", "explanation": "Every force has an equal and opposite reaction force."},
+          {"id": "fm-l2-q5", "type": "mcq", "stem": "A 2 kg mass accelerated at 3 m/s² experiences a net force of:", "options": {"A": "1.5 N", "B": "3 N", "C": "6 N", "D": "9 N"}, "answer": "C", "explanation": "F = ma = 2 × 3 = 6 N."},
+          {"id": "fm-l2-q6", "type": "mcq", "stem": "Friction always acts:", "options": {"A": "In the direction of motion", "B": "Opposite to motion", "C": "Perpendicular to motion", "D": "Randomly"}, "answer": "B", "explanation": "Friction opposes relative motion between surfaces."}
+        ],
+        "forceDiagram": [
+          {"id": "fm-l2-fd1", "prompt": "Draw a force diagram for a car moving at constant speed on a level road.", "answer": "Weight (mg) down, normal force up, engine force forward, air resistance backward (equal to engine force)."},
+          {"id": "fm-l2-fd2", "prompt": "Draw forces on a book sliding down an inclined plane.", "answer": "Weight (mg) down, normal force perpendicular to plane, friction up the plane."}
+        ]
+      },
+      "scenarioChallenges": [
+        {"id": "fm-l2-s1", "scenario": "A car traveling at 80 km/h hits a wall and stops in 0.1 seconds. The driver (70 kg) is not wearing a seatbelt.", "question": "What force does the windshield exert on the driver?", "options": {"A": "15,556 N", "B": "19,444 N", "C": "22,222 N", "D": "25,000 N"}, "answer": "A", "explanation": "v = 80×1000/3600 = 22.22 m/s. a = (0-22.22)/0.1 = -222.2 m/s². F = ma = 70×222.2 = 15,556 N."}
+      ]
+    },
+    {
+      "id": "work-energy-power",
+      "title": "Work, Energy and Power",
+      "text": "**Work** is done when a force causes displacement: W = Fs cos θ, where θ is the angle between force and displacement. **Energy** is the capacity to do work. **Kinetic energy** (KE = ½mv²) depends on mass and velocity, while **gravitational potential energy** (PE = mgh) depends on mass, height, and gravitational field strength.\n\nThe **work-energy theorem** states that net work equals change in kinetic energy: W = ΔKE. **Power** is the rate of doing work: P = W/t = Fv. **Conservation of energy** means total energy remains constant, only transforming between forms.\n\nIn Ghana, understanding energy helps explain **hydroelectric power at Akosombo Dam**, where gravitational potential energy of water is converted to kinetic energy, then to electrical energy through turbines.",
+      "knowledgeChecks": {
+        "calculationExercises": [
+          {"id": "fm-l3-c1", "prompt": "Calculate work done by a 50 N force pushing a box 10 m.", "answer": "W = Fs = 50 × 10 = 500 J"},
+          {"id": "fm-l3-c2", "prompt": "Find kinetic energy of a 2 kg mass moving at 5 m/s.", "answer": "KE = ½mv² = ½ × 2 × 25 = 25 J"},
+          {"id": "fm-l3-c3", "prompt": "Calculate potential energy of a 5 kg mass 3 m above ground.", "answer": "PE = mgh = 5 × 9.8 × 3 = 147 J"},
+          {"id": "fm-l3-c4", "prompt": "A 1000 W motor runs for 30 seconds. How much work is done?", "answer": "W = Pt = 1000 × 30 = 30,000 J"},
+          {"id": "fm-l3-c5", "prompt": "Find power if 2000 J of work is done in 4 seconds.", "answer": "P = W/t = 2000/4 = 500 W"}
+        ],
+        "mcq": [
+          {"id": "fm-l3-q1", "type": "mcq", "stem": "Work is done when:", "options": {"A": "Force is applied", "B": "Force causes displacement", "C": "Object moves", "D": "Energy exists"}, "answer": "B", "explanation": "Work requires both force and displacement in force direction."},
+          {"id": "fm-l3-q2", "type": "mcq", "stem": "Kinetic energy depends on:", "options": {"A": "Mass and height", "B": "Mass and velocity", "C": "Force and distance", "D": "Time and power"}, "answer": "B", "explanation": "KE = ½mv²."},
+          {"id": "fm-l3-q3", "type": "mcq", "stem": "Power is measured in:", "options": {"A": "Joules", "B": "Watts", "C": "Newtons", "D": "Meters"}, "answer": "B", "explanation": "Power = work/time = joules/second = watts."},
+          {"id": "fm-l3-q4", "type": "mcq", "stem": "When a ball falls, potential energy:", "options": {"A": "Increases", "B": "Decreases", "C": "Stays constant", "D": "Becomes zero"}, "answer": "B", "explanation": "As height decreases, PE = mgh decreases."}
+        ]
+      },
+      "scenarioChallenges": [
+        {"id": "fm-l3-s1", "scenario": "At Akosombo Dam, water falls 100 m through turbines. If 1000 kg of water flows per second, calculate the power generated (assume 80% efficiency).", "question": "What is the electrical power output?", "options": {"A": "784 kW", "B": "980 kW", "C": "1,225 kW", "D": "1,568 kW"}, "answer": "A", "explanation": "PE per second = mgh = 1000 × 9.8 × 100 = 980,000 W. At 80% efficiency: 980,000 × 0.8 = 784,000 W = 784 kW."}
+      ]
+    }
+  ],
+  "finalAssessment": {
+    "notes": "20 questions covering kinematics, Newton's laws, and energy concepts",
+    "questions": [
+      {"id": "fm-fa-q1", "type": "mcq", "stem": "Which is a vector quantity?", "options": {"A": "Distance", "B": "Displacement", "C": "Speed", "D": "Time"}, "answer": "B", "explanation": "Displacement has direction."},
+      {"id": "fm-fa-q2", "type": "mcq", "stem": "Newton's Second Law states:", "options": {"A": "F = ma", "B": "F = mv", "C": "F = mt", "D": "F = ms"}, "answer": "A", "explanation": "Force equals mass times acceleration."},
+      {"id": "fm-fa-q3", "type": "mcq", "stem": "Work done by a force perpendicular to displacement is:", "options": {"A": "Maximum", "B": "Zero", "C": "Negative", "D": "Undefined"}, "answer": "B", "explanation": "W = Fs cos 90° = 0."},
+      {"id": "fm-fa-q4", "type": "mcq", "stem": "Power equals:", "options": {"A": "Work × time", "B": "Work ÷ time", "C": "Force × distance", "D": "Mass × acceleration"}, "answer": "B", "explanation": "P = W/t."},
+      {"id": "fm-fa-q5", "type": "mcq", "stem": "A car braking from 20 m/s to 0 m/s in 4 s has acceleration:", "options": {"A": "5 m/s²", "B": "-5 m/s²", "C": "80 m/s²", "D": "-80 m/s²"}, "answer": "B", "explanation": "a = (0-20)/4 = -5 m/s²."}
+    ]
+  }
+}

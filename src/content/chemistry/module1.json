@@ -1,0 +1,446 @@
+{
+    "moduleId": "chem-atomic-structure",
+    "moduleTitle": "Atomic Structure & Electron Configuration",
+    "subject": "Chemistry",
+    "level": "SHS 1",
+    "objectives": [
+        "Understand atomic models and subatomic particle properties",
+        "Master electron configuration and orbital principles",
+        "Analyze periodic trends and their applications",
+        "Apply atomic concepts to Ghanaian contexts and industries"
+    ],
+    "learningPath": [
+        "Topic Introduction",
+        "Core Concepts",
+        "Knowledge Checks",
+        "Practice Challenges",
+        "Module Assessment"
+    ],
+    "xpRules": {
+        "lessonCompletion": 10,
+        "correctAnswer": 5,
+        "scenarioSolved": 15,
+        "moduleCompletionBonus": 50
+    },
+    "milestones": [
+        {
+            "threshold": 25,
+            "unlock": "practice"
+        },
+        {
+            "threshold": 50,
+            "unlock": "scenarios"
+        },
+        {
+            "threshold": 75,
+            "unlock": "bonus"
+        },
+        {
+            "threshold": 100,
+            "unlock": "certificate"
+        }
+    ],
+    "achievements": [
+        {
+            "id": "atomic-explorer",
+            "title": "Atomic Explorer",
+            "criteria": "Complete atomic structure module"
+        }
+    ],
+    "alignment": {
+        "exam": "WASSCE Chemistry",
+        "notes": "Atomic theory, electron arrangement, periodic trends",
+        "careers": [
+            "Chemical Engineering",
+            "Materials Science",
+            "Environmental Science"
+        ]
+    },
+    "lessons": [
+        {
+            "id": "atomic-theory-structure",
+            "title": "Atomic Theory and Structure",
+            "text": "**Atoms** are the fundamental building blocks of matter, composed of three main subatomic particles: **protons** (positive charge, mass ~1 amu), **neutrons** (no charge, mass ~1 amu), and **electrons** (negative charge, mass ~1/1840 amu).\n\nThe **atomic number** (Z) equals the number of protons and determines the element's identity. **Mass number** (A) equals protons plus neutrons. **Isotopes** are atoms of the same element with different numbers of neutrons, resulting in different mass numbers.\n\n**Atomic models** have evolved from Dalton's solid sphere to Rutherford's nuclear model to Bohr's planetary model to the modern quantum mechanical model. The nucleus contains protons and neutrons, while electrons occupy energy levels around it.\n\nIn Ghana, understanding isotopes is crucial for **radioactive dating of archaeological sites** like those in the northern regions, helping determine the age of ancient artifacts and human remains.",
+            "knowledgeChecks": {
+                "mcq": [
+                    {
+                        "id": "as-l1-q1",
+                        "type": "mcq",
+                        "stem": "Which particle has no charge?",
+                        "options": {
+                            "A": "Proton",
+                            "B": "Neutron",
+                            "C": "Electron",
+                            "D": "Positron"
+                        },
+                        "answer": "B",
+                        "explanation": "Neutrons are electrically neutral."
+                    },
+                    {
+                        "id": "as-l1-q2",
+                        "type": "mcq",
+                        "stem": "Atomic number equals:",
+                        "options": {
+                            "A": "Protons only",
+                            "B": "Neutrons only",
+                            "C": "Electrons only",
+                            "D": "Protons + neutrons"
+                        },
+                        "answer": "A",
+                        "explanation": "Atomic number = number of protons."
+                    },
+                    {
+                        "id": "as-l1-q3",
+                        "type": "mcq",
+                        "stem": "Isotopes have different:",
+                        "options": {
+                            "A": "Atomic numbers",
+                            "B": "Mass numbers",
+                            "C": "Chemical properties",
+                            "D": "Element identity"
+                        },
+                        "answer": "B",
+                        "explanation": "Isotopes have same protons but different neutrons."
+                    },
+                    {
+                        "id": "as-l1-q4",
+                        "type": "mcq",
+                        "stem": "Most of atom's mass is in:",
+                        "options": {
+                            "A": "Electron cloud",
+                            "B": "Nucleus",
+                            "C": "Energy levels",
+                            "D": "Orbitals"
+                        },
+                        "answer": "B",
+                        "explanation": "Protons and neutrons in nucleus contain most mass."
+                    },
+                    {
+                        "id": "as-l1-q5",
+                        "type": "mcq",
+                        "stem": "Electron mass compared to proton is:",
+                        "options": {
+                            "A": "Equal",
+                            "B": "Much smaller",
+                            "C": "Much larger",
+                            "D": "Variable"
+                        },
+                        "answer": "B",
+                        "explanation": "Electron mass is ~1/1840 of proton mass."
+                    }
+                ],
+                "particleIdentification": [
+                    {
+                        "id": "as-l1-pi1",
+                        "prompt": "Identify the particle: charge +1, mass ~1 amu, found in nucleus.",
+                        "answer": "Proton"
+                    },
+                    {
+                        "id": "as-l1-pi2",
+                        "prompt": "Identify the particle: charge -1, mass ~1/1840 amu, found outside nucleus.",
+                        "answer": "Electron"
+                    },
+                    {
+                        "id": "as-l1-pi3",
+                        "prompt": "Identify the particle: charge 0, mass ~1 amu, found in nucleus.",
+                        "answer": "Neutron"
+                    }
+                ]
+            },
+            "scenarioChallenges": [
+                {
+                    "id": "as-l1-s1",
+                    "scenario": "Archaeologists in northern Ghana discover ancient pottery fragments. They use carbon-14 dating to determine the age.",
+                    "question": "Carbon-14 has 6 protons and 8 neutrons. What is its mass number?",
+                    "options": {
+                        "A": "6",
+                        "B": "8",
+                        "C": "14",
+                        "D": "20"
+                    },
+                    "answer": "C",
+                    "explanation": "Mass number = protons + neutrons = 6 + 8 = 14."
+                }
+            ]
+        },
+        {
+            "id": "electron-configuration-orbitals",
+            "title": "Electron Configuration and Orbitals",
+            "text": "**Electron configuration** describes how electrons are distributed among energy levels and orbitals. The **Aufbau principle** states that electrons fill orbitals from lowest to highest energy. **Hund's rule** states that electrons fill degenerate orbitals with parallel spins before pairing.\n\n**Orbitals** are regions of space where electrons are most likely to be found. The four main orbital types are **s** (spherical), **p** (dumbbell-shaped), **d** (complex shapes), and **f** (very complex). Each orbital can hold a maximum of 2 electrons with opposite spins.\n\n**Energy levels** are numbered 1, 2, 3... with sublevels s, p, d, f. The maximum number of electrons in each level follows 2n², where n is the level number. For example, level 2 can hold 2(2)² = 8 electrons.\n\nUnderstanding electron configuration explains why **neon lights glow different colors**—each noble gas has a unique electron arrangement that produces characteristic light when excited. This principle is used in advertising signs and decorative lighting.",
+            "knowledgeChecks": {
+                "electronConfiguration": [
+                    {
+                        "id": "as-l2-ec1",
+                        "prompt": "Write electron configuration for carbon (Z=6).",
+                        "answer": "1s² 2s² 2p²"
+                    },
+                    {
+                        "id": "as-l2-ec2",
+                        "prompt": "Write electron configuration for neon (Z=10).",
+                        "answer": "1s² 2s² 2p⁶"
+                    },
+                    {
+                        "id": "as-l2-ec3",
+                        "prompt": "Write electron configuration for sodium (Z=11).",
+                        "answer": "1s² 2s² 2p⁶ 3s¹"
+                    },
+                    {
+                        "id": "as-l2-ec4",
+                        "prompt": "Write electron configuration for magnesium (Z=12).",
+                        "answer": "1s² 2s² 2p⁶ 3s²"
+                    },
+                    {
+                        "id": "as-l2-ec5",
+                        "prompt": "Write electron configuration for aluminum (Z=13).",
+                        "answer": "1s² 2s² 2p⁶ 3s² 3p¹"
+                    },
+                    {
+                        "id": "as-l2-ec6",
+                        "prompt": "Write electron configuration for argon (Z=18).",
+                        "answer": "1s² 2s² 2p⁶ 3s² 3p⁶"
+                    }
+                ],
+                "mcq": [
+                    {
+                        "id": "as-l2-q1",
+                        "type": "mcq",
+                        "stem": "Maximum electrons in energy level n is:",
+                        "options": {
+                            "A": "n",
+                            "B": "2n",
+                            "C": "2n²",
+                            "D": "n²"
+                        },
+                        "answer": "C",
+                        "explanation": "Maximum electrons = 2n²."
+                    },
+                    {
+                        "id": "as-l2-q2",
+                        "type": "mcq",
+                        "stem": "s orbital shape is:",
+                        "options": {
+                            "A": "Spherical",
+                            "B": "Dumbbell",
+                            "C": "Complex",
+                            "D": "Variable"
+                        },
+                        "answer": "A",
+                        "explanation": "s orbitals are spherical."
+                    },
+                    {
+                        "id": "as-l2-q3",
+                        "type": "mcq",
+                        "stem": "Each orbital can hold maximum:",
+                        "options": {
+                            "A": "1 electron",
+                            "B": "2 electrons",
+                            "C": "4 electrons",
+                            "D": "8 electrons"
+                        },
+                        "answer": "B",
+                        "explanation": "Pauli exclusion principle: max 2 electrons per orbital."
+                    },
+                    {
+                        "id": "as-l2-q4",
+                        "type": "mcq",
+                        "stem": "Aufbau principle states electrons fill:",
+                        "options": {
+                            "A": "Randomly",
+                            "B": "Lowest to highest energy",
+                            "C": "Highest to lowest",
+                            "D": "By charge"
+                        },
+                        "answer": "B",
+                        "explanation": "Electrons fill from lowest to highest energy."
+                    }
+                ]
+            },
+            "scenarioChallenges": [
+                {
+                    "id": "as-l2-s1",
+                    "scenario": "A neon sign shop in Accra wants to create different colored lights for advertising.",
+                    "question": "Why do different noble gases produce different colors when excited?",
+                    "options": {
+                        "A": "Different atomic masses",
+                        "B": "Different electron configurations",
+                        "C": "Different nuclear charges",
+                        "D": "Different temperatures"
+                    },
+                    "answer": "B",
+                    "explanation": "Each noble gas has unique electron arrangement, producing characteristic light when electrons return to ground state."
+                }
+            ]
+        },
+        {
+            "id": "periodic-trends",
+            "title": "Periodic Trends",
+            "text": "**Periodic trends** are patterns in element properties that repeat across periods and groups. **Atomic size** generally decreases across a period (left to right) due to increasing nuclear charge pulling electrons closer, and increases down a group due to additional energy levels.\n\n**Ionization energy** (energy to remove an electron) increases across periods due to stronger nuclear attraction, and decreases down groups due to electrons being farther from nucleus. **Electronegativity** (ability to attract electrons) follows similar patterns.\n\nThese trends help predict element behavior and properties. In Ghana, understanding periodic trends is crucial for **selecting appropriate metals for construction in coastal areas**. Metals with low ionization energy and high reactivity (like iron) corrode faster in salty coastal air, while more noble metals (like aluminum) resist corrosion better.",
+            "knowledgeChecks": {
+                "mcq": [
+                    {
+                        "id": "as-l3-q1",
+                        "type": "mcq",
+                        "stem": "Atomic size across a period:",
+                        "options": {
+                            "A": "Increases",
+                            "B": "Decreases",
+                            "C": "Stays same",
+                            "D": "Variable"
+                        },
+                        "answer": "B",
+                        "explanation": "Increasing nuclear charge pulls electrons closer."
+                    },
+                    {
+                        "id": "as-l3-q2",
+                        "type": "mcq",
+                        "stem": "Ionization energy down a group:",
+                        "options": {
+                            "A": "Increases",
+                            "B": "Decreases",
+                            "C": "Stays same",
+                            "D": "Variable"
+                        },
+                        "answer": "B",
+                        "explanation": "Electrons farther from nucleus, easier to remove."
+                    },
+                    {
+                        "id": "as-l3-q3",
+                        "type": "mcq",
+                        "stem": "Most electronegative element is:",
+                        "options": {
+                            "A": "Hydrogen",
+                            "B": "Carbon",
+                            "C": "Oxygen",
+                            "D": "Fluorine"
+                        },
+                        "answer": "D",
+                        "explanation": "Fluorine has highest electronegativity (4.0)."
+                    },
+                    {
+                        "id": "as-l3-q4",
+                        "type": "mcq",
+                        "stem": "Largest atom in Group 1 is:",
+                        "options": {
+                            "A": "Lithium",
+                            "B": "Sodium",
+                            "C": "Potassium",
+                            "D": "Cesium"
+                        },
+                        "answer": "D",
+                        "explanation": "Cesium is at bottom of group, has most energy levels."
+                    },
+                    {
+                        "id": "as-l3-q5",
+                        "type": "mcq",
+                        "stem": "Trend prediction: atomic size of element below carbon:",
+                        "options": {
+                            "A": "Smaller",
+                            "B": "Larger",
+                            "C": "Same",
+                            "D": "Cannot predict"
+                        },
+                        "answer": "B",
+                        "explanation": "Down a group, atomic size increases due to additional energy level."
+                    }
+                ],
+                "graphInterpretation": [
+                    {
+                        "id": "as-l3-gi1",
+                        "prompt": "Given a graph of atomic radius vs atomic number, identify the trend across Period 3.",
+                        "answer": "Decreasing trend from left to right due to increasing nuclear charge."
+                    },
+                    {
+                        "id": "as-l3-gi2",
+                        "prompt": "On ionization energy vs atomic number graph, explain the drop between Groups 2 and 13.",
+                        "answer": "Drop occurs because Group 13 elements have p electrons that are easier to remove than s electrons."
+                    }
+                ]
+            },
+            "scenarioChallenges": [
+                {
+                    "id": "as-l3-s1",
+                    "scenario": "A construction company in coastal Ghana needs to choose metals for building materials that will resist corrosion from salty air.",
+                    "question": "Which metal would be most suitable for coastal construction?",
+                    "options": {
+                        "A": "Iron (Fe)",
+                        "B": "Aluminum (Al)",
+                        "C": "Sodium (Na)",
+                        "D": "Potassium (K)"
+                    },
+                    "answer": "B",
+                    "explanation": "Aluminum has higher ionization energy and forms protective oxide layer, making it more corrosion-resistant than iron, sodium, or potassium."
+                }
+            ]
+        }
+    ],
+    "finalAssessment": {
+        "notes": "20 questions covering atomic structure, electron configuration, and periodic trends",
+        "questions": [
+            {
+                "id": "as-fa-q1",
+                "type": "mcq",
+                "stem": "Which particle has positive charge?",
+                "options": {
+                    "A": "Neutron",
+                    "B": "Electron",
+                    "C": "Proton",
+                    "D": "Neutrino"
+                },
+                "answer": "C",
+                "explanation": "Protons have positive charge."
+            },
+            {
+                "id": "as-fa-q2",
+                "type": "mcq",
+                "stem": "Atomic number equals:",
+                "options": {
+                    "A": "Protons + neutrons",
+                    "B": "Protons only",
+                    "C": "Electrons only",
+                    "D": "Mass number"
+                },
+                "answer": "B",
+                "explanation": "Atomic number = number of protons."
+            },
+            {
+                "id": "as-fa-q3",
+                "type": "mcq",
+                "stem": "Maximum electrons in energy level 3:",
+                "options": {
+                    "A": "6",
+                    "B": "8",
+                    "C": "18",
+                    "D": "32"
+                },
+                "answer": "C",
+                "explanation": "2n² = 2(3)² = 18."
+            },
+            {
+                "id": "as-fa-q4",
+                "type": "mcq",
+                "stem": "Atomic size across a period:",
+                "options": {
+                    "A": "Increases",
+                    "B": "Decreases",
+                    "C": "Stays same",
+                    "D": "Variable"
+                },
+                "answer": "B",
+                "explanation": "Increasing nuclear charge pulls electrons closer."
+            },
+            {
+                "id": "as-fa-q5",
+                "type": "mcq",
+                "stem": "Most electronegative element:",
+                "options": {
+                    "A": "Oxygen",
+                    "B": "Nitrogen",
+                    "C": "Fluorine",
+                    "D": "Chlorine"
+                },
+                "answer": "C",
+                "explanation": "Fluorine has highest electronegativity (4.0)."
+            }
+        ]
+    }
+}
