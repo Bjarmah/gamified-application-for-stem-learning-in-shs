@@ -6,9 +6,11 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { Calculator, Atom, FlaskConical, Activity, Monitor, Bot } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { useAuth } from "@/context/AuthContext";
 
 const Subjects = () => {
   const { data: subjects, isLoading, error } = useSubjects();
+  const { user } = useAuth();
 
   // Fetch module counts for all subjects
   const { data: moduleData, isLoading: modulesLoading } = useQuery({
@@ -35,35 +37,39 @@ const Subjects = () => {
     enabled: !!subjects,
   });
 
-  // Fetch quiz counts for all subjects
-  const { data: quizData, isLoading: quizzesLoading } = useQuery({
-    queryKey: ["subject-quizzes"],
+  // Fetch user progress for modules
+  const { data: progressData, isLoading: progressLoading } = useQuery({
+    queryKey: ["user-progress", user?.id],
     queryFn: async () => {
+      if (!user) return {};
+      
       const { data, error } = await supabase
-        .from("quizzes")
+        .from("user_progress")
         .select(`
-          id,
+          module_id,
+          completed,
           modules!inner(
             subject_id
           )
-        `);
+        `)
+        .eq("user_id", user.id);
       
       if (error) {
-        console.error("Error fetching quizzes:", error);
+        console.error("Error fetching user progress:", error);
         return {};
       }
 
-      // Count quizzes per subject
+      // Count completed modules per subject
       const counts: Record<string, number> = {};
-      data.forEach((quiz) => {
-        const subjectId = quiz.modules.subject_id;
-        if (subjectId) {
+      data.forEach((progress) => {
+        const subjectId = progress.modules.subject_id;
+        if (subjectId && progress.completed) {
           counts[subjectId] = (counts[subjectId] || 0) + 1;
         }
       });
       return counts;
     },
-    enabled: !!subjects,
+    enabled: !!user && !!subjects,
   });
 
   const getSubjectIcon = (name: string) => {
@@ -85,7 +91,7 @@ const Subjects = () => {
     }
   };
 
-  if (isLoading || modulesLoading || quizzesLoading) {
+  if (isLoading || modulesLoading || progressLoading) {
     return (
       <div className="space-y-6 pb-8">
         <div>
@@ -136,7 +142,7 @@ const Subjects = () => {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {subjects?.map((subject) => {
           const totalModules = moduleData?.[subject.id] || 0;
-          const totalQuizzes = quizData?.[subject.id] || 0;
+          const modulesCompleted = progressData?.[subject.id] || 0;
           
           return (
             <SubjectCard
@@ -144,12 +150,12 @@ const Subjects = () => {
               id={subject.id}
               title={subject.name}
               description={subject.description || ''}
-              modulesCompleted={0} // This would come from user progress in a real app
+              modulesCompleted={modulesCompleted}
               totalModules={totalModules}
               icon={getSubjectIcon(subject.name)}
               color={subject.color || 'bg-stemPurple'}
-              quizzesCompleted={0}
-              totalQuizzes={totalQuizzes}
+              quizzesCompleted={modulesCompleted}
+              totalQuizzes={totalModules}
             />
           );
         })}

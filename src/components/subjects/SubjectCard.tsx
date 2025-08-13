@@ -56,7 +56,7 @@ const SubjectCard = ({
           <Progress value={progressPercentage} className="h-2" />
         </div>
         <div className="flex justify-between text-sm text-muted-foreground">
-          <span>{quizzesCompleted}/{totalQuizzes} quizzes completed</span>
+          <span>{quizzesCompleted}/{totalQuizzes} modules completed</span>
         </div>
       </CardContent>
       <CardFooter>
