@@ -1,4 +1,8 @@
 import module1 from './module1.json';
+import module1a from './module1a.json';
+import module1b from './module1b.json';
+import module1c from './module1c.json';
+import module1d from './module1d.json';
 import module2 from './module2.json';
 import module3 from './module3.json';
 
@@ -144,8 +148,12 @@ const convertBiologyModule = (module: any, index: number): StructuredModule => {
 // Create a map for easy lookup by title
 const mapByTitle: Record<string, StructuredModule> = {
   'Cell Structure & Function': convertBiologyModule(module1, 0),
-  'Photosynthesis & Respiration': convertBiologyModule(module2, 1),
-  'Human Body Systems': convertBiologyModule(module3, 2),
+  'Cell Membrane Structure & Transport': convertBiologyModule(module1a, 1),
+  'Nucleus & Genetic Control': convertBiologyModule(module1b, 2),
+  'Organelles & Their Functions': convertBiologyModule(module1c, 3),
+  'Cell Division & Mitosis': convertBiologyModule(module1d, 4),
+  'Photosynthesis & Respiration': convertBiologyModule(module2, 5),
+  'Human Body Systems': convertBiologyModule(module3, 6),
 };
 
 // Utility function to find a module by title
@@ -156,9 +164,13 @@ export const findBiologyModuleByTitle = (title: string): StructuredModule | unde
 // Export all biology modules
 export const biologyModules: StructuredModule[] = [
   convertBiologyModule(module1, 0),
-  convertBiologyModule(module2, 1),
-  convertBiologyModule(module3, 2)
+  convertBiologyModule(module1a, 1),
+  convertBiologyModule(module1b, 2),
+  convertBiologyModule(module1c, 3),
+  convertBiologyModule(module1d, 4),
+  convertBiologyModule(module2, 5),
+  convertBiologyModule(module3, 6)
 ];
 
 // Export individual modules
-export { module1, module2, module3 };
+export { module1, module1a, module1b, module1c, module1d, module2, module3 };

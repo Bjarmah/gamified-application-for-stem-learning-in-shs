@@ -1,0 +1,110 @@
+{
+  "moduleId": "bio-organelles-functions",
+  "moduleTitle": "Organelles & Their Functions",
+  "subject": "Biology",
+  "level": "SHS 1", 
+  "objectives": [
+    "Identify major organelles and their specific functions",
+    "Explain the roles of mitochondria and chloroplasts in energy conversion",
+    "Describe the endomembrane system and protein processing",
+    "Connect organelle function to plant agriculture in Ghana"
+  ],
+  "learningPath": [
+    "Energy Organelles",
+    "Protein Processing System",
+    "Other Organelles",
+    "Knowledge Checks", 
+    "Assessment"
+  ],
+  "xpRules": {
+    "lessonCompletion": 10,
+    "correctAnswer": 5,
+    "scenarioSolved": 15,
+    "moduleCompletionBonus": 40
+  },
+  "milestones": [
+    {"threshold": 25, "unlock": "practice"},
+    {"threshold": 50, "unlock": "scenarios"},
+    {"threshold": 75, "unlock": "bonus"},
+    {"threshold": 100, "unlock": "certificate"}
+  ],
+  "achievements": [
+    {"id": "organelle-expert", "title": "Organelle Expert", "criteria": "Master organelle functions"}
+  ],
+  "alignment": {
+    "exam": "WASSCE Biology",
+    "notes": "Comprehensive organelle structure and function",
+    "careers": ["Agriculture", "Medicine", "Food Science"]
+  },
+  "lessons": [
+    {
+      "id": "energy-organelles",
+      "title": "Energy Converting Organelles",
+      "text": "Two organelles are crucial for energy conversion in cells: **mitochondria** and **chloroplasts**.\n\n**Mitochondria** are the powerhouses of all eukaryotic cells. They have a double membrane structure with folded inner membranes called **cristae** that increase surface area. Through **cellular respiration**, mitochondria convert glucose and oxygen into **ATP** (adenosine triphosphate), the cell's energy currency. The process involves glycolysis, the citric acid cycle, and the electron transport chain.\n\n**Chloroplasts** are found only in plant cells and some algae. They contain **chlorophyll** and other pigments that capture light energy for **photosynthesis**. Chloroplasts have **thylakoids** arranged in stacks called **grana**, where light reactions occur, and a **stroma** where carbon fixation happens.\n\nIn Ghana's agricultural systems, understanding these organelles explains how **cocoa** plants convert sunlight into sugar (chloroplasts) and how all plant and animal cells use that energy for growth and metabolism (mitochondria). Healthy mitochondria are essential for muscle function in farm animals and humans working in agriculture.",
+      "knowledgeChecks": {
+        "mcq": [
+          {
+            "id": "m1c-l1-q1",
+            "type": "mcq",
+            "stem": "Which organelle is correctly called the 'powerhouse of the cell'?",
+            "options": {"A": "Chloroplast", "B": "Nucleus", "C": "Mitochondrion", "D": "Ribosome"},
+            "answer": "C",
+            "explanation": "Mitochondria generate ATP through cellular respiration, providing energy for cellular processes.",
+            "feedback": {"A": "Chloroplasts capture light energy but only in plants.", "B": "Nucleus controls cell activities.", "C": "Correct! Mitochondria produce ATP.", "D": "Ribosomes make proteins."},
+            "difficulty": "basic"
+          },
+          {
+            "id": "m1c-l1-q2",
+            "type": "mcq",
+            "stem": "The light-capturing reactions of photosynthesis occur in the:",
+            "options": {"A": "Stroma", "B": "Cristae", "C": "Thylakoids", "D": "Nucleolus"},
+            "answer": "C",
+            "explanation": "Thylakoids contain chlorophyll and are the site of light-dependent reactions.",
+            "feedback": {"A": "Stroma is where carbon fixation occurs.", "B": "Cristae are in mitochondria.", "C": "Correct! Thylakoids capture light.", "D": "Nucleolus is in the nucleus."},
+            "difficulty": "intermediate"
+          }
+        ]
+      }
+    },
+    {
+      "id": "protein-processing",
+      "title": "Protein Processing System",
+      "text": "The **endomembrane system** processes and transports proteins throughout the cell. This system includes the **endoplasmic reticulum (ER)**, **Golgi apparatus**, and various **vesicles**.\n\n**Rough ER** has ribosomes attached to its surface and modifies proteins destined for secretion or membrane insertion. **Smooth ER** lacks ribosomes and synthesizes lipids, metabolizes carbohydrates, and detoxifies substances.\n\nThe **Golgi apparatus** receives proteins from the ER in vesicles, modifies them further (adding carbohydrate groups), packages them, and ships them to their final destinations via vesicles.\n\n**Lysosomes** are membrane-bound organelles containing digestive enzymes that break down waste materials, worn-out organelles, and harmful substances. **Peroxisomes** detoxify harmful compounds and break down fatty acids.\n\nIn Ghana's food processing industry, understanding these systems helps explain how cells in **palm oil** production process and package oils, and how digestive cells in the human gut process traditional foods like **fufu** and **groundnut soup**.",
+      "knowledgeChecks": {
+        "mcq": [
+          {
+            "id": "m1c-l2-q1",
+            "type": "mcq",
+            "stem": "A cell that secretes large amounts of protein would have abundant:",
+            "options": {"A": "Smooth ER", "B": "Rough ER", "C": "Lysosomes", "D": "Peroxisomes"},
+            "answer": "B", 
+            "explanation": "Rough ER with attached ribosomes synthesizes proteins for secretion.",
+            "feedback": {"A": "Smooth ER handles lipids, not protein secretion.", "B": "Correct! Rough ER makes secreted proteins.", "C": "Lysosomes digest materials.", "D": "Peroxisomes detoxify substances."},
+            "difficulty": "intermediate"
+          },
+          {
+            "id": "m1c-l2-q2",
+            "type": "mcq",
+            "stem": "The organelle that modifies and packages proteins from the ER is the:",
+            "options": {"A": "Lysosome", "B": "Mitochondrion", "C": "Golgi apparatus", "D": "Nucleus"},
+            "answer": "C",
+            "explanation": "The Golgi apparatus receives, modifies, and packages proteins from the ER.",
+            "feedback": {"A": "Lysosomes digest materials.", "B": "Mitochondria produce energy.", "C": "Correct! Golgi processes ER proteins.", "D": "Nucleus controls gene expression."},
+            "difficulty": "basic"
+          }
+        ]
+      },
+      "scenarioChallenges": [
+        {
+          "id": "m1c-l2-s1",
+          "scenario": "A palm oil processing plant worker notices that some oil extraction cells are not functioning properly, leading to reduced oil packaging and export.",
+          "question": "Which cellular system is most analogous to this industrial problem?",
+          "options": {"A": "Nuclear DNA damage", "B": "Mitochondrial energy loss", "C": "Golgi apparatus malfunction", "D": "Lysosome overflow"},
+          "answer": "C",
+          "explanation": "The Golgi apparatus packages and ships cellular products, similar to how the plant packages oil for export.",
+          "difficulty": "intermediate"
+        }
+      ]
+    }
+  ]
+}

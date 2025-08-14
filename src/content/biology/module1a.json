@@ -1,0 +1,114 @@
+{
+  "moduleId": "bio-cell-membrane-transport",
+  "moduleTitle": "Cell Membrane Structure & Transport",
+  "subject": "Biology",
+  "level": "SHS 1",
+  "objectives": [
+    "Describe the structure and composition of the cell membrane",
+    "Explain selective permeability and the phospholipid bilayer",
+    "Compare passive and active transport mechanisms",
+    "Analyze membrane transport in Ghanaian agricultural contexts"
+  ],
+  "learningPath": [
+    "Membrane Structure",
+    "Transport Mechanisms", 
+    "Knowledge Checks",
+    "Practice Applications",
+    "Assessment"
+  ],
+  "xpRules": {
+    "lessonCompletion": 10,
+    "correctAnswer": 5,
+    "scenarioSolved": 15,
+    "moduleCompletionBonus": 40
+  },
+  "milestones": [
+    {"threshold": 25, "unlock": "practice"},
+    {"threshold": 50, "unlock": "scenarios"},
+    {"threshold": 75, "unlock": "bonus"},
+    {"threshold": 100, "unlock": "certificate"}
+  ],
+  "achievements": [
+    {"id": "membrane-master", "title": "Membrane Master", "criteria": "Complete membrane transport lessons"}
+  ],
+  "alignment": {
+    "exam": "WASSCE Biology",
+    "notes": "Focuses on cell membrane and transport",
+    "careers": ["Healthcare", "Agriculture", "Food Science"]
+  },
+  "lessons": [
+    {
+      "id": "membrane-structure",
+      "title": "Cell Membrane Structure",
+      "text": "The cell membrane is a thin, flexible boundary that surrounds every cell. It consists of a **phospholipid bilayer** - two layers of phospholipid molecules arranged with their hydrophobic tails facing inward and hydrophilic heads facing outward. This creates a selectively permeable barrier.\n\nEmbedded within this bilayer are various **proteins** that serve different functions: channel proteins create pathways for specific molecules, carrier proteins bind and transport substances, and receptor proteins detect chemical signals. **Cholesterol** molecules help maintain membrane fluidity, while **carbohydrate** chains attached to proteins and lipids form the glycocalyx for cell recognition.\n\nIn Ghanaian agriculture, understanding membrane structure helps explain how plant cells in **cassava** and **plantain** maintain their shape and respond to environmental changes like drought or flooding.",
+      "knowledgeChecks": {
+        "mcq": [
+          {
+            "id": "m1a-l1-q1",
+            "type": "mcq",
+            "stem": "What gives the cell membrane its selective permeability?",
+            "options": {"A": "Single lipid layer", "B": "Phospholipid bilayer with proteins", "C": "Only carbohydrate chains", "D": "Cell wall thickness"},
+            "answer": "B",
+            "explanation": "The phospholipid bilayer provides the basic barrier, while embedded proteins control specific transport.",
+            "feedback": {"A": "Membranes have two layers, not one.", "B": "Correct! This combination creates selective permeability.", "C": "Carbohydrates aid recognition, not permeability control.", "D": "Cell walls provide structure, not selective permeability."},
+            "difficulty": "basic"
+          },
+          {
+            "id": "m1a-l1-q2", 
+            "type": "mcq",
+            "stem": "Which component helps maintain membrane fluidity?",
+            "options": {"A": "Phospholipids only", "B": "Channel proteins", "C": "Cholesterol", "D": "Carbohydrate chains"},
+            "answer": "C",
+            "explanation": "Cholesterol molecules regulate membrane fluidity by preventing fatty acid chains from packing too tightly.",
+            "feedback": {"A": "Phospholipids form the basic structure.", "B": "Channel proteins create pathways.", "C": "Correct! Cholesterol buffers fluidity changes.", "D": "Carbohydrates are for recognition."},
+            "difficulty": "intermediate"
+          }
+        ],
+        "trueFalse": [
+          {"id": "m1a-l1-tf1", "statement": "The phospholipid bilayer allows all substances to pass freely.", "answer": false, "explanation": "The bilayer is selectively permeable, blocking many substances."},
+          {"id": "m1a-l1-tf2", "statement": "Membrane proteins can act as channels for specific molecules.", "answer": true, "explanation": "Channel proteins create selective pathways for transport."}
+        ]
+      }
+    },
+    {
+      "id": "transport-mechanisms",
+      "title": "Membrane Transport Mechanisms", 
+      "text": "Cells move substances across membranes through **passive transport** (no energy required) and **active transport** (requires ATP energy). \n\n**Passive transport** includes:\n- **Simple diffusion**: Small nonpolar molecules like oxygen move down concentration gradients\n- **Facilitated diffusion**: Larger or polar molecules use channel or carrier proteins\n- **Osmosis**: Water movement through aquaporins or the lipid bilayer\n\n**Active transport** moves substances against gradients using ATP, like the sodium-potassium pump. **Bulk transport** includes **endocytosis** (bringing materials in) and **exocytosis** (removing materials).\n\nIn Ghanaian farming, osmosis explains why **yam** and **cocoyam** tubers become firm when stored in cool, humid conditions - water enters cells, creating turgor pressure that maintains texture.",
+      "knowledgeChecks": {
+        "mcq": [
+          {
+            "id": "m1a-l2-q1",
+            "type": "mcq", 
+            "stem": "Which process requires cellular energy (ATP)?",
+            "options": {"A": "Simple diffusion", "B": "Facilitated diffusion", "C": "Active transport", "D": "Osmosis"},
+            "answer": "C",
+            "explanation": "Active transport moves substances against concentration gradients, requiring ATP energy.",
+            "feedback": {"A": "Simple diffusion is passive.", "B": "Facilitated diffusion uses gradients.", "C": "Correct! Active transport needs ATP.", "D": "Osmosis is passive water movement."},
+            "difficulty": "basic"
+          },
+          {
+            "id": "m1a-l2-q2",
+            "type": "mcq",
+            "stem": "A red blood cell placed in salt water will:",
+            "options": {"A": "Swell and burst", "B": "Remain unchanged", "C": "Shrink and crenate", "D": "Divide rapidly"},
+            "answer": "C", 
+            "explanation": "In hypertonic salt water, water leaves the cell by osmosis, causing shrinkage.",
+            "feedback": {"A": "This happens in hypotonic solutions.", "B": "Salt water affects cell volume.", "C": "Correct! Water exits, cell shrinks.", "D": "Osmotic stress doesn't trigger division."},
+            "difficulty": "intermediate"
+          }
+        ]
+      },
+      "scenarioChallenges": [
+        {
+          "id": "m1a-l2-s1",
+          "scenario": "A market vendor in Accra sprinkles salt on cut vegetables to preserve them longer in hot weather.",
+          "question": "What cellular process explains this preservation method?",
+          "options": {"A": "Active transport removes bacteria", "B": "Salt blocks all transport", "C": "Osmosis dehydrates microorganisms", "D": "Facilitated diffusion increases"},
+          "answer": "C",
+          "explanation": "Salt creates a hypertonic environment, drawing water from bacterial cells by osmosis, inhibiting their growth.",
+          "difficulty": "intermediate"
+        }
+      ]
+    }
+  ]
+}
