@@ -1,0 +1,236 @@
+{
+  "subject": "chemistry",
+  "moduleTitle": "Atomic Structure & Electron Configuration",
+  "generatedAt": "2025-08-14T17:35:39.744Z",
+  "totalQuestions": 15,
+  "lessons": {
+    "atomic-theory-structure": {
+      "lessonTitle": "Atomic Theory and Structure",
+      "existingQuestions": 8,
+      "newQuestions": 5,
+      "questions": [
+        {
+          "id": "mcq-chemistry-atomic-structure-1",
+          "type": "mcq",
+          "difficulty": "basic",
+          "topic": "atomic structure",
+          "ghanaContext": "water treatment in Accra",
+          "stem": "What is the role of mitochondria in cellular respiration?",
+          "options": {
+            "A": "Incorrect option about atomic structure",
+            "B": "Answer about atomic structure",
+            "C": "Incorrect option about atomic structure",
+            "D": "Incorrect option about atomic structure"
+          },
+          "answer": "B",
+          "explanation": "This question tests understanding of atomic structure in the context of chemistry."
+        },
+        {
+          "id": "mcq-chemistry-atomic-structure-2",
+          "type": "mcq",
+          "difficulty": "basic",
+          "topic": "atomic structure",
+          "ghanaContext": "food preservation methods",
+          "stem": "What is the main function of atomic structure?",
+          "options": {
+            "A": "Incorrect option about atomic structure",
+            "B": "Answer about atomic structure",
+            "C": "Incorrect option about atomic structure",
+            "D": "Incorrect option about atomic structure"
+          },
+          "answer": "B",
+          "explanation": "This question tests understanding of atomic structure in the context of chemistry."
+        },
+        {
+          "id": "mcq-chemistry-atomic-structure-3",
+          "type": "mcq",
+          "difficulty": "intermediate",
+          "topic": "atomic structure",
+          "ghanaContext": "water treatment in Accra",
+          "stem": "What is the relationship between nutrient availability and increased cell growth?",
+          "options": {
+            "A": "Incorrect option about atomic structure",
+            "B": "Answer about atomic structure",
+            "C": "Incorrect option about atomic structure",
+            "D": "Incorrect option about atomic structure"
+          },
+          "answer": "B",
+          "explanation": "This question tests understanding of atomic structure in the context of chemistry."
+        },
+        {
+          "id": "trueFalse-chemistry-atomic-structure-4",
+          "type": "trueFalse",
+          "difficulty": "basic",
+          "topic": "atomic structure",
+          "ghanaContext": "food preservation methods",
+          "stem": "atomic structure is essential for cell division.",
+          "statement": "atomic structure is essential for cell division.",
+          "answer": true,
+          "explanation": "This question tests understanding of atomic structure in the context of chemistry."
+        },
+        {
+          "id": "fillInTheBlank-chemistry-atomic-structure-5",
+          "type": "fillInTheBlank",
+          "difficulty": "basic",
+          "topic": "atomic structure",
+          "ghanaContext": "gold mining and processing",
+          "stem": "When a cell is placed in a hypotonic solution, the result is _____.",
+          "answer": "Answer about atomic structure",
+          "explanation": "This question tests understanding of atomic structure in the context of chemistry."
+        }
+      ]
+    },
+    "electron-configuration-orbitals": {
+      "lessonTitle": "Electron Configuration and Orbitals",
+      "existingQuestions": 10,
+      "newQuestions": 5,
+      "questions": [
+        {
+          "id": "mcq-chemistry-bonding-1",
+          "type": "mcq",
+          "difficulty": "basic",
+          "topic": "bonding",
+          "ghanaContext": "traditional soap making",
+          "stem": "In which organelle does cell division occur?",
+          "options": {
+            "A": "Incorrect option about bonding",
+            "B": "Answer about bonding",
+            "C": "Incorrect option about bonding",
+            "D": "Incorrect option about bonding"
+          },
+          "answer": "B",
+          "explanation": "This question tests understanding of bonding in the context of chemistry."
+        },
+        {
+          "id": "mcq-chemistry-bases-2",
+          "type": "mcq",
+          "difficulty": "basic",
+          "topic": "bases",
+          "ghanaContext": "food preservation methods",
+          "stem": "Which of the following best describes bases?",
+          "options": {
+            "A": "Incorrect option about bases",
+            "B": "Answer about bases",
+            "C": "Incorrect option about bases",
+            "D": "Incorrect option about bases"
+          },
+          "answer": "B",
+          "explanation": "This question tests understanding of bases in the context of chemistry."
+        },
+        {
+          "id": "mcq-chemistry-acids-3",
+          "type": "mcq",
+          "difficulty": "intermediate",
+          "topic": "acids",
+          "ghanaContext": "food preservation methods",
+          "stem": "What is the relationship between nutrient availability and increased cell growth?",
+          "options": {
+            "A": "Incorrect option about acids",
+            "B": "Answer about acids",
+            "C": "Incorrect option about acids",
+            "D": "Incorrect option about acids"
+          },
+          "answer": "B",
+          "explanation": "This question tests understanding of acids in the context of chemistry."
+        },
+        {
+          "id": "trueFalse-chemistry-stoichiometry-4",
+          "type": "trueFalse",
+          "difficulty": "basic",
+          "topic": "stoichiometry",
+          "ghanaContext": "gold mining and processing",
+          "stem": "stoichiometry refers to {definition}.",
+          "statement": "stoichiometry refers to {definition}.",
+          "answer": false,
+          "explanation": "This question tests understanding of stoichiometry in the context of chemistry."
+        },
+        {
+          "id": "fillInTheBlank-chemistry-molecules-5",
+          "type": "fillInTheBlank",
+          "difficulty": "basic",
+          "topic": "molecules",
+          "ghanaContext": "water treatment in Accra",
+          "stem": "When a cell is placed in a hypotonic solution, the result is _____.",
+          "answer": "Answer about molecules",
+          "explanation": "This question tests understanding of molecules in the context of chemistry."
+        }
+      ]
+    },
+    "periodic-trends": {
+      "lessonTitle": "Periodic Trends",
+      "existingQuestions": 7,
+      "newQuestions": 5,
+      "questions": [
+        {
+          "id": "mcq-chemistry-atomic-structure-1",
+          "type": "mcq",
+          "difficulty": "basic",
+          "topic": "atomic structure",
+          "ghanaContext": "petroleum refining in Tema",
+          "stem": "What is the main function of atomic structure?",
+          "options": {
+            "A": "Incorrect option about atomic structure",
+            "B": "Answer about atomic structure",
+            "C": "Incorrect option about atomic structure",
+            "D": "Incorrect option about atomic structure"
+          },
+          "answer": "B",
+          "explanation": "This question tests understanding of atomic structure in the context of chemistry."
+        },
+        {
+          "id": "mcq-chemistry-atomic-structure-2",
+          "type": "mcq",
+          "difficulty": "basic",
+          "topic": "atomic structure",
+          "ghanaContext": "water treatment in Accra",
+          "stem": "In which organelle does cell division occur?",
+          "options": {
+            "A": "Incorrect option about atomic structure",
+            "B": "Answer about atomic structure",
+            "C": "Incorrect option about atomic structure",
+            "D": "Incorrect option about atomic structure"
+          },
+          "answer": "B",
+          "explanation": "This question tests understanding of atomic structure in the context of chemistry."
+        },
+        {
+          "id": "mcq-chemistry-atomic-structure-3",
+          "type": "mcq",
+          "difficulty": "intermediate",
+          "topic": "atomic structure",
+          "ghanaContext": "traditional soap making",
+          "stem": "How does cell division contribute to energy production?",
+          "options": {
+            "A": "Incorrect option about atomic structure",
+            "B": "Answer about atomic structure",
+            "C": "Incorrect option about atomic structure",
+            "D": "Incorrect option about atomic structure"
+          },
+          "answer": "B",
+          "explanation": "This question tests understanding of atomic structure in the context of chemistry."
+        },
+        {
+          "id": "trueFalse-chemistry-atomic-structure-4",
+          "type": "trueFalse",
+          "difficulty": "basic",
+          "topic": "atomic structure",
+          "ghanaContext": "food preservation methods",
+          "stem": "atomic structure is essential for cell division.",
+          "statement": "atomic structure is essential for cell division.",
+          "answer": false,
+          "explanation": "This question tests understanding of atomic structure in the context of chemistry."
+        },
+        {
+          "id": "fillInTheBlank-chemistry-atomic-structure-5",
+          "type": "fillInTheBlank",
+          "difficulty": "basic",
+          "topic": "atomic structure",
+          "ghanaContext": "gold mining and processing",
+          "stem": "The process of atomic structure involves _____.",
+          "answer": "Answer about atomic structure",
+          "explanation": "This question tests understanding of atomic structure in the context of chemistry."
+        }
+      ]
+    }
+  }
+}

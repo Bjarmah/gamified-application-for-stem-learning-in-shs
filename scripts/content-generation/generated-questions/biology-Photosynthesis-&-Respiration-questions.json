@@ -1,0 +1,252 @@
+{
+  "subject": "biology",
+  "moduleTitle": "Photosynthesis & Respiration",
+  "generatedAt": "2025-08-14T17:34:27.117Z",
+  "totalQuestions": 16,
+  "lessons": {
+    "photosynthesis-process": {
+      "lessonTitle": "Photosynthesis Process",
+      "existingQuestions": 7,
+      "newQuestions": 5,
+      "questions": [
+        {
+          "id": "mcq-biology-membrane-transport-1",
+          "type": "mcq",
+          "difficulty": "basic",
+          "topic": "membrane transport",
+          "ghanaContext": "coastal ecosystem conservation",
+          "stem": "Which statement about membrane transport is correct?",
+          "options": {
+            "A": "Requires energy input",
+            "B": "Movement of substances across membranes",
+            "C": "Only occurs in one direction",
+            "D": "Involves breaking down molecules"
+          },
+          "answer": "B",
+          "explanation": "This question tests basic understanding of membrane transport processes and their importance for cell survival."
+        },
+        {
+          "id": "mcq-biology-membrane-transport-2",
+          "type": "mcq",
+          "difficulty": "basic",
+          "topic": "membrane transport",
+          "ghanaContext": "cassava farming in the Ashanti region",
+          "stem": "Which statement about membrane transport is correct?",
+          "options": {
+            "A": "Requires energy input",
+            "B": "Movement of substances across membranes",
+            "C": "Only occurs in one direction",
+            "D": "Involves breaking down molecules"
+          },
+          "answer": "B",
+          "explanation": "This question tests basic understanding of membrane transport processes and their importance for cell survival."
+        },
+        {
+          "id": "mcq-biology-membrane-transport-3",
+          "type": "mcq",
+          "difficulty": "intermediate",
+          "topic": "membrane transport",
+          "ghanaContext": "cassava farming in the Ashanti region",
+          "stem": "How does membrane transport relate to diffusion?",
+          "options": {
+            "A": "Requires energy input",
+            "B": "Selective movement of molecules through membrane proteins",
+            "C": "Only occurs in one direction",
+            "D": "Involves breaking down molecules"
+          },
+          "answer": "B",
+          "explanation": "This question requires understanding of membrane transport mechanisms and their regulation."
+        },
+        {
+          "id": "trueFalse-biology-membrane-transport-4",
+          "type": "trueFalse",
+          "difficulty": "basic",
+          "topic": "membrane transport",
+          "ghanaContext": "cocoa production in Western Ghana",
+          "stem": "substances move across a membrane always results in net movement of molecules.",
+          "statement": "substances move across a membrane always results in net movement of molecules.",
+          "answer": true,
+          "explanation": "This question tests basic understanding of membrane transport processes and their importance for cell survival."
+        },
+        {
+          "id": "fillInTheBlank-biology-membrane-transport-5",
+          "type": "fillInTheBlank",
+          "difficulty": "basic",
+          "topic": "membrane transport",
+          "ghanaContext": "cocoa production in Western Ghana",
+          "stem": "membrane transport is defined as _____.",
+          "answer": "Movement of substances across membranes",
+          "explanation": "This question tests basic understanding of membrane transport processes and their importance for cell survival."
+        }
+      ]
+    },
+    "cellular-respiration": {
+      "lessonTitle": "Cellular Respiration",
+      "existingQuestions": 7,
+      "newQuestions": 5,
+      "questions": [
+        {
+          "id": "mcq-biology-membrane-transport-1",
+          "type": "mcq",
+          "difficulty": "basic",
+          "topic": "membrane transport",
+          "ghanaContext": "cocoa production in Western Ghana",
+          "stem": "Identify the correct definition of membrane transport.",
+          "options": {
+            "A": "Requires energy input",
+            "B": "Movement of substances across membranes",
+            "C": "Only occurs in one direction",
+            "D": "Involves breaking down molecules"
+          },
+          "answer": "B",
+          "explanation": "This question tests basic understanding of membrane transport processes and their importance for cell survival."
+        },
+        {
+          "id": "mcq-biology-cell-structure-2",
+          "type": "mcq",
+          "difficulty": "basic",
+          "topic": "cell structure",
+          "ghanaContext": "agricultural biotechnology in Ghana",
+          "stem": "Which of the following best describes cell structure?",
+          "options": {
+            "A": "Only found in animal cells",
+            "B": "The basic unit of life",
+            "C": "Not essential for cell function",
+            "D": "Located outside the cell membrane"
+          },
+          "answer": "B",
+          "explanation": "This question tests basic understanding of cell structure and its fundamental role in biology."
+        },
+        {
+          "id": "mcq-biology-membrane-transport-3",
+          "type": "mcq",
+          "difficulty": "intermediate",
+          "topic": "membrane transport",
+          "ghanaContext": "cassava farming in the Ashanti region",
+          "stem": "What would happen if transport proteins was removed?",
+          "options": {
+            "A": "Requires energy input",
+            "B": "Selective movement of molecules through membrane proteins",
+            "C": "Only occurs in one direction",
+            "D": "Involves breaking down molecules"
+          },
+          "answer": "B",
+          "explanation": "This question requires understanding of membrane transport mechanisms and their regulation."
+        },
+        {
+          "id": "trueFalse-biology-membrane-transport-4",
+          "type": "trueFalse",
+          "difficulty": "basic",
+          "topic": "membrane transport",
+          "ghanaContext": "cassava farming in the Ashanti region",
+          "stem": "membrane transport refers to {definition}.",
+          "statement": "membrane transport refers to {definition}.",
+          "answer": false,
+          "explanation": "This question tests basic understanding of membrane transport processes and their importance for cell survival."
+        },
+        {
+          "id": "fillInTheBlank-biology-cell-structure-5",
+          "type": "fillInTheBlank",
+          "difficulty": "basic",
+          "topic": "cell structure",
+          "ghanaContext": "coastal ecosystem conservation",
+          "stem": "cell structure is defined as _____.",
+          "answer": "The basic unit of life",
+          "explanation": "This question tests basic understanding of cell structure and its fundamental role in biology."
+        }
+      ]
+    },
+    "energy-flow-systems": {
+      "lessonTitle": "Energy Flow in Living Systems",
+      "existingQuestions": 6,
+      "newQuestions": 6,
+      "questions": [
+        {
+          "id": "mcq-biology-cell-structure-1",
+          "type": "mcq",
+          "difficulty": "basic",
+          "topic": "cell structure",
+          "ghanaContext": "traditional medicine practices",
+          "stem": "Which structure is responsible for energy production?",
+          "options": {
+            "A": "Only found in animal cells",
+            "B": "The basic unit of life",
+            "C": "Not essential for cell function",
+            "D": "Located outside the cell membrane"
+          },
+          "answer": "B",
+          "explanation": "This question tests basic understanding of cell structure and its fundamental role in biology."
+        },
+        {
+          "id": "mcq-biology-cell-structure-2",
+          "type": "mcq",
+          "difficulty": "basic",
+          "topic": "cell structure",
+          "ghanaContext": "coastal ecosystem conservation",
+          "stem": "What is the main function of cell structure?",
+          "options": {
+            "A": "Only found in animal cells",
+            "B": "The basic unit of life",
+            "C": "Not essential for cell function",
+            "D": "Located outside the cell membrane"
+          },
+          "answer": "B",
+          "explanation": "This question tests basic understanding of cell structure and its fundamental role in biology."
+        },
+        {
+          "id": "mcq-biology-cell-structure-3",
+          "type": "mcq",
+          "difficulty": "intermediate",
+          "topic": "cell structure",
+          "ghanaContext": "cocoa production in Western Ghana",
+          "stem": "How does cell division contribute to energy production?",
+          "options": {
+            "A": "Only found in animal cells",
+            "B": "A complex system of organelles working together",
+            "C": "Not essential for cell function",
+            "D": "Located outside the cell membrane"
+          },
+          "answer": "B",
+          "explanation": "This question requires understanding of how cell structure components work together and their relationships."
+        },
+        {
+          "id": "mcq-biology-ecosystems-4",
+          "type": "mcq",
+          "difficulty": "intermediate",
+          "topic": "ecosystems",
+          "ghanaContext": "coastal ecosystem conservation",
+          "stem": "What would happen if mitochondria was removed?",
+          "options": {
+            "A": "Incorrect option about ecosystems",
+            "B": "Answer about ecosystems",
+            "C": "Incorrect option about ecosystems",
+            "D": "Incorrect option about ecosystems"
+          },
+          "answer": "B",
+          "explanation": "This question tests understanding of ecosystems in the context of biology."
+        },
+        {
+          "id": "trueFalse-biology-cell-structure-5",
+          "type": "trueFalse",
+          "difficulty": "basic",
+          "topic": "cell structure",
+          "ghanaContext": "cocoa production in Western Ghana",
+          "stem": "a cell is placed in a hypotonic solution always results in cell death.",
+          "statement": "a cell is placed in a hypotonic solution always results in cell death.",
+          "answer": true,
+          "explanation": "This question tests basic understanding of cell structure and its fundamental role in biology."
+        },
+        {
+          "id": "fillInTheBlank-biology-cell-structure-6",
+          "type": "fillInTheBlank",
+          "difficulty": "basic",
+          "topic": "cell structure",
+          "ghanaContext": "agricultural biotechnology in Ghana",
+          "stem": "The process of cell structure involves _____.",
+          "answer": "The basic unit of life",
+          "explanation": "This question tests basic understanding of cell structure and its fundamental role in biology."
+        }
+      ]
+    }
+  }
+}

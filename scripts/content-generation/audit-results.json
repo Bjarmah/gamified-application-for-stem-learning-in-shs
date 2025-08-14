@@ -1,0 +1,1026 @@
+{
+  "timestamp": "2025-08-14T17:10:47.623Z",
+  "summary": {
+    "totalSubjects": 5,
+    "totalModules": 16,
+    "totalLessons": 31,
+    "totalQuestions": 190,
+    "averageQuestionsPerLesson": "6.1"
+  },
+  "subjects": {
+    "biology": {
+      "modules": [
+        {
+          "moduleId": "unknown",
+          "moduleTitle": "Untitled",
+          "subject": "biology",
+          "level": "Unknown",
+          "lessons": [],
+          "totalLessons": 0,
+          "totalQuestions": 0,
+          "hasGhanaContext": false,
+          "hasFinalAssessment": false,
+          "issues": [
+            "No lessons found or lessons not in expected format",
+            "Insufficient learning objectives (recommended: 3-5)",
+            "Missing WASSCE alignment information",
+            "Missing gamification rules"
+          ]
+        },
+        {
+          "moduleId": "bio-cell-structure",
+          "moduleTitle": "Cell Structure & Function",
+          "subject": "biology",
+          "level": "SHS 1",
+          "lessons": [
+            {
+              "lessonId": "cell-membrane-transport",
+              "title": "Cell Membrane & Transport",
+              "hasText": true,
+              "textLength": 1234,
+              "knowledgeChecks": {
+                "mcq": 5,
+                "trueFalse": 3,
+                "fillInTheBlank": 0,
+                "shortAnswer": 0,
+                "problemSolving": 0,
+                "graphInterpretation": 0,
+                "workedExamples": 0,
+                "calculationExercises": 0,
+                "forceDiagram": 0,
+                "matching": 0
+              },
+              "scenarioChallenges": 1,
+              "ghanaContext": true,
+              "issues": []
+            },
+            {
+              "lessonId": "nucleus-genetic-control",
+              "title": "Nucleus & Genetic Control",
+              "hasText": true,
+              "textLength": 984,
+              "knowledgeChecks": {
+                "mcq": 4,
+                "trueFalse": 0,
+                "fillInTheBlank": 0,
+                "shortAnswer": 0,
+                "problemSolving": 0,
+                "graphInterpretation": 0,
+                "workedExamples": 0,
+                "calculationExercises": 0,
+                "forceDiagram": 0,
+                "matching": 2
+              },
+              "scenarioChallenges": 1,
+              "ghanaContext": true,
+              "issues": []
+            },
+            {
+              "lessonId": "organelles-functions",
+              "title": "Organelles & Their Functions",
+              "hasText": true,
+              "textLength": 858,
+              "knowledgeChecks": {
+                "mcq": 6,
+                "trueFalse": 0,
+                "fillInTheBlank": 0,
+                "shortAnswer": 0,
+                "problemSolving": 0,
+                "graphInterpretation": 0,
+                "workedExamples": 0,
+                "calculationExercises": 0,
+                "forceDiagram": 0,
+                "matching": 0
+              },
+              "scenarioChallenges": 1,
+              "ghanaContext": true,
+              "issues": []
+            },
+            {
+              "lessonId": "cell-division-mitosis",
+              "title": "Cell Division Process",
+              "hasText": true,
+              "textLength": 759,
+              "knowledgeChecks": {
+                "mcq": 5,
+                "trueFalse": 0,
+                "fillInTheBlank": 0,
+                "shortAnswer": 0,
+                "problemSolving": 0,
+                "graphInterpretation": 0,
+                "workedExamples": 0,
+                "calculationExercises": 0,
+                "forceDiagram": 0,
+                "matching": 0
+              },
+              "scenarioChallenges": 1,
+              "ghanaContext": true,
+              "issues": []
+            }
+          ],
+          "totalLessons": 4,
+          "totalQuestions": 25,
+          "hasGhanaContext": true,
+          "hasFinalAssessment": true,
+          "issues": []
+        },
+        {
+          "moduleId": "bio-photosynthesis-respiration",
+          "moduleTitle": "Photosynthesis & Respiration",
+          "subject": "biology",
+          "level": "SHS 2",
+          "lessons": [
+            {
+              "lessonId": "photosynthesis-process",
+              "title": "Photosynthesis Process",
+              "hasText": true,
+              "textLength": 766,
+              "knowledgeChecks": {
+                "mcq": 5,
+                "trueFalse": 0,
+                "fillInTheBlank": 0,
+                "shortAnswer": 0,
+                "problemSolving": 0,
+                "graphInterpretation": 0,
+                "workedExamples": 0,
+                "calculationExercises": 0,
+                "forceDiagram": 0,
+                "matching": 0
+              },
+              "scenarioChallenges": 1,
+              "ghanaContext": true,
+              "issues": []
+            },
+            {
+              "lessonId": "cellular-respiration",
+              "title": "Cellular Respiration",
+              "hasText": true,
+              "textLength": 737,
+              "knowledgeChecks": {
+                "mcq": 6,
+                "trueFalse": 0,
+                "fillInTheBlank": 0,
+                "shortAnswer": 0,
+                "problemSolving": 0,
+                "graphInterpretation": 0,
+                "workedExamples": 0,
+                "calculationExercises": 0,
+                "forceDiagram": 0,
+                "matching": 0
+              },
+              "scenarioChallenges": 1,
+              "ghanaContext": true,
+              "issues": []
+            },
+            {
+              "lessonId": "energy-flow-systems",
+              "title": "Energy Flow in Living Systems",
+              "hasText": true,
+              "textLength": 500,
+              "knowledgeChecks": {
+                "mcq": 4,
+                "trueFalse": 0,
+                "fillInTheBlank": 0,
+                "shortAnswer": 0,
+                "problemSolving": 0,
+                "graphInterpretation": 0,
+                "workedExamples": 0,
+                "calculationExercises": 0,
+                "forceDiagram": 0,
+                "matching": 0
+              },
+              "scenarioChallenges": 1,
+              "ghanaContext": true,
+              "issues": [
+                "Insufficient questions: only 4 found (recommended: 15-20)"
+              ]
+            }
+          ],
+          "totalLessons": 3,
+          "totalQuestions": 15,
+          "hasGhanaContext": true,
+          "hasFinalAssessment": true,
+          "issues": []
+        },
+        {
+          "moduleId": "bio-human-body-systems",
+          "moduleTitle": "Human Body Systems",
+          "subject": "biology",
+          "level": "SHS 3",
+          "lessons": [
+            {
+              "lessonId": "circulatory-system",
+              "title": "Circulatory System",
+              "hasText": true,
+              "textLength": 784,
+              "knowledgeChecks": {
+                "mcq": 6,
+                "trueFalse": 0,
+                "fillInTheBlank": 0,
+                "shortAnswer": 0,
+                "problemSolving": 0,
+                "graphInterpretation": 0,
+                "workedExamples": 0,
+                "calculationExercises": 0,
+                "forceDiagram": 0,
+                "matching": 0
+              },
+              "scenarioChallenges": 1,
+              "ghanaContext": true,
+              "issues": []
+            },
+            {
+              "lessonId": "respiratory-system",
+              "title": "Respiratory System",
+              "hasText": true,
+              "textLength": 554,
+              "knowledgeChecks": {
+                "mcq": 5,
+                "trueFalse": 0,
+                "fillInTheBlank": 0,
+                "shortAnswer": 0,
+                "problemSolving": 0,
+                "graphInterpretation": 0,
+                "workedExamples": 0,
+                "calculationExercises": 0,
+                "forceDiagram": 0,
+                "matching": 0
+              },
+              "scenarioChallenges": 1,
+              "ghanaContext": false,
+              "issues": [
+                "Missing Ghana context examples"
+              ]
+            },
+            {
+              "lessonId": "coordination-control",
+              "title": "Coordination & Control",
+              "hasText": true,
+              "textLength": 480,
+              "knowledgeChecks": {
+                "mcq": 7,
+                "trueFalse": 0,
+                "fillInTheBlank": 0,
+                "shortAnswer": 0,
+                "problemSolving": 0,
+                "graphInterpretation": 0,
+                "workedExamples": 0,
+                "calculationExercises": 0,
+                "forceDiagram": 0,
+                "matching": 0
+              },
+              "scenarioChallenges": 1,
+              "ghanaContext": true,
+              "issues": [
+                "Content too short: 480 characters (recommended: 1000+)"
+              ]
+            }
+          ],
+          "totalLessons": 3,
+          "totalQuestions": 18,
+          "hasGhanaContext": true,
+          "hasFinalAssessment": true,
+          "issues": []
+        }
+      ],
+      "totalModules": 4,
+      "totalLessons": 10,
+      "totalQuestions": 58,
+      "hasGhanaContext": true,
+      "hasFinalAssessment": true
+    },
+    "chemistry": {
+      "modules": [
+        {
+          "moduleId": "chem-atomic-structure",
+          "moduleTitle": "Atomic Structure & Electron Configuration",
+          "subject": "chemistry",
+          "level": "SHS 1",
+          "lessons": [
+            {
+              "lessonId": "atomic-theory-structure",
+              "title": "Atomic Theory and Structure",
+              "hasText": true,
+              "textLength": 943,
+              "knowledgeChecks": {
+                "mcq": 5,
+                "trueFalse": 0,
+                "fillInTheBlank": 0,
+                "shortAnswer": 0,
+                "problemSolving": 0,
+                "graphInterpretation": 0,
+                "workedExamples": 0,
+                "calculationExercises": 0,
+                "forceDiagram": 0,
+                "matching": 0
+              },
+              "scenarioChallenges": 1,
+              "ghanaContext": true,
+              "issues": []
+            },
+            {
+              "lessonId": "electron-configuration-orbitals",
+              "title": "Electron Configuration and Orbitals",
+              "hasText": true,
+              "textLength": 1030,
+              "knowledgeChecks": {
+                "mcq": 4,
+                "trueFalse": 0,
+                "fillInTheBlank": 0,
+                "shortAnswer": 0,
+                "problemSolving": 0,
+                "graphInterpretation": 0,
+                "workedExamples": 0,
+                "calculationExercises": 0,
+                "forceDiagram": 0,
+                "matching": 0
+              },
+              "scenarioChallenges": 1,
+              "ghanaContext": false,
+              "issues": [
+                "Insufficient questions: only 4 found (recommended: 15-20)",
+                "Missing Ghana context examples"
+              ]
+            },
+            {
+              "lessonId": "periodic-trends",
+              "title": "Periodic Trends",
+              "hasText": true,
+              "textLength": 896,
+              "knowledgeChecks": {
+                "mcq": 5,
+                "trueFalse": 0,
+                "fillInTheBlank": 0,
+                "shortAnswer": 0,
+                "problemSolving": 0,
+                "graphInterpretation": 2,
+                "workedExamples": 0,
+                "calculationExercises": 0,
+                "forceDiagram": 0,
+                "matching": 0
+              },
+              "scenarioChallenges": 1,
+              "ghanaContext": true,
+              "issues": []
+            }
+          ],
+          "totalLessons": 3,
+          "totalQuestions": 16,
+          "hasGhanaContext": true,
+          "hasFinalAssessment": true,
+          "issues": []
+        },
+        {
+          "moduleId": "chem-module-2",
+          "moduleTitle": "Chemical Bonding",
+          "subject": "chemistry",
+          "level": "shs",
+          "lessons": [],
+          "totalLessons": 0,
+          "totalQuestions": 0,
+          "hasGhanaContext": false,
+          "hasFinalAssessment": false,
+          "issues": [
+            "No lessons found or lessons not in expected format",
+            "Insufficient learning objectives (recommended: 3-5)",
+            "Missing WASSCE alignment information",
+            "Missing gamification rules"
+          ]
+        },
+        {
+          "moduleId": "chem-module-3",
+          "moduleTitle": "Acids, Bases & Salts",
+          "subject": "chemistry",
+          "level": "shs",
+          "lessons": [],
+          "totalLessons": 0,
+          "totalQuestions": 0,
+          "hasGhanaContext": false,
+          "hasFinalAssessment": false,
+          "issues": [
+            "No lessons found or lessons not in expected format",
+            "Insufficient learning objectives (recommended: 3-5)",
+            "Missing WASSCE alignment information",
+            "Missing gamification rules"
+          ]
+        }
+      ],
+      "totalModules": 3,
+      "totalLessons": 3,
+      "totalQuestions": 16,
+      "hasGhanaContext": true,
+      "hasFinalAssessment": true
+    },
+    "physics": {
+      "modules": [
+        {
+          "moduleId": "physics-forces-motion",
+          "moduleTitle": "Forces and Motion",
+          "subject": "physics",
+          "level": "SHS 1",
+          "lessons": [
+            {
+              "lessonId": "linear-motion-kinematics",
+              "title": "Linear Motion and Kinematics",
+              "hasText": true,
+              "textLength": 840,
+              "knowledgeChecks": {
+                "mcq": 5,
+                "trueFalse": 0,
+                "fillInTheBlank": 0,
+                "shortAnswer": 0,
+                "problemSolving": 0,
+                "graphInterpretation": 3,
+                "workedExamples": 0,
+                "calculationExercises": 0,
+                "forceDiagram": 0,
+                "matching": 0
+              },
+              "scenarioChallenges": 1,
+              "ghanaContext": true,
+              "issues": []
+            },
+            {
+              "lessonId": "newtons-laws-motion",
+              "title": "Newton's Laws of Motion",
+              "hasText": true,
+              "textLength": 762,
+              "knowledgeChecks": {
+                "mcq": 6,
+                "trueFalse": 0,
+                "fillInTheBlank": 0,
+                "shortAnswer": 0,
+                "problemSolving": 0,
+                "graphInterpretation": 0,
+                "workedExamples": 0,
+                "calculationExercises": 0,
+                "forceDiagram": 2,
+                "matching": 0
+              },
+              "scenarioChallenges": 1,
+              "ghanaContext": true,
+              "issues": []
+            },
+            {
+              "lessonId": "work-energy-power",
+              "title": "Work, Energy and Power",
+              "hasText": true,
+              "textLength": 777,
+              "knowledgeChecks": {
+                "mcq": 4,
+                "trueFalse": 0,
+                "fillInTheBlank": 0,
+                "shortAnswer": 0,
+                "problemSolving": 0,
+                "graphInterpretation": 0,
+                "workedExamples": 0,
+                "calculationExercises": 5,
+                "forceDiagram": 0,
+                "matching": 0
+              },
+              "scenarioChallenges": 1,
+              "ghanaContext": true,
+              "issues": []
+            }
+          ],
+          "totalLessons": 3,
+          "totalQuestions": 25,
+          "hasGhanaContext": true,
+          "hasFinalAssessment": true,
+          "issues": []
+        },
+        {
+          "moduleId": "physics-waves-sound",
+          "moduleTitle": "Waves and Sound",
+          "subject": "physics",
+          "level": "SHS 2",
+          "lessons": [
+            {
+              "lessonId": "wave-properties-types",
+              "title": "Wave Properties and Types",
+              "hasText": true,
+              "textLength": 813,
+              "knowledgeChecks": {
+                "mcq": 5,
+                "trueFalse": 0,
+                "fillInTheBlank": 0,
+                "shortAnswer": 0,
+                "problemSolving": 0,
+                "graphInterpretation": 0,
+                "workedExamples": 0,
+                "calculationExercises": 0,
+                "forceDiagram": 0,
+                "matching": 0
+              },
+              "scenarioChallenges": 1,
+              "ghanaContext": true,
+              "issues": []
+            },
+            {
+              "lessonId": "sound-waves-acoustics",
+              "title": "Sound Waves and Acoustics",
+              "hasText": true,
+              "textLength": 818,
+              "knowledgeChecks": {
+                "mcq": 4,
+                "trueFalse": 0,
+                "fillInTheBlank": 0,
+                "shortAnswer": 0,
+                "problemSolving": 0,
+                "graphInterpretation": 0,
+                "workedExamples": 0,
+                "calculationExercises": 0,
+                "forceDiagram": 0,
+                "matching": 0
+              },
+              "scenarioChallenges": 1,
+              "ghanaContext": true,
+              "issues": [
+                "Insufficient questions: only 4 found (recommended: 15-20)"
+              ]
+            },
+            {
+              "lessonId": "wave-interference-applications",
+              "title": "Wave Interference and Applications",
+              "hasText": true,
+              "textLength": 762,
+              "knowledgeChecks": {
+                "mcq": 6,
+                "trueFalse": 0,
+                "fillInTheBlank": 0,
+                "shortAnswer": 0,
+                "problemSolving": 0,
+                "graphInterpretation": 0,
+                "workedExamples": 0,
+                "calculationExercises": 0,
+                "forceDiagram": 0,
+                "matching": 0
+              },
+              "scenarioChallenges": 1,
+              "ghanaContext": false,
+              "issues": [
+                "Missing Ghana context examples"
+              ]
+            }
+          ],
+          "totalLessons": 3,
+          "totalQuestions": 15,
+          "hasGhanaContext": true,
+          "hasFinalAssessment": true,
+          "issues": []
+        },
+        {
+          "moduleId": "physics-electricity-magnetism",
+          "moduleTitle": "Electricity and Magnetism",
+          "subject": "physics",
+          "level": "SHS 3",
+          "lessons": [
+            {
+              "lessonId": "electric-circuits-current",
+              "title": "Electric Circuits and Current",
+              "hasText": true,
+              "textLength": 910,
+              "knowledgeChecks": {
+                "mcq": 5,
+                "trueFalse": 0,
+                "fillInTheBlank": 0,
+                "shortAnswer": 0,
+                "problemSolving": 0,
+                "graphInterpretation": 0,
+                "workedExamples": 0,
+                "calculationExercises": 0,
+                "forceDiagram": 0,
+                "matching": 0
+              },
+              "scenarioChallenges": 1,
+              "ghanaContext": true,
+              "issues": []
+            },
+            {
+              "lessonId": "magnetism-electromagnetic-induction",
+              "title": "Magnetism and Electromagnetic Induction",
+              "hasText": true,
+              "textLength": 749,
+              "knowledgeChecks": {
+                "mcq": 4,
+                "trueFalse": 0,
+                "fillInTheBlank": 0,
+                "shortAnswer": 0,
+                "problemSolving": 0,
+                "graphInterpretation": 0,
+                "workedExamples": 0,
+                "calculationExercises": 0,
+                "forceDiagram": 0,
+                "matching": 0
+              },
+              "scenarioChallenges": 1,
+              "ghanaContext": true,
+              "issues": [
+                "Insufficient questions: only 4 found (recommended: 15-20)"
+              ]
+            },
+            {
+              "lessonId": "practical-applications",
+              "title": "Practical Applications",
+              "hasText": true,
+              "textLength": 753,
+              "knowledgeChecks": {
+                "mcq": 5,
+                "trueFalse": 0,
+                "fillInTheBlank": 0,
+                "shortAnswer": 0,
+                "problemSolving": 0,
+                "graphInterpretation": 0,
+                "workedExamples": 0,
+                "calculationExercises": 0,
+                "forceDiagram": 0,
+                "matching": 0
+              },
+              "scenarioChallenges": 1,
+              "ghanaContext": true,
+              "issues": []
+            }
+          ],
+          "totalLessons": 3,
+          "totalQuestions": 14,
+          "hasGhanaContext": true,
+          "hasFinalAssessment": true,
+          "issues": []
+        }
+      ],
+      "totalModules": 3,
+      "totalLessons": 9,
+      "totalQuestions": 54,
+      "hasGhanaContext": true,
+      "hasFinalAssessment": true
+    },
+    "mathematics": {
+      "modules": [
+        {
+          "moduleId": "math-quadratics",
+          "moduleTitle": "Quadratic Functions & Equations",
+          "subject": "mathematics",
+          "level": "SHS 1",
+          "lessons": [
+            {
+              "lessonId": "intro-quadratic-functions",
+              "title": "Introduction to Quadratic Functions",
+              "hasText": true,
+              "textLength": 926,
+              "knowledgeChecks": {
+                "mcq": 5,
+                "trueFalse": 3,
+                "fillInTheBlank": 0,
+                "shortAnswer": 0,
+                "problemSolving": 0,
+                "graphInterpretation": 0,
+                "workedExamples": 0,
+                "calculationExercises": 0,
+                "forceDiagram": 0,
+                "matching": 0
+              },
+              "scenarioChallenges": 1,
+              "ghanaContext": true,
+              "issues": []
+            },
+            {
+              "lessonId": "solving-quadratics",
+              "title": "Solving Quadratic Equations",
+              "hasText": true,
+              "textLength": 790,
+              "knowledgeChecks": {
+                "mcq": 4,
+                "trueFalse": 0,
+                "fillInTheBlank": 0,
+                "shortAnswer": 0,
+                "problemSolving": 0,
+                "graphInterpretation": 0,
+                "workedExamples": 6,
+                "calculationExercises": 0,
+                "forceDiagram": 0,
+                "matching": 0
+              },
+              "scenarioChallenges": 1,
+              "ghanaContext": true,
+              "issues": []
+            },
+            {
+              "lessonId": "graphing-applications",
+              "title": "Graphing and Applications",
+              "hasText": true,
+              "textLength": 691,
+              "knowledgeChecks": {
+                "mcq": 5,
+                "trueFalse": 0,
+                "fillInTheBlank": 0,
+                "shortAnswer": 0,
+                "problemSolving": 0,
+                "graphInterpretation": 0,
+                "workedExamples": 0,
+                "calculationExercises": 0,
+                "forceDiagram": 0,
+                "matching": 2
+              },
+              "scenarioChallenges": 1,
+              "ghanaContext": true,
+              "issues": []
+            }
+          ],
+          "totalLessons": 3,
+          "totalQuestions": 25,
+          "hasGhanaContext": true,
+          "hasFinalAssessment": true,
+          "issues": []
+        },
+        {
+          "moduleId": "math-trigonometry",
+          "moduleTitle": "Trigonometry",
+          "subject": "mathematics",
+          "level": "SHS 2",
+          "lessons": [
+            {
+              "lessonId": "basic-ratios",
+              "title": "Basic Trigonometric Ratios",
+              "hasText": true,
+              "textLength": 635,
+              "knowledgeChecks": {
+                "mcq": 6,
+                "trueFalse": 0,
+                "fillInTheBlank": 0,
+                "shortAnswer": 0,
+                "problemSolving": 0,
+                "graphInterpretation": 0,
+                "workedExamples": 0,
+                "calculationExercises": 0,
+                "forceDiagram": 0,
+                "matching": 0
+              },
+              "scenarioChallenges": 1,
+              "ghanaContext": true,
+              "issues": []
+            },
+            {
+              "lessonId": "identities-equations",
+              "title": "Trigonometric Equations and Identities",
+              "hasText": true,
+              "textLength": 556,
+              "knowledgeChecks": {
+                "mcq": 5,
+                "trueFalse": 0,
+                "fillInTheBlank": 0,
+                "shortAnswer": 0,
+                "problemSolving": 0,
+                "graphInterpretation": 0,
+                "workedExamples": 0,
+                "calculationExercises": 0,
+                "forceDiagram": 0,
+                "matching": 0
+              },
+              "scenarioChallenges": 1,
+              "ghanaContext": false,
+              "issues": [
+                "Missing Ghana context examples"
+              ]
+            },
+            {
+              "lessonId": "trig-applications",
+              "title": "Applications in Real Life",
+              "hasText": true,
+              "textLength": 549,
+              "knowledgeChecks": {
+                "mcq": 4,
+                "trueFalse": 0,
+                "fillInTheBlank": 0,
+                "shortAnswer": 0,
+                "problemSolving": 0,
+                "graphInterpretation": 0,
+                "workedExamples": 0,
+                "calculationExercises": 0,
+                "forceDiagram": 0,
+                "matching": 0
+              },
+              "scenarioChallenges": 1,
+              "ghanaContext": true,
+              "issues": [
+                "Insufficient questions: only 4 found (recommended: 15-20)"
+              ]
+            }
+          ],
+          "totalLessons": 3,
+          "totalQuestions": 15,
+          "hasGhanaContext": true,
+          "hasFinalAssessment": true,
+          "issues": []
+        },
+        {
+          "moduleId": "math-statistics-probability",
+          "moduleTitle": "Statistics & Probability",
+          "subject": "mathematics",
+          "level": "SHS 3",
+          "lessons": [
+            {
+              "lessonId": "data-collection-presentation",
+              "title": "Data Collection and Presentation",
+              "hasText": true,
+              "textLength": 617,
+              "knowledgeChecks": {
+                "mcq": 5,
+                "trueFalse": 0,
+                "fillInTheBlank": 0,
+                "shortAnswer": 0,
+                "problemSolving": 0,
+                "graphInterpretation": 2,
+                "workedExamples": 0,
+                "calculationExercises": 0,
+                "forceDiagram": 0,
+                "matching": 0
+              },
+              "scenarioChallenges": 1,
+              "ghanaContext": true,
+              "issues": []
+            },
+            {
+              "lessonId": "central-tendency-dispersion",
+              "title": "Measures of Central Tendency and Dispersion",
+              "hasText": true,
+              "textLength": 454,
+              "knowledgeChecks": {
+                "mcq": 4,
+                "trueFalse": 0,
+                "fillInTheBlank": 0,
+                "shortAnswer": 0,
+                "problemSolving": 0,
+                "graphInterpretation": 0,
+                "workedExamples": 0,
+                "calculationExercises": 6,
+                "forceDiagram": 0,
+                "matching": 0
+              },
+              "scenarioChallenges": 1,
+              "ghanaContext": true,
+              "issues": [
+                "Content too short: 454 characters (recommended: 1000+)"
+              ]
+            },
+            {
+              "lessonId": "probability-distributions",
+              "title": "Probability and Distributions",
+              "hasText": true,
+              "textLength": 405,
+              "knowledgeChecks": {
+                "mcq": 5,
+                "trueFalse": 0,
+                "fillInTheBlank": 0,
+                "shortAnswer": 0,
+                "problemSolving": 0,
+                "graphInterpretation": 0,
+                "workedExamples": 0,
+                "calculationExercises": 0,
+                "forceDiagram": 0,
+                "matching": 0
+              },
+              "scenarioChallenges": 1,
+              "ghanaContext": false,
+              "issues": [
+                "Missing Ghana context examples",
+                "Content too short: 405 characters (recommended: 1000+)"
+              ]
+            }
+          ],
+          "totalLessons": 3,
+          "totalQuestions": 22,
+          "hasGhanaContext": true,
+          "hasFinalAssessment": true,
+          "issues": []
+        }
+      ],
+      "totalModules": 3,
+      "totalLessons": 9,
+      "totalQuestions": 62,
+      "hasGhanaContext": true,
+      "hasFinalAssessment": true
+    },
+    "ict": {
+      "modules": [
+        {
+          "moduleId": "ict-module-1",
+          "moduleTitle": "Programming Fundamentals",
+          "subject": "ict",
+          "level": "shs",
+          "lessons": [],
+          "totalLessons": 0,
+          "totalQuestions": 0,
+          "hasGhanaContext": false,
+          "hasFinalAssessment": false,
+          "issues": [
+            "No lessons found or lessons not in expected format",
+            "Insufficient learning objectives (recommended: 3-5)",
+            "Missing WASSCE alignment information",
+            "Missing gamification rules"
+          ]
+        },
+        {
+          "moduleId": "ict-module-2",
+          "moduleTitle": "Computer Networks & Internet",
+          "subject": "ict",
+          "level": "shs",
+          "lessons": [],
+          "totalLessons": 0,
+          "totalQuestions": 0,
+          "hasGhanaContext": false,
+          "hasFinalAssessment": false,
+          "issues": [
+            "No lessons found or lessons not in expected format",
+            "Insufficient learning objectives (recommended: 3-5)",
+            "Missing WASSCE alignment information",
+            "Missing gamification rules"
+          ]
+        },
+        {
+          "moduleId": "ict-module-3",
+          "moduleTitle": "Database Management",
+          "subject": "ict",
+          "level": "shs",
+          "lessons": [],
+          "totalLessons": 0,
+          "totalQuestions": 0,
+          "hasGhanaContext": false,
+          "hasFinalAssessment": false,
+          "issues": [
+            "No lessons found or lessons not in expected format",
+            "Insufficient learning objectives (recommended: 3-5)",
+            "Missing WASSCE alignment information",
+            "Missing gamification rules"
+          ]
+        }
+      ],
+      "totalModules": 3,
+      "totalLessons": 0,
+      "totalQuestions": 0,
+      "hasGhanaContext": false,
+      "hasFinalAssessment": false
+    }
+  },
+  "recommendations": [
+    {
+      "priority": "high",
+      "category": "content",
+      "recommendation": "Standardize lesson structure across all subjects using the new template",
+      "action": "Apply standardized-lesson-template.json to all modules"
+    },
+    {
+      "priority": "high",
+      "category": "assessment",
+      "subject": "biology",
+      "recommendation": "Increase questions per lesson from 5.8 to 15-20",
+      "action": "Add 10 questions per lesson in biology"
+    },
+    {
+      "priority": "high",
+      "category": "assessment",
+      "subject": "chemistry",
+      "recommendation": "Increase questions per lesson from 5.3 to 15-20",
+      "action": "Add 10 questions per lesson in chemistry"
+    },
+    {
+      "priority": "high",
+      "category": "assessment",
+      "subject": "physics",
+      "recommendation": "Increase questions per lesson from 6.0 to 15-20",
+      "action": "Add 9 questions per lesson in physics"
+    },
+    {
+      "priority": "high",
+      "category": "assessment",
+      "subject": "mathematics",
+      "recommendation": "Increase questions per lesson from 6.9 to 15-20",
+      "action": "Add 9 questions per lesson in mathematics"
+    },
+    {
+      "priority": "high",
+      "category": "assessment",
+      "subject": "ict",
+      "recommendation": "Increase questions per lesson from 0.0 to 15-20",
+      "action": "Add 15 questions per lesson in ict"
+    },
+    {
+      "priority": "medium",
+      "category": "context",
+      "subject": "ict",
+      "recommendation": "Add Ghana-specific examples and context",
+      "action": "Review and enhance Ghana context in ict modules"
+    },
+    {
+      "priority": "medium",
+      "category": "assessment",
+      "recommendation": "Diversify question types beyond MCQ and True/False",
+      "action": "Add fill-in-the-blank, short answer, and problem-solving questions"
+    },
+    {
+      "priority": "medium",
+      "category": "gamification",
+      "recommendation": "Ensure consistent XP and achievement systems",
+      "action": "Standardize gamification elements across all modules"
+    }
+  ]
+}

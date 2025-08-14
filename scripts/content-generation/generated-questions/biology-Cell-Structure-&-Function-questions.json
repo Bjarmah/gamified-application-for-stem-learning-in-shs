@@ -1,0 +1,344 @@
+{
+  "subject": "biology",
+  "moduleTitle": "Cell Structure & Function",
+  "generatedAt": "2025-08-14T17:34:27.091Z",
+  "totalQuestions": 22,
+  "lessons": {
+    "cell-membrane-transport": {
+      "lessonTitle": "Cell Membrane & Transport",
+      "existingQuestions": 8,
+      "newQuestions": 5,
+      "questions": [
+        {
+          "id": "mcq-biology-cell-structure-1",
+          "type": "mcq",
+          "difficulty": "basic",
+          "topic": "cell structure",
+          "ghanaContext": "cocoa production in Western Ghana",
+          "stem": "Identify the correct definition of cell structure.",
+          "options": {
+            "A": "Only found in animal cells",
+            "B": "The basic unit of life",
+            "C": "Not essential for cell function",
+            "D": "Located outside the cell membrane"
+          },
+          "answer": "B",
+          "explanation": "This question tests basic understanding of cell structure and its fundamental role in biology."
+        },
+        {
+          "id": "mcq-biology-cell-structure-2",
+          "type": "mcq",
+          "difficulty": "basic",
+          "topic": "cell structure",
+          "ghanaContext": "agricultural biotechnology in Ghana",
+          "stem": "Which structure is responsible for energy production?",
+          "options": {
+            "A": "Only found in animal cells",
+            "B": "The basic unit of life",
+            "C": "Not essential for cell function",
+            "D": "Located outside the cell membrane"
+          },
+          "answer": "B",
+          "explanation": "This question tests basic understanding of cell structure and its fundamental role in biology."
+        },
+        {
+          "id": "mcq-biology-cell-structure-3",
+          "type": "mcq",
+          "difficulty": "intermediate",
+          "topic": "cell structure",
+          "ghanaContext": "cocoa production in Western Ghana",
+          "stem": "How does cell structure relate to mitosis?",
+          "options": {
+            "A": "Only found in animal cells",
+            "B": "A complex system of organelles working together",
+            "C": "Not essential for cell function",
+            "D": "Located outside the cell membrane"
+          },
+          "answer": "B",
+          "explanation": "This question requires understanding of how cell structure components work together and their relationships."
+        },
+        {
+          "id": "trueFalse-biology-cell-structure-4",
+          "type": "trueFalse",
+          "difficulty": "basic",
+          "topic": "cell structure",
+          "ghanaContext": "cocoa production in Western Ghana",
+          "stem": "a cell is placed in a hypotonic solution always results in cell death.",
+          "statement": "a cell is placed in a hypotonic solution always results in cell death.",
+          "answer": true,
+          "explanation": "This question tests basic understanding of cell structure and its fundamental role in biology."
+        },
+        {
+          "id": "fillInTheBlank-biology-cell-structure-5",
+          "type": "fillInTheBlank",
+          "difficulty": "basic",
+          "topic": "cell structure",
+          "ghanaContext": "traditional medicine practices",
+          "stem": "When a cell is placed in a hypotonic solution, the result is _____.",
+          "answer": "The basic unit of life",
+          "explanation": "This question tests basic understanding of cell structure and its fundamental role in biology."
+        }
+      ]
+    },
+    "nucleus-genetic-control": {
+      "lessonTitle": "Nucleus & Genetic Control",
+      "existingQuestions": 6,
+      "newQuestions": 6,
+      "questions": [
+        {
+          "id": "mcq-biology-membrane-transport-1",
+          "type": "mcq",
+          "difficulty": "basic",
+          "topic": "membrane transport",
+          "ghanaContext": "cocoa production in Western Ghana",
+          "stem": "Identify the correct definition of membrane transport.",
+          "options": {
+            "A": "Requires energy input",
+            "B": "Movement of substances across membranes",
+            "C": "Only occurs in one direction",
+            "D": "Involves breaking down molecules"
+          },
+          "answer": "B",
+          "explanation": "This question tests basic understanding of membrane transport processes and their importance for cell survival."
+        },
+        {
+          "id": "mcq-biology-cell-structure-2",
+          "type": "mcq",
+          "difficulty": "basic",
+          "topic": "cell structure",
+          "ghanaContext": "cassava farming in the Ashanti region",
+          "stem": "What is the role of mitochondria in cellular respiration?",
+          "options": {
+            "A": "Only found in animal cells",
+            "B": "The basic unit of life",
+            "C": "Not essential for cell function",
+            "D": "Located outside the cell membrane"
+          },
+          "answer": "B",
+          "explanation": "This question tests basic understanding of cell structure and its fundamental role in biology."
+        },
+        {
+          "id": "mcq-biology-membrane-transport-3",
+          "type": "mcq",
+          "difficulty": "intermediate",
+          "topic": "membrane transport",
+          "ghanaContext": "agricultural biotechnology in Ghana",
+          "stem": "Which condition would lead to net movement of molecules?",
+          "options": {
+            "A": "Requires energy input",
+            "B": "Selective movement of molecules through membrane proteins",
+            "C": "Only occurs in one direction",
+            "D": "Involves breaking down molecules"
+          },
+          "answer": "B",
+          "explanation": "This question requires understanding of membrane transport mechanisms and their regulation."
+        },
+        {
+          "id": "mcq-biology-cell-structure-4",
+          "type": "mcq",
+          "difficulty": "intermediate",
+          "topic": "cell structure",
+          "ghanaContext": "cocoa production in Western Ghana",
+          "stem": "How does cell division contribute to energy production?",
+          "options": {
+            "A": "Only found in animal cells",
+            "B": "A complex system of organelles working together",
+            "C": "Not essential for cell function",
+            "D": "Located outside the cell membrane"
+          },
+          "answer": "B",
+          "explanation": "This question requires understanding of how cell structure components work together and their relationships."
+        },
+        {
+          "id": "trueFalse-biology-membrane-transport-5",
+          "type": "trueFalse",
+          "difficulty": "basic",
+          "topic": "membrane transport",
+          "ghanaContext": "cocoa production in Western Ghana",
+          "stem": "membrane transport refers to {definition}.",
+          "statement": "membrane transport refers to {definition}.",
+          "answer": false,
+          "explanation": "This question tests basic understanding of membrane transport processes and their importance for cell survival."
+        },
+        {
+          "id": "fillInTheBlank-biology-cell-structure-6",
+          "type": "fillInTheBlank",
+          "difficulty": "basic",
+          "topic": "cell structure",
+          "ghanaContext": "coastal ecosystem conservation",
+          "stem": "The process of cell structure involves _____.",
+          "answer": "The basic unit of life",
+          "explanation": "This question tests basic understanding of cell structure and its fundamental role in biology."
+        }
+      ]
+    },
+    "organelles-functions": {
+      "lessonTitle": "Organelles & Their Functions",
+      "existingQuestions": 7,
+      "newQuestions": 5,
+      "questions": [
+        {
+          "id": "mcq-biology-organelles-1",
+          "type": "mcq",
+          "difficulty": "basic",
+          "topic": "organelles",
+          "ghanaContext": "traditional medicine practices",
+          "stem": "Identify the correct definition of organelles.",
+          "options": {
+            "A": "Incorrect option about organelles",
+            "B": "Specialized structures within cells",
+            "C": "Incorrect option about organelles",
+            "D": "Incorrect option about organelles"
+          },
+          "answer": "B",
+          "explanation": "This question tests understanding of organelles in the context of biology."
+        },
+        {
+          "id": "mcq-biology-organelles-2",
+          "type": "mcq",
+          "difficulty": "basic",
+          "topic": "organelles",
+          "ghanaContext": "traditional medicine practices",
+          "stem": "What is the role of mitochondria in cellular respiration?",
+          "options": {
+            "A": "Incorrect option about organelles",
+            "B": "Specialized structures within cells",
+            "C": "Incorrect option about organelles",
+            "D": "Incorrect option about organelles"
+          },
+          "answer": "B",
+          "explanation": "This question tests understanding of organelles in the context of biology."
+        },
+        {
+          "id": "mcq-biology-homeostasis-3",
+          "type": "mcq",
+          "difficulty": "intermediate",
+          "topic": "homeostasis",
+          "ghanaContext": "cocoa production in Western Ghana",
+          "stem": "How does homeostasis relate to mitosis?",
+          "options": {
+            "A": "Incorrect option about homeostasis",
+            "B": "Dynamic equilibrium maintained by feedback systems",
+            "C": "Incorrect option about homeostasis",
+            "D": "Incorrect option about homeostasis"
+          },
+          "answer": "B",
+          "explanation": "This question tests understanding of homeostasis in the context of biology."
+        },
+        {
+          "id": "trueFalse-biology-cell-structure-4",
+          "type": "trueFalse",
+          "difficulty": "basic",
+          "topic": "cell structure",
+          "ghanaContext": "coastal ecosystem conservation",
+          "stem": "cell structure is essential for cell division.",
+          "statement": "cell structure is essential for cell division.",
+          "answer": true,
+          "explanation": "This question tests basic understanding of cell structure and its fundamental role in biology."
+        },
+        {
+          "id": "fillInTheBlank-biology-cell-structure-5",
+          "type": "fillInTheBlank",
+          "difficulty": "basic",
+          "topic": "cell structure",
+          "ghanaContext": "cassava farming in the Ashanti region",
+          "stem": "The process of cell structure involves _____.",
+          "answer": "The basic unit of life",
+          "explanation": "This question tests basic understanding of cell structure and its fundamental role in biology."
+        }
+      ]
+    },
+    "cell-division-mitosis": {
+      "lessonTitle": "Cell Division Process",
+      "existingQuestions": 6,
+      "newQuestions": 6,
+      "questions": [
+        {
+          "id": "mcq-biology-cell-structure-1",
+          "type": "mcq",
+          "difficulty": "basic",
+          "topic": "cell structure",
+          "ghanaContext": "cassava farming in the Ashanti region",
+          "stem": "In which organelle does cell division occur?",
+          "options": {
+            "A": "Only found in animal cells",
+            "B": "The basic unit of life",
+            "C": "Not essential for cell function",
+            "D": "Located outside the cell membrane"
+          },
+          "answer": "B",
+          "explanation": "This question tests basic understanding of cell structure and its fundamental role in biology."
+        },
+        {
+          "id": "mcq-biology-cell-structure-2",
+          "type": "mcq",
+          "difficulty": "basic",
+          "topic": "cell structure",
+          "ghanaContext": "traditional medicine practices",
+          "stem": "What is the main function of cell structure?",
+          "options": {
+            "A": "Only found in animal cells",
+            "B": "The basic unit of life",
+            "C": "Not essential for cell function",
+            "D": "Located outside the cell membrane"
+          },
+          "answer": "B",
+          "explanation": "This question tests basic understanding of cell structure and its fundamental role in biology."
+        },
+        {
+          "id": "mcq-biology-mitosis-3",
+          "type": "mcq",
+          "difficulty": "intermediate",
+          "topic": "mitosis",
+          "ghanaContext": "cocoa production in Western Ghana",
+          "stem": "Which condition would lead to cell death?",
+          "options": {
+            "A": "Incorrect option about mitosis",
+            "B": "Controlled cell division for growth and repair",
+            "C": "Incorrect option about mitosis",
+            "D": "Incorrect option about mitosis"
+          },
+          "answer": "B",
+          "explanation": "This question tests understanding of mitosis in the context of biology."
+        },
+        {
+          "id": "mcq-biology-mitosis-4",
+          "type": "mcq",
+          "difficulty": "intermediate",
+          "topic": "mitosis",
+          "ghanaContext": "traditional medicine practices",
+          "stem": "How does cell division contribute to energy production?",
+          "options": {
+            "A": "Incorrect option about mitosis",
+            "B": "Controlled cell division for growth and repair",
+            "C": "Incorrect option about mitosis",
+            "D": "Incorrect option about mitosis"
+          },
+          "answer": "B",
+          "explanation": "This question tests understanding of mitosis in the context of biology."
+        },
+        {
+          "id": "trueFalse-biology-mitosis-5",
+          "type": "trueFalse",
+          "difficulty": "basic",
+          "topic": "mitosis",
+          "ghanaContext": "cassava farming in the Ashanti region",
+          "stem": "mitosis refers to {definition}.",
+          "statement": "mitosis refers to {definition}.",
+          "answer": false,
+          "explanation": "This question tests understanding of mitosis in the context of biology."
+        },
+        {
+          "id": "fillInTheBlank-biology-cell-structure-6",
+          "type": "fillInTheBlank",
+          "difficulty": "basic",
+          "topic": "cell structure",
+          "ghanaContext": "coastal ecosystem conservation",
+          "stem": "cell structure is defined as _____.",
+          "answer": "The basic unit of life",
+          "explanation": "This question tests basic understanding of cell structure and its fundamental role in biology."
+        }
+      ]
+    }
+  }
+}

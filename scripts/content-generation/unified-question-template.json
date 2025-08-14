@@ -1,0 +1,358 @@
+{
+    "questionTypes": {
+        "multipleChoice": {
+            "description": "Standard multiple choice questions with 4 options (A, B, C, D)",
+            "template": {
+                "id": "mcq-{subject}-{module}-{lesson}-{number}",
+                "type": "mcq",
+                "stem": "Clear, unambiguous question stem that tests understanding",
+                "options": {
+                    "A": "Option A - plausible but incorrect (common misconception)",
+                    "B": "Option B - correct answer",
+                    "C": "Option C - plausible but incorrect (partial understanding)",
+                    "D": "Option D - plausible but incorrect (distractor)"
+                },
+                "answer": "B",
+                "explanation": "Detailed explanation of why this answer is correct, including key concepts",
+                "feedback": {
+                    "A": "Why this option is incorrect - address the misconception",
+                    "B": "Why this option is correct - reinforce the concept",
+                    "C": "Why this option is incorrect - explain the partial understanding",
+                    "D": "Why this option is incorrect - clarify the confusion"
+                },
+                "difficulty": "basic|intermediate|advanced",
+                "topic": "Specific topic being tested",
+                "wassceStyle": true,
+                "ghanaContext": "How this question relates to Ghana (if applicable)",
+                "tags": [
+                    "topic",
+                    "difficulty",
+                    "concept"
+                ]
+            },
+            "guidelines": [
+                "All distractors should be plausible to students with partial understanding",
+                "Avoid 'all of the above' or 'none of the above' options",
+                "Ensure only one correct answer",
+                "Use clear, concise language appropriate for SHS level",
+                "Include Ghana-specific examples when possible"
+            ]
+        },
+        "trueFalse": {
+            "description": "True/False statements that test factual knowledge and understanding",
+            "template": {
+                "id": "tf-{subject}-{module}-{lesson}-{number}",
+                "type": "trueFalse",
+                "statement": "Clear, unambiguous statement that can only be true or false",
+                "answer": true,
+                "explanation": "Detailed explanation of why this statement is true or false",
+                "difficulty": "basic|intermediate|advanced",
+                "topic": "Specific topic being tested",
+                "ghanaContext": "How this statement relates to Ghana (if applicable)",
+                "tags": [
+                    "topic",
+                    "difficulty",
+                    "concept"
+                ]
+            },
+            "guidelines": [
+                "Statements should be unequivocally true or false",
+                "Avoid ambiguous or complex statements",
+                "Focus on key concepts and principles",
+                "Include Ghana-specific examples when possible"
+            ]
+        },
+        "fillInTheBlank": {
+            "description": "Questions requiring students to fill in missing terms or numbers",
+            "template": {
+                "id": "fib-{subject}-{module}-{lesson}-{number}",
+                "type": "fillInTheBlank",
+                "prompt": "Sentence or equation with blank space for key term or number",
+                "answer": "Correct answer (exact match required)",
+                "alternatives": [
+                    "Acceptable alternative 1",
+                    "Acceptable alternative 2"
+                ],
+                "explanation": "Why this answer is correct and how it fits the context",
+                "difficulty": "basic|intermediate|advanced",
+                "topic": "Specific topic being tested",
+                "ghanaContext": "How this question relates to Ghana (if applicable)",
+                "tags": [
+                    "topic",
+                    "difficulty",
+                    "concept"
+                ]
+            },
+            "guidelines": [
+                "Provide clear context around the blank",
+                "Accept multiple reasonable alternatives when possible",
+                "Avoid ambiguous prompts",
+                "Use Ghana-specific examples when possible"
+            ]
+        },
+        "shortAnswer": {
+            "description": "Questions requiring 2-3 sentence responses",
+            "template": {
+                "id": "sa-{subject}-{module}-{lesson}-{number}",
+                "type": "shortAnswer",
+                "prompt": "Question requiring explanation or analysis in 2-3 sentences",
+                "sampleAnswer": "Model answer showing expected depth and key points",
+                "keyPoints": [
+                    "Key point 1",
+                    "Key point 2",
+                    "Key point 3"
+                ],
+                "difficulty": "intermediate|advanced",
+                "topic": "Specific topic being tested",
+                "ghanaContext": "How this question relates to Ghana (if applicable)",
+                "tags": [
+                    "topic",
+                    "difficulty",
+                    "concept"
+                ]
+            },
+            "guidelines": [
+                "Questions should test understanding, not just recall",
+                "Provide clear expectations for answer length",
+                "Include key points that should be mentioned",
+                "Use Ghana-specific examples when possible"
+            ]
+        },
+        "problemSolving": {
+            "description": "Multi-step problems requiring calculation and reasoning",
+            "template": {
+                "id": "ps-{subject}-{module}-{lesson}-{number}",
+                "type": "problemSolving",
+                "prompt": "Multi-step problem with clear scenario and requirements",
+                "given": "Information provided to solve the problem",
+                "find": "What needs to be calculated or determined",
+                "steps": [
+                    "Step 1: Identify key variables",
+                    "Step 2: Apply relevant formula",
+                    "Step 3: Calculate result"
+                ],
+                "answer": "Final answer with appropriate units",
+                "explanation": "Step-by-step solution process with reasoning",
+                "difficulty": "intermediate|advanced",
+                "topic": "Specific topic being tested",
+                "ghanaContext": "How this problem relates to Ghana (if applicable)",
+                "tags": [
+                    "topic",
+                    "difficulty",
+                    "concept"
+                ]
+            },
+            "guidelines": [
+                "Problems should be realistic and relevant",
+                "Include all necessary information",
+                "Require multiple steps or concepts",
+                "Use Ghana-specific scenarios when possible"
+            ]
+        },
+        "graphInterpretation": {
+            "description": "Questions about interpreting graphs, charts, or diagrams",
+            "template": {
+                "id": "gi-{subject}-{module}-{lesson}-{number}",
+                "type": "graphInterpretation",
+                "prompt": "Question about interpreting a graph, chart, or diagram",
+                "graphDescription": "Description of the graph/chart being analyzed",
+                "question": "Specific question about the graph",
+                "answer": "Correct interpretation or calculation",
+                "explanation": "How to read and interpret the graph correctly",
+                "difficulty": "intermediate|advanced",
+                "topic": "Specific topic being tested",
+                "ghanaContext": "How this graph relates to Ghana (if applicable)",
+                "tags": [
+                    "topic",
+                    "difficulty",
+                    "concept"
+                ]
+            },
+            "guidelines": [
+                "Graphs should be clear and readable",
+                "Questions should test interpretation skills",
+                "Include Ghana-specific data when possible",
+                "Require both reading and calculation skills"
+            ]
+        },
+        "workedExamples": {
+            "description": "Step-by-step solutions to example problems",
+            "template": {
+                "id": "we-{subject}-{module}-{lesson}-{number}",
+                "type": "workedExamples",
+                "problem": "Clear problem statement",
+                "steps": [
+                    "Step 1: Identify approach",
+                    "Step 2: Apply method",
+                    "Step 3: Verify solution"
+                ],
+                "answer": "Final answer with units",
+                "explanation": "Why each step is necessary and how it leads to the solution",
+                "difficulty": "intermediate|advanced",
+                "topic": "Specific topic being tested",
+                "ghanaContext": "How this example relates to Ghana (if applicable)",
+                "tags": [
+                    "topic",
+                    "difficulty",
+                    "concept"
+                ]
+            },
+            "guidelines": [
+                "Examples should demonstrate key concepts",
+                "Steps should be clear and logical",
+                "Include verification or checking steps",
+                "Use Ghana-specific examples when possible"
+            ]
+        },
+        "matching": {
+            "description": "Matching items from two columns",
+            "template": {
+                "id": "m-{subject}-{module}-{lesson}-{number}",
+                "type": "matching",
+                "prompt": "Clear instructions for matching items",
+                "pairs": [
+                    {
+                        "left": "Left column item 1",
+                        "right": "Right column item 1"
+                    },
+                    {
+                        "left": "Left column item 2",
+                        "right": "Right column item 2"
+                    }
+                ],
+                "answerKey": {
+                    "Left column item 1": "Right column item 1",
+                    "Left column item 2": "Right column item 2"
+                },
+                "explanation": "Why these items match and what concepts they represent",
+                "difficulty": "basic|intermediate",
+                "topic": "Specific topic being tested",
+                "ghanaContext": "How this matching relates to Ghana (if applicable)",
+                "tags": [
+                    "topic",
+                    "difficulty",
+                    "concept"
+                ]
+            },
+            "guidelines": [
+                "Keep lists manageable (5-8 items maximum)",
+                "Ensure unique, clear matches",
+                "Avoid ambiguous relationships",
+                "Use Ghana-specific examples when possible"
+            ]
+        },
+        "scenarioChallenges": {
+            "description": "Real-world scenarios requiring application of concepts",
+            "template": {
+                "id": "sc-{subject}-{module}-{lesson}-{number}",
+                "type": "scenarioChallenges",
+                "scenario": "Realistic scenario that requires applying learned concepts",
+                "question": "Specific question about the scenario",
+                "options": {
+                    "A": "Option A",
+                    "B": "Option B",
+                    "C": "Option C",
+                    "D": "Option D"
+                },
+                "answer": "Correct option",
+                "explanation": "How to apply concepts to solve the scenario",
+                "difficulty": "intermediate|advanced",
+                "topic": "Specific topic being tested",
+                "ghanaContext": "How this scenario relates to Ghana",
+                "tags": [
+                    "topic",
+                    "difficulty",
+                    "concept",
+                    "application"
+                ]
+            },
+            "guidelines": [
+                "Scenarios should be realistic and engaging",
+                "Require application of multiple concepts",
+                "Include Ghana-specific contexts",
+                "Test higher-order thinking skills"
+            ]
+        }
+    },
+    "difficultyLevels": {
+        "basic": {
+            "description": "Recall and basic understanding",
+            "characteristics": [
+                "Recall of facts and definitions",
+                "Basic identification and recognition",
+                "Simple calculations",
+                "Direct application of formulas"
+            ],
+            "targetPercentage": 40
+        },
+        "intermediate": {
+            "description": "Application and analysis",
+            "characteristics": [
+                "Application of concepts to new situations",
+                "Analysis of relationships",
+                "Multi-step problem solving",
+                "Interpretation of data"
+            ],
+            "targetPercentage": 40
+        },
+        "advanced": {
+            "description": "Evaluation and synthesis",
+            "characteristics": [
+                "Evaluation of arguments and evidence",
+                "Synthesis of multiple concepts",
+                "Complex problem solving",
+                "Critical analysis"
+            ],
+            "targetPercentage": 20
+        }
+    },
+    "questionDistribution": {
+        "perLesson": {
+            "minimum": 15,
+            "target": 20,
+            "maximum": 25
+        },
+        "byType": {
+            "multipleChoice": "40-50%",
+            "trueFalse": "15-20%",
+            "fillInTheBlank": "10-15%",
+            "shortAnswer": "10-15%",
+            "problemSolving": "10-15%",
+            "graphInterpretation": "5-10%",
+            "workedExamples": "5-10%",
+            "matching": "5-10%",
+            "scenarioChallenges": "5-10%"
+        },
+        "byDifficulty": {
+            "basic": "40%",
+            "intermediate": "40%",
+            "advanced": "20%"
+        }
+    },
+    "qualityStandards": {
+        "clarity": [
+            "Questions should be unambiguous",
+            "Use clear, concise language",
+            "Avoid double negatives",
+            "Ensure only one correct answer"
+        ],
+        "relevance": [
+            "Questions should test important concepts",
+            "Align with learning objectives",
+            "Connect to real-world applications",
+            "Include Ghana-specific examples when possible"
+        ],
+        "fairness": [
+            "All students should have equal opportunity",
+            "Avoid cultural bias",
+            "Use inclusive language",
+            "Ensure accessibility"
+        ],
+        "wassceAlignment": [
+            "Follow WASSCE question patterns",
+            "Use appropriate difficulty levels",
+            "Include proper distractors",
+            "Test relevant skills and knowledge"
+        ]
+    }
+}

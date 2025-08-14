@@ -1,0 +1,246 @@
+{
+    "lessonId": "template-lesson-001",
+    "lessonTitle": "Template Lesson Title",
+    "subject": "Subject Name",
+    "level": "SHS 1/2/3",
+    "estimatedDuration": 45,
+    "learningObjectives": [
+        "Objective 1: Clear, measurable learning outcome",
+        "Objective 2: Another specific learning outcome",
+        "Objective 3: Third learning outcome"
+    ],
+    "prerequisites": [
+        "Required knowledge or skills from previous lessons"
+    ],
+    "content": {
+        "introduction": {
+            "hook": "Engaging opening that connects to student experience",
+            "overview": "Brief summary of what will be learned",
+            "realWorldConnection": "How this topic relates to everyday life in Ghana"
+        },
+        "mainContent": {
+            "sections": [
+                {
+                    "title": "Section 1 Title",
+                    "content": "Detailed explanation with key concepts in **bold**",
+                    "examples": [
+                        "Concrete example 1",
+                        "Concrete example 2"
+                    ],
+                    "ghanaContext": "How this concept applies specifically to Ghana"
+                }
+            ],
+            "keyTerms": [
+                {
+                    "term": "Key Term 1",
+                    "definition": "Clear definition",
+                    "example": "Practical example"
+                }
+            ],
+            "visualAids": [
+                {
+                    "type": "diagram|chart|image|interactive",
+                    "description": "What the visual shows",
+                    "learningPurpose": "What students should learn from this visual"
+                }
+            ]
+        },
+        "summary": {
+            "keyPoints": [
+                "Main takeaway 1",
+                "Main takeaway 2",
+                "Main takeaway 3"
+            ],
+            "connections": "How this lesson connects to previous and future topics"
+        }
+    },
+    "assessments": {
+        "knowledgeChecks": {
+            "mcq": [
+                {
+                    "id": "mcq-001",
+                    "type": "mcq",
+                    "stem": "Clear question stem that tests understanding",
+                    "options": {
+                        "A": "Option A - plausible but incorrect",
+                        "B": "Option B - correct answer",
+                        "C": "Option C - plausible but incorrect",
+                        "D": "Option D - plausible but incorrect"
+                    },
+                    "answer": "B",
+                    "explanation": "Detailed explanation of why this is correct",
+                    "feedback": {
+                        "A": "Why this option is incorrect",
+                        "B": "Why this option is correct",
+                        "C": "Why this option is incorrect",
+                        "D": "Why this option is incorrect"
+                    },
+                    "difficulty": "basic|intermediate|advanced",
+                    "topic": "Specific topic being tested",
+                    "wassceStyle": true
+                }
+            ],
+            "trueFalse": [
+                {
+                    "id": "tf-001",
+                    "type": "trueFalse",
+                    "statement": "Clear, unambiguous statement",
+                    "answer": true,
+                    "explanation": "Why this statement is true/false",
+                    "difficulty": "basic|intermediate|advanced"
+                }
+            ],
+            "fillInTheBlank": [
+                {
+                    "id": "fib-001",
+                    "type": "fillInTheBlank",
+                    "prompt": "Sentence with blank space for key term",
+                    "answer": "Correct answer",
+                    "alternatives": [
+                        "Acceptable alternative 1",
+                        "Acceptable alternative 2"
+                    ],
+                    "explanation": "Why this answer is correct",
+                    "difficulty": "basic|intermediate|advanced"
+                }
+            ],
+            "shortAnswer": [
+                {
+                    "id": "sa-001",
+                    "type": "shortAnswer",
+                    "prompt": "Question requiring 2-3 sentence response",
+                    "sampleAnswer": "Model answer showing expected depth",
+                    "keyPoints": [
+                        "Key point 1",
+                        "Key point 2",
+                        "Key point 3"
+                    ],
+                    "difficulty": "intermediate|advanced"
+                }
+            ],
+            "problemSolving": [
+                {
+                    "id": "ps-001",
+                    "type": "problemSolving",
+                    "prompt": "Multi-step problem with clear scenario",
+                    "steps": [
+                        "Step 1",
+                        "Step 2",
+                        "Step 3"
+                    ],
+                    "answer": "Final answer with units",
+                    "explanation": "Step-by-step solution process",
+                    "difficulty": "intermediate|advanced"
+                }
+            ]
+        },
+        "practiceExercises": [
+            {
+                "id": "ex-001",
+                "type": "guided|independent|collaborative",
+                "title": "Exercise Title",
+                "instructions": "Clear step-by-step instructions",
+                "materials": "Any materials or resources needed",
+                "expectedOutcome": "What students should produce",
+                "hint": "Helpful hint if students get stuck",
+                "ghanaContext": "How this exercise relates to Ghana"
+            }
+        ],
+        "formativeAssessment": {
+            "type": "quick|comprehensive",
+            "questions": [
+                {
+                    "id": "fa-001",
+                    "type": "mcq|trueFalse|shortAnswer",
+                    "question": "Question that checks learning progress",
+                    "options": "If applicable",
+                    "answer": "Correct answer",
+                    "explanation": "Why this is correct"
+                }
+            ],
+            "timeLimit": 10,
+            "passingScore": 70
+        }
+    },
+    "ghanaContext": {
+        "localExamples": [
+            "Specific example from Ghanaian culture, geography, or society"
+        ],
+        "culturalConnections": [
+            "How this topic relates to Ghanaian traditions or values"
+        ],
+        "realWorldApplications": [
+            "Practical applications in Ghanaian industries or daily life"
+        ],
+        "careerConnections": [
+            "How this knowledge applies to careers available in Ghana"
+        ]
+    },
+    "gamification": {
+        "xpRewards": {
+            "lessonCompletion": 10,
+            "correctAnswer": 5,
+            "practiceExercise": 8,
+            "ghanaContextBonus": 3
+        },
+        "achievements": [
+            {
+                "id": "achievement-001",
+                "title": "Achievement Title",
+                "description": "What the student accomplished",
+                "criteria": "How to earn this achievement",
+                "xpReward": 25,
+                "badge": "badge-icon-name"
+            }
+        ],
+        "milestones": [
+            {
+                "threshold": 25,
+                "unlock": "practice_exercises",
+                "description": "Unlock practice exercises"
+            },
+            {
+                "threshold": 50,
+                "unlock": "advanced_challenges",
+                "description": "Unlock advanced challenges"
+            },
+            {
+                "threshold": 75,
+                "unlock": "bonus_content",
+                "description": "Unlock bonus content"
+            },
+            {
+                "threshold": 100,
+                "unlock": "certificate",
+                "description": "Earn completion certificate"
+            }
+        ]
+    },
+    "metadata": {
+        "created": "2024-01-01",
+        "lastUpdated": "2024-01-01",
+        "version": "1.0.0",
+        "author": "Content Creator Name",
+        "reviewer": "Subject Matter Expert Name",
+        "tags": [
+            "tag1",
+            "tag2",
+            "tag3"
+        ],
+        "difficulty": "basic|intermediate|advanced",
+        "estimatedTime": 45,
+        "wassceAlignment": {
+            "exam": "WASSCE Subject Name",
+            "topics": [
+                "Topic 1",
+                "Topic 2"
+            ],
+            "questionTypes": [
+                "MCQ",
+                "Essay",
+                "Practical"
+            ],
+            "difficultyLevel": "Basic|Intermediate|Advanced"
+        }
+    }
+}

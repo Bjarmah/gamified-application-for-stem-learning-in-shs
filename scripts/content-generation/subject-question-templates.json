@@ -1,0 +1,1217 @@
+{
+  "templates": {
+    "biology": {
+      "mcq": [
+        {
+          "id": "biology-mcq-basic-001",
+          "type": "mcq",
+          "difficulty": "basic",
+          "topic": "cell structure",
+          "wassceCategory": "Cell Biology",
+          "ghanaContext": "cocoa production in Western Ghana",
+          "tags": [
+            "cell structure",
+            "basic",
+            "cell-biology"
+          ],
+          "stem": "What happens when {scenario} occurs?",
+          "options": {
+            "A": "Option A for cell structure",
+            "B": "Option B for cell structure",
+            "C": "Option C for cell structure",
+            "D": "Option D for cell structure"
+          },
+          "answer": "B",
+          "explanation": "This question tests basic understanding of cell structure in the context of biology."
+        },
+        {
+          "id": "biology-mcq-basic-002",
+          "type": "mcq",
+          "difficulty": "basic",
+          "topic": "genetics",
+          "wassceCategory": "Human Biology",
+          "ghanaContext": "traditional medicine practices",
+          "tags": [
+            "genetics",
+            "basic",
+            "human-biology"
+          ],
+          "stem": "What is the primary purpose of {process}?",
+          "options": {
+            "A": "Option A for genetics",
+            "B": "Option B for genetics",
+            "C": "Option C for genetics",
+            "D": "Option D for genetics"
+          },
+          "answer": "B",
+          "explanation": "This question tests basic understanding of genetics in the context of biology."
+        },
+        {
+          "id": "biology-mcq-intermediate-003",
+          "type": "mcq",
+          "difficulty": "intermediate",
+          "topic": "ecosystems",
+          "wassceCategory": "Ecology",
+          "ghanaContext": "agricultural biotechnology in Ghana",
+          "tags": [
+            "ecosystems",
+            "intermediate",
+            "ecology"
+          ],
+          "stem": "What would be the result if {condition} changes?",
+          "options": {
+            "A": "Option A for ecosystems",
+            "B": "Option B for ecosystems",
+            "C": "Option C for ecosystems",
+            "D": "Option D for ecosystems"
+          },
+          "answer": "B",
+          "explanation": "This question tests intermediate understanding of ecosystems in the context of biology."
+        },
+        {
+          "id": "biology-mcq-intermediate-004",
+          "type": "mcq",
+          "difficulty": "intermediate",
+          "topic": "evolution",
+          "wassceCategory": "Evolution",
+          "ghanaContext": "cocoa production in Western Ghana",
+          "tags": [
+            "evolution",
+            "intermediate",
+            "evolution"
+          ],
+          "stem": "How does evolution relate to {related_concept}?",
+          "options": {
+            "A": "Option A for evolution",
+            "B": "Option B for evolution",
+            "C": "Option C for evolution",
+            "D": "Option D for evolution"
+          },
+          "answer": "B",
+          "explanation": "This question tests intermediate understanding of evolution in the context of biology."
+        },
+        {
+          "id": "biology-mcq-advanced-005",
+          "type": "mcq",
+          "difficulty": "advanced",
+          "topic": "physiology",
+          "wassceCategory": "Ecology",
+          "ghanaContext": "malaria prevention in rural Ghana",
+          "tags": [
+            "physiology",
+            "advanced",
+            "ecology"
+          ],
+          "stem": "How would you design an experiment to test {hypothesis}?",
+          "options": {
+            "A": "Option A for physiology",
+            "B": "Option B for physiology",
+            "C": "Option C for physiology",
+            "D": "Option D for physiology"
+          },
+          "answer": "B",
+          "explanation": "This question tests advanced understanding of physiology in the context of biology."
+        },
+        {
+          "id": "biology-mcq-advanced-006",
+          "type": "mcq",
+          "difficulty": "advanced",
+          "topic": "biotechnology",
+          "wassceCategory": "Evolution",
+          "ghanaContext": "traditional medicine practices",
+          "tags": [
+            "biotechnology",
+            "advanced",
+            "evolution"
+          ],
+          "stem": "How would you design an experiment to test {hypothesis}?",
+          "options": {
+            "A": "Option A for biotechnology",
+            "B": "Option B for biotechnology",
+            "C": "Option C for biotechnology",
+            "D": "Option D for biotechnology"
+          },
+          "answer": "B",
+          "explanation": "This question tests advanced understanding of biotechnology in the context of biology."
+        }
+      ],
+      "trueFalse": [
+        {
+          "id": "biology-trueFalse-basic-001",
+          "type": "trueFalse",
+          "difficulty": "basic",
+          "topic": "cell structure",
+          "wassceCategory": "Human Biology",
+          "ghanaContext": "malaria prevention in rural Ghana",
+          "tags": [
+            "cell structure",
+            "basic",
+            "human-biology"
+          ],
+          "statement": "cell structure is essential for {process}.",
+          "answer": "B",
+          "explanation": "This question tests basic understanding of cell structure in the context of biology."
+        },
+        {
+          "id": "biology-trueFalse-intermediate-002",
+          "type": "trueFalse",
+          "difficulty": "intermediate",
+          "topic": "genetics",
+          "wassceCategory": "Evolution",
+          "ghanaContext": "agricultural biotechnology in Ghana",
+          "tags": [
+            "genetics",
+            "intermediate",
+            "evolution"
+          ],
+          "statement": "{process} requires {specific_condition}.",
+          "answer": "B",
+          "explanation": "This question tests intermediate understanding of genetics in the context of biology."
+        }
+      ],
+      "shortAnswer": [
+        {
+          "id": "biology-shortAnswer-intermediate-001",
+          "type": "shortAnswer",
+          "difficulty": "intermediate",
+          "topic": "ecosystems",
+          "wassceCategory": "Genetics",
+          "ghanaContext": "malaria prevention in rural Ghana",
+          "tags": [
+            "ecosystems",
+            "intermediate",
+            "genetics"
+          ],
+          "stem": "Explain how ecosystems contributes to {process} in 2-3 sentences.",
+          "answer": "B",
+          "explanation": "This question tests intermediate understanding of ecosystems in the context of biology."
+        },
+        {
+          "id": "biology-shortAnswer-advanced-002",
+          "type": "shortAnswer",
+          "difficulty": "advanced",
+          "topic": "evolution",
+          "wassceCategory": "Human Biology",
+          "ghanaContext": "agricultural biotechnology in Ghana",
+          "tags": [
+            "evolution",
+            "advanced",
+            "human-biology"
+          ],
+          "stem": "How would you apply {theory} to solve {practical_problem}?",
+          "answer": "B",
+          "explanation": "This question tests advanced understanding of evolution in the context of biology."
+        }
+      ],
+      "scenario": [
+        {
+          "id": "biology-scenario-advanced-001",
+          "type": "scenario",
+          "difficulty": "advanced",
+          "topic": "physiology",
+          "wassceCategory": "Ecology",
+          "ghanaContext": "coastal ecosystem conservation",
+          "tags": [
+            "physiology",
+            "advanced",
+            "ecology"
+          ],
+          "title": "Physiology in Ghana",
+          "scenario": "You are working on physiology in Ghana. You are researching {topic} in the context of {ghanaian_application}",
+          "tasks": [
+            "Task 1 related to physiology",
+            "Task 2 related to physiology",
+            "Task 3 related to physiology",
+            "Task 4 related to physiology"
+          ],
+          "learningObjectives": [
+            "Understand physiology",
+            "Apply physiology concepts",
+            "Analyze physiology in context"
+          ]
+        }
+      ]
+    },
+    "chemistry": {
+      "mcq": [
+        {
+          "id": "chemistry-mcq-basic-001",
+          "type": "mcq",
+          "difficulty": "basic",
+          "topic": "atomic structure",
+          "wassceCategory": "Chemical Bonding",
+          "ghanaContext": "water treatment in Accra",
+          "tags": [
+            "atomic structure",
+            "basic",
+            "chemical-bonding"
+          ],
+          "stem": "What is the main function of atomic structure?",
+          "options": {
+            "A": "Option A for atomic structure",
+            "B": "Option B for atomic structure",
+            "C": "Option C for atomic structure",
+            "D": "Option D for atomic structure"
+          },
+          "answer": "B",
+          "explanation": "This question tests basic understanding of atomic structure in the context of chemistry."
+        },
+        {
+          "id": "chemistry-mcq-basic-002",
+          "type": "mcq",
+          "difficulty": "basic",
+          "topic": "chemical bonding",
+          "wassceCategory": "Atomic Structure",
+          "ghanaContext": "water treatment in Accra",
+          "tags": [
+            "chemical bonding",
+            "basic",
+            "atomic-structure"
+          ],
+          "stem": "Which of the following best describes chemical bonding?",
+          "options": {
+            "A": "Option A for chemical bonding",
+            "B": "Option B for chemical bonding",
+            "C": "Option C for chemical bonding",
+            "D": "Option D for chemical bonding"
+          },
+          "answer": "B",
+          "explanation": "This question tests basic understanding of chemical bonding in the context of chemistry."
+        },
+        {
+          "id": "chemistry-mcq-intermediate-003",
+          "type": "mcq",
+          "difficulty": "intermediate",
+          "topic": "reactions",
+          "wassceCategory": "Organic Chemistry",
+          "ghanaContext": "gold mining and processing",
+          "tags": [
+            "reactions",
+            "intermediate",
+            "organic-chemistry"
+          ],
+          "stem": "What would be the result if {condition} changes?",
+          "options": {
+            "A": "Option A for reactions",
+            "B": "Option B for reactions",
+            "C": "Option C for reactions",
+            "D": "Option D for reactions"
+          },
+          "answer": "B",
+          "explanation": "This question tests intermediate understanding of reactions in the context of chemistry."
+        },
+        {
+          "id": "chemistry-mcq-intermediate-004",
+          "type": "mcq",
+          "difficulty": "intermediate",
+          "topic": "acids and bases",
+          "wassceCategory": "Acids & Bases",
+          "ghanaContext": "industrial chemistry in Ghana",
+          "tags": [
+            "acids and bases",
+            "intermediate",
+            "acids-&-bases"
+          ],
+          "stem": "How does {process} contribute to {function}?",
+          "options": {
+            "A": "Option A for acids and bases",
+            "B": "Option B for acids and bases",
+            "C": "Option C for acids and bases",
+            "D": "Option D for acids and bases"
+          },
+          "answer": "B",
+          "explanation": "This question tests intermediate understanding of acids and bases in the context of chemistry."
+        },
+        {
+          "id": "chemistry-mcq-advanced-005",
+          "type": "mcq",
+          "difficulty": "advanced",
+          "topic": "organic chemistry",
+          "wassceCategory": "Atomic Structure",
+          "ghanaContext": "industrial chemistry in Ghana",
+          "tags": [
+            "organic chemistry",
+            "advanced",
+            "atomic-structure"
+          ],
+          "stem": "Evaluate the effectiveness of {method} in {context}.",
+          "options": {
+            "A": "Option A for organic chemistry",
+            "B": "Option B for organic chemistry",
+            "C": "Option C for organic chemistry",
+            "D": "Option D for organic chemistry"
+          },
+          "answer": "B",
+          "explanation": "This question tests advanced understanding of organic chemistry in the context of chemistry."
+        },
+        {
+          "id": "chemistry-mcq-advanced-006",
+          "type": "mcq",
+          "difficulty": "advanced",
+          "topic": "electrochemistry",
+          "wassceCategory": "Chemical Kinetics",
+          "ghanaContext": "water treatment in Accra",
+          "tags": [
+            "electrochemistry",
+            "advanced",
+            "chemical-kinetics"
+          ],
+          "stem": "What conclusions can be drawn from {data}?",
+          "options": {
+            "A": "Option A for electrochemistry",
+            "B": "Option B for electrochemistry",
+            "C": "Option C for electrochemistry",
+            "D": "Option D for electrochemistry"
+          },
+          "answer": "B",
+          "explanation": "This question tests advanced understanding of electrochemistry in the context of chemistry."
+        }
+      ],
+      "trueFalse": [
+        {
+          "id": "chemistry-trueFalse-basic-001",
+          "type": "trueFalse",
+          "difficulty": "basic",
+          "topic": "atomic structure",
+          "wassceCategory": "Electrochemistry",
+          "ghanaContext": "industrial chemistry in Ghana",
+          "tags": [
+            "atomic structure",
+            "basic",
+            "electrochemistry"
+          ],
+          "statement": "{process} occurs in {location}.",
+          "answer": "B",
+          "explanation": "This question tests basic understanding of atomic structure in the context of chemistry."
+        },
+        {
+          "id": "chemistry-trueFalse-intermediate-002",
+          "type": "trueFalse",
+          "difficulty": "intermediate",
+          "topic": "chemical bonding",
+          "wassceCategory": "Chemical Bonding",
+          "ghanaContext": "petroleum refining in Tema",
+          "tags": [
+            "chemical bonding",
+            "intermediate",
+            "chemical-bonding"
+          ],
+          "statement": "The relationship between {concept1} and {concept2} is {relationship_type}.",
+          "answer": "B",
+          "explanation": "This question tests intermediate understanding of chemical bonding in the context of chemistry."
+        }
+      ],
+      "shortAnswer": [
+        {
+          "id": "chemistry-shortAnswer-intermediate-001",
+          "type": "shortAnswer",
+          "difficulty": "intermediate",
+          "topic": "reactions",
+          "wassceCategory": "Chemical Bonding",
+          "ghanaContext": "food preservation methods",
+          "tags": [
+            "reactions",
+            "intermediate",
+            "chemical-bonding"
+          ],
+          "stem": "Explain the importance of {concept} in {real_world_application}.",
+          "answer": "B",
+          "explanation": "This question tests intermediate understanding of reactions in the context of chemistry."
+        },
+        {
+          "id": "chemistry-shortAnswer-advanced-002",
+          "type": "shortAnswer",
+          "difficulty": "advanced",
+          "topic": "acids and bases",
+          "wassceCategory": "Atomic Structure",
+          "ghanaContext": "gold mining and processing",
+          "tags": [
+            "acids and bases",
+            "advanced",
+            "atomic-structure"
+          ],
+          "stem": "Analyze the implications of {complex_scenario} for {real_world_application}.",
+          "answer": "B",
+          "explanation": "This question tests advanced understanding of acids and bases in the context of chemistry."
+        }
+      ],
+      "scenario": [
+        {
+          "id": "chemistry-scenario-advanced-001",
+          "type": "scenario",
+          "difficulty": "advanced",
+          "topic": "organic chemistry",
+          "wassceCategory": "Chemical Kinetics",
+          "ghanaContext": "food preservation methods",
+          "tags": [
+            "organic chemistry",
+            "advanced",
+            "chemical-kinetics"
+          ],
+          "title": "Organic chemistry in Ghana",
+          "scenario": "You are working on organic chemistry in Ghana. Your team is developing {solution} for {ghanaian_context}",
+          "tasks": [
+            "Task 1 related to organic chemistry",
+            "Task 2 related to organic chemistry",
+            "Task 3 related to organic chemistry",
+            "Task 4 related to organic chemistry"
+          ],
+          "learningObjectives": [
+            "Understand organic chemistry",
+            "Apply organic chemistry concepts",
+            "Analyze organic chemistry in context"
+          ]
+        }
+      ]
+    },
+    "physics": {
+      "mcq": [
+        {
+          "id": "physics-mcq-basic-001",
+          "type": "mcq",
+          "difficulty": "basic",
+          "topic": "mechanics",
+          "wassceCategory": "Thermodynamics",
+          "ghanaContext": "transportation systems in Kumasi",
+          "tags": [
+            "mechanics",
+            "basic",
+            "thermodynamics"
+          ],
+          "stem": "What happens when {scenario} occurs?",
+          "options": {
+            "A": "Option A for mechanics",
+            "B": "Option B for mechanics",
+            "C": "Option C for mechanics",
+            "D": "Option D for mechanics"
+          },
+          "answer": "B",
+          "explanation": "This question tests basic understanding of mechanics in the context of physics."
+        },
+        {
+          "id": "physics-mcq-basic-002",
+          "type": "mcq",
+          "difficulty": "basic",
+          "topic": "electricity",
+          "wassceCategory": "Thermodynamics",
+          "ghanaContext": "renewable energy initiatives",
+          "tags": [
+            "electricity",
+            "basic",
+            "thermodynamics"
+          ],
+          "stem": "Which of the following best describes electricity?",
+          "options": {
+            "A": "Option A for electricity",
+            "B": "Option B for electricity",
+            "C": "Option C for electricity",
+            "D": "Option D for electricity"
+          },
+          "answer": "B",
+          "explanation": "This question tests basic understanding of electricity in the context of physics."
+        },
+        {
+          "id": "physics-mcq-intermediate-003",
+          "type": "mcq",
+          "difficulty": "intermediate",
+          "topic": "waves",
+          "wassceCategory": "Mechanics",
+          "ghanaContext": "infrastructure development",
+          "tags": [
+            "waves",
+            "intermediate",
+            "mechanics"
+          ],
+          "stem": "What evidence supports the idea that {statement}?",
+          "options": {
+            "A": "Option A for waves",
+            "B": "Option B for waves",
+            "C": "Option C for waves",
+            "D": "Option D for waves"
+          },
+          "answer": "B",
+          "explanation": "This question tests intermediate understanding of waves in the context of physics."
+        },
+        {
+          "id": "physics-mcq-intermediate-004",
+          "type": "mcq",
+          "difficulty": "intermediate",
+          "topic": "energy",
+          "wassceCategory": "Electricity",
+          "ghanaContext": "hydroelectric power at Akosombo Dam",
+          "tags": [
+            "energy",
+            "intermediate",
+            "electricity"
+          ],
+          "stem": "How does {process} contribute to {function}?",
+          "options": {
+            "A": "Option A for energy",
+            "B": "Option B for energy",
+            "C": "Option C for energy",
+            "D": "Option D for energy"
+          },
+          "answer": "B",
+          "explanation": "This question tests intermediate understanding of energy in the context of physics."
+        },
+        {
+          "id": "physics-mcq-advanced-005",
+          "type": "mcq",
+          "difficulty": "advanced",
+          "topic": "thermodynamics",
+          "wassceCategory": "Optics",
+          "ghanaContext": "construction projects in Accra",
+          "tags": [
+            "thermodynamics",
+            "advanced",
+            "optics"
+          ],
+          "stem": "What are the limitations of {theory} in {real_world_context}?",
+          "options": {
+            "A": "Option A for thermodynamics",
+            "B": "Option B for thermodynamics",
+            "C": "Option C for thermodynamics",
+            "D": "Option D for thermodynamics"
+          },
+          "answer": "B",
+          "explanation": "This question tests advanced understanding of thermodynamics in the context of physics."
+        },
+        {
+          "id": "physics-mcq-advanced-006",
+          "type": "mcq",
+          "difficulty": "advanced",
+          "topic": "optics",
+          "wassceCategory": "Thermodynamics",
+          "ghanaContext": "construction projects in Accra",
+          "tags": [
+            "optics",
+            "advanced",
+            "thermodynamics"
+          ],
+          "stem": "How would you design an experiment to test {hypothesis}?",
+          "options": {
+            "A": "Option A for optics",
+            "B": "Option B for optics",
+            "C": "Option C for optics",
+            "D": "Option D for optics"
+          },
+          "answer": "B",
+          "explanation": "This question tests advanced understanding of optics in the context of physics."
+        }
+      ],
+      "trueFalse": [
+        {
+          "id": "physics-trueFalse-basic-001",
+          "type": "trueFalse",
+          "difficulty": "basic",
+          "topic": "mechanics",
+          "wassceCategory": "Energy",
+          "ghanaContext": "construction projects in Accra",
+          "tags": [
+            "mechanics",
+            "basic",
+            "energy"
+          ],
+          "statement": "{process} occurs in {location}.",
+          "answer": "B",
+          "explanation": "This question tests basic understanding of mechanics in the context of physics."
+        },
+        {
+          "id": "physics-trueFalse-intermediate-002",
+          "type": "trueFalse",
+          "difficulty": "intermediate",
+          "topic": "electricity",
+          "wassceCategory": "Energy",
+          "ghanaContext": "infrastructure development",
+          "tags": [
+            "electricity",
+            "intermediate",
+            "energy"
+          ],
+          "statement": "{process} requires {specific_condition}.",
+          "answer": "B",
+          "explanation": "This question tests intermediate understanding of electricity in the context of physics."
+        }
+      ],
+      "shortAnswer": [
+        {
+          "id": "physics-shortAnswer-intermediate-001",
+          "type": "shortAnswer",
+          "difficulty": "intermediate",
+          "topic": "waves",
+          "wassceCategory": "Electricity",
+          "ghanaContext": "infrastructure development",
+          "tags": [
+            "waves",
+            "intermediate",
+            "electricity"
+          ],
+          "stem": "Describe the relationship between {concept1} and {concept2}.",
+          "answer": "B",
+          "explanation": "This question tests intermediate understanding of waves in the context of physics."
+        },
+        {
+          "id": "physics-shortAnswer-advanced-002",
+          "type": "shortAnswer",
+          "difficulty": "advanced",
+          "topic": "energy",
+          "wassceCategory": "Energy",
+          "ghanaContext": "transportation systems in Kumasi",
+          "tags": [
+            "energy",
+            "advanced",
+            "energy"
+          ],
+          "stem": "Evaluate the effectiveness of {approach} in addressing {challenge}.",
+          "answer": "B",
+          "explanation": "This question tests advanced understanding of energy in the context of physics."
+        }
+      ],
+      "scenario": [
+        {
+          "id": "physics-scenario-advanced-001",
+          "type": "scenario",
+          "difficulty": "advanced",
+          "topic": "thermodynamics",
+          "wassceCategory": "Waves",
+          "ghanaContext": "solar energy in northern Ghana",
+          "tags": [
+            "thermodynamics",
+            "advanced",
+            "waves"
+          ],
+          "title": "Thermodynamics in Ghana",
+          "scenario": "You are working on thermodynamics in Ghana. Your team is developing {solution} for {ghanaian_context}",
+          "tasks": [
+            "Task 1 related to thermodynamics",
+            "Task 2 related to thermodynamics",
+            "Task 3 related to thermodynamics",
+            "Task 4 related to thermodynamics"
+          ],
+          "learningObjectives": [
+            "Understand thermodynamics",
+            "Apply thermodynamics concepts",
+            "Analyze thermodynamics in context"
+          ]
+        }
+      ]
+    },
+    "mathematics": {
+      "mcq": [
+        {
+          "id": "mathematics-mcq-basic-001",
+          "type": "mcq",
+          "difficulty": "basic",
+          "topic": "algebra",
+          "wassceCategory": "Geometry",
+          "ghanaContext": "transportation route optimization",
+          "tags": [
+            "algebra",
+            "basic",
+            "geometry"
+          ],
+          "stem": "Identify the correct definition of {term}.",
+          "options": {
+            "A": "Option A for algebra",
+            "B": "Option B for algebra",
+            "C": "Option C for algebra",
+            "D": "Option D for algebra"
+          },
+          "answer": "B",
+          "explanation": "This question tests basic understanding of algebra in the context of mathematics."
+        },
+        {
+          "id": "mathematics-mcq-basic-002",
+          "type": "mcq",
+          "difficulty": "basic",
+          "topic": "geometry",
+          "wassceCategory": "Algebra",
+          "ghanaContext": "agricultural yield calculations",
+          "tags": [
+            "geometry",
+            "basic",
+            "algebra"
+          ],
+          "stem": "What is the primary purpose of {process}?",
+          "options": {
+            "A": "Option A for geometry",
+            "B": "Option B for geometry",
+            "C": "Option C for geometry",
+            "D": "Option D for geometry"
+          },
+          "answer": "B",
+          "explanation": "This question tests basic understanding of geometry in the context of mathematics."
+        },
+        {
+          "id": "mathematics-mcq-intermediate-003",
+          "type": "mcq",
+          "difficulty": "intermediate",
+          "topic": "calculus",
+          "wassceCategory": "Calculus",
+          "ghanaContext": "transportation route optimization",
+          "tags": [
+            "calculus",
+            "intermediate",
+            "calculus"
+          ],
+          "stem": "Compare and contrast {concept1} and {concept2}.",
+          "options": {
+            "A": "Option A for calculus",
+            "B": "Option B for calculus",
+            "C": "Option C for calculus",
+            "D": "Option D for calculus"
+          },
+          "answer": "B",
+          "explanation": "This question tests intermediate understanding of calculus in the context of mathematics."
+        },
+        {
+          "id": "mathematics-mcq-intermediate-004",
+          "type": "mcq",
+          "difficulty": "intermediate",
+          "topic": "statistics",
+          "wassceCategory": "Trigonometry",
+          "ghanaContext": "economic modeling",
+          "tags": [
+            "statistics",
+            "intermediate",
+            "trigonometry"
+          ],
+          "stem": "What would be the result if {condition} changes?",
+          "options": {
+            "A": "Option A for statistics",
+            "B": "Option B for statistics",
+            "C": "Option C for statistics",
+            "D": "Option D for statistics"
+          },
+          "answer": "B",
+          "explanation": "This question tests intermediate understanding of statistics in the context of mathematics."
+        },
+        {
+          "id": "mathematics-mcq-advanced-005",
+          "type": "mcq",
+          "difficulty": "advanced",
+          "topic": "trigonometry",
+          "wassceCategory": "Calculus",
+          "ghanaContext": "financial planning for small businesses",
+          "tags": [
+            "trigonometry",
+            "advanced",
+            "calculus"
+          ],
+          "stem": "What conclusions can be drawn from {data}?",
+          "options": {
+            "A": "Option A for trigonometry",
+            "B": "Option B for trigonometry",
+            "C": "Option C for trigonometry",
+            "D": "Option D for trigonometry"
+          },
+          "answer": "B",
+          "explanation": "This question tests advanced understanding of trigonometry in the context of mathematics."
+        },
+        {
+          "id": "mathematics-mcq-advanced-006",
+          "type": "mcq",
+          "difficulty": "advanced",
+          "topic": "functions",
+          "wassceCategory": "Trigonometry",
+          "ghanaContext": "economic modeling",
+          "tags": [
+            "functions",
+            "advanced",
+            "trigonometry"
+          ],
+          "stem": "How would {change} affect the overall {system}?",
+          "options": {
+            "A": "Option A for functions",
+            "B": "Option B for functions",
+            "C": "Option C for functions",
+            "D": "Option D for functions"
+          },
+          "answer": "B",
+          "explanation": "This question tests advanced understanding of functions in the context of mathematics."
+        }
+      ],
+      "trueFalse": [
+        {
+          "id": "mathematics-trueFalse-basic-001",
+          "type": "trueFalse",
+          "difficulty": "basic",
+          "topic": "algebra",
+          "wassceCategory": "Geometry",
+          "ghanaContext": "financial planning for small businesses",
+          "tags": [
+            "algebra",
+            "basic",
+            "geometry"
+          ],
+          "statement": "{term} refers to {definition}.",
+          "answer": "B",
+          "explanation": "This question tests basic understanding of algebra in the context of mathematics."
+        },
+        {
+          "id": "mathematics-trueFalse-intermediate-002",
+          "type": "trueFalse",
+          "difficulty": "intermediate",
+          "topic": "geometry",
+          "wassceCategory": "Trigonometry",
+          "ghanaContext": "economic modeling",
+          "tags": [
+            "geometry",
+            "intermediate",
+            "trigonometry"
+          ],
+          "statement": "{theory} explains {phenomenon} completely.",
+          "answer": "B",
+          "explanation": "This question tests intermediate understanding of geometry in the context of mathematics."
+        }
+      ],
+      "shortAnswer": [
+        {
+          "id": "mathematics-shortAnswer-intermediate-001",
+          "type": "shortAnswer",
+          "difficulty": "intermediate",
+          "topic": "calculus",
+          "wassceCategory": "Algebra",
+          "ghanaContext": "agricultural yield calculations",
+          "tags": [
+            "calculus",
+            "intermediate",
+            "algebra"
+          ],
+          "stem": "What are the key factors that influence {outcome}?",
+          "answer": "B",
+          "explanation": "This question tests intermediate understanding of calculus in the context of mathematics."
+        },
+        {
+          "id": "mathematics-shortAnswer-advanced-002",
+          "type": "shortAnswer",
+          "difficulty": "advanced",
+          "topic": "statistics",
+          "wassceCategory": "Calculus",
+          "ghanaContext": "construction planning in Ghana",
+          "tags": [
+            "statistics",
+            "advanced",
+            "calculus"
+          ],
+          "stem": "Evaluate the effectiveness of {approach} in addressing {challenge}.",
+          "answer": "B",
+          "explanation": "This question tests advanced understanding of statistics in the context of mathematics."
+        }
+      ],
+      "scenario": [
+        {
+          "id": "mathematics-scenario-advanced-001",
+          "type": "scenario",
+          "difficulty": "advanced",
+          "topic": "trigonometry",
+          "wassceCategory": "Functions",
+          "ghanaContext": "construction planning in Ghana",
+          "tags": [
+            "trigonometry",
+            "advanced",
+            "functions"
+          ],
+          "title": "Trigonometry in Ghana",
+          "scenario": "You are working on trigonometry in Ghana. As an expert in {field}, you must address {challenge} in Ghana",
+          "tasks": [
+            "Task 1 related to trigonometry",
+            "Task 2 related to trigonometry",
+            "Task 3 related to trigonometry",
+            "Task 4 related to trigonometry"
+          ],
+          "learningObjectives": [
+            "Understand trigonometry",
+            "Apply trigonometry concepts",
+            "Analyze trigonometry in context"
+          ]
+        }
+      ]
+    },
+    "ict": {
+      "mcq": [
+        {
+          "id": "ict-mcq-basic-001",
+          "type": "mcq",
+          "difficulty": "basic",
+          "topic": "computer basics",
+          "wassceCategory": "Databases",
+          "ghanaContext": "e-commerce in Ghana",
+          "tags": [
+            "computer basics",
+            "basic",
+            "databases"
+          ],
+          "stem": "Which structure is responsible for {function}?",
+          "options": {
+            "A": "Option A for computer basics",
+            "B": "Option B for computer basics",
+            "C": "Option C for computer basics",
+            "D": "Option D for computer basics"
+          },
+          "answer": "B",
+          "explanation": "This question tests basic understanding of computer basics in the context of ict."
+        },
+        {
+          "id": "ict-mcq-basic-002",
+          "type": "mcq",
+          "difficulty": "basic",
+          "topic": "programming",
+          "wassceCategory": "Computer Networks",
+          "ghanaContext": "mobile money systems like M-Pesa",
+          "tags": [
+            "programming",
+            "basic",
+            "computer-networks"
+          ],
+          "stem": "What is the main function of programming?",
+          "options": {
+            "A": "Option A for programming",
+            "B": "Option B for programming",
+            "C": "Option C for programming",
+            "D": "Option D for programming"
+          },
+          "answer": "B",
+          "explanation": "This question tests basic understanding of programming in the context of ict."
+        },
+        {
+          "id": "ict-mcq-intermediate-003",
+          "type": "mcq",
+          "difficulty": "intermediate",
+          "topic": "networks",
+          "wassceCategory": "Algorithms",
+          "ghanaContext": "digital agriculture platforms",
+          "tags": [
+            "networks",
+            "intermediate",
+            "algorithms"
+          ],
+          "stem": "What would be the result if {condition} changes?",
+          "options": {
+            "A": "Option A for networks",
+            "B": "Option B for networks",
+            "C": "Option C for networks",
+            "D": "Option D for networks"
+          },
+          "answer": "B",
+          "explanation": "This question tests intermediate understanding of networks in the context of ict."
+        },
+        {
+          "id": "ict-mcq-intermediate-004",
+          "type": "mcq",
+          "difficulty": "intermediate",
+          "topic": "databases",
+          "wassceCategory": "Web Development",
+          "ghanaContext": "tech innovation hubs",
+          "tags": [
+            "databases",
+            "intermediate",
+            "web-development"
+          ],
+          "stem": "Which factor most significantly affects {outcome}?",
+          "options": {
+            "A": "Option A for databases",
+            "B": "Option B for databases",
+            "C": "Option C for databases",
+            "D": "Option D for databases"
+          },
+          "answer": "B",
+          "explanation": "This question tests intermediate understanding of databases in the context of ict."
+        },
+        {
+          "id": "ict-mcq-advanced-005",
+          "type": "mcq",
+          "difficulty": "advanced",
+          "topic": "algorithms",
+          "wassceCategory": "Computer Networks",
+          "ghanaContext": "mobile money systems like M-Pesa",
+          "tags": [
+            "algorithms",
+            "advanced",
+            "computer-networks"
+          ],
+          "stem": "Analyze the implications of {complex_scenario}.",
+          "options": {
+            "A": "Option A for algorithms",
+            "B": "Option B for algorithms",
+            "C": "Option C for algorithms",
+            "D": "Option D for algorithms"
+          },
+          "answer": "B",
+          "explanation": "This question tests advanced understanding of algorithms in the context of ict."
+        },
+        {
+          "id": "ict-mcq-advanced-006",
+          "type": "mcq",
+          "difficulty": "advanced",
+          "topic": "web development",
+          "wassceCategory": "Web Development",
+          "ghanaContext": "mobile money systems like M-Pesa",
+          "tags": [
+            "web development",
+            "advanced",
+            "web-development"
+          ],
+          "stem": "How would {change} affect the overall {system}?",
+          "options": {
+            "A": "Option A for web development",
+            "B": "Option B for web development",
+            "C": "Option C for web development",
+            "D": "Option D for web development"
+          },
+          "answer": "B",
+          "explanation": "This question tests advanced understanding of web development in the context of ict."
+        }
+      ],
+      "trueFalse": [
+        {
+          "id": "ict-trueFalse-basic-001",
+          "type": "trueFalse",
+          "difficulty": "basic",
+          "topic": "computer basics",
+          "wassceCategory": "Algorithms",
+          "ghanaContext": "e-learning in rural schools",
+          "tags": [
+            "computer basics",
+            "basic",
+            "algorithms"
+          ],
+          "statement": "{term} refers to {definition}.",
+          "answer": "B",
+          "explanation": "This question tests basic understanding of computer basics in the context of ict."
+        },
+        {
+          "id": "ict-trueFalse-intermediate-002",
+          "type": "trueFalse",
+          "difficulty": "intermediate",
+          "topic": "programming",
+          "wassceCategory": "Programming",
+          "ghanaContext": "digital agriculture platforms",
+          "tags": [
+            "programming",
+            "intermediate",
+            "programming"
+          ],
+          "statement": "{method} can be applied to {different_context}.",
+          "answer": "B",
+          "explanation": "This question tests intermediate understanding of programming in the context of ict."
+        }
+      ],
+      "shortAnswer": [
+        {
+          "id": "ict-shortAnswer-intermediate-001",
+          "type": "shortAnswer",
+          "difficulty": "intermediate",
+          "topic": "networks",
+          "wassceCategory": "Algorithms",
+          "ghanaContext": "e-commerce in Ghana",
+          "tags": [
+            "networks",
+            "intermediate",
+            "algorithms"
+          ],
+          "stem": "What are the key factors that influence {outcome}?",
+          "answer": "B",
+          "explanation": "This question tests intermediate understanding of networks in the context of ict."
+        },
+        {
+          "id": "ict-shortAnswer-advanced-002",
+          "type": "shortAnswer",
+          "difficulty": "advanced",
+          "topic": "databases",
+          "wassceCategory": "Computer Networks",
+          "ghanaContext": "mobile money systems like M-Pesa",
+          "tags": [
+            "databases",
+            "advanced",
+            "computer-networks"
+          ],
+          "stem": "Analyze the implications of {complex_scenario} for {real_world_application}.",
+          "answer": "B",
+          "explanation": "This question tests advanced understanding of databases in the context of ict."
+        }
+      ],
+      "scenario": [
+        {
+          "id": "ict-scenario-advanced-001",
+          "type": "scenario",
+          "difficulty": "advanced",
+          "topic": "algorithms",
+          "wassceCategory": "Web Development",
+          "ghanaContext": "digital government services",
+          "tags": [
+            "algorithms",
+            "advanced",
+            "web-development"
+          ],
+          "title": "Algorithms in Ghana",
+          "scenario": "You are working on algorithms in Ghana. As an expert in {field}, you must address {challenge} in Ghana",
+          "tasks": [
+            "Task 1 related to algorithms",
+            "Task 2 related to algorithms",
+            "Task 3 related to algorithms",
+            "Task 4 related to algorithms"
+          ],
+          "learningObjectives": [
+            "Understand algorithms",
+            "Apply algorithms concepts",
+            "Analyze algorithms in context"
+          ]
+        }
+      ]
+    }
+  },
+  "metadata": {
+    "created": "2025-08-14T21:17:09.256Z",
+    "version": "1.0",
+    "description": "Comprehensive question templates for all STEM subjects with difficulty levels, topics, and WASSCE categories",
+    "totalTemplates": 55,
+    "subjects": [
+      "biology",
+      "chemistry",
+      "physics",
+      "mathematics",
+      "ict"
+    ],
+    "questionTypes": [
+      "mcq",
+      "trueFalse",
+      "shortAnswer",
+      "scenario"
+    ],
+    "difficultyLevels": [
+      "basic",
+      "intermediate",
+      "advanced"
+    ],
+    "wassceCategories": [
+      "Cell Biology",
+      "Human Biology",
+      "Ecology",
+      "Evolution",
+      "Genetics",
+      "Chemical Bonding",
+      "Atomic Structure",
+      "Organic Chemistry",
+      "Acids & Bases",
+      "Chemical Kinetics",
+      "Electrochemistry",
+      "Thermodynamics",
+      "Mechanics",
+      "Electricity",
+      "Optics",
+      "Energy",
+      "Waves",
+      "Geometry",
+      "Algebra",
+      "Calculus",
+      "Trigonometry",
+      "Functions",
+      "Databases",
+      "Computer Networks",
+      "Algorithms",
+      "Web Development",
+      "Programming"
+    ]
+  }
+}

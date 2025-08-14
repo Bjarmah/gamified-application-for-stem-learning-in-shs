@@ -1,0 +1,111 @@
+{
+  "subject": "chemistry",
+  "moduleTitle": "Chemical Bonding",
+  "generatedAt": "2025-08-14T17:35:39.784Z",
+  "totalQuestions": 7,
+  "lessons": {
+    "main-lesson": {
+      "lessonTitle": "Chemical Bonding",
+      "existingQuestions": 5,
+      "newQuestions": 7,
+      "questions": [
+        {
+          "id": "mcq-chemistry-bonding-1",
+          "type": "mcq",
+          "difficulty": "basic",
+          "topic": "bonding",
+          "ghanaContext": "petroleum refining in Tema",
+          "stem": "Which structure is responsible for energy production?",
+          "options": {
+            "A": "Incorrect option about bonding",
+            "B": "Answer about bonding",
+            "C": "Incorrect option about bonding",
+            "D": "Incorrect option about bonding"
+          },
+          "answer": "B",
+          "explanation": "This question tests understanding of bonding in the context of chemistry."
+        },
+        {
+          "id": "mcq-chemistry-molecules-2",
+          "type": "mcq",
+          "difficulty": "basic",
+          "topic": "molecules",
+          "ghanaContext": "water treatment in Accra",
+          "stem": "Identify the correct definition of molecules.",
+          "options": {
+            "A": "Incorrect option about molecules",
+            "B": "Answer about molecules",
+            "C": "Incorrect option about molecules",
+            "D": "Incorrect option about molecules"
+          },
+          "answer": "B",
+          "explanation": "This question tests understanding of molecules in the context of chemistry."
+        },
+        {
+          "id": "mcq-chemistry-chemical-equations-3",
+          "type": "mcq",
+          "difficulty": "intermediate",
+          "topic": "chemical equations",
+          "ghanaContext": "petroleum refining in Tema",
+          "stem": "How does chemical equations relate to mitosis?",
+          "options": {
+            "A": "Incorrect option about chemical equations",
+            "B": "Answer about chemical equations",
+            "C": "Incorrect option about chemical equations",
+            "D": "Incorrect option about chemical equations"
+          },
+          "answer": "B",
+          "explanation": "This question tests understanding of chemical equations in the context of chemistry."
+        },
+        {
+          "id": "mcq-chemistry-bonding-4",
+          "type": "mcq",
+          "difficulty": "intermediate",
+          "topic": "bonding",
+          "ghanaContext": "gold mining and processing",
+          "stem": "How does bonding relate to mitosis?",
+          "options": {
+            "A": "Incorrect option about bonding",
+            "B": "Answer about bonding",
+            "C": "Incorrect option about bonding",
+            "D": "Incorrect option about bonding"
+          },
+          "answer": "B",
+          "explanation": "This question tests understanding of bonding in the context of chemistry."
+        },
+        {
+          "id": "trueFalse-chemistry-chemical-equations-5",
+          "type": "trueFalse",
+          "difficulty": "basic",
+          "topic": "chemical equations",
+          "ghanaContext": "gold mining and processing",
+          "stem": "chemical equations refers to {definition}.",
+          "statement": "chemical equations refers to {definition}.",
+          "answer": true,
+          "explanation": "This question tests understanding of chemical equations in the context of chemistry."
+        },
+        {
+          "id": "trueFalse-chemistry-bonding-6",
+          "type": "trueFalse",
+          "difficulty": "intermediate",
+          "topic": "bonding",
+          "ghanaContext": "gold mining and processing",
+          "stem": "The relationship between prokaryotic cells and eukaryotic cells is {relationship_type}.",
+          "statement": "The relationship between prokaryotic cells and eukaryotic cells is {relationship_type}.",
+          "answer": true,
+          "explanation": "This question tests understanding of bonding in the context of chemistry."
+        },
+        {
+          "id": "fillInTheBlank-chemistry-chemical-equations-7",
+          "type": "fillInTheBlank",
+          "difficulty": "basic",
+          "topic": "chemical equations",
+          "ghanaContext": "water treatment in Accra",
+          "stem": "When a cell is placed in a hypotonic solution, the result is _____.",
+          "answer": "Answer about chemical equations",
+          "explanation": "This question tests understanding of chemical equations in the context of chemistry."
+        }
+      ]
+    }
+  }
+}

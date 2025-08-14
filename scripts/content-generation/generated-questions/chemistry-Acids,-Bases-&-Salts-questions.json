@@ -1,0 +1,111 @@
+{
+  "subject": "chemistry",
+  "moduleTitle": "Acids, Bases & Salts",
+  "generatedAt": "2025-08-14T17:35:39.808Z",
+  "totalQuestions": 7,
+  "lessons": {
+    "main-lesson": {
+      "lessonTitle": "Acids, Bases & Salts",
+      "existingQuestions": 5,
+      "newQuestions": 7,
+      "questions": [
+        {
+          "id": "mcq-chemistry-acids-1",
+          "type": "mcq",
+          "difficulty": "basic",
+          "topic": "acids",
+          "ghanaContext": "traditional soap making",
+          "stem": "Which structure is responsible for energy production?",
+          "options": {
+            "A": "Incorrect option about acids",
+            "B": "Answer about acids",
+            "C": "Incorrect option about acids",
+            "D": "Incorrect option about acids"
+          },
+          "answer": "B",
+          "explanation": "This question tests understanding of acids in the context of chemistry."
+        },
+        {
+          "id": "mcq-chemistry-bases-2",
+          "type": "mcq",
+          "difficulty": "basic",
+          "topic": "bases",
+          "ghanaContext": "traditional soap making",
+          "stem": "What happens when a cell is placed in a hypotonic solution?",
+          "options": {
+            "A": "Incorrect option about bases",
+            "B": "Answer about bases",
+            "C": "Incorrect option about bases",
+            "D": "Incorrect option about bases"
+          },
+          "answer": "B",
+          "explanation": "This question tests understanding of bases in the context of chemistry."
+        },
+        {
+          "id": "mcq-chemistry-bases-3",
+          "type": "mcq",
+          "difficulty": "intermediate",
+          "topic": "bases",
+          "ghanaContext": "petroleum refining in Tema",
+          "stem": "Which factor most significantly affects cell death?",
+          "options": {
+            "A": "Incorrect option about bases",
+            "B": "Answer about bases",
+            "C": "Incorrect option about bases",
+            "D": "Incorrect option about bases"
+          },
+          "answer": "B",
+          "explanation": "This question tests understanding of bases in the context of chemistry."
+        },
+        {
+          "id": "mcq-chemistry-bases-4",
+          "type": "mcq",
+          "difficulty": "intermediate",
+          "topic": "bases",
+          "ghanaContext": "water treatment in Accra",
+          "stem": "What would be the result if oxygen levels decrease changes?",
+          "options": {
+            "A": "Incorrect option about bases",
+            "B": "Answer about bases",
+            "C": "Incorrect option about bases",
+            "D": "Incorrect option about bases"
+          },
+          "answer": "B",
+          "explanation": "This question tests understanding of bases in the context of chemistry."
+        },
+        {
+          "id": "trueFalse-chemistry-bases-5",
+          "type": "trueFalse",
+          "difficulty": "basic",
+          "topic": "bases",
+          "ghanaContext": "petroleum refining in Tema",
+          "stem": "bases refers to {definition}.",
+          "statement": "bases refers to {definition}.",
+          "answer": false,
+          "explanation": "This question tests understanding of bases in the context of chemistry."
+        },
+        {
+          "id": "trueFalse-chemistry-bases-6",
+          "type": "trueFalse",
+          "difficulty": "intermediate",
+          "topic": "bases",
+          "ghanaContext": "gold mining and processing",
+          "stem": "The relationship between prokaryotic cells and eukaryotic cells is {relationship_type}.",
+          "statement": "The relationship between prokaryotic cells and eukaryotic cells is {relationship_type}.",
+          "answer": false,
+          "explanation": "This question tests understanding of bases in the context of chemistry."
+        },
+        {
+          "id": "fillInTheBlank-chemistry-acids-7",
+          "type": "fillInTheBlank",
+          "difficulty": "basic",
+          "topic": "acids",
+          "ghanaContext": "petroleum refining in Tema",
+          "stem": "The process of acids involves _____.",
+          "answer": "Answer about acids",
+          "explanation": "This question tests understanding of acids in the context of chemistry."
+        }
+      ]
+    }
+  }
+}
