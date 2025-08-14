@@ -1,4 +1,3 @@
-
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -6,6 +5,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "@/context/AuthContext";
 import { ThemeProvider } from "@/context/ThemeContext";
+import { QuizProvider } from "@/context/QuizContext";
 import { OfflineProvider } from "@/context/OfflineContext";
 import { NotificationProvider } from "@/context/NotificationContext";
 import AppLayout from "@/components/layout/AppLayout";
@@ -43,40 +43,42 @@ function App() {
     <QueryClientProvider client={queryClient}>
       <ThemeProvider>
         <AuthProvider>
-          <OfflineProvider>
-            <NotificationProvider>
-              <TooltipProvider>
-                <Toaster />
-                <Sonner />
-                <BrowserRouter>
-                  <Routes>
-                    <Route path="/" element={<Index />} />
-                    <Route path="/login" element={<Login />} />
-                    <Route path="/register" element={<Register />} />
-                    <Route path="/*" element={<AppLayout />}>
-                      <Route path="dashboard" element={<Dashboard />} />
-                      <Route path="subjects" element={<Subjects />} />
-                      <Route path="subjects/:subjectId" element={<SubjectDetail />} />
-                      <Route path="subjects/:subjectId/:moduleId" element={<ModuleDetail />} />
-                      <Route path="search" element={<Search />} />
-                      <Route path="communities" element={<Communities />} />
-                      <Route path="achievements" element={<Achievements />} />
-                      <Route path="profile" element={<Profile />} />
-                      <Route path="virtual-lab" element={<VirtualLab />} />
-                      <Route path="teacher/quizzes" element={<TeacherQuizzes />} />
-                      <Route path="quizzes/:quizId" element={<Quiz />} />
-                      <Route path="modules/:moduleId" element={<ModuleRedirect />} />
+          <QuizProvider>
+            <OfflineProvider>
+              <NotificationProvider>
+                <TooltipProvider>
+                  <Toaster />
+                  <Sonner />
+                  <BrowserRouter>
+                    <Routes>
+                      <Route path="/" element={<Index />} />
+                      <Route path="/login" element={<Login />} />
+                      <Route path="/register" element={<Register />} />
+                      <Route path="/*" element={<AppLayout />}>
+                        <Route path="dashboard" element={<Dashboard />} />
+                        <Route path="subjects" element={<Subjects />} />
+                        <Route path="subjects/:subjectId" element={<SubjectDetail />} />
+                        <Route path="subjects/:subjectId/:moduleId" element={<ModuleDetail />} />
+                        <Route path="search" element={<Search />} />
+                        <Route path="communities" element={<Communities />} />
+                        <Route path="achievements" element={<Achievements />} />
+                        <Route path="profile" element={<Profile />} />
+                        <Route path="virtual-lab" element={<VirtualLab />} />
+                        <Route path="teacher/quizzes" element={<TeacherQuizzes />} />
+                        <Route path="quizzes/:quizId" element={<Quiz />} />
+                        <Route path="modules/:moduleId" element={<ModuleRedirect />} />
 
-                      {/* Admin Routes */}
-                      <Route path="admin" element={<AdminDashboard />} />
-                      <Route path="admin/subjects" element={<AdminSubjects />} />
-                    </Route>
-                    <Route path="*" element={<NotFound />} />
-                  </Routes>
-                </BrowserRouter>
-              </TooltipProvider>
-            </NotificationProvider>
-          </OfflineProvider>
+                        {/* Admin Routes */}
+                        <Route path="admin" element={<AdminDashboard />} />
+                        <Route path="admin/subjects" element={<AdminSubjects />} />
+                      </Route>
+                      <Route path="*" element={<NotFound />} />
+                    </Routes>
+                  </BrowserRouter>
+                </TooltipProvider>
+              </NotificationProvider>
+            </OfflineProvider>
+          </QuizProvider>
         </AuthProvider>
       </ThemeProvider>
     </QueryClientProvider>

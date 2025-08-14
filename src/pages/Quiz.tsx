@@ -3,6 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/context/AuthContext";
+import { useQuizContext } from "@/context/QuizContext";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -34,6 +35,7 @@ const Quiz: React.FC = () => {
   const { user } = useAuth();
   const { toast } = useToast();
   const qc = useQueryClient();
+  const { setIsQuizActive, setQuizTitle } = useQuizContext();
 
   useEffect(() => {
     document.title = "Quiz • STEM Learner";
@@ -110,6 +112,8 @@ const Quiz: React.FC = () => {
 
   const handleFinish = () => {
     setFinished(true);
+    setIsQuizActive(false);
+    setQuizTitle(undefined);
     if (!user || !quiz) return;
     const scorePct = total ? Math.round((correct / total) * 100) : 0;
     const payload = {
@@ -141,6 +145,8 @@ const Quiz: React.FC = () => {
 
   const startQuiz = () => {
     setQuizStarted(true);
+    setIsQuizActive(true);
+    setQuizTitle(quiz?.title);
     tabMonitoring.requestFullscreen();
   };
 
@@ -465,6 +471,8 @@ const Quiz: React.FC = () => {
                   setAnswers([]); 
                   setFinished(false);
                   setQuizStarted(false);
+                  setIsQuizActive(false);
+                  setQuizTitle(undefined);
                   tabMonitoring.reset();
                   setSecondsLeft(quiz.time_limit ?? 300); 
                 }}
