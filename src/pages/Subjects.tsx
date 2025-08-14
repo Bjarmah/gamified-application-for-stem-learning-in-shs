@@ -7,35 +7,26 @@ import { Calculator, Atom, FlaskConical, Activity, Monitor, Bot } from "lucide-r
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/context/AuthContext";
+import { 
+  biologyModules, 
+  chemistryModules, 
+  physicsModules, 
+  mathematicsModules, 
+  ictModules 
+} from "@/content";
 
 const Subjects = () => {
   const { data: subjects, isLoading, error } = useSubjects();
   const { user } = useAuth();
 
-  // Fetch module counts for all subjects
-  const { data: moduleData, isLoading: modulesLoading } = useQuery({
-    queryKey: ["subject-modules"],
-    queryFn: async () => {
-      const { data, error } = await supabase
-        .from("modules")
-        .select("subject_id");
-      
-      if (error) {
-        console.error("Error fetching modules:", error);
-        return {};
-      }
-
-      // Count modules per subject
-      const counts: Record<string, number> = {};
-      data.forEach((module) => {
-        if (module.subject_id) {
-          counts[module.subject_id] = (counts[module.subject_id] || 0) + 1;
-        }
-      });
-      return counts;
-    },
-    enabled: !!subjects,
-  });
+  // Use local content for module counts instead of database
+  const moduleCounts = {
+    'biology': biologyModules.length,
+    'chemistry': chemistryModules.length,
+    'physics': physicsModules.length,
+    'mathematics': mathematicsModules.length,
+    'ict': ictModules.length,
+  };
 
   // Fetch user progress for modules
   const { data: progressData, isLoading: progressLoading } = useQuery({
@@ -43,31 +34,36 @@ const Subjects = () => {
     queryFn: async () => {
       if (!user) return {};
       
-      const { data, error } = await supabase
-        .from("user_progress")
-        .select(`
-          module_id,
-          completed,
-          modules!inner(
-            subject_id
-          )
-        `)
-        .eq("user_id", user.id);
-      
-      if (error) {
+      try {
+        const { data, error } = await supabase
+          .from("user_progress")
+          .select(`
+            module_id,
+            completed,
+            modules!inner(
+              subject_id
+            )
+          `)
+          .eq("user_id", user.id);
+        
+        if (error) {
+          console.error("Error fetching user progress:", error);
+          return {};
+        }
+
+        // Count completed modules per subject
+        const counts: Record<string, number> = {};
+        data.forEach((progress) => {
+          const subjectId = progress.modules.subject_id;
+          if (subjectId && progress.completed) {
+            counts[subjectId] = (counts[subjectId] || 0) + 1;
+          }
+        });
+        return counts;
+      } catch (error) {
         console.error("Error fetching user progress:", error);
         return {};
       }
-
-      // Count completed modules per subject
-      const counts: Record<string, number> = {};
-      data.forEach((progress) => {
-        const subjectId = progress.modules.subject_id;
-        if (subjectId && progress.completed) {
-          counts[subjectId] = (counts[subjectId] || 0) + 1;
-        }
-      });
-      return counts;
     },
     enabled: !!user && !!subjects,
   });
@@ -91,7 +87,7 @@ const Subjects = () => {
     }
   };
 
-  if (isLoading || modulesLoading || progressLoading) {
+  if (isLoading || progressLoading) {
     return (
       <div className="space-y-6 pb-8">
         <div>
@@ -141,7 +137,8 @@ const Subjects = () => {
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {subjects?.map((subject) => {
-          const totalModules = moduleData?.[subject.id] || 0;
+          // Use local content for module counts
+          const totalModules = moduleCounts[subject.id as keyof typeof moduleCounts] || 0;
           const modulesCompleted = progressData?.[subject.id] || 0;
           
           return (

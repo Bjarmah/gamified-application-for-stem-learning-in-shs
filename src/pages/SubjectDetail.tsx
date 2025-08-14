@@ -30,7 +30,7 @@ const SubjectDetail: React.FC = () => {
   const prettyDifficulty = (difficulty: string | null): 'Beginner' | 'Intermediate' | 'Advanced' => {
     if (!difficulty) return 'Beginner';
     const d = difficulty.toLowerCase();
-    if (d === 'intermediate') return 'Intermediate';
+    if (d === 'intermediate' || d === 'shs 1' || d === 'shs 2' || d === 'shs 3') return 'Intermediate';
     if (d === 'advanced') return 'Advanced';
     return 'Beginner';
   };
@@ -41,36 +41,49 @@ const SubjectDetail: React.FC = () => {
     queryFn: async () => {
       if (!subjectId) return [];
 
-      // First get modules for this subject, then get quizzes for those modules
-      const { data: subjectModules, error: modulesError } = await supabase
-        .from("modules")
-        .select("id")
-        .eq("subject_id", subjectId);
+      try {
+        // First try to get modules from local content
+        const localModules = modules || [];
+        if (localModules.length > 0) {
+          // For now, return empty array since we don't have local quizzes yet
+          // This will be updated when local quiz content is added
+          return [];
+        }
 
-      if (modulesError) {
-        console.error("Error fetching modules:", modulesError);
-        throw modulesError;
-      }
+        // Fallback to database if local content not available
+        const { data: subjectModules, error: modulesError } = await supabase
+          .from("modules")
+          .select("id")
+          .eq("subject_id", subjectId);
 
-      if (!subjectModules || subjectModules.length === 0) {
+        if (modulesError) {
+          console.error("Error fetching modules:", modulesError);
+          return [];
+        }
+
+        if (!subjectModules || subjectModules.length === 0) {
+          return [];
+        }
+
+        const moduleIds = subjectModules.map(m => m.id);
+
+        const { data, error } = await supabase
+          .from("quizzes")
+          .select("*")
+          .in("module_id", moduleIds);
+
+        if (error) {
+          console.error("Error fetching quizzes:", error);
+          return [];
+        }
+
+        return data || [];
+      } catch (error) {
+        console.error("Error fetching quizzes:", error);
         return [];
       }
-
-      const moduleIds = subjectModules.map(m => m.id);
-
-      const { data, error } = await supabase
-        .from("quizzes")
-        .select("*")
-        .in("module_id", moduleIds);
-
-      if (error) {
-        console.error("Error fetching quizzes:", error);
-        throw error;
-      }
-
-      return data || [];
     },
-    enabled: !!subjectId,
+    enabled: !!subjectId && !!modules,
   });
 
   // Fetch user progress for modules and quizzes
@@ -216,10 +229,10 @@ const SubjectDetail: React.FC = () => {
                             <div className="flex items-center gap-3 text-xs text-muted-foreground">
                               <div className="flex items-center gap-1">
                                 <Clock className="h-3 w-3" />
-                                ~{module.estimated_duration || 30} mins
+                                ~{module.estimatedTime || 30} mins
                               </div>
                               <Badge variant="outline" className="text-xs">
-                                {prettyDifficulty(module.difficulty_level)}
+                                {prettyDifficulty(module.level)}
                               </Badge>
                               {moduleQuiz && (
                                 <Badge variant="secondary" className="text-xs">

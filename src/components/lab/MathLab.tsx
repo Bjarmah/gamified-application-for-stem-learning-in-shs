@@ -13,12 +13,12 @@ interface MathLabProps {
 
 const MathLab: React.FC<MathLabProps> = ({ experimentId }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  
+
   // Graphing tool state
   const [equation, setEquation] = useState('x^2');
   const [scale, setScale] = useState([20]);
   const [functions, setFunctions] = useState<string[]>(['x^2']);
-  
+
   // Geometry explorer state
   const [selectedShape, setSelectedShape] = useState('circle');
   const [shapeSize, setShapeSize] = useState([50]);
@@ -44,8 +44,9 @@ const MathLab: React.FC<MathLabProps> = ({ experimentId }) => {
         .replace(/tan/g, 'Math.tan')
         .replace(/log/g, 'Math.log')
         .replace(/sqrt/g, 'Math.sqrt');
-      
-      return eval(result);
+
+      // Use Function constructor instead of eval for security
+      return new Function('x', `return ${result}`)(x);
     } catch {
       return NaN;
     }
@@ -59,7 +60,7 @@ const MathLab: React.FC<MathLabProps> = ({ experimentId }) => {
     if (!ctx) return;
 
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    
+
     const centerX = canvas.width / 2;
     const centerY = canvas.height / 2;
     const gridSize = scale[0];
@@ -97,7 +98,7 @@ const MathLab: React.FC<MathLabProps> = ({ experimentId }) => {
       if (i !== 0) {
         const x = centerX + i * gridSize;
         const y = centerY + i * gridSize;
-        
+
         if (x > 0 && x < canvas.width) {
           ctx.fillText(i.toString(), x - 5, centerY + 15);
         }
@@ -113,15 +114,15 @@ const MathLab: React.FC<MathLabProps> = ({ experimentId }) => {
       ctx.strokeStyle = colors[index % colors.length];
       ctx.lineWidth = 3;
       ctx.beginPath();
-      
+
       let firstPoint = true;
       for (let pixelX = 0; pixelX < canvas.width; pixelX += 2) {
         const mathX = (pixelX - centerX) / gridSize;
         const mathY = evaluateFunction(func, mathX);
-        
+
         if (!isNaN(mathY) && isFinite(mathY)) {
           const pixelY = centerY - mathY * gridSize;
-          
+
           if (pixelY >= 0 && pixelY <= canvas.height) {
             if (firstPoint) {
               ctx.moveTo(pixelX, pixelY);
@@ -144,7 +145,7 @@ const MathLab: React.FC<MathLabProps> = ({ experimentId }) => {
     if (!ctx) return;
 
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    
+
     const centerX = canvas.width / 2;
     const centerY = canvas.height / 2;
 
@@ -182,13 +183,13 @@ const MathLab: React.FC<MathLabProps> = ({ experimentId }) => {
       ctx.fill();
       ctx.stroke();
     } else if (selectedShape === 'square') {
-      ctx.fillRect(-shapeSize[0]/2, -shapeSize[0]/2, shapeSize[0], shapeSize[0]);
-      ctx.strokeRect(-shapeSize[0]/2, -shapeSize[0]/2, shapeSize[0], shapeSize[0]);
+      ctx.fillRect(-shapeSize[0] / 2, -shapeSize[0] / 2, shapeSize[0], shapeSize[0]);
+      ctx.strokeRect(-shapeSize[0] / 2, -shapeSize[0] / 2, shapeSize[0], shapeSize[0]);
     } else if (selectedShape === 'triangle') {
       ctx.beginPath();
-      ctx.moveTo(0, -shapeSize[0]/2);
-      ctx.lineTo(-shapeSize[0]/2, shapeSize[0]/2);
-      ctx.lineTo(shapeSize[0]/2, shapeSize[0]/2);
+      ctx.moveTo(0, -shapeSize[0] / 2);
+      ctx.lineTo(-shapeSize[0] / 2, shapeSize[0] / 2);
+      ctx.lineTo(shapeSize[0] / 2, shapeSize[0] / 2);
       ctx.closePath();
       ctx.fill();
       ctx.stroke();
@@ -246,7 +247,7 @@ const MathLab: React.FC<MathLabProps> = ({ experimentId }) => {
                   />
                   <Button onClick={addFunction}>Add</Button>
                 </div>
-                
+
                 <div>
                   <label className="text-sm font-medium">Scale</label>
                   <Slider
@@ -289,7 +290,7 @@ const MathLab: React.FC<MathLabProps> = ({ experimentId }) => {
                   </div>
                 </div>
               </div>
-              
+
               <div className="border rounded-lg p-4 bg-gray-50">
                 <canvas
                   ref={canvasRef}
@@ -329,7 +330,7 @@ const MathLab: React.FC<MathLabProps> = ({ experimentId }) => {
                     </SelectContent>
                   </Select>
                 </div>
-                
+
                 <div>
                   <label className="text-sm font-medium">Size</label>
                   <Slider
@@ -378,7 +379,7 @@ const MathLab: React.FC<MathLabProps> = ({ experimentId }) => {
                   </div>
                 </div>
               </div>
-              
+
               <div className="border rounded-lg p-4 bg-gray-50">
                 <canvas
                   ref={canvasRef}
