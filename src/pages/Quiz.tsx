@@ -153,10 +153,10 @@ const Quiz: React.FC = () => {
       options = q.options;
       correctOption = q.correct_answer ?? q.correctOption ?? 0;
     } else if (typeof q.options === 'object') {
-      // Format: options: {"A": "...", "B": "..."}, answer: "B"
+      // Format: options: {"A": "...", "B": "..."}, correctAnswer: "B"
       const optionKeys = Object.keys(q.options).sort();
       options = optionKeys.map(key => q.options[key]);
-      const correctLetter = q.answer;
+      const correctLetter = q.answer || q.correctAnswer;
       correctOption = optionKeys.indexOf(correctLetter);
     }
     
@@ -287,6 +287,7 @@ const Quiz: React.FC = () => {
 
       {!finished && currentQuestion && (
         <QuizQuestion
+          key={`question-${index}`}
           question={currentQuestion}
           questionNumber={index + 1}
           totalQuestions={total}
