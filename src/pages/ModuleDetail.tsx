@@ -1,3 +1,4 @@
+
 import React, { useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useModule, useModules } from "@/hooks/use-modules";
@@ -173,6 +174,16 @@ const ModuleDetail: React.FC = () => {
                 {structured?.level && (
                   <Badge variant="secondary">{structured.level}</Badge>
                 )}
+                {quiz && (
+                  <Button
+                    size="sm"
+                    className="btn-stem"
+                    onClick={() => navigate(`/quizzes/${quiz.id}`)}
+                  >
+                    <Play className="h-4 w-4 mr-1" />
+                    Quiz
+                  </Button>
+                )}
               </div>
             </CardHeader>
             <CardContent className="space-y-6">
@@ -262,4 +273,3 @@ const ModuleDetail: React.FC = () => {
 };
 
 export default ModuleDetail;
-
