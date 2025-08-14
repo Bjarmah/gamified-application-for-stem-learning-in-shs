@@ -6,10 +6,12 @@ import { useAuth } from "@/context/AuthContext";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { Alert, AlertDescription } from "@/components/ui/alert";
 import QuizQuestion, { QuizQuestionType } from "@/components/quiz/QuizQuestion";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useToast } from "@/hooks/use-toast";
-import { Clock, Trophy, ArrowLeft } from "lucide-react";
+import { useTabMonitoring } from "@/hooks/use-tab-monitoring";
+import { Clock, Trophy, ArrowLeft, Eye, EyeOff, AlertTriangle, Maximize } from "lucide-react";
 
 interface DbQuiz {
   id: string;
@@ -91,6 +93,7 @@ const Quiz: React.FC = () => {
   const [index, setIndex] = useState(0);
   const [correct, setCorrect] = useState(0);
   const [answers, setAnswers] = useState<any[]>([]);
+  const [quizStarted, setQuizStarted] = useState(false);
   
   // Calculate total questions, handling nested structure
   const total = useMemo(() => {
@@ -104,6 +107,49 @@ const Quiz: React.FC = () => {
   const timeLimit = quiz?.time_limit ?? 300;
   const [secondsLeft, setSecondsLeft] = useState(timeLimit);
   const [finished, setFinished] = useState(false);
+
+  const handleFinish = () => {
+    setFinished(true);
+    if (!user || !quiz) return;
+    const scorePct = total ? Math.round((correct / total) * 100) : 0;
+    const payload = {
+      user_id: user.id,
+      quiz_id: quiz.id,
+      score: scorePct,
+      total_questions: total,
+      correct_answers: correct,
+      time_spent: (quiz.time_limit ?? 300) - secondsLeft,
+      answers: answers,
+      completed_at: new Date().toISOString(),
+    };
+    mutation.mutate(payload);
+  };
+
+  // Tab monitoring system
+  const tabMonitoring = useTabMonitoring({
+    enabled: quizStarted && !finished && user !== null,
+    maxViolations: 3,
+    onViolation: () => {
+      // Log violation but don't auto-finish on first few violations
+      console.log('Tab switch violation detected');
+    },
+    onMaxViolationsReached: () => {
+      // Force finish quiz on too many violations
+      handleFinish();
+    }
+  });
+
+  const startQuiz = () => {
+    setQuizStarted(true);
+    tabMonitoring.requestFullscreen();
+  };
+
+  // Cleanup fullscreen on finish
+  useEffect(() => {
+    if (finished) {
+      tabMonitoring.exitFullscreen();
+    }
+  }, [finished]);
 
   useEffect(() => {
     if (!quiz) return;
@@ -224,23 +270,6 @@ const Quiz: React.FC = () => {
     }
   });
 
-  const handleFinish = () => {
-    setFinished(true);
-    if (!user || !quiz) return;
-    const scorePct = total ? Math.round((correct / total) * 100) : 0;
-    const payload = {
-      user_id: user.id,
-      quiz_id: quiz.id,
-      score: scorePct,
-      total_questions: total,
-      correct_answers: correct,
-      time_spent: (quiz.time_limit ?? 300) - secondsLeft,
-      answers: answers,
-      completed_at: new Date().toISOString(),
-    };
-    mutation.mutate(payload);
-  };
-
   if (isLoading) {
     return (
       <div className="space-y-6 pb-8">
@@ -278,10 +307,83 @@ const Quiz: React.FC = () => {
           <h1 className="text-2xl font-bold tracking-tight">{quiz.title}</h1>
           <p className="text-muted-foreground">{quiz.description}</p>
         </div>
-        <Badge variant="outline" className="flex items-center gap-1">
-          <Clock className="h-3 w-3" /> {secondsToMMSS(secondsLeft)}
-        </Badge>
+        <div className="flex items-center gap-2">
+          <Badge variant="outline" className="flex items-center gap-1">
+            <Clock className="h-3 w-3" /> {secondsToMMSS(secondsLeft)}
+          </Badge>
+          {quizStarted && !finished && (
+            <Badge 
+              variant={tabMonitoring.isVisible && tabMonitoring.isFocused ? "default" : "destructive"}
+              className="flex items-center gap-1"
+            >
+              {tabMonitoring.isVisible && tabMonitoring.isFocused ? (
+                <Eye className="h-3 w-3" />
+              ) : (
+                <EyeOff className="h-3 w-3" />
+              )}
+              {tabMonitoring.violations}/3 warnings
+            </Badge>
+          )}
+        </div>
       </header>
+
+      {/* Tab monitoring alerts */}
+      {quizStarted && !finished && tabMonitoring.violations > 0 && (
+        <Alert variant="destructive">
+          <AlertTriangle className="h-4 w-4" />
+          <AlertDescription>
+            {tabMonitoring.violations === 3 
+              ? "Quiz terminated due to excessive tab switching."
+              : `Warning: Tab switching detected (${tabMonitoring.violations}/3). Keep this tab active during the quiz.`}
+          </AlertDescription>
+        </Alert>
+      )}
+
+      {/* Quiz Start Screen */}
+      {!quizStarted && user && total > 0 && (
+        <Card className="card-stem max-w-2xl mx-auto">
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <AlertTriangle className="h-5 w-5 text-stemYellow" />
+              Quiz Security Notice
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div className="space-y-3 text-sm">
+              <div className="flex items-start gap-3">
+                <Eye className="h-4 w-4 mt-0.5 text-primary" />
+                <div>
+                  <p className="font-medium">Tab monitoring is active</p>
+                  <p className="text-muted-foreground">Switching tabs or windows will be detected and logged</p>
+                </div>
+              </div>
+              <div className="flex items-start gap-3">
+                <AlertTriangle className="h-4 w-4 mt-0.5 text-destructive" />
+                <div>
+                  <p className="font-medium">3 warning system</p>
+                  <p className="text-muted-foreground">After 3 tab switches, your quiz will be automatically submitted</p>
+                </div>
+              </div>
+              <div className="flex items-start gap-3">
+                <Maximize className="h-4 w-4 mt-0.5 text-primary" />
+                <div>
+                  <p className="font-medium">Fullscreen recommended</p>
+                  <p className="text-muted-foreground">We'll suggest fullscreen mode for the best quiz experience</p>
+                </div>
+              </div>
+            </div>
+            <div className="flex gap-2 pt-2">
+              <Button variant="outline" onClick={() => navigate(-1)}>
+                <ArrowLeft className="h-4 w-4 mr-2" />
+                Cancel
+              </Button>
+              <Button onClick={startQuiz} className="btn-stem">
+                I Understand - Start Quiz
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
+      )}
 
       {!user && (
         <Card>
@@ -289,13 +391,13 @@ const Quiz: React.FC = () => {
             <CardTitle>Sign in required</CardTitle>
           </CardHeader>
           <CardContent>
-            <p className="text-sm text-muted-foreground mb-3">You need to be logged in to submit attempts.</p>
+            <p className="text-sm text-muted-foreground mb-3">You need to be logged in to take quizzes.</p>
             <Button onClick={() => navigate("/login")}>Sign in</Button>
           </CardContent>
         </Card>
       )}
 
-      {!finished && currentQuestion && (
+      {quizStarted && !finished && currentQuestion && !tabMonitoring.isBlocked && (
         <QuizQuestion
           key={`question-${index}`}
           question={currentQuestion}
@@ -306,7 +408,7 @@ const Quiz: React.FC = () => {
         />
       )}
 
-      {!finished && !currentQuestion && total === 0 && (
+      {quizStarted && !finished && !currentQuestion && total === 0 && (
         <Card className="card-stem max-w-xl mx-auto">
           <CardHeader>
             <CardTitle>No Questions Available</CardTitle>
@@ -361,7 +463,9 @@ const Quiz: React.FC = () => {
                   setIndex(0); 
                   setCorrect(0); 
                   setAnswers([]); 
-                  setFinished(false); 
+                  setFinished(false);
+                  setQuizStarted(false);
+                  tabMonitoring.reset();
                   setSecondsLeft(quiz.time_limit ?? 300); 
                 }}
               >

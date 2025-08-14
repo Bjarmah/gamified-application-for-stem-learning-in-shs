@@ -72,9 +72,19 @@ export interface StructuredModule {
 }
 
 // Convert the existing mathematics modules to match the expected interface
-const convertMathematicsModule = (module: any): StructuredModule => {
+const convertMathematicsModule = (module: any, index: number): StructuredModule => {
+  // Ensure consistent, trackable ID
+  const generateId = () => {
+    if (module.moduleId && typeof module.moduleId === 'string') {
+      return module.moduleId;
+    }
+    const title = module.moduleTitle || `Module ${index + 1}`;
+    const cleanTitle = title.toLowerCase().replace(/[^a-z0-9\s]/g, '').replace(/\s+/g, '-').substring(0, 30);
+    return `mathematics-${cleanTitle}`;
+  };
+  
   return {
-    id: module.moduleId || `mathematics-${Math.random().toString(36).substr(2, 9)}`,
+    id: generateId(),
     title: module.moduleTitle || 'Mathematics Module',
     description: module.objectives?.join('. ') || 'Mathematics learning module',
     subject: 'Mathematics',
@@ -133,9 +143,9 @@ const convertMathematicsModule = (module: any): StructuredModule => {
 
 // Create a map for easy lookup by title
 const mapByTitle: Record<string, StructuredModule> = {
-  'Linear Equations & Inequalities': convertMathematicsModule(module1),
-  'Quadratic Functions': convertMathematicsModule(module2),
-  'Geometry & Trigonometry': convertMathematicsModule(module3),
+  'Linear Equations & Inequalities': convertMathematicsModule(module1, 0),
+  'Quadratic Functions': convertMathematicsModule(module2, 1),
+  'Geometry & Trigonometry': convertMathematicsModule(module3, 2),
 };
 
 // Utility function to find a module by title
@@ -145,9 +155,9 @@ export const findMathematicsModuleByTitle = (title: string): StructuredModule | 
 
 // Export all mathematics modules
 export const mathematicsModules: StructuredModule[] = [
-  convertMathematicsModule(module1),
-  convertMathematicsModule(module2),
-  convertMathematicsModule(module3)
+  convertMathematicsModule(module1, 0),
+  convertMathematicsModule(module2, 1),
+  convertMathematicsModule(module3, 2)
 ];
 
 // Export individual modules

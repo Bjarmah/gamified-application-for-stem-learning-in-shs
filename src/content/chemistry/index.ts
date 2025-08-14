@@ -72,9 +72,19 @@ export interface StructuredModule {
 }
 
 // Convert the existing chemistry modules to match the expected interface
-const convertChemistryModule = (module: any): StructuredModule => {
+const convertChemistryModule = (module: any, index: number): StructuredModule => {
+  // Ensure consistent, trackable ID
+  const generateId = () => {
+    if (module.moduleId && typeof module.moduleId === 'string') {
+      return module.moduleId;
+    }
+    const title = module.moduleTitle || `Module ${index + 1}`;
+    const cleanTitle = title.toLowerCase().replace(/[^a-z0-9\s]/g, '').replace(/\s+/g, '-').substring(0, 30);
+    return `chemistry-${cleanTitle}`;
+  };
+  
   return {
-    id: module.moduleId || `chemistry-${Math.random().toString(36).substr(2, 9)}`,
+    id: generateId(),
     title: module.moduleTitle || 'Chemistry Module',
     description: module.objectives?.join('. ') || 'Chemistry learning module',
     subject: 'Chemistry',
@@ -133,9 +143,9 @@ const convertChemistryModule = (module: any): StructuredModule => {
 
 // Create a map for easy lookup by title
 const mapByTitle: Record<string, StructuredModule> = {
-  'Atomic Structure & Electron Configuration': convertChemistryModule(module1),
-  'Chemical Bonding': convertChemistryModule(module2),
-  'Acids, Bases & Salts': convertChemistryModule(module3),
+  'Atomic Structure & Electron Configuration': convertChemistryModule(module1, 0),
+  'Chemical Bonding': convertChemistryModule(module2, 1),
+  'Acids, Bases & Salts': convertChemistryModule(module3, 2),
 };
 
 // Utility function to find a module by title
@@ -145,9 +155,9 @@ export const findChemistryModuleByTitle = (title: string): StructuredModule | un
 
 // Export all chemistry modules
 export const chemistryModules: StructuredModule[] = [
-  convertChemistryModule(module1),
-  convertChemistryModule(module2),
-  convertChemistryModule(module3)
+  convertChemistryModule(module1, 0),
+  convertChemistryModule(module2, 1),
+  convertChemistryModule(module3, 2)
 ];
 
 // Export individual modules
