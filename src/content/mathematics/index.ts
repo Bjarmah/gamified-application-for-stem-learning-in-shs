@@ -71,11 +71,71 @@ export interface StructuredModule {
   tags: string[];
 }
 
+// Convert the existing mathematics modules to match the expected interface
+const convertMathematicsModule = (module: any): StructuredModule => {
+  return {
+    id: module.moduleId || `mathematics-${Math.random().toString(36).substr(2, 9)}`,
+    title: module.moduleTitle || 'Mathematics Module',
+    description: module.objectives?.join('. ') || 'Mathematics learning module',
+    subject: 'Mathematics',
+    level: module.level || 'Intermediate',
+    estimatedTime: 60, // Default 60 minutes
+    xpReward: 100, // Default 100 XP
+    achievement: 'Mathematics Explorer',
+    achievementDescription: 'Complete mathematics module',
+    content: {
+      text: {
+        introduction: module.lessons?.[0]?.text || 'Introduction to mathematics concepts',
+        sections: module.lessons?.map((lesson: any, index: number) => ({
+          title: lesson.title || `Lesson ${index + 1}`,
+          content: lesson.text || 'Lesson content'
+        })) || []
+      },
+      questions: [], // Convert knowledge checks if available
+      exercises: [], // Convert exercises if available
+      scenarioChallenges: module.lessons?.flatMap((lesson: any) => 
+        lesson.scenarioChallenges?.map((challenge: any) => ({
+          title: challenge.title || 'Scenario Challenge',
+          scenario: challenge.scenario || 'Challenge description',
+          tasks: challenge.tasks || [],
+          learningObjectives: challenge.learningObjectives || [],
+          ghanaContext: challenge.ghanaContext || 'Local context'
+        })) || []
+      ) || []
+    },
+    gamification: {
+      achievements: [
+        {
+          id: 'mathematics-explorer',
+          title: 'Mathematics Explorer',
+          description: 'Complete mathematics module',
+          xpReward: 100
+        }
+      ],
+      milestones: [],
+      xpRules: {
+        correctAnswer: 10,
+        completedExercise: 25,
+        scenarioChallenge: 50,
+        moduleCompletion: 100
+      }
+    },
+    ghanaContext: {
+      localExamples: ['Local mathematics examples'],
+      culturalConnections: ['Cultural mathematics connections'],
+      realWorldApplications: ['Real-world mathematics applications']
+    },
+    prerequisites: [],
+    nextModule: null,
+    tags: ['mathematics', 'math', 'ghana', 'shs']
+  };
+};
+
 // Create a map for easy lookup by title
 const mapByTitle: Record<string, StructuredModule> = {
-  [module1.title]: module1,
-  [module2.title]: module2,
-  [module3.title]: module3,
+  'Linear Equations & Inequalities': convertMathematicsModule(module1),
+  'Quadratic Functions': convertMathematicsModule(module2),
+  'Geometry & Trigonometry': convertMathematicsModule(module3),
 };
 
 // Utility function to find a module by title
@@ -84,7 +144,11 @@ export const findMathematicsModuleByTitle = (title: string): StructuredModule | 
 };
 
 // Export all mathematics modules
-export const mathematicsModules: StructuredModule[] = [module1, module2, module3];
+export const mathematicsModules: StructuredModule[] = [
+  convertMathematicsModule(module1),
+  convertMathematicsModule(module2),
+  convertMathematicsModule(module3)
+];
 
 // Export individual modules
 export { module1, module2, module3 };

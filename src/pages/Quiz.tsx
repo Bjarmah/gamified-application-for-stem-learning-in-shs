@@ -112,8 +112,18 @@ const Quiz: React.FC = () => {
     // Debug the quiz data structure
     if (quiz) {
       console.log('Quiz loaded:', quiz.title);
-      console.log('Questions count:', quiz.questions?.length || 0);
-      if (!quiz.questions || quiz.questions.length === 0) {
+      
+      // Check questions using the same logic as total calculation
+      let questionsCount = 0;
+      if (Array.isArray(quiz.questions)) {
+        questionsCount = quiz.questions.length;
+      } else if (typeof quiz.questions === 'object' && quiz.questions?.questions && Array.isArray(quiz.questions.questions)) {
+        questionsCount = quiz.questions.questions.length;
+      }
+      
+      console.log('Questions count:', questionsCount);
+      
+      if (questionsCount === 0) {
         console.warn('No questions found in quiz data');
       }
     }
@@ -153,10 +163,10 @@ const Quiz: React.FC = () => {
       options = q.options;
       correctOption = q.correct_answer ?? q.correctOption ?? 0;
     } else if (typeof q.options === 'object') {
-      // Format: options: {"A": "...", "B": "..."}, answer: "B"
+      // Format: options: {"A": "...", "B": "..."}, correctAnswer: "B"
       const optionKeys = Object.keys(q.options).sort();
       options = optionKeys.map(key => q.options[key]);
-      const correctLetter = q.answer;
+      const correctLetter = q.answer || q.correctAnswer;
       correctOption = optionKeys.indexOf(correctLetter);
     }
     
@@ -287,6 +297,7 @@ const Quiz: React.FC = () => {
 
       {!finished && currentQuestion && (
         <QuizQuestion
+          key={`question-${index}`}
           question={currentQuestion}
           questionNumber={index + 1}
           totalQuestions={total}
@@ -325,7 +336,38 @@ const Quiz: React.FC = () => {
               <div className="flex justify-between"><span>Correct</span><span className="font-medium">{correct}/{total}</span></div>
               <div className="flex justify-between"><span>Time Spent</span><span className="font-medium">{secondsToMMSS((quiz.time_limit ?? 300) - secondsLeft)}</span></div>
             </div>
-            <Button className="mt-4 btn-stem w-full" onClick={() => { setIndex(0); setCorrect(0); setAnswers([]); setFinished(false); setSecondsLeft(quiz.time_limit ?? 300); }}>Retake Quiz</Button>
+            
+            <div className="mt-4 space-y-2">
+              <div className="grid grid-cols-2 gap-2">
+                <Button 
+                  variant="outline" 
+                  onClick={() => navigate('/dashboard')}
+                  className="w-full"
+                >
+                  <ArrowLeft className="h-4 w-4 mr-2" />
+                  Dashboard
+                </Button>
+                <Button 
+                  variant="outline" 
+                  onClick={() => navigate('/subjects')}
+                  className="w-full"
+                >
+                  More Quizzes
+                </Button>
+              </div>
+              <Button 
+                className="btn-stem w-full" 
+                onClick={() => { 
+                  setIndex(0); 
+                  setCorrect(0); 
+                  setAnswers([]); 
+                  setFinished(false); 
+                  setSecondsLeft(quiz.time_limit ?? 300); 
+                }}
+              >
+                Retake Quiz
+              </Button>
+            </div>
           </CardContent>
         </Card>
       )}

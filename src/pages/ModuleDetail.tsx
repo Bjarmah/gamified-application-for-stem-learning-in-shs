@@ -1,3 +1,4 @@
+
 import React, { useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useModule, useModules } from "@/hooks/use-modules";
@@ -31,12 +32,24 @@ const ModuleDetail: React.FC = () => {
         .from("quizzes")
         .select("*")
         .eq("module_id", moduleId)
-        .maybeSingle();
+        .order("created_at", { ascending: false });
+      
       if (error) throw error;
-      return data;
+      
+      // Find the first quiz that has questions
+      const quizzesWithQuestions = data?.filter(quiz => {
+        if (!quiz.questions) return false;
+        if (Array.isArray(quiz.questions)) return quiz.questions.length > 0;
+        if (typeof quiz.questions === 'object' && quiz.questions.questions && Array.isArray(quiz.questions.questions)) {
+          return quiz.questions.questions.length > 0;
+        }
+        return false;
+      });
+      
+      return quizzesWithQuestions?.[0] || null;
     },
     enabled: !!moduleId,
-    staleTime: 1000 * 60 * 10,
+    staleTime: 0, // Disable caching to always fetch fresh data
   });
 
   const isLoading = moduleLoading || modulesLoading || quizLoading;
@@ -161,36 +174,50 @@ const ModuleDetail: React.FC = () => {
                 {structured?.level && (
                   <Badge variant="secondary">{structured.level}</Badge>
                 )}
+                {quiz && (
+                  <Button
+                    size="sm"
+                    className="btn-stem"
+                    onClick={() => navigate(`/quizzes/${quiz.id}`)}
+                  >
+                    <Play className="h-4 w-4 mr-1" />
+                    Quiz
+                  </Button>
+                )}
               </div>
             </CardHeader>
             <CardContent className="space-y-6">
 {structured ? (
                 <div className="space-y-6">
                   <section>
-                    <h2 className="text-lg font-semibold">Objectives</h2>
-                    <ul className="list-disc pl-5 text-sm mt-2">
-                      {structured.objectives?.map((o) => (
-                        <li key={o}>{o}</li>
-                      ))}
-                    </ul>
+                    <h2 className="text-lg font-semibold">Description</h2>
+                    <p className="text-sm mt-2">{structured.description}</p>
                   </section>
 
                   <section>
-                    <h3 className="text-sm font-medium">Learning Path</h3>
+                    <h3 className="text-sm font-medium">Tags</h3>
                     <div className="flex flex-wrap gap-2 mt-2">
-                      {structured.learningPath?.map((step) => (
-                        <Badge key={step} variant="outline">{step}</Badge>
+                      {structured.tags?.map((tag) => (
+                        <Badge key={tag} variant="outline">{tag}</Badge>
                       ))}
                     </div>
                   </section>
 
                   <section className="space-y-4">
-                    {structured.lessons?.map((lesson) => (
-                      <article key={lesson.id} className="p-4 rounded-md bg-muted/30">
-                        <h4 className="font-medium">{lesson.title}</h4>
+                    <h3 className="text-lg font-semibold">Content</h3>
+                    <div className="p-4 rounded-md bg-muted/30">
+                      <h4 className="font-medium">Introduction</h4>
+                      <div
+                        className="prose prose-sm max-w-none mt-2"
+                        dangerouslySetInnerHTML={{ __html: toHTML(structured.content.text.introduction) }}
+                      />
+                    </div>
+                    {structured.content.text.sections?.map((section, index) => (
+                      <article key={index} className="p-4 rounded-md bg-muted/30">
+                        <h4 className="font-medium">{section.title}</h4>
                         <div
                           className="prose prose-sm max-w-none mt-2"
-                          dangerouslySetInnerHTML={{ __html: toHTML(lesson.text) }}
+                          dangerouslySetInnerHTML={{ __html: toHTML(section.content) }}
                         />
                       </article>
                     ))}
@@ -246,4 +273,3 @@ const ModuleDetail: React.FC = () => {
 };
 
 export default ModuleDetail;
-

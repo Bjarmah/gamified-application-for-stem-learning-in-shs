@@ -24,7 +24,7 @@ interface OfflineProgress {
 
 export function useOfflineLearning() {
   const [offlineModules, setOfflineModules] = useState<OfflineModule[]>([]);
-  const [isOnline, setIsOnline] = useState(navigator.onLine);
+  const [isOnline, setIsOnline] = useState(true); // Default to online for better development experience
   const [syncStatus, setSyncStatus] = useState<'idle' | 'syncing' | 'error'>('idle');
   const { toast } = useToast();
 

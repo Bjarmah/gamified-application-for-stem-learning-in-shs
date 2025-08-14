@@ -60,7 +60,10 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
                 .single();
               
               if (error && error.code !== 'PGRST116') {
-                console.error('Error fetching profile:', error);
+                // Only log non-offline errors to avoid spam
+                if (!error.message?.includes('offline')) {
+                  console.error('Error fetching profile:', error);
+                }
               } else if (profileData) {
                 // Type assertion to ensure role is properly typed
                 setProfile({
