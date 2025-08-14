@@ -31,12 +31,14 @@ const ModuleDetail: React.FC = () => {
         .from("quizzes")
         .select("*")
         .eq("module_id", moduleId)
+        .order("created_at", { ascending: false })
+        .limit(1)
         .maybeSingle();
       if (error) throw error;
       return data;
     },
     enabled: !!moduleId,
-    staleTime: 1000 * 60 * 10,
+    staleTime: 0, // Disable caching to always fetch fresh data
   });
 
   const isLoading = moduleLoading || modulesLoading || quizLoading;
