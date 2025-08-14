@@ -31,11 +31,21 @@ const ModuleDetail: React.FC = () => {
         .from("quizzes")
         .select("*")
         .eq("module_id", moduleId)
-        .order("created_at", { ascending: false })
-        .limit(1)
-        .maybeSingle();
+        .order("created_at", { ascending: false });
+      
       if (error) throw error;
-      return data;
+      
+      // Find the first quiz that has questions
+      const quizzesWithQuestions = data?.filter(quiz => {
+        if (!quiz.questions) return false;
+        if (Array.isArray(quiz.questions)) return quiz.questions.length > 0;
+        if (typeof quiz.questions === 'object' && quiz.questions.questions && Array.isArray(quiz.questions.questions)) {
+          return quiz.questions.questions.length > 0;
+        }
+        return false;
+      });
+      
+      return quizzesWithQuestions?.[0] || null;
     },
     enabled: !!moduleId,
     staleTime: 0, // Disable caching to always fetch fresh data
