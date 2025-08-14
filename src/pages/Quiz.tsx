@@ -326,7 +326,38 @@ const Quiz: React.FC = () => {
               <div className="flex justify-between"><span>Correct</span><span className="font-medium">{correct}/{total}</span></div>
               <div className="flex justify-between"><span>Time Spent</span><span className="font-medium">{secondsToMMSS((quiz.time_limit ?? 300) - secondsLeft)}</span></div>
             </div>
-            <Button className="mt-4 btn-stem w-full" onClick={() => { setIndex(0); setCorrect(0); setAnswers([]); setFinished(false); setSecondsLeft(quiz.time_limit ?? 300); }}>Retake Quiz</Button>
+            
+            <div className="mt-4 space-y-2">
+              <div className="grid grid-cols-2 gap-2">
+                <Button 
+                  variant="outline" 
+                  onClick={() => navigate('/dashboard')}
+                  className="w-full"
+                >
+                  <ArrowLeft className="h-4 w-4 mr-2" />
+                  Dashboard
+                </Button>
+                <Button 
+                  variant="outline" 
+                  onClick={() => navigate('/subjects')}
+                  className="w-full"
+                >
+                  More Quizzes
+                </Button>
+              </div>
+              <Button 
+                className="btn-stem w-full" 
+                onClick={() => { 
+                  setIndex(0); 
+                  setCorrect(0); 
+                  setAnswers([]); 
+                  setFinished(false); 
+                  setSecondsLeft(quiz.time_limit ?? 300); 
+                }}
+              >
+                Retake Quiz
+              </Button>
+            </div>
           </CardContent>
         </Card>
       )}
