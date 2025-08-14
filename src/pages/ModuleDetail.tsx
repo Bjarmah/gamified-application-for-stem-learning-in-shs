@@ -91,7 +91,7 @@ const ModuleDetail: React.FC = () => {
 
 // Using the imported formatDifficulty and getDifficultyColor functions
   const difficultyBadge = () => {
-    const formattedDifficulty = formatDifficulty(module?.difficulty_level || "beginner");
+    const formattedDifficulty = formatDifficulty(module?.level || "beginner");
     return getDifficultyColor(formattedDifficulty);
   };
 
@@ -146,7 +146,7 @@ const ModuleDetail: React.FC = () => {
                             {m.title}
                           </button>
                           <div className="flex items-center gap-2 text-xs text-muted-foreground mt-1">
-                            <Clock className="h-3 w-3" /> ~{m.estimated_duration || 30} mins
+                            <Clock className="h-3 w-3" /> ~{m.estimatedTime || 30} mins
                           </div>
                         </div>
                       </div>
@@ -167,9 +167,9 @@ const ModuleDetail: React.FC = () => {
                 {module.title}
               </CardTitle>
 <div className="flex items-center gap-2">
-                <Badge className={difficultyBadge()}>{formatDifficulty(module.difficulty_level)}</Badge>
+                <Badge className={difficultyBadge()}>{formatDifficulty(module.level)}</Badge>
                 <Badge variant="outline" className="flex items-center gap-1">
-                  <Clock className="h-3 w-3" /> ~{module.estimated_duration || 30} mins
+                  <Clock className="h-3 w-3" /> ~{module.estimatedTime || 30} mins
                 </Badge>
                 {structured?.level && (
                   <Badge variant="secondary">{structured.level}</Badge>

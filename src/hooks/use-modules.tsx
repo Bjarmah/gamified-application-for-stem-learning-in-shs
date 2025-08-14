@@ -70,17 +70,17 @@ export const useModules = (subjectId: string | undefined) => {
           title: dbModule.title,
           description: dbModule.description || '',
           subject: dbModule.subject_id,
-          level: dbModule.level || 'Intermediate',
-          estimatedTime: dbModule.estimated_time || 60,
-          xpReward: dbModule.xp_reward || 100,
-          achievement: dbModule.achievement || 'Module Completion',
-          achievementDescription: dbModule.achievement_description || 'Complete this module',
+          level: dbModule.difficulty_level || 'beginner',
+          estimatedTime: dbModule.estimated_duration || 60,
+          xpReward: 100, // Default value since not in DB
+          achievement: 'Module Completion', // Default value since not in DB
+          achievementDescription: 'Complete this module', // Default value since not in DB
           content: dbModule.content || {},
-          gamification: dbModule.gamification || {},
-          ghanaContext: dbModule.ghana_context || {},
-          prerequisites: dbModule.prerequisites || [],
-          nextModule: dbModule.next_module || null,
-          tags: dbModule.tags || []
+          gamification: {}, // Default value since not in DB
+          ghanaContext: {}, // Default value since not in DB
+          prerequisites: [], // Default value since not in DB
+          nextModule: null, // Default value since not in DB
+          tags: [] // Default value since not in DB
         }));
       } catch (error) {
         console.error('Error fetching modules:', error);
@@ -134,17 +134,17 @@ export const useModule = (moduleId: string | undefined) => {
           title: data.title,
           description: data.description || '',
           subject: data.subject_id,
-          level: data.level || 'Intermediate',
-          estimatedTime: data.estimated_time || 60,
-          xpReward: data.xp_reward || 100,
-          achievement: data.achievement || 'Module Completion',
-          achievementDescription: data.achievement_description || 'Complete this module',
+          level: data.difficulty_level || 'beginner',
+          estimatedTime: data.estimated_duration || 60,
+          xpReward: 100, // Default value since not in DB
+          achievement: 'Module Completion', // Default value since not in DB
+          achievementDescription: 'Complete this module', // Default value since not in DB
           content: data.content || {},
-          gamification: data.gamification || {},
-          ghanaContext: data.ghana_context || {},
-          prerequisites: data.prerequisites || [],
-          nextModule: data.next_module || null,
-          tags: data.tags || []
+          gamification: {}, // Default value since not in DB
+          ghanaContext: {}, // Default value since not in DB
+          prerequisites: [], // Default value since not in DB
+          nextModule: null, // Default value since not in DB
+          tags: [] // Default value since not in DB
         };
       } catch (error) {
         console.error('Error fetching module:', error);
