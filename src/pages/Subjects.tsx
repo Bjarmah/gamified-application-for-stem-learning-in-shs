@@ -15,6 +15,29 @@ import {
   ictModules 
 } from "@/content";
 
+// Debug: Test direct imports
+console.log('Direct import test:');
+console.log('biologyModules:', biologyModules);
+console.log('biologyModules.length:', biologyModules?.length);
+console.log('chemistryModules.length:', chemistryModules?.length);
+console.log('physicsModules.length:', physicsModules.length);
+console.log('mathematicsModules.length:', mathematicsModules?.length);
+console.log('ictModules.length:', ictModules?.length);
+
+// Debug: Check if modules are arrays
+console.log('biologyModules is Array:', Array.isArray(biologyModules));
+console.log('chemistryModules is Array:', Array.isArray(chemistryModules));
+console.log('physicsModules is Array:', Array.isArray(physicsModules));
+console.log('mathematicsModules is Array:', Array.isArray(mathematicsModules));
+console.log('ictModules is Array:', Array.isArray(ictModules));
+
+// Debug: Check first module structure
+if (biologyModules && biologyModules.length > 0) {
+  console.log('First biology module:', biologyModules[0]);
+  console.log('First biology module id:', biologyModules[0]?.id);
+  console.log('First biology module title:', biologyModules[0]?.title);
+}
+
 const Subjects = () => {
   const { data: subjects, isLoading, error } = useSubjects();
   const { user } = useAuth();
@@ -140,6 +163,9 @@ const Subjects = () => {
           // Use local content for module counts
           const totalModules = moduleCounts[subject.id as keyof typeof moduleCounts] || 0;
           const modulesCompleted = progressData?.[subject.id] || 0;
+          
+          // Debug: Log subject ID and module count
+          console.log(`Subject: ${subject.name}, ID: ${subject.id}, Total modules: ${totalModules}, Module counts keys:`, Object.keys(moduleCounts));
           
           return (
             <SubjectCard

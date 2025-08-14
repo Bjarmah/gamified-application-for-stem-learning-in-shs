@@ -93,7 +93,7 @@ const convertBiologyModule = (module: any): StructuredModule => {
       },
       questions: [], // Convert knowledge checks if available
       exercises: [], // Convert exercises if available
-      scenarioChallenges: module.lessons?.flatMap((lesson: any) => 
+      scenarioChallenges: module.lessons?.flatMap((lesson: any) =>
         lesson.scenarioChallenges?.map((challenge: any) => ({
           title: challenge.title || 'Scenario Challenge',
           scenario: challenge.scenario || 'Challenge description',
