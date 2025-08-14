@@ -112,8 +112,18 @@ const Quiz: React.FC = () => {
     // Debug the quiz data structure
     if (quiz) {
       console.log('Quiz loaded:', quiz.title);
-      console.log('Questions count:', quiz.questions?.length || 0);
-      if (!quiz.questions || quiz.questions.length === 0) {
+      
+      // Check questions using the same logic as total calculation
+      let questionsCount = 0;
+      if (Array.isArray(quiz.questions)) {
+        questionsCount = quiz.questions.length;
+      } else if (typeof quiz.questions === 'object' && quiz.questions?.questions && Array.isArray(quiz.questions.questions)) {
+        questionsCount = quiz.questions.questions.length;
+      }
+      
+      console.log('Questions count:', questionsCount);
+      
+      if (questionsCount === 0) {
         console.warn('No questions found in quiz data');
       }
     }
