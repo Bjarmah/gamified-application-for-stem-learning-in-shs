@@ -4,7 +4,13 @@ import module1b from './module1b.json';
 import module1c from './module1c.json';
 import module1d from './module1d.json';
 import module2 from './module2.json';
+import module2a from './module2a.json';
+import module2b from './module2b.json';
+import module2c from './module2c.json';
 import module3 from './module3.json';
+import module3a from './module3a.json';
+import module3b from './module3b.json';
+import module3c from './module3c.json';
 
 export interface StructuredModule {
   id: string;
@@ -153,7 +159,13 @@ const mapByTitle: Record<string, StructuredModule> = {
   'Organelles & Their Functions': convertBiologyModule(module1c, 3),
   'Cell Division & Mitosis': convertBiologyModule(module1d, 4),
   'Photosynthesis & Respiration': convertBiologyModule(module2, 5),
-  'Human Body Systems': convertBiologyModule(module3, 6),
+  'Photosynthesis Process': convertBiologyModule(module2a, 6),
+  'Cellular Respiration': convertBiologyModule(module2b, 7),
+  'Energy Flow & Metabolism': convertBiologyModule(module2c, 8),
+  'Human Body Systems': convertBiologyModule(module3, 9),
+  'Circulatory System': convertBiologyModule(module3a, 10),
+  'Respiratory System': convertBiologyModule(module3b, 11),
+  'Coordination & Control Systems': convertBiologyModule(module3c, 12),
 };
 
 // Utility function to find a module by title
@@ -169,8 +181,14 @@ export const biologyModules: StructuredModule[] = [
   convertBiologyModule(module1c, 3),
   convertBiologyModule(module1d, 4),
   convertBiologyModule(module2, 5),
-  convertBiologyModule(module3, 6)
+  convertBiologyModule(module2a, 6),
+  convertBiologyModule(module2b, 7),
+  convertBiologyModule(module2c, 8),
+  convertBiologyModule(module3, 9),
+  convertBiologyModule(module3a, 10),
+  convertBiologyModule(module3b, 11),
+  convertBiologyModule(module3c, 12)
 ];
 
 // Export individual modules
-export { module1, module1a, module1b, module1c, module1d, module2, module3 };
+export { module1, module1a, module1b, module1c, module1d, module2, module2a, module2b, module2c, module3, module3a, module3b, module3c };

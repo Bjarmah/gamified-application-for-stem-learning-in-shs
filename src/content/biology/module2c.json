@@ -1,0 +1,139 @@
+{
+  "moduleId": "bio-energy-flow-metabolism",
+  "moduleTitle": "Energy Flow & Metabolism",
+  "subject": "Biology",
+  "level": "SHS 2",
+  "objectives": [
+    "Explain the relationship between photosynthesis and cellular respiration",
+    "Describe energy flow through ecosystems and trophic levels",
+    "Analyze metabolic efficiency and energy transformations",
+    "Apply energy concepts to Ghanaian food systems and nutrition"
+  ],
+  "learningPath": [
+    "Photosynthesis vs Respiration",
+    "Ecosystem Energy Flow",
+    "Metabolic Efficiency",
+    "Knowledge Checks",
+    "Assessment"
+  ],
+  "xpRules": {
+    "lessonCompletion": 10,
+    "correctAnswer": 5,
+    "scenarioSolved": 15,
+    "moduleCompletionBonus": 40
+  },
+  "milestones": [
+    {"threshold": 25, "unlock": "practice"},
+    {"threshold": 50, "unlock": "scenarios"},
+    {"threshold": 75, "unlock": "bonus"},
+    {"threshold": 100, "unlock": "certificate"}
+  ],
+  "achievements": [
+    {"id": "energy-flow-expert", "title": "Energy Flow Expert", "criteria": "Master energy flow and metabolism"}
+  ],
+  "alignment": {
+    "exam": "WASSCE Biology",
+    "notes": "Energy relationships and ecosystem dynamics",
+    "careers": ["Ecology", "Nutrition", "Agricultural Science"]
+  },
+  "lessons": [
+    {
+      "id": "photosynthesis-respiration-relationship",
+      "title": "Photosynthesis vs Cellular Respiration",
+      "text": "**Photosynthesis** and **cellular respiration** are complementary processes that form the foundation of energy flow in living systems.\n\n**Photosynthesis** (energy storage):\n- **Location:** Chloroplasts in plants\n- **Inputs:** 6CO₂ + 6H₂O + light energy\n- **Outputs:** C₆H₁₂O₆ + 6O₂\n- **Function:** Converts light energy to chemical energy (glucose)\n\n**Cellular Respiration** (energy release):\n- **Location:** Mitochondria in all organisms\n- **Inputs:** C₆H₁₂O₆ + 6O₂\n- **Outputs:** 6CO₂ + 6H₂O + ~30ATP\n- **Function:** Releases stored chemical energy for cellular work\n\n**Key relationships:**\n- Products of one process are reactants of the other\n- Both involve electron transport chains and chemiosmosis\n- Photosynthesis builds organic molecules; respiration breaks them down\n- Plants do both processes; animals only respire\n\nIn Ghana's agricultural cycle, **maize** plants use photosynthesis during the growing season to store energy in kernels, which humans and livestock later access through cellular respiration when consuming the grain.",
+      "knowledgeChecks": {
+        "mcq": [
+          {
+            "id": "m2c-l1-q1",
+            "type": "mcq",
+            "stem": "Which process stores energy in glucose?",
+            "options": {"A": "Cellular respiration", "B": "Photosynthesis", "C": "Fermentation", "D": "Glycolysis"},
+            "answer": "B",
+            "explanation": "Photosynthesis captures light energy and stores it in glucose bonds.",
+            "feedback": {"A": "Respiration releases energy from glucose.", "B": "Correct! Photosynthesis stores energy.", "C": "Fermentation releases limited energy.", "D": "Glycolysis releases some energy."},
+            "difficulty": "basic"
+          },
+          {
+            "id": "m2c-l1-q2",
+            "type": "mcq",
+            "stem": "What do photosynthesis and respiration both use?",
+            "options": {"A": "Chlorophyll", "B": "Sunlight directly", "C": "Electron transport chains", "D": "CO₂ as final product"},
+            "answer": "C",
+            "explanation": "Both processes use electron transport chains for ATP production.",
+            "feedback": {"A": "Only photosynthesis uses chlorophyll.", "B": "Only photosynthesis uses light directly.", "C": "Correct! Both have electron transport chains.", "D": "Only respiration produces CO₂."},
+            "difficulty": "intermediate"
+          }
+        ]
+      }
+    },
+    {
+      "id": "ecosystem-energy-flow",
+      "title": "Energy Flow Through Ecosystems",
+      "text": "Energy flows through ecosystems in one direction, from **producers** to **consumers**, with energy lost as heat at each transfer.\n\n**Trophic levels:**\n1. **Primary producers** (plants): Convert solar energy to chemical energy\n2. **Primary consumers** (herbivores): Eat plants\n3. **Secondary consumers** (carnivores): Eat herbivores\n4. **Tertiary consumers** (top predators): Eat other carnivores\n5. **Decomposers** (bacteria, fungi): Break down dead organic matter\n\n**Energy transfer efficiency:**\n- Only ~10% of energy transfers between trophic levels\n- ~90% is lost as heat, movement, undigested material\n- This limits food chain length (usually 4-5 levels max)\n- Explains why there are fewer top predators\n\n**Biomass pyramid:** Mass decreases at higher trophic levels\n**Energy pyramid:** Always upright due to energy loss\n\nIn Ghana's **Lake Volta** ecosystem, small fish (primary consumers) eat algae and plankton, larger fish eat smaller fish, and humans as top consumers receive only a small fraction of the original solar energy captured by aquatic plants.",
+      "knowledgeChecks": {
+        "mcq": [
+          {
+            "id": "m2c-l2-q1",
+            "type": "mcq",
+            "stem": "What percentage of energy typically transfers between trophic levels?",
+            "options": {"A": "90%", "B": "50%", "C": "10%", "D": "1%"},
+            "answer": "C",
+            "explanation": "The 10% rule describes typical energy transfer efficiency in ecosystems.",
+            "feedback": {"A": "That's the amount lost, not transferred.", "B": "Transfer is much less efficient.", "C": "Correct! About 10% transfers up.", "D": "That's too low for typical transfer."},
+            "difficulty": "basic"
+          },
+          {
+            "id": "m2c-l2-q2",
+            "type": "mcq",
+            "stem": "Why are there fewer lions than zebras in a savanna?",
+            "options": {"A": "Lions are larger", "B": "Energy loss limits higher trophic levels", "C": "Zebras reproduce faster", "D": "Lions need more water"},
+            "answer": "B",
+            "explanation": "Energy loss at each trophic level means less energy available to support predators.",
+            "feedback": {"A": "Size isn't the primary limiting factor.", "B": "Correct! Energy limits predator populations.", "C": "That's a result, not the cause.", "D": "Water isn't the main limiting factor."},
+            "difficulty": "intermediate"
+          }
+        ]
+      },
+      "scenarioChallenges": [
+        {
+          "id": "m2c-l2-s1",
+          "scenario": "A fish farmer in the Ashanti Region wants to maximize fish production. They're considering whether to feed the fish plant material directly or small prey fish that eat plants.",
+          "question": "For maximum energy efficiency, they should:",
+          "options": {"A": "Use the longer food chain with prey fish", "B": "Feed plant material directly to fish", "C": "Add more predator fish", "D": "Reduce water temperature"},
+          "answer": "B",
+          "explanation": "Shorter food chains reduce energy loss, so feeding plants directly to fish is more efficient than adding a trophic level.",
+          "difficulty": "intermediate"
+        }
+      ]
+    },
+    {
+      "id": "metabolic-efficiency",
+      "title": "Metabolic Efficiency & Energy Balance",
+      "text": "**Metabolic efficiency** describes how effectively organisms convert and use energy. Different metabolic pathways have varying efficiencies.\n\n**ATP production efficiency:**\n- **Aerobic respiration:** ~38% efficient (30 ATP/glucose)\n- **Anaerobic respiration:** ~2% efficient (2 ATP/glucose)\n- **Photosynthesis:** ~3-6% efficient (solar → chemical energy)\n\n**Factors affecting efficiency:**\n- **Temperature:** Higher temps increase reaction rates but also energy loss\n- **Oxygen availability:** Determines aerobic vs anaerobic pathways\n- **Enzyme function:** Optimal pH and temperature ranges\n- **Substrate availability:** Glucose, oxygen, nutrients\n\n**Energy balance in organisms:**\n- **Input:** Food (chemical energy)\n- **Output:** Movement, growth, maintenance, heat\n- **Storage:** Fat, glycogen, starch\n\n**Basal Metabolic Rate (BMR):** Minimum energy needed for basic functions\n\nIn Ghana's nutrition programs, understanding metabolic efficiency helps explain why **malnutrition** occurs when energy input doesn't meet metabolic demands, and why **balanced diets** with complex carbohydrates provide sustained energy compared to simple sugars.",
+      "knowledgeChecks": {
+        "mcq": [
+          {
+            "id": "m2c-l3-q1",
+            "type": "mcq",
+            "stem": "Which metabolic pathway is most efficient for ATP production?",
+            "options": {"A": "Fermentation", "B": "Glycolysis only", "C": "Aerobic respiration", "D": "Photosynthesis"},
+            "answer": "C",
+            "explanation": "Aerobic respiration produces the most ATP per glucose molecule.",
+            "feedback": {"A": "Fermentation produces only 2 ATP.", "B": "Glycolysis alone produces only 2 ATP.", "C": "Correct! Aerobic respiration yields ~30 ATP.", "D": "Photosynthesis stores energy but doesn't produce ATP for use."},
+            "difficulty": "basic"
+          },
+          {
+            "id": "m2c-l3-q2",
+            "type": "mcq",
+            "stem": "What happens when energy input is less than metabolic demands?",
+            "options": {"A": "Energy storage increases", "B": "Body breaks down stored nutrients", "C": "Metabolism shuts down", "D": "ATP production increases"},
+            "answer": "B",
+            "explanation": "When input < demand, the body uses stored energy (fat, glycogen) to meet needs.",
+            "feedback": {"A": "Storage would decrease, not increase.", "B": "Correct! Stored nutrients are broken down.", "C": "Metabolism continues but uses stored energy.", "D": "ATP production depends on available substrates."},
+            "difficulty": "intermediate"
+          }
+        ]
+      }
+    }
+  ]
+}

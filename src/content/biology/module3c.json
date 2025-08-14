@@ -1,0 +1,140 @@
+{
+  "moduleId": "bio-coordination-control",
+  "moduleTitle": "Coordination & Control Systems",
+  "subject": "Biology",
+  "level": "SHS 3",
+  "objectives": [
+    "Compare nervous and endocrine system functions",
+    "Explain neuron structure and nerve impulse transmission",
+    "Describe hormone action and feedback mechanisms",
+    "Analyze homeostasis and its importance for health in Ghana"
+  ],
+  "learningPath": [
+    "Nervous System",
+    "Endocrine System",
+    "Homeostasis",
+    "Health Applications",
+    "Knowledge Checks",
+    "Assessment"
+  ],
+  "xpRules": {
+    "lessonCompletion": 10,
+    "correctAnswer": 5,
+    "scenarioSolved": 15,
+    "moduleCompletionBonus": 40
+  },
+  "milestones": [
+    {"threshold": 25, "unlock": "practice"},
+    {"threshold": 50, "unlock": "scenarios"},
+    {"threshold": 75, "unlock": "bonus"},
+    {"threshold": 100, "unlock": "certificate"}
+  ],
+  "achievements": [
+    {"id": "control-master", "title": "Control Master", "criteria": "Master coordination and control"}
+  ],
+  "alignment": {
+    "exam": "WASSCE Biology",
+    "notes": "Nervous system, endocrine system, and homeostasis",
+    "careers": ["Medicine", "Neurology", "Endocrinology"]
+  },
+  "lessons": [
+    {
+      "id": "nervous-system",
+      "title": "Nervous System Structure & Function",
+      "text": "The **nervous system** provides rapid communication through electrical signals, enabling quick responses to environmental changes.\n\n**Organization:**\n- **Central Nervous System (CNS):** Brain and spinal cord\n- **Peripheral Nervous System (PNS):** All nerves outside CNS\n  - **Somatic:** Controls voluntary muscles\n  - **Autonomic:** Controls involuntary functions\n    - **Sympathetic:** \"Fight or flight\" responses\n    - **Parasympathetic:** \"Rest and digest\" responses\n\n**Neuron structure:**\n- **Cell body (soma):** Contains nucleus and organelles\n- **Dendrites:** Receive signals from other neurons\n- **Axon:** Transmits signals away from cell body\n- **Myelin sheath:** Insulates axon, speeds transmission\n- **Synapses:** Gaps between neurons\n\n**Nerve impulse transmission:**\n1. **Resting potential:** -70mV (inside negative)\n2. **Depolarization:** Na⁺ channels open, inside becomes positive\n3. **Action potential:** +40mV reached\n4. **Repolarization:** K⁺ channels open, returns to resting\n5. **Propagation:** Signal moves along axon\n\n**Synaptic transmission:**\n1. Action potential reaches axon terminal\n2. **Neurotransmitters** released into synaptic cleft\n3. Neurotransmitters bind to receptors on next neuron\n4. New action potential generated or inhibited\n\nIn Ghana's educational system, understanding how **stress** affects the sympathetic nervous system helps explain why students may experience increased heart rate and reduced focus during exams, emphasizing the need for stress management techniques.",
+      "knowledgeChecks": {
+        "mcq": [
+          {
+            "id": "m3c-l1-q1",
+            "type": "mcq",
+            "stem": "Which part of a neuron receives signals?",
+            "options": {"A": "Axon", "B": "Dendrites", "C": "Cell body", "D": "Myelin sheath"},
+            "answer": "B",
+            "explanation": "Dendrites are specialized to receive signals from other neurons.",
+            "feedback": {"A": "Axons transmit signals away from the cell body.", "B": "Correct! Dendrites receive incoming signals.", "C": "Cell body contains the nucleus but doesn't primarily receive signals.", "D": "Myelin insulates the axon."},
+            "difficulty": "basic"
+          },
+          {
+            "id": "m3c-l1-q2",
+            "type": "mcq",
+            "stem": "Neurotransmitters cross synapses by:",
+            "options": {"A": "Active transport", "B": "Diffusion", "C": "Osmosis", "D": "Electrical conduction"},
+            "answer": "B",
+            "explanation": "Neurotransmitters diffuse across the synaptic cleft to reach receptors.",
+            "feedback": {"A": "No energy is required for crossing.", "B": "Correct! They diffuse across the gap.", "C": "Osmosis is for water movement.", "D": "Electrical signals don't cross synapses directly."},
+            "difficulty": "intermediate"
+          }
+        ]
+      }
+    },
+    {
+      "id": "endocrine-system",
+      "title": "Endocrine System & Hormones",
+      "text": "The **endocrine system** uses **hormones** (chemical messengers) to control long-term body functions through the bloodstream.\n\n**Major endocrine glands:**\n- **Hypothalamus:** Links nervous and endocrine systems\n- **Pituitary:** \"Master gland\" (anterior and posterior)\n- **Thyroid:** Metabolism control (thyroxine, T3, T4)\n- **Parathyroid:** Calcium regulation (PTH)\n- **Adrenals:** Stress response (cortisol, adrenaline)\n- **Pancreas:** Blood glucose (insulin, glucagon)\n- **Gonads:** Reproductive hormones (testosterone, estrogen)\n\n**Hormone action mechanisms:**\n\n**Protein hormones** (insulin, growth hormone):\n- Cannot cross cell membrane\n- Bind to surface receptors\n- Activate second messenger systems\n- Fast response (seconds to minutes)\n\n**Steroid hormones** (cortisol, testosterone):\n- Cross cell membrane easily\n- Bind to nuclear receptors\n- Directly affect gene transcription\n- Slow response (hours to days)\n\n**Blood glucose regulation:**\n- **High glucose:** Pancreas releases **insulin**\n  - Promotes glucose uptake by cells\n  - Converts glucose to glycogen in liver\n- **Low glucose:** Pancreas releases **glucagon**\n  - Breaks down glycogen to glucose\n  - Stimulates glucose production\n\nIn Ghana's increasing **diabetes** cases, understanding insulin function helps explain why lifestyle changes (diet, exercise) and medication adherence are crucial for managing blood sugar levels in diabetic patients.",
+      "knowledgeChecks": {
+        "mcq": [
+          {
+            "id": "m3c-l2-q1",
+            "type": "mcq",
+            "stem": "Which hormone lowers blood glucose?",
+            "options": {"A": "Glucagon", "B": "Insulin", "C": "Cortisol", "D": "Thyroxine"},
+            "answer": "B",
+            "explanation": "Insulin promotes glucose uptake and storage, lowering blood glucose levels.",
+            "feedback": {"A": "Glucagon raises blood glucose.", "B": "Correct! Insulin lowers glucose.", "C": "Cortisol can raise glucose.", "D": "Thyroxine affects metabolism generally."},
+            "difficulty": "basic"
+          },
+          {
+            "id": "m3c-l2-q2",
+            "type": "mcq",
+            "stem": "Steroid hormones work by:",
+            "options": {"A": "Binding to surface receptors", "B": "Affecting gene transcription", "C": "Activating second messengers", "D": "Crossing synapses"},
+            "answer": "B",
+            "explanation": "Steroid hormones enter cells and directly influence gene expression.",
+            "feedback": {"A": "That's protein hormones.", "B": "Correct! Steroids affect gene transcription.", "C": "That's protein hormone mechanism.", "D": "Hormones don't cross synapses."},
+            "difficulty": "intermediate"
+          }
+        ]
+      }
+    },
+    {
+      "id": "homeostasis",
+      "title": "Homeostasis & Feedback Mechanisms",
+      "text": "**Homeostasis** is the maintenance of stable internal conditions despite external changes. It's essential for optimal enzyme function and cellular processes.\n\n**Feedback mechanisms:**\n\n**Negative feedback** (most common):\n- Response opposes the initial change\n- Returns system to set point\n- Maintains stability\n- Examples: Blood glucose, body temperature, blood pressure\n\n**Positive feedback** (rare):\n- Response amplifies the initial change\n- Moves system away from set point\n- Used for specific processes\n- Examples: Blood clotting, childbirth contractions\n\n**Temperature regulation:**\n- **Set point:** ~37°C\n- **Too hot:** Sweating, vasodilation, behavioral changes\n- **Too cold:** Shivering, vasoconstriction, behavioral changes\n- **Control center:** Hypothalamus\n\n**Water balance (osmoregulation):**\n- **Dehydration:** ADH release → kidney water retention\n- **Overhydration:** Reduced ADH → increased water excretion\n- **Sensors:** Osmoreceptors in hypothalamus\n\n**pH regulation:**\n- **Buffer systems:** Maintain blood pH ~7.4\n- **Respiratory:** CO₂ regulation affects pH\n- **Renal:** Kidneys excrete acids/bases\n\n**Disease and homeostasis:**\n- **Diabetes:** Glucose homeostasis failure\n- **Hypertension:** Blood pressure regulation failure\n- **Fever:** Temporary set point change for immune response\n\nIn Ghana's tropical climate, understanding **thermoregulation** helps explain why staying hydrated and wearing appropriate clothing are crucial for maintaining body temperature during hot, humid conditions, especially for outdoor workers and athletes.",
+      "knowledgeChecks": {
+        "mcq": [
+          {
+            "id": "m3c-l3-q1",
+            "type": "mcq",
+            "stem": "Most homeostatic mechanisms use:",
+            "options": {"A": "Positive feedback", "B": "Negative feedback", "C": "No feedback", "D": "Random responses"},
+            "answer": "B",
+            "explanation": "Negative feedback maintains stability by opposing changes from the set point.",
+            "feedback": {"A": "Positive feedback is rare and destabilizing.", "B": "Correct! Negative feedback maintains homeostasis.", "C": "Feedback is essential for control.", "D": "Homeostasis requires controlled responses."},
+            "difficulty": "basic"
+          },
+          {
+            "id": "m3c-l3-q2",
+            "type": "mcq",
+            "stem": "When body temperature rises, which response occurs?",
+            "options": {"A": "Shivering", "B": "Vasoconstriction", "C": "Sweating", "D": "Reduced breathing"},
+            "answer": "C",
+            "explanation": "Sweating helps cool the body through evaporative heat loss.",
+            "feedback": {"A": "Shivering generates heat when cold.", "B": "Vasoconstriction conserves heat.", "C": "Correct! Sweating cools the body.", "D": "Breathing rate may increase to help cooling."},
+            "difficulty": "basic"
+          }
+        ]
+      },
+      "scenarioChallenges": [
+        {
+          "id": "m3c-l3-s1",
+          "scenario": "A farmer in the Northern Region works long hours in hot, dry conditions during the harmattan season. He notices decreased urination and increased thirst.",
+          "question": "This represents:",
+          "options": {"A": "Positive feedback leading to dehydration", "B": "Negative feedback maintaining water balance", "C": "Failure of homeostatic mechanisms", "D": "Normal kidney function"},
+          "answer": "B",
+          "explanation": "Decreased urination and increased thirst are negative feedback responses to conserve water and maintain homeostasis.",
+          "difficulty": "intermediate"
+        }
+      ]
+    }
+  ]
+}
