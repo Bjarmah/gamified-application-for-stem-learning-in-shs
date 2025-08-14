@@ -1,293 +1,214 @@
 
-import React from "react";
-import { useNavigate } from "react-router-dom";
-import { Button } from "@/components/ui/button";
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import {
+  BookOpen,
+  Trophy,
+  TrendingUp,
+  Target,
+  Clock,
+  Star,
+  Award,
+  Calendar,
+  BarChart3,
+  Search
+} from 'lucide-react';
+import { getContentStats } from "@/content";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { BookOpen, Trophy, Users, TrendingUp, Beaker, Play, ChevronRight, Gamepad2, Search } from "lucide-react";
-import ProgressCard from "@/components/dashboard/ProgressCard";
-import RecommendedCard from "@/components/dashboard/RecommendedCard";
-import StreakCard from "@/components/dashboard/StreakCard";
-import LeaderboardCard from "@/components/dashboard/LeaderboardCard";
-import VirtualLabCard from "@/components/dashboard/VirtualLabCard";
-import { SyncStatus } from "@/components/sync/SyncStatus";
-import { useAdaptiveLearning } from "@/hooks/use-adaptive-learning";
-import { useQuery } from "@tanstack/react-query";
-import { formatDifficulty, formatDuration } from "@/lib/utils";
-import { thmRooms, getContentStats } from "@/content";
+import { Button } from "@/components/ui/button";
+import { Progress } from "@/components/ui/progress";
 
-const Dashboard = () => {
+const Dashboard: React.FC = () => {
   const navigate = useNavigate();
-  const {
-    recommendedModules,
-    recommendedQuizzes,
-    learningInsights,
-    isLoading: adaptiveLoading
-  } = useAdaptiveLearning();
+  const [stats, setStats] = useState<any>(null);
+  const [loading, setLoading] = useState(true);
 
-  // Get content statistics
-  const contentStats = getContentStats();
+  useEffect(() => {
+    const loadStats = () => {
+      try {
+        const contentStats = getContentStats();
+        setStats(contentStats);
+      } catch (error) {
+        console.error('Error loading content stats:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-  const quickActions = [
-    {
-      title: "Continue Learning",
-      description: "Pick up where you left off",
-      icon: BookOpen,
-      action: () => navigate("/subjects"),
-      color: "bg-stemPurple"
-    },
-    {
-      title: "TryHackMe Rooms",
-      description: "Interactive challenges & gamified learning",
-      icon: Gamepad2,
-      action: () => navigate("/search"),
-      color: "bg-gradient-to-r from-green-600 to-emerald-600",
-      featured: true
-    },
-    {
-      title: "Virtual Laboratory",
-      description: "Interactive science experiments",
-      icon: Beaker,
-      action: () => navigate("/virtual-lab"),
-      color: "bg-gradient-to-r from-blue-600 to-purple-600"
-    },
-    {
-      title: "View Achievements",
-      description: "See your progress and badges",
-      icon: Trophy,
-      action: () => navigate("/achievements"),
-      color: "bg-stemYellow"
-    },
-  ];
+    loadStats();
+  }, []);
 
-  // Get featured TryHackMe rooms (first 3)
-  const featuredRooms = thmRooms.slice(0, 3);
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-gray-50 p-6">
+        <div className="max-w-7xl mx-auto">
+          <div className="animate-pulse">
+            <div className="h-8 bg-gray-200 rounded w-1/4 mb-6"></div>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+              {[...Array(4)].map((_, i) => (
+                <div key={i} className="h-32 bg-gray-200 rounded"></div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  const featuredModules = stats?.subjectBreakdown?.slice(0, 3) || [];
 
   return (
-    <div className="space-y-6 pb-8">
-      <div>
-        <h1 className="text-2xl font-bold tracking-tight">Dashboard</h1>
-        <p className="text-muted-foreground">
-          Welcome back! Here's your learning overview.
-        </p>
-      </div>
-
-      {/* Quick Actions */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-        {quickActions.map((action, index) => (
-          <Card
-            key={index}
-            className={`cursor-pointer hover:shadow-md transition-shadow ${action.featured ? 'ring-2 ring-green-500' : ''
-              }`}
-            onClick={action.action}
-          >
-            <CardContent className="p-6">
-              <div className="flex items-center space-x-4">
-                <div className={`p-3 rounded-lg ${action.color} text-white`}>
-                  <action.icon className="h-6 w-6" />
-                </div>
-                <div className="flex-1">
-                  <h3 className="font-semibold">{action.title}</h3>
-                  <p className="text-sm text-muted-foreground">{action.description}</p>
-                </div>
-                <ChevronRight className="h-4 w-4 text-muted-foreground" />
-              </div>
-            </CardContent>
-          </Card>
-        ))}
-      </div>
-
-      {/* TryHackMe Rooms Section */}
-      <div>
-        <div className="flex items-center justify-between mb-4">
-          <div>
-            <h2 className="text-xl font-semibold">TryHackMe-Style Learning Rooms</h2>
-            <p className="text-sm text-muted-foreground">
-              Interactive, gamified challenges with Ghanaian context
-            </p>
-          </div>
-          <Button variant="outline" onClick={() => navigate("/search")}>
-            <Search className="h-4 w-4 mr-2" />
-            View All
-          </Button>
+    <div className="min-h-screen bg-gray-50 p-6">
+      <div className="max-w-7xl mx-auto">
+        {/* Header */}
+        <div className="mb-8">
+          <h1 className="text-3xl font-bold text-gray-900 mb-2">Welcome to Your Dashboard</h1>
+          <p className="text-gray-600">Track your progress and discover new learning opportunities</p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          {featuredRooms.map((room) => (
-            <Card
-              key={room.roomId}
-              className="cursor-pointer hover:shadow-md transition-shadow"
-              onClick={() => navigate(`/rooms/${room.roomId}`)}
-            >
-              <CardHeader className="pb-3">
-                <div className="flex items-start justify-between">
-                  <div className="flex items-center gap-2">
-                    <Gamepad2 className="h-5 w-5 text-green-600" />
-                    <div>
-                      <CardTitle className="text-lg">{room.roomName}</CardTitle>
-                      <CardDescription className="text-sm">
-                        {room.category} • {room.difficulty}
-                      </CardDescription>
-                    </div>
-                  </div>
-                  <Badge variant="secondary" className="text-xs">
-                    {room.points} pts
-                  </Badge>
-                </div>
-              </CardHeader>
-
-              <CardContent className="pt-0">
-                <p className="text-gray-600 text-sm mb-3 line-clamp-2">
-                  {room.description}
-                </p>
-
-                <div className="flex items-center justify-between">
-                  <div className="flex flex-wrap gap-1">
-                    {room.tags.slice(0, 2).map(tag => (
-                      <Badge key={tag} variant="outline" className="text-xs">
-                        {tag}
-                      </Badge>
-                    ))}
-                    {room.tags.length > 2 && (
-                      <Badge variant="outline" className="text-xs">
-                        +{room.tags.length - 2} more
-                      </Badge>
-                    )}
-                  </div>
-
-                  <div className="text-sm text-gray-500">
-                    {room.estimatedTime}
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          ))}
-        </div>
-      </div>
-
-      {/* Learning Insights */}
-      {learningInsights && (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        {/* Stats Cards */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Modules Completed</CardTitle>
+              <CardTitle className="text-sm font-medium">Total Modules</CardTitle>
               <BookOpen className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">{learningInsights.totalModulesCompleted}</div>
+              <div className="text-2xl font-bold">{stats?.totalModules || 0}</div>
               <p className="text-xs text-muted-foreground">
-                Keep up the great work!
+                Available for learning
               </p>
             </CardContent>
           </Card>
 
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Quiz Score</CardTitle>
-              <TrendingUp className="h-4 w-4 text-muted-foreground" />
+              <CardTitle className="text-sm font-medium">Subjects</CardTitle>
+              <Target className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">{Math.round(learningInsights.averageScore)}%</div>
+              <div className="text-2xl font-bold">{stats?.subjects?.length || 0}</div>
               <p className="text-xs text-muted-foreground">
-                {learningInsights.totalQuizzesTaken} quizzes taken
+                STEM disciplines
               </p>
             </CardContent>
           </Card>
 
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Learning Streak</CardTitle>
-              <Trophy className="h-4 w-4 text-muted-foreground" />
+              <CardTitle className="text-sm font-medium">Total Content</CardTitle>
+              <BarChart3 className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">{learningInsights.currentStreak}</div>
+              <div className="text-2xl font-bold">{stats?.totalContent || 0}</div>
               <p className="text-xs text-muted-foreground">
-                days in a row
+                Learning resources
               </p>
             </CardContent>
           </Card>
 
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Time Spent</CardTitle>
-              <Play className="h-4 w-4 text-muted-foreground" />
+              <CardTitle className="text-sm font-medium">Available Tags</CardTitle>
+              <Star className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">{Math.round(learningInsights.totalTimeSpent / 60)}m</div>
+              <div className="text-2xl font-bold">{stats?.tags?.length || 0}</div>
               <p className="text-xs text-muted-foreground">
-                total learning time
+                Topics to explore
               </p>
             </CardContent>
           </Card>
         </div>
-      )}
 
-      {/* Progress and Recommendations */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <div className="lg:col-span-2 space-y-6">
-          {/* <ProgressCard /> */}
+        {/* Featured Modules Section */}
+        <div className="mb-8">
+          <div className="flex items-center justify-between mb-6">
+            <h2 className="text-xl font-semibold">Featured Learning Modules</h2>
+            <Button
+              variant="outline"
+              onClick={() => navigate('/subjects')}
+              className="flex items-center gap-2"
+            >
+              <BookOpen className="h-4 w-4" />
+              View All Subjects
+            </Button>
+          </div>
 
-          {/* Recommended Modules */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {featuredModules.map((subject: any) => (
+              <Card
+                key={subject.subject}
+                className="cursor-pointer hover:shadow-lg transition-shadow"
+                onClick={() => navigate(`/subjects/${subject.subject.toLowerCase()}`)}
+              >
+                <CardHeader>
+                  <div className="flex items-center justify-between">
+                    <CardTitle className="text-lg">{subject.subject}</CardTitle>
+                    <Badge variant="outline">{subject.count} modules</Badge>
+                  </div>
+                  <CardDescription>
+                    Explore {subject.subject.toLowerCase()} concepts and applications
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-3">
+                    <div className="flex items-center justify-between text-sm">
+                      <span className="text-gray-600">Available modules:</span>
+                      <span className="font-medium">{subject.count}</span>
+                    </div>
+                    <Progress value={(subject.count / Math.max(...stats.subjectBreakdown.map((s: any) => s.count))) * 100} className="w-full" />
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </div>
+
+        {/* Quick Actions */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
-                <BookOpen className="h-5 w-5" />
-                Recommended for You
+                <Search className="h-5 w-5 text-blue-600" />
+                Discover Content
               </CardTitle>
               <CardDescription>
-                Based on your learning progress and preferences
+                Search through all available learning modules and resources
               </CardDescription>
             </CardHeader>
             <CardContent>
-              {adaptiveLoading ? (
-                <div className="space-y-4">
-                  {[1, 2, 3].map((i) => (
-                    <div key={i} className="flex items-center space-x-4">
-                      <div className="h-12 w-12 bg-muted rounded-lg animate-pulse" />
-                      <div className="space-y-2 flex-1">
-                        <div className="h-4 bg-muted rounded animate-pulse" />
-                        <div className="h-3 bg-muted rounded w-2/3 animate-pulse" />
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              ) : recommendedModules && recommendedModules.length > 0 ? (
-                <div className="space-y-4">
-                  {recommendedModules.slice(0, 3).map((module) => (
-                    <RecommendedCard
-                      key={module.id}
-                      id={module.id}
-                      title={module.title}
-                      description={module.description || ''}
-                      subject={module.subject?.name || 'Unknown'}
-                      estimatedTime={formatDuration(module.estimated_duration)}
-                      difficulty={formatDifficulty(module.difficulty_level)}
-                      type="module"
-                      onClick={() => navigate(`/subjects/${module.subject?.id}/${module.id}`)}
-                    />
-                  ))}
-                </div>
-              ) : (
-                <div className="text-center py-8">
-                  <BookOpen className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
-                  <h3 className="text-lg font-semibold mb-2">No recommendations yet</h3>
-                  <p className="text-muted-foreground mb-4">
-                    Complete some modules to get personalized recommendations.
-                  </p>
-                  <Button onClick={() => navigate("/subjects")}>
-                    Explore Subjects
-                  </Button>
-                </div>
-              )}
+              <Button
+                onClick={() => navigate('/search')}
+                className="w-full"
+                variant="outline"
+              >
+                Start Searching
+              </Button>
             </CardContent>
           </Card>
-        </div>
 
-        <div className="space-y-6">
-          <SyncStatus />
-          {/* <StreakCard /> */}
-          {/* <LeaderboardCard /> */}
-          {/* <VirtualLabCard /> */}
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <Trophy className="h-5 w-5 text-yellow-600" />
+                Track Progress
+              </CardTitle>
+              <CardDescription>
+                Monitor your learning achievements and milestones
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <Button
+                onClick={() => navigate('/achievements')}
+                className="w-full"
+                variant="outline"
+              >
+                View Achievements
+              </Button>
+            </CardContent>
+          </Card>
         </div>
       </div>
     </div>

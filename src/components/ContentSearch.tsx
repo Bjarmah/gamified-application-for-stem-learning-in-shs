@@ -1,151 +1,104 @@
-import React, { useState, useMemo } from 'react';
-import { Search, Filter, BookOpen, Gamepad2, X } from 'lucide-react';
-import { 
-  searchContent, 
-  searchBySubject, 
-  searchByDifficulty, 
+import React, { useState, useEffect } from 'react';
+import { Search as SearchIcon, Filter, BookOpen, Clock, Star, X } from 'lucide-react';
+import {
+  searchContent,
+  searchBySubject,
   searchByType,
   searchByTags,
   getAllSubjects,
-  getAllDifficulties,
-  getAllTags,
-  SearchableContent 
+  getAllTags
 } from '../content';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
 import { Badge } from './ui/badge';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './ui/card';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select';
+import { Checkbox } from './ui/checkbox';
 
 interface ContentSearchProps {
-  onContentSelect?: (content: SearchableContent) => void;
+  onContentSelect: (content: any) => void;
   className?: string;
 }
 
-export const ContentSearch: React.FC<ContentSearchProps> = ({ 
-  onContentSelect, 
-  className = '' 
-}) => {
+const ContentSearch: React.FC<ContentSearchProps> = ({ onContentSelect, className = '' }) => {
   const [searchQuery, setSearchQuery] = useState('');
-  const [selectedSubject, setSelectedSubject] = useState<string>('');
-  const [selectedDifficulty, setSelectedDifficulty] = useState<string>('');
-  const [selectedType, setSelectedType] = useState<'module' | 'room' | ''>('');
-  const [selectedTags, setSelectedTags] = useState<string[]>([]);
+  const [searchResults, setSearchResults] = useState<any[]>([]);
   const [showFilters, setShowFilters] = useState(false);
+  const [selectedSubject, setSelectedSubject] = useState<string>('');
+  const [selectedTags, setSelectedTags] = useState<string[]>([]);
 
-  // Get all available filter options
   const subjects = getAllSubjects();
-  const difficulties = getAllDifficulties();
   const tags = getAllTags();
 
-  // Apply filters and search
-  const filteredContent = useMemo(() => {
-    let results = searchContent(searchQuery);
-
-    if (selectedSubject) {
-      results = results.filter(content => 
-        content.subject.toLowerCase() === selectedSubject.toLowerCase()
-      );
+  useEffect(() => {
+    if (searchQuery.trim()) {
+      const results = searchContent(searchQuery);
+      setSearchResults(results);
+    } else {
+      setSearchResults([]);
     }
+  }, [searchQuery]);
 
-    if (selectedDifficulty) {
-      results = results.filter(content => 
-        content.difficulty?.toLowerCase() === selectedDifficulty.toLowerCase()
-      );
-    }
-
-    if (selectedType) {
-      results = results.filter(content => content.type === selectedType);
-    }
-
-    if (selectedTags.length > 0) {
-      results = results.filter(content => 
-        selectedTags.some(tag => content.tags.includes(tag))
-      );
-    }
-
-    return results;
-  }, [searchQuery, selectedSubject, selectedDifficulty, selectedType, selectedTags]);
-
-  const clearFilters = () => {
+  const handleClearFilters = () => {
     setSelectedSubject('');
-    setSelectedDifficulty('');
-    setSelectedType('');
     setSelectedTags([]);
+    setSearchQuery('');
+    setSearchResults([]);
   };
 
-  const toggleTag = (tag: string) => {
-    setSelectedTags(prev => 
-      prev.includes(tag) 
+  const filteredResults = searchResults.filter(content => {
+    if (selectedSubject && content.subject !== selectedSubject) return false;
+    if (selectedTags.length > 0 && !selectedTags.some(tag => content.tags.includes(tag))) return false;
+    return true;
+  });
+
+  const handleTagToggle = (tag: string) => {
+    setSelectedTags(prev =>
+      prev.includes(tag)
         ? prev.filter(t => t !== tag)
         : [...prev, tag]
     );
   };
 
-  const handleContentClick = (content: SearchableContent) => {
-    if (onContentSelect) {
-      onContentSelect(content);
-    }
-  };
-
   return (
-    <div className={`space-y-4 ${className}`}>
+    <div className={`space-y-6 ${className}`}>
       {/* Search Bar */}
       <div className="relative">
-        <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
+        <SearchIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-5 w-5" />
         <Input
           type="text"
-          placeholder="Search for modules, rooms, topics, or Ghanaian contexts..."
+          placeholder="Search for modules, topics, or Ghanaian contexts..."
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
-          className="pl-10 pr-4"
+          className="pl-10 pr-4 py-3"
         />
       </div>
 
-      {/* Filter Toggle */}
-      <div className="flex items-center justify-between">
+      {/* Filters Toggle */}
+      <div className="flex justify-center">
         <Button
           variant="outline"
-          size="sm"
           onClick={() => setShowFilters(!showFilters)}
           className="flex items-center gap-2"
         >
           <Filter className="h-4 w-4" />
-          Filters
-          {showFilters && (
-            <Badge variant="secondary" className="ml-2">
-              {[
-                selectedSubject,
-                selectedDifficulty,
-                selectedType,
-                ...selectedTags
-              ].filter(Boolean).length}
-            </Badge>
-          )}
+          {showFilters ? 'Hide' : 'Show'} Filters
         </Button>
-
-        {filteredContent.length > 0 && (
-          <span className="text-sm text-gray-600">
-            {filteredContent.length} result{filteredContent.length !== 1 ? 's' : ''}
-          </span>
-        )}
       </div>
 
       {/* Filters */}
       {showFilters && (
-        <div className="space-y-4 p-4 border rounded-lg bg-gray-50">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div className="bg-white rounded-lg shadow-md p-6">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {/* Subject Filter */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Subject
-              </label>
+              <label className="block text-sm font-medium text-gray-700 mb-2">Subject</label>
               <Select value={selectedSubject} onValueChange={setSelectedSubject}>
                 <SelectTrigger>
-                  <SelectValue placeholder="All subjects" />
+                  <SelectValue placeholder="All Subjects" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="">All subjects</SelectItem>
+                  <SelectItem value="">All Subjects</SelectItem>
                   {subjects.map(subject => (
                     <SelectItem key={subject} value={subject}>
                       {subject}
@@ -155,164 +108,115 @@ export const ContentSearch: React.FC<ContentSearchProps> = ({
               </Select>
             </div>
 
-            {/* Difficulty Filter */}
+            {/* Tags Filter */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Difficulty
-              </label>
-              <Select value={selectedDifficulty} onValueChange={setSelectedDifficulty}>
-                <SelectTrigger>
-                  <SelectValue placeholder="All difficulties" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="">All difficulties</SelectItem>
-                  {difficulties.map(difficulty => (
-                    <SelectItem key={difficulty} value={difficulty}>
-                      {difficulty}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </div>
-
-            {/* Type Filter */}
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Type
-              </label>
-              <Select value={selectedType} onValueChange={(value: 'module' | 'room' | '') => setSelectedType(value)}>
-                <SelectTrigger>
-                  <SelectValue placeholder="All types" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="">All types</SelectItem>
-                  <SelectItem value="module">Structured Modules</SelectItem>
-                  <SelectItem value="room">TryHackMe Rooms</SelectItem>
-                </SelectContent>
-              </Select>
+              <label className="block text-sm font-medium text-gray-700 mb-2">Tags</label>
+              <div className="space-y-2 max-h-32 overflow-y-auto">
+                {tags.slice(0, 10).map(tag => (
+                  <div key={tag} className="flex items-center space-x-2">
+                    <Checkbox
+                      id={tag}
+                      checked={selectedTags.includes(tag)}
+                      onCheckedChange={() => handleTagToggle(tag)}
+                    />
+                    <label htmlFor={tag} className="text-sm text-gray-700">{tag}</label>
+                  </div>
+                ))}
+              </div>
             </div>
 
             {/* Clear Filters */}
             <div className="flex items-end">
               <Button
                 variant="outline"
-                size="sm"
-                onClick={clearFilters}
+                onClick={handleClearFilters}
                 className="w-full"
               >
                 <X className="h-4 w-4 mr-2" />
-                Clear
+                Clear Filters
               </Button>
-            </div>
-          </div>
-
-          {/* Tags Filter */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Tags
-            </label>
-            <div className="flex flex-wrap gap-2">
-              {tags.slice(0, 20).map(tag => (
-                <Badge
-                  key={tag}
-                  variant={selectedTags.includes(tag) ? "default" : "outline"}
-                  className="cursor-pointer hover:bg-gray-100"
-                  onClick={() => toggleTag(tag)}
-                >
-                  {tag}
-                </Badge>
-              ))}
             </div>
           </div>
         </div>
       )}
 
       {/* Search Results */}
-      <div className="space-y-4">
-        {filteredContent.length === 0 ? (
-          <div className="text-center py-8 text-gray-500">
-            <Search className="h-12 w-12 mx-auto mb-4 text-gray-300" />
-            <p>No content found matching your search criteria.</p>
-            <p className="text-sm">Try adjusting your filters or search terms.</p>
+      {filteredResults.length > 0 && (
+        <div>
+          <div className="mb-4">
+            <h3 className="text-lg font-semibold text-gray-900">
+              Search Results ({filteredResults.length})
+            </h3>
           </div>
-        ) : (
-          filteredContent.map(content => (
-            <Card
-              key={content.id}
-              className="cursor-pointer hover:shadow-md transition-shadow"
-              onClick={() => handleContentClick(content)}
-            >
-              <CardHeader className="pb-3">
-                <div className="flex items-start justify-between">
-                  <div className="flex items-center gap-2">
-                    {content.type === 'module' ? (
-                      <BookOpen className="h-5 w-5 text-blue-600" />
-                    ) : (
-                      <Gamepad2 className="h-5 w-5 text-green-600" />
-                    )}
-                    <div>
-                      <CardTitle className="text-lg">{content.title}</CardTitle>
-                      <CardDescription className="text-sm">
-                        {content.subject} • {content.type === 'module' ? 'Module' : 'Room'}
-                        {content.difficulty && ` • ${content.difficulty}`}
-                      </CardDescription>
+
+          <div className="space-y-4">
+            {filteredResults.map((content) => (
+              <Card
+                key={content.id}
+                className="cursor-pointer hover:shadow-md transition-shadow"
+                onClick={() => onContentSelect(content)}
+              >
+                <CardHeader>
+                  <div className="flex items-start justify-between">
+                    <div className="flex items-center gap-3">
+                      <BookOpen className="h-6 w-6 text-blue-600" />
+                      <div>
+                        <CardTitle className="text-lg">{content.title}</CardTitle>
+                        <CardDescription className="text-sm">
+                          {content.subject} • Module
+                        </CardDescription>
+                      </div>
                     </div>
                   </div>
-                  <div className="text-right">
-                    {content.type === 'module' ? (
-                      <Badge variant="secondary" className="text-xs">
+                </CardHeader>
+                <CardContent>
+                  <p className="text-gray-600 mb-4 line-clamp-2">
+                    {content.description}
+                  </p>
+                  <div className="flex items-center justify-between">
+                    <div className="flex flex-wrap gap-2">
+                      {content.tags.slice(0, 3).map(tag => (
+                        <Badge key={tag} variant="outline" className="text-xs">
+                          {tag}
+                        </Badge>
+                      ))}
+                      {content.tags.length > 3 && (
+                        <Badge variant="outline" className="text-xs">
+                          +{content.tags.length - 3} more
+                        </Badge>
+                      )}
+                    </div>
+                    <div className="flex items-center gap-4 text-sm text-gray-500">
+                      <div className="flex items-center gap-1">
+                        <Clock className="h-4 w-4" />
+                        {content.estimatedTime} min
+                      </div>
+                      <div className="flex items-center gap-1">
+                        <Star className="h-4 w-4" />
                         {content.xpReward} XP
-                      </Badge>
-                    ) : (
-                      <Badge variant="secondary" className="text-xs">
-                        {content.points} pts
-                      </Badge>
-                    )}
+                      </div>
+                    </div>
                   </div>
-                </div>
-              </CardHeader>
-              
-              <CardContent className="pt-0">
-                <p className="text-gray-600 text-sm mb-3 line-clamp-2">
-                  {content.description}
-                </p>
-                
-                <div className="flex items-center justify-between">
-                  <div className="flex flex-wrap gap-1">
-                    {content.tags.slice(0, 3).map(tag => (
-                      <Badge key={tag} variant="outline" className="text-xs">
-                        {tag}
-                      </Badge>
-                    ))}
-                    {content.tags.length > 3 && (
-                      <Badge variant="outline" className="text-xs">
-                        +{content.tags.length - 3} more
-                      </Badge>
-                    )}
-                  </div>
-                  
-                  <div className="text-sm text-gray-500">
-                    {typeof content.estimatedTime === 'string' 
-                      ? content.estimatedTime 
-                      : `${content.estimatedTime} min`
-                    }
-                  </div>
-                </div>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </div>
+      )}
 
-                {/* Ghanaian Context Preview */}
-                {content.ghanaContext?.localExamples && (
-                  <div className="mt-3 pt-3 border-t">
-                    <p className="text-xs text-gray-500 mb-1">Ghanaian Context:</p>
-                    <p className="text-xs text-gray-600 line-clamp-1">
-                      {content.ghanaContext.localExamples.slice(0, 2).join(', ')}
-                    </p>
-                  </div>
-                )}
-              </CardContent>
-            </Card>
-          ))
-        )}
-      </div>
+      {/* No Results */}
+      {searchQuery && filteredResults.length === 0 && (
+        <div className="text-center py-8">
+          <BookOpen className="h-16 w-16 text-gray-300 mx-auto mb-4" />
+          <h3 className="text-lg font-medium text-gray-900 mb-2">No results found</h3>
+          <p className="text-gray-600 mb-4">
+            Try adjusting your search terms or filters
+          </p>
+          <Button onClick={handleClearFilters} variant="outline">
+            Clear All Filters
+          </Button>
+        </div>
+      )}
     </div>
   );
 };
