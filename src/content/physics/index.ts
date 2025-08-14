@@ -72,9 +72,19 @@ export interface StructuredModule {
 }
 
 // Convert the existing physics modules to match the expected interface
-const convertPhysicsModule = (module: any): StructuredModule => {
+const convertPhysicsModule = (module: any, index: number): StructuredModule => {
+  // Ensure consistent, trackable ID
+  const generateId = () => {
+    if (module.moduleId && typeof module.moduleId === 'string') {
+      return module.moduleId;
+    }
+    const title = module.moduleTitle || `Module ${index + 1}`;
+    const cleanTitle = title.toLowerCase().replace(/[^a-z0-9\s]/g, '').replace(/\s+/g, '-').substring(0, 30);
+    return `physics-${cleanTitle}`;
+  };
+  
   return {
-    id: module.moduleId || `physics-${Math.random().toString(36).substr(2, 9)}`,
+    id: generateId(),
     title: module.moduleTitle || 'Physics Module',
     description: module.objectives?.join('. ') || 'Physics learning module',
     subject: 'Physics',
@@ -133,9 +143,9 @@ const convertPhysicsModule = (module: any): StructuredModule => {
 
 // Create a map for easy lookup by title
 const mapByTitle: Record<string, StructuredModule> = {
-  'Forces and Motion': convertPhysicsModule(module1),
-  'Waves and Sound': convertPhysicsModule(module2),
-  'Electricity and Magnetism': convertPhysicsModule(module3),
+  'Forces and Motion': convertPhysicsModule(module1, 0),
+  'Waves and Sound': convertPhysicsModule(module2, 1),
+  'Electricity and Magnetism': convertPhysicsModule(module3, 2),
 };
 
 // Utility function to find a module by title
@@ -145,9 +155,9 @@ export const findPhysicsModuleByTitle = (title: string): StructuredModule | unde
 
 // Export all physics modules
 export const physicsModules: StructuredModule[] = [
-  convertPhysicsModule(module1),
-  convertPhysicsModule(module2),
-  convertPhysicsModule(module3)
+  convertPhysicsModule(module1, 0),
+  convertPhysicsModule(module2, 1),
+  convertPhysicsModule(module3, 2)
 ];
 
 // Export individual modules

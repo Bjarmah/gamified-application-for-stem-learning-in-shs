@@ -72,9 +72,19 @@ export interface StructuredModule {
 }
 
 // Convert the existing biology modules to match the expected interface
-const convertBiologyModule = (module: any): StructuredModule => {
+const convertBiologyModule = (module: any, index: number): StructuredModule => {
+  // Ensure consistent, trackable ID
+  const generateId = () => {
+    if (module.moduleId && typeof module.moduleId === 'string') {
+      return module.moduleId;
+    }
+    const title = module.moduleTitle || `Module ${index + 1}`;
+    const cleanTitle = title.toLowerCase().replace(/[^a-z0-9\s]/g, '').replace(/\s+/g, '-').substring(0, 30);
+    return `biology-${cleanTitle}`;
+  };
+  
   return {
-    id: module.moduleId || `biology-${Math.random().toString(36).substr(2, 9)}`,
+    id: generateId(),
     title: module.moduleTitle || 'Biology Module',
     description: module.objectives?.join('. ') || 'Biology learning module',
     subject: 'Biology',
@@ -133,9 +143,9 @@ const convertBiologyModule = (module: any): StructuredModule => {
 
 // Create a map for easy lookup by title
 const mapByTitle: Record<string, StructuredModule> = {
-  'Cell Structure & Function': convertBiologyModule(module1),
-  'Photosynthesis & Respiration': convertBiologyModule(module2),
-  'Human Body Systems': convertBiologyModule(module3),
+  'Cell Structure & Function': convertBiologyModule(module1, 0),
+  'Photosynthesis & Respiration': convertBiologyModule(module2, 1),
+  'Human Body Systems': convertBiologyModule(module3, 2),
 };
 
 // Utility function to find a module by title
@@ -145,9 +155,9 @@ export const findBiologyModuleByTitle = (title: string): StructuredModule | unde
 
 // Export all biology modules
 export const biologyModules: StructuredModule[] = [
-  convertBiologyModule(module1),
-  convertBiologyModule(module2),
-  convertBiologyModule(module3)
+  convertBiologyModule(module1, 0),
+  convertBiologyModule(module2, 1),
+  convertBiologyModule(module3, 2)
 ];
 
 // Export individual modules
