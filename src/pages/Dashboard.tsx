@@ -41,13 +41,13 @@ const Dashboard: React.FC = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gray-50 p-6">
+      <div className="min-h-screen bg-background p-6">
         <div className="max-w-7xl mx-auto">
           <div className="animate-pulse">
-            <div className="h-8 bg-gray-200 rounded w-1/4 mb-6"></div>
+            <div className="h-8 bg-muted rounded w-1/4 mb-6"></div>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
               {[...Array(4)].map((_, i) => (
-                <div key={i} className="h-32 bg-gray-200 rounded"></div>
+                <div key={i} className="h-32 bg-muted rounded"></div>
               ))}
             </div>
           </div>
@@ -59,12 +59,12 @@ const Dashboard: React.FC = () => {
   const featuredModules = stats?.subjectBreakdown?.slice(0, 3) || [];
 
   return (
-    <div className="min-h-screen bg-gray-50 p-6">
+    <div className="min-h-screen bg-background p-6">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">Welcome to Your Dashboard</h1>
-          <p className="text-gray-600">Track your progress and discover new learning opportunities</p>
+          <h1 className="text-3xl font-bold text-foreground mb-2">Welcome to Your Dashboard</h1>
+          <p className="text-muted-foreground">Track your progress and discover new learning opportunities</p>
         </div>
 
         {/* Stats Cards */}
@@ -155,7 +155,7 @@ const Dashboard: React.FC = () => {
                 <CardContent>
                   <div className="space-y-3">
                     <div className="flex items-center justify-between text-sm">
-                      <span className="text-gray-600">Available modules:</span>
+                      <span className="text-muted-foreground">Available modules:</span>
                       <span className="font-medium">{subject.count}</span>
                     </div>
                     <Progress value={(subject.count / Math.max(...stats.subjectBreakdown.map((s: any) => s.count))) * 100} className="w-full" />
@@ -171,7 +171,7 @@ const Dashboard: React.FC = () => {
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
-                <Search className="h-5 w-5 text-blue-600" />
+                <Search className="h-5 w-5 text-primary" />
                 Discover Content
               </CardTitle>
               <CardDescription>
@@ -192,7 +192,7 @@ const Dashboard: React.FC = () => {
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
-                <Trophy className="h-5 w-5 text-yellow-600" />
+                <Trophy className="h-5 w-5 text-secondary" />
                 Track Progress
               </CardTitle>
               <CardDescription>
