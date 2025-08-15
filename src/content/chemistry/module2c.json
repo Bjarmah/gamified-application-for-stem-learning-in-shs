@@ -1,0 +1,107 @@
+{
+  "id": "chemistry-metallic-intermolecular-forces",
+  "title": "Metallic Bonding & Intermolecular Forces",
+  "description": "Learn about metallic bonding and the various intermolecular forces that affect molecular behavior",
+  "subject": "Chemistry",
+  "level": "Intermediate",
+  "estimatedTime": 50,
+  "xpReward": 80,
+  "achievement": "Bonding Specialist",
+  "achievementDescription": "Master all types of chemical bonding and intermolecular forces",
+  "content": {
+    "text": {
+      "introduction": "Metallic bonding and intermolecular forces explain many physical properties of materials. Understanding these concepts helps predict behavior of metals, liquids, and gases in various conditions.",
+      "sections": [
+        {
+          "title": "Metallic Bonding Theory",
+          "content": "Metallic bonding involves a 'sea of electrons' that are delocalized across metal cations. This electron sea explains metallic properties: electrical conductivity (mobile electrons), thermal conductivity (electron movement transfers energy), malleability and ductility (layers can slide without breaking bonds), and metallic luster (electrons reflect light)."
+        },
+        {
+          "title": "Types of Intermolecular Forces",
+          "content": "London dispersion forces occur in all molecules due to temporary dipoles from electron movement. They increase with molecular size and surface area. Dipole-dipole forces occur between polar molecules. Hydrogen bonding is a special dipole-dipole interaction when H is bonded to F, N, or O and interacts with lone pairs on another electronegative atom."
+        },
+        {
+          "title": "Effects on Physical Properties",
+          "content": "Intermolecular forces determine melting points, boiling points, viscosity, and solubility. Stronger intermolecular forces lead to higher melting and boiling points. 'Like dissolves like' principle: polar substances dissolve in polar solvents, nonpolar in nonpolar solvents. Viscosity increases with stronger intermolecular attractions."
+        },
+        {
+          "title": "Phase Changes and Intermolecular Forces",
+          "content": "Phase transitions involve overcoming intermolecular forces without breaking covalent bonds. Sublimation, melting, and vaporization require energy to overcome attractive forces. The strength of intermolecular forces determines the energy required and the temperature at which phase changes occur."
+        }
+      ]
+    },
+    "questions": [
+      {
+        "type": "multiple-choice",
+        "question": "Which property of metals is explained by the electron sea model?",
+        "options": ["High melting point", "Electrical conductivity", "Low density", "Chemical reactivity"],
+        "correctAnswer": 1,
+        "explanation": "The mobile electrons in the electron sea allow metals to conduct electricity."
+      },
+      {
+        "type": "multiple-choice",
+        "question": "Which substance would have the highest boiling point?",
+        "options": ["CH4 (methane)", "H2O (water)", "Ne (neon)", "CO2 (carbon dioxide)"],
+        "correctAnswer": 1,
+        "explanation": "Water has hydrogen bonding, which is stronger than the other intermolecular forces present in the other substances."
+      }
+    ],
+    "exercises": [
+      {
+        "type": "comparative",
+        "title": "Intermolecular Forces Comparison",
+        "instructions": "Compare the boiling points of the following compounds and explain the differences based on intermolecular forces: HF, HCl, HBr, HI, and H2O.",
+        "hint": "Consider molecular size, polarity, and the possibility of hydrogen bonding for each compound."
+      }
+    ],
+    "scenarioChallenges": [
+      {
+        "title": "Ghana's Gold Industry and Metallic Properties",
+        "scenario": "Ghana is the largest gold producer in Africa. Understanding metallic bonding explains why gold has unique properties that make it valuable for jewelry, electronics, and currency.",
+        "tasks": [
+          "Explain why gold is an excellent conductor for electronics manufacturing",
+          "Describe how the malleability of gold allows traditional goldsmiths to create intricate designs",
+          "Analyze why gold doesn't tarnish or corrode, making it valuable for long-term storage of wealth"
+        ],
+        "learningObjectives": [
+          "Connect metallic bonding theory to practical applications",
+          "Understand the relationship between electronic structure and economic value",
+          "Appreciate Ghana's role in global gold production"
+        ],
+        "ghanaContext": "Ghana has been a major gold producer for over a thousand years, with gold mining being central to the economy and culture."
+      }
+    ]
+  },
+  "gamification": {
+    "achievements": [
+      {
+        "id": "bonding-specialist",
+        "title": "Bonding Specialist",
+        "description": "Master all bonding types",
+        "xpReward": 80
+      }
+    ],
+    "milestones": [
+      {
+        "id": "force-identifier",
+        "title": "Force Identifier",
+        "description": "Correctly identify intermolecular forces in 20 compounds",
+        "xpReward": 30
+      }
+    ],
+    "xpRules": {
+      "correctAnswer": 12,
+      "completedExercise": 30,
+      "scenarioChallenge": 50,
+      "moduleCompletion": 80
+    }
+  },
+  "ghanaContext": {
+    "localExamples": ["Gold mining and processing", "Aluminum from bauxite", "Iron and steel production"],
+    "culturalConnections": ["Traditional goldsmithing", "Metalworking in local crafts", "Cultural significance of metals"],
+    "realWorldApplications": ["Mining industry", "Electronics manufacturing", "Construction materials"]
+  },
+  "prerequisites": ["chemistry-covalent-bonding"],
+  "nextModule": "chemistry-acid-base-theories",
+  "tags": ["chemistry", "metallic-bonding", "intermolecular-forces", "ghana", "shs"]
+}

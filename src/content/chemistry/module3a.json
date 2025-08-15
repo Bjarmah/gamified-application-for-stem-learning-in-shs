@@ -1,0 +1,107 @@
+{
+  "id": "chemistry-acid-base-theories",
+  "title": "Acid-Base Theories",
+  "description": "Explore different theories that define acids and bases and their applications",
+  "subject": "Chemistry",
+  "level": "Intermediate",
+  "estimatedTime": 50,
+  "xpReward": 80,
+  "achievement": "Acid-Base Theorist",
+  "achievementDescription": "Master acid-base theories and definitions",
+  "content": {
+    "text": {
+      "introduction": "Several theories define acids and bases, each with specific applications and limitations. Understanding these theories helps predict chemical behavior and reactions in various systems.",
+      "sections": [
+        {
+          "title": "Arrhenius Theory",
+          "content": "Svante Arrhenius defined acids as substances that produce H+ ions in aqueous solution and bases as substances that produce OH- ions. This theory explains many common acids (HCl, H2SO4) and bases (NaOH, Ca(OH)2) but is limited to aqueous solutions and doesn't explain all acid-base behavior."
+        },
+        {
+          "title": "Brønsted-Lowry Theory",
+          "content": "Johannes Brønsted and Thomas Lowry defined acids as proton (H+) donors and bases as proton acceptors. This theory is broader than Arrhenius theory and explains acid-base reactions in non-aqueous systems. It introduces the concept of conjugate acid-base pairs, where every acid has a conjugate base and vice versa."
+        },
+        {
+          "title": "Lewis Theory",
+          "content": "Gilbert Lewis defined acids as electron pair acceptors and bases as electron pair donors. This is the broadest definition and includes substances not covered by other theories. Lewis acids often have incomplete octets (like BF3) or can expand their octets (like AlCl3), while Lewis bases have lone pairs of electrons."
+        },
+        {
+          "title": "Applications and Comparisons",
+          "content": "Each theory has specific applications: Arrhenius for simple aqueous solutions, Brønsted-Lowry for proton transfer reactions and buffer systems, and Lewis for coordination compounds and organic reactions. Understanding when to apply each theory is crucial for predicting and explaining chemical behavior."
+        }
+      ]
+    },
+    "questions": [
+      {
+        "type": "multiple-choice",
+        "question": "According to Brønsted-Lowry theory, what is the conjugate base of H2SO4?",
+        "options": ["SO4²⁻", "HSO4⁻", "H+", "OH⁻"],
+        "correctAnswer": 1,
+        "explanation": "When H2SO4 donates a proton (H+), it forms HSO4⁻, which is its conjugate base."
+      },
+      {
+        "type": "multiple-choice",
+        "question": "Which theory would best explain the reaction: BF3 + NH3 → F3B-NH3?",
+        "options": ["Arrhenius", "Brønsted-Lowry", "Lewis", "All theories"],
+        "correctAnswer": 2,
+        "explanation": "This is a Lewis acid-base reaction where BF3 (electron pair acceptor) reacts with NH3 (electron pair donor)."
+      }
+    ],
+    "exercises": [
+      {
+        "type": "identification",
+        "title": "Acid-Base Theory Application",
+        "instructions": "Identify the acids and bases in the following reactions according to each theory: (a) HCl + H2O → H3O+ + Cl⁻, (b) NH3 + H2O ⇌ NH4+ + OH⁻, (c) AlCl3 + Cl⁻ → AlCl4⁻",
+        "hint": "Consider which particles donate/accept protons (Brønsted-Lowry) or electrons (Lewis), and which produce H+/OH⁻ ions (Arrhenius)."
+      }
+    ],
+    "scenarioChallenges": [
+      {
+        "title": "Traditional Medicine and Natural Acids/Bases in Ghana",
+        "scenario": "Ghana has a rich tradition of using plant-based medicines, many of which contain natural acids and bases. Understanding acid-base chemistry helps explain their effectiveness and safety.",
+        "tasks": [
+          "Explain how citric acid in lime (used in traditional remedies) acts according to different acid-base theories",
+          "Describe how alkaloids in medicinal plants function as Brønsted-Lowry bases",
+          "Analyze why certain plant preparations need to be diluted or mixed with other substances for safety"
+        ],
+        "learningObjectives": [
+          "Apply acid-base theories to natural systems",
+          "Understand the chemical basis of traditional medicine",
+          "Connect modern chemistry to traditional practices"
+        ],
+        "ghanaContext": "Ghana has over 3,000 plant species used in traditional medicine, many containing compounds that exhibit acid-base properties."
+      }
+    ]
+  },
+  "gamification": {
+    "achievements": [
+      {
+        "id": "acid-base-theorist",
+        "title": "Acid-Base Theorist",
+        "description": "Master acid-base theories",
+        "xpReward": 80
+      }
+    ],
+    "milestones": [
+      {
+        "id": "theory-applicator",
+        "title": "Theory Applicator",
+        "description": "Apply all three theories to 10 different reactions",
+        "xpReward": 30
+      }
+    ],
+    "xpRules": {
+      "correctAnswer": 12,
+      "completedExercise": 30,
+      "scenarioChallenge": 50,
+      "moduleCompletion": 80
+    }
+  },
+  "ghanaContext": {
+    "localExamples": ["Lime and citrus fruits", "Traditional medicinal plants", "Alkaline soils in northern Ghana"],
+    "culturalConnections": ["Traditional medicine preparation", "Food preservation methods", "Agricultural pH management"],
+    "realWorldApplications": ["Pharmaceutical industry", "Agricultural chemistry", "Food processing"]
+  },
+  "prerequisites": ["chemistry-metallic-intermolecular-forces"],
+  "nextModule": "chemistry-ph-calculations",
+  "tags": ["chemistry", "acid-base-theories", "traditional-medicine", "ghana", "shs"]
+}

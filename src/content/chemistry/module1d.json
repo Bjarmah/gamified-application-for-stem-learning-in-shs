@@ -1,0 +1,107 @@
+{
+  "id": "chemistry-quantum-numbers-orbitals",
+  "title": "Quantum Numbers & Orbital Shapes",
+  "description": "Understand quantum numbers and three-dimensional shapes of atomic orbitals",
+  "subject": "Chemistry",
+  "level": "Advanced",
+  "estimatedTime": 60,
+  "xpReward": 90,
+  "achievement": "Quantum Explorer",
+  "achievementDescription": "Master quantum numbers and orbital theory",
+  "content": {
+    "text": {
+      "introduction": "Quantum mechanics describes electron behavior using quantum numbers and probability distributions called orbitals. These concepts explain the three-dimensional arrangement of electrons around atomic nuclei and form the foundation for understanding chemical bonding.",
+      "sections": [
+        {
+          "title": "The Four Quantum Numbers",
+          "content": "Four quantum numbers describe each electron: Principal quantum number (n) indicates energy level, azimuthal quantum number (l) determines orbital shape, magnetic quantum number (ml) specifies orbital orientation, and spin quantum number (ms) indicates electron spin direction (+1/2 or -1/2)."
+        },
+        {
+          "title": "Orbital Shapes and Types",
+          "content": "s orbitals are spherical, p orbitals are dumbbell-shaped with three orientations (px, py, pz), d orbitals have more complex shapes with five orientations, and f orbitals have very complex shapes with seven orientations. Each orbital type has characteristic energy and spatial distribution."
+        },
+        {
+          "title": "Probability Distributions",
+          "content": "Orbitals represent probability distributions where electrons are likely to be found. The Heisenberg uncertainty principle states that we cannot know both position and momentum simultaneously. Orbital shapes show regions of high electron probability density."
+        },
+        {
+          "title": "Hybrid Orbitals",
+          "content": "Atoms can form hybrid orbitals by mixing different types of atomic orbitals. sp3 hybridization creates tetrahedral geometry, sp2 creates trigonal planar, and sp creates linear arrangements. Hybridization explains molecular geometry and bonding patterns."
+        }
+      ]
+    },
+    "questions": [
+      {
+        "type": "multiple-choice",
+        "question": "How many orbitals are in the d sublevel?",
+        "options": ["1", "3", "5", "7"],
+        "correctAnswer": 2,
+        "explanation": "The d sublevel contains 5 orbitals, corresponding to ml values of -2, -1, 0, +1, +2."
+      },
+      {
+        "type": "multiple-choice",
+        "question": "What type of hybridization results in tetrahedral geometry?",
+        "options": ["sp", "sp2", "sp3", "sp3d"],
+        "correctAnswer": 2,
+        "explanation": "sp3 hybridization creates four equivalent hybrid orbitals arranged in tetrahedral geometry with 109.5° bond angles."
+      }
+    ],
+    "exercises": [
+      {
+        "type": "visualization",
+        "title": "Orbital Shape Drawing",
+        "instructions": "Draw the three-dimensional shapes of s, px, py, and pz orbitals. Include coordinate axes and indicate regions of high electron probability.",
+        "hint": "Remember that s orbitals are spherical and p orbitals are dumbbell-shaped along specific axes."
+      }
+    ],
+    "scenarioChallenges": [
+      {
+        "title": "Advanced Materials in Ghana's Technology Sector",
+        "scenario": "Ghana is developing its technology sector and needs to understand advanced materials for electronics and engineering applications. Quantum orbital theory explains properties of semiconductors and advanced alloys.",
+        "tasks": [
+          "Explain how orbital overlap in silicon creates semiconductor properties",
+          "Describe how hybrid orbitals in carbon enable diamond's hardness and graphite's conductivity",
+          "Analyze how orbital theory guides the development of new materials for Ghana's industries"
+        ],
+        "learningObjectives": [
+          "Apply quantum theory to materials science",
+          "Understand advanced concepts in chemical bonding",
+          "Connect theoretical chemistry to technological development"
+        ],
+        "ghanaContext": "Ghana is working to develop its technology and manufacturing sectors, requiring understanding of advanced materials and their quantum mechanical properties."
+      }
+    ]
+  },
+  "gamification": {
+    "achievements": [
+      {
+        "id": "quantum-explorer",
+        "title": "Quantum Explorer",
+        "description": "Master quantum numbers and orbitals",
+        "xpReward": 90
+      }
+    ],
+    "milestones": [
+      {
+        "id": "orbital-artist",
+        "title": "Orbital Artist",
+        "description": "Successfully draw all orbital shapes",
+        "xpReward": 40
+      }
+    ],
+    "xpRules": {
+      "correctAnswer": 15,
+      "completedExercise": 35,
+      "scenarioChallenge": 55,
+      "moduleCompletion": 90
+    }
+  },
+  "ghanaContext": {
+    "localExamples": ["Silicon solar cells", "Diamond mining", "Advanced alloys in construction"],
+    "culturalConnections": ["Sacred geometry in traditional art", "Patterns in Adinkra symbols", "Local innovations in materials"],
+    "realWorldApplications": ["Technology development", "Materials engineering", "Renewable energy systems"]
+  },
+  "prerequisites": ["chemistry-periodic-trends-properties"],
+  "nextModule": null,
+  "tags": ["chemistry", "quantum-mechanics", "orbitals", "advanced", "ghana", "shs"]
+}

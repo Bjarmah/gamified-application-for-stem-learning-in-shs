@@ -1,0 +1,107 @@
+{
+  "id": "chemistry-periodic-trends-properties",
+  "title": "Periodic Trends & Properties",
+  "description": "Explore how electron configuration determines periodic trends and chemical properties of elements",
+  "subject": "Chemistry",
+  "level": "Intermediate",
+  "estimatedTime": 55,
+  "xpReward": 85,
+  "achievement": "Periodic Master",
+  "achievementDescription": "Master periodic trends and properties",
+  "content": {
+    "text": {
+      "introduction": "The periodic table is organized based on electron configuration, which determines the chemical and physical properties of elements. Understanding periodic trends helps predict element behavior and chemical reactivity.",
+      "sections": [
+        {
+          "title": "Atomic Radius Trends",
+          "content": "Atomic radius decreases across a period due to increasing nuclear charge pulling electrons closer. Atomic radius increases down a group as new electron shells are added. These trends are explained by the balance between nuclear attraction and electron-electron repulsion."
+        },
+        {
+          "title": "Ionization Energy",
+          "content": "Ionization energy is the energy required to remove an electron from an atom. It increases across a period due to stronger nuclear attraction and decreases down a group as electrons are farther from the nucleus. Noble gases have the highest ionization energies in their periods."
+        },
+        {
+          "title": "Electronegativity",
+          "content": "Electronegativity measures an atom's ability to attract electrons in a chemical bond. It increases across a period and decreases down a group. Fluorine is the most electronegative element. Electronegativity differences determine bond types: ionic, polar covalent, or nonpolar covalent."
+        },
+        {
+          "title": "Metallic Character",
+          "content": "Metallic character decreases across a period and increases down a group. Metals tend to lose electrons and form positive ions, while nonmetals gain electrons to form negative ions. Metalloids have intermediate properties and are found along the 'staircase' in the periodic table."
+        }
+      ]
+    },
+    "questions": [
+      {
+        "type": "multiple-choice",
+        "question": "How does atomic radius change as you move across a period from left to right?",
+        "options": ["Increases", "Decreases", "Remains constant", "Varies unpredictably"],
+        "correctAnswer": 1,
+        "explanation": "Atomic radius decreases across a period because increasing nuclear charge pulls electrons closer to the nucleus."
+      },
+      {
+        "type": "multiple-choice",
+        "question": "Which element has the highest electronegativity?",
+        "options": ["Oxygen", "Nitrogen", "Fluorine", "Chlorine"],
+        "correctAnswer": 2,
+        "explanation": "Fluorine has the highest electronegativity value of 4.0 on the Pauling scale."
+      }
+    ],
+    "exercises": [
+      {
+        "type": "analysis",
+        "title": "Periodic Trend Analysis",
+        "instructions": "Compare three elements from the same period and three from the same group. Predict their relative atomic radius, ionization energy, and electronegativity based on periodic trends.",
+        "hint": "Use the periodic table position to predict trends and explain your reasoning based on electron configuration and nuclear charge."
+      }
+    ],
+    "scenarioChallenges": [
+      {
+        "title": "Ghana's Mineral Resources and Periodic Trends",
+        "scenario": "Ghana is rich in minerals like gold, bauxite, and manganese. Understanding periodic trends helps explain why these elements are found in specific compounds and how they can be extracted and purified.",
+        "tasks": [
+          "Explain why gold is chemically unreactive based on its position in the periodic table",
+          "Describe how aluminum's properties make it valuable despite being the most abundant metal in Ghana's bauxite",
+          "Analyze manganese's variable oxidation states using periodic trends"
+        ],
+        "learningObjectives": [
+          "Apply periodic trends to explain mineral properties",
+          "Understand the connection between electron configuration and economic value",
+          "Relate chemistry to Ghana's mining industry"
+        ],
+        "ghanaContext": "Ghana's economy heavily depends on mineral exports, making understanding of elemental properties crucial for the mining and processing industries."
+      }
+    ]
+  },
+  "gamification": {
+    "achievements": [
+      {
+        "id": "periodic-master",
+        "title": "Periodic Master",
+        "description": "Master periodic trends",
+        "xpReward": 85
+      }
+    ],
+    "milestones": [
+      {
+        "id": "trend-predictor",
+        "title": "Trend Predictor",
+        "description": "Successfully predict element properties using trends",
+        "xpReward": 35
+      }
+    ],
+    "xpRules": {
+      "correctAnswer": 12,
+      "completedExercise": 30,
+      "scenarioChallenge": 50,
+      "moduleCompletion": 85
+    }
+  },
+  "ghanaContext": {
+    "localExamples": ["Gold deposits in Ashanti region", "Bauxite mining in Western region", "Manganese in Nsuta"],
+    "culturalConnections": ["Traditional gold work and metallic properties", "Local pottery and ceramic materials", "Indigenous knowledge of mineral properties"],
+    "realWorldApplications": ["Mining industry", "Materials science", "Electronics manufacturing"]
+  },
+  "prerequisites": ["chemistry-electron-configuration-basics"],
+  "nextModule": "chemistry-quantum-numbers-orbitals",
+  "tags": ["chemistry", "periodic-trends", "properties", "ghana", "shs"]
+}

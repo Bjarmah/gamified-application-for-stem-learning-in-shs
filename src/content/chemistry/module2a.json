@@ -1,0 +1,107 @@
+{
+  "id": "chemistry-ionic-bonding",
+  "title": "Ionic Bonding",
+  "description": "Learn how ionic bonds form between metals and nonmetals through electron transfer",
+  "subject": "Chemistry",
+  "level": "Intermediate",
+  "estimatedTime": 50,
+  "xpReward": 80,
+  "achievement": "Ionic Master",
+  "achievementDescription": "Master ionic bonding concepts",
+  "content": {
+    "text": {
+      "introduction": "Ionic bonding occurs when electrons are transferred from metal atoms to nonmetal atoms, creating charged ions that attract each other. This type of bonding forms ionic compounds with characteristic properties like high melting points and electrical conductivity when dissolved.",
+      "sections": [
+        {
+          "title": "Formation of Ionic Bonds",
+          "content": "Metals have low ionization energies and readily lose electrons to form positive cations. Nonmetals have high electron affinities and readily gain electrons to form negative anions. The electrostatic attraction between oppositely charged ions creates ionic bonds. The driving force is the formation of stable electron configurations, typically noble gas configurations."
+        },
+        {
+          "title": "Lattice Energy and Crystal Structure",
+          "content": "Lattice energy is the energy required to separate one mole of ionic solid into gaseous ions. Higher lattice energies result from smaller ions and higher charges. Ionic compounds form crystal lattices with repeating three-dimensional patterns that maximize attraction and minimize repulsion between ions."
+        },
+        {
+          "title": "Properties of Ionic Compounds",
+          "content": "Ionic compounds have high melting and boiling points due to strong electrostatic forces. They conduct electricity when molten or dissolved because ions are mobile. Most are soluble in polar solvents like water but insoluble in nonpolar solvents. They are brittle because shifting layers brings like charges together, causing repulsion."
+        },
+        {
+          "title": "Predicting Ionic Compound Formation",
+          "content": "Ionic compounds form when the difference in electronegativity between elements is greater than 1.7. Metals from groups 1 and 2 readily form cations, while nonmetals from groups 16 and 17 readily form anions. The formula of ionic compounds reflects the charges needed for electrical neutrality."
+        }
+      ]
+    },
+    "questions": [
+      {
+        "type": "multiple-choice",
+        "question": "What happens to sodium when it forms an ionic bond with chlorine?",
+        "options": ["Gains an electron", "Loses an electron", "Shares electrons", "Remains unchanged"],
+        "correctAnswer": 1,
+        "explanation": "Sodium loses one electron to achieve a stable noble gas configuration, forming Na+ ion."
+      },
+      {
+        "type": "multiple-choice",
+        "question": "Why do ionic compounds have high melting points?",
+        "options": ["Weak intermolecular forces", "Strong electrostatic attractions", "Molecular structure", "Low lattice energy"],
+        "correctAnswer": 1,
+        "explanation": "Strong electrostatic attractions between oppositely charged ions require significant energy to overcome."
+      }
+    ],
+    "exercises": [
+      {
+        "type": "problem-solving",
+        "title": "Ionic Compound Formation",
+        "instructions": "Predict the formulas of ionic compounds formed between: (a) aluminum and oxygen, (b) calcium and phosphorus, (c) potassium and sulfur. Show the electron transfer process for each.",
+        "hint": "Determine the charges of the ions based on their positions in the periodic table, then balance charges to achieve neutrality."
+      }
+    ],
+    "scenarioChallenges": [
+      {
+        "title": "Salt Production at Lake Bosumtwi",
+        "scenario": "Lake Bosumtwi in Ghana contains dissolved ionic compounds. Local communities have traditionally extracted salt from saline lakes. Understanding ionic bonding helps explain salt formation and extraction processes.",
+        "tasks": [
+          "Explain how dissolved ions in the lake water form solid salt crystals during evaporation",
+          "Describe why salt conducts electricity when dissolved but not when solid",
+          "Analyze how traditional salt-making methods utilize ionic compound properties"
+        ],
+        "learningObjectives": [
+          "Connect ionic bonding to traditional Ghanaian practices",
+          "Understand practical applications of ionic compound properties",
+          "Appreciate the chemistry behind natural processes"
+        ],
+        "ghanaContext": "Ghana has several saline lakes and coastal salt production areas where traditional methods have been used for centuries to extract salt."
+      }
+    ]
+  },
+  "gamification": {
+    "achievements": [
+      {
+        "id": "ionic-master",
+        "title": "Ionic Master",
+        "description": "Master ionic bonding",
+        "xpReward": 80
+      }
+    ],
+    "milestones": [
+      {
+        "id": "formula-predictor",
+        "title": "Formula Predictor",
+        "description": "Correctly predict 10 ionic compound formulas",
+        "xpReward": 30
+      }
+    ],
+    "xpRules": {
+      "correctAnswer": 12,
+      "completedExercise": 30,
+      "scenarioChallenge": 50,
+      "moduleCompletion": 80
+    }
+  },
+  "ghanaContext": {
+    "localExamples": ["Salt from Ada and Winneba", "Lake Bosumtwi minerals", "Coastal salt evaporation ponds"],
+    "culturalConnections": ["Traditional salt trading", "Sacred uses of salt in ceremonies", "Local proverbs about salt"],
+    "realWorldApplications": ["Salt production industry", "Food preservation", "Chemical manufacturing"]
+  },
+  "prerequisites": ["chemistry-quantum-numbers-orbitals"],
+  "nextModule": "chemistry-covalent-bonding",
+  "tags": ["chemistry", "ionic-bonding", "salts", "ghana", "shs"]
+}

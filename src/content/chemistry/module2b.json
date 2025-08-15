@@ -1,0 +1,107 @@
+{
+  "id": "chemistry-covalent-bonding",
+  "title": "Covalent Bonding",
+  "description": "Understand how covalent bonds form through electron sharing and their molecular properties",
+  "subject": "Chemistry",
+  "level": "Intermediate",
+  "estimatedTime": 55,
+  "xpReward": 85,
+  "achievement": "Covalent Expert",
+  "achievementDescription": "Master covalent bonding and molecular geometry",
+  "content": {
+    "text": {
+      "introduction": "Covalent bonding occurs when atoms share electrons to achieve stable electron configurations. This sharing creates molecules with specific geometries and properties that differ significantly from ionic compounds.",
+      "sections": [
+        {
+          "title": "Formation of Covalent Bonds",
+          "content": "Covalent bonds form when nonmetal atoms share electrons. The shared electrons are attracted to both nuclei, creating a bonding molecular orbital. Single bonds involve one shared pair, double bonds involve two pairs, and triple bonds involve three pairs. Bond strength increases with the number of shared electron pairs."
+        },
+        {
+          "title": "Lewis Structures and Formal Charge",
+          "content": "Lewis structures show bonding and nonbonding electrons in molecules. The octet rule states that atoms tend to form bonds until surrounded by eight valence electrons. Formal charge helps determine the best Lewis structure by minimizing charges and placing negative charges on the most electronegative atoms."
+        },
+        {
+          "title": "VSEPR Theory and Molecular Geometry",
+          "content": "Valence Shell Electron Pair Repulsion (VSEPR) theory predicts molecular shapes based on electron pair repulsion. Electron pairs arrange themselves to minimize repulsion, creating specific geometries: linear, trigonal planar, tetrahedral, trigonal bipyramidal, and octahedral. Lone pairs occupy more space than bonding pairs."
+        },
+        {
+          "title": "Polarity and Intermolecular Forces",
+          "content": "Molecular polarity depends on bond polarity and molecular geometry. Polar molecules have dipole moments and experience stronger intermolecular forces. Van der Waals forces include London dispersion forces, dipole-dipole interactions, and hydrogen bonding. These forces determine physical properties like boiling point and solubility."
+        }
+      ]
+    },
+    "questions": [
+      {
+        "type": "multiple-choice",
+        "question": "What is the molecular geometry of methane (CH4)?",
+        "options": ["Linear", "Trigonal planar", "Tetrahedral", "Bent"],
+        "correctAnswer": 2,
+        "explanation": "Methane has four bonding pairs and no lone pairs around carbon, resulting in tetrahedral geometry with 109.5° bond angles."
+      },
+      {
+        "type": "multiple-choice",
+        "question": "Which intermolecular force is strongest?",
+        "options": ["London dispersion", "Dipole-dipole", "Hydrogen bonding", "Ion-dipole"],
+        "correctAnswer": 2,
+        "explanation": "Hydrogen bonding is the strongest intermolecular force among the Van der Waals forces, occurring when H is bonded to F, O, or N."
+      }
+    ],
+    "exercises": [
+      {
+        "type": "structural",
+        "title": "Lewis Structures and Geometry",
+        "instructions": "Draw Lewis structures and predict molecular geometries for: H2O, CO2, NH3, and SF6. Include bond angles and identify polar molecules.",
+        "hint": "Count valence electrons, apply the octet rule, use VSEPR theory for geometry, and consider electronegativity differences for polarity."
+      }
+    ],
+    "scenarioChallenges": [
+      {
+        "title": "Ghana's Pharmaceutical Industry and Molecular Design",
+        "scenario": "Ghana is developing its pharmaceutical industry to produce medications locally. Understanding molecular geometry and bonding is crucial for drug design and efficacy.",
+        "tasks": [
+          "Explain how molecular shape affects drug-receptor interactions in the human body",
+          "Describe why water solubility is important for many medications and how polarity affects this",
+          "Analyze how traditional medicinal plants in Ghana might contain molecules with specific geometries for biological activity"
+        ],
+        "learningObjectives": [
+          "Connect molecular geometry to biological activity",
+          "Understand structure-function relationships in pharmaceuticals",
+          "Appreciate the molecular basis of traditional medicine"
+        ],
+        "ghanaContext": "Ghana has a rich tradition of medicinal plants and is working to develop local pharmaceutical manufacturing to reduce dependence on imports."
+      }
+    ]
+  },
+  "gamification": {
+    "achievements": [
+      {
+        "id": "covalent-expert",
+        "title": "Covalent Expert",
+        "description": "Master covalent bonding",
+        "xpReward": 85
+      }
+    ],
+    "milestones": [
+      {
+        "id": "geometry-master",
+        "title": "Geometry Master",
+        "description": "Correctly predict 15 molecular geometries",
+        "xpReward": 35
+      }
+    ],
+    "xpRules": {
+      "correctAnswer": 12,
+      "completedExercise": 35,
+      "scenarioChallenge": 55,
+      "moduleCompletion": 85
+    }
+  },
+  "ghanaContext": {
+    "localExamples": ["Natural gas from offshore fields", "Medicinal plant compounds", "Plastics manufacturing"],
+    "culturalConnections": ["Traditional medicine and molecular activity", "Natural dyes and organic compounds", "Local innovations in chemistry"],
+    "realWorldApplications": ["Pharmaceutical industry", "Petrochemicals", "Materials science"]
+  },
+  "prerequisites": ["chemistry-ionic-bonding"],
+  "nextModule": "chemistry-metallic-intermolecular-forces",
+  "tags": ["chemistry", "covalent-bonding", "molecular-geometry", "ghana", "shs"]
+}

@@ -1,0 +1,108 @@
+{
+  "id": "chemistry-salt-formation-properties",
+  "title": "Salt Formation & Properties",
+  "description": "Learn how salts form from acid-base reactions and understand their properties and applications",
+  "subject": "Chemistry",
+  "level": "Intermediate",
+  "estimatedTime": 50,
+  "xpReward": 80,
+  "achievement": "Salt Specialist",
+  "achievementDescription": "Master salt formation and properties",
+  "content": {
+    "text": {
+      "introduction": "Salts are ionic compounds formed from the neutralization of acids and bases. Understanding salt formation, properties, and hydrolysis is crucial for many chemical processes and applications.",
+      "sections": [
+        {
+          "title": "Salt Formation Reactions",
+          "content": "Salts form through various reactions: acid + base → salt + water (neutralization), acid + metal → salt + hydrogen gas, acid + metal carbonate → salt + water + carbon dioxide, and double displacement reactions. The salt's cation comes from the base (or metal) and the anion comes from the acid."
+        },
+        {
+          "title": "Types of Salts",
+          "content": "Normal salts have complete neutralization (NaCl, CaSO4). Acid salts retain replaceable hydrogen (NaHSO4, NaHCO3). Basic salts contain hydroxyl groups (Mg(OH)Cl). Double salts contain two different cations or anions (KAl(SO4)2·12H2O - alum). Complex salts contain complex ions (K3[Fe(CN)6])."
+        },
+        {
+          "title": "Salt Hydrolysis and Solution pH",
+          "content": "When salts dissolve in water, they can undergo hydrolysis, affecting solution pH. Salts of strong acid + strong base are neutral (pH = 7). Salts of weak acid + strong base are basic (pH > 7) due to anion hydrolysis. Salts of strong acid + weak base are acidic (pH < 7) due to cation hydrolysis. Salts of weak acid + weak base depend on relative Ka and Kb values."
+        },
+        {
+          "title": "Properties and Applications",
+          "content": "Salt properties include ionic bonding, crystal structure, electrical conductivity in solution, and various solubilities. Applications include food preservation (NaCl), fertilizers (NH4NO3, KCl), medicine (MgSO4 - Epsom salt), and industrial processes. Solubility rules help predict precipitation reactions and salt preparation methods."
+        }
+      ]
+    },
+    "questions": [
+      {
+        "type": "multiple-choice",
+        "question": "What type of salt is formed when HCl reacts with NaOH?",
+        "options": ["Acid salt", "Basic salt", "Normal salt", "Double salt"],
+        "correctAnswer": 2,
+        "explanation": "HCl + NaOH → NaCl + H2O produces a normal salt where complete neutralization occurs."
+      },
+      {
+        "type": "multiple-choice",
+        "question": "Which salt will produce a basic solution when dissolved in water?",
+        "options": ["NaCl", "CH3COONa", "NH4Cl", "KBr"],
+        "correctAnswer": 1,
+        "explanation": "CH3COONa is the salt of a weak acid (acetic acid) and strong base (NaOH), so the acetate ion hydrolyzes to produce OH⁻ ions."
+      }
+    ],
+    "exercises": [
+      {
+        "type": "synthesis",
+        "title": "Salt Preparation Methods",
+        "instructions": "Design methods to prepare: (a) copper(II) sulfate from copper metal, (b) sodium chloride from sodium carbonate, (c) calcium phosphate from calcium chloride. Write balanced equations and explain your choice of method.",
+        "hint": "Consider the reactivity of starting materials and choose the most appropriate reaction type (neutralization, metal displacement, precipitation, etc.)."
+      }
+    ],
+    "scenarioChallenges": [
+      {
+        "title": "Ghana's Salt Industry and Agriculture",
+        "scenario": "Ghana has both coastal salt production and inland agricultural needs for various salts. Understanding salt chemistry helps optimize production and agricultural applications.",
+        "tasks": [
+          "Explain how different salt preparation methods could be used to produce fertilizers for Ghana's cocoa and grain farms",
+          "Analyze the chemistry behind traditional salt production in coastal areas like Ada",
+          "Design a process to produce Epsom salt (MgSO4·7H2O) for agricultural use from local mineral sources",
+          "Evaluate the environmental impact of salt production and suggest sustainable practices"
+        ],
+        "learningObjectives": [
+          "Apply salt chemistry to agricultural and industrial applications",
+          "Understand the economic importance of salt production",
+          "Connect chemistry to environmental sustainability"
+        ],
+        "ghanaContext": "Ghana produces salt along its coast and imports various agricultural salts. The country's economy depends heavily on agriculture, making fertilizer chemistry important."
+      }
+    ]
+  },
+  "gamification": {
+    "achievements": [
+      {
+        "id": "salt-specialist",
+        "title": "Salt Specialist",
+        "description": "Master salt chemistry",
+        "xpReward": 80
+      }
+    ],
+    "milestones": [
+      {
+        "id": "preparation-expert",
+        "title": "Preparation Expert",
+        "description": "Design 10 different salt preparation methods",
+        "xpReward": 35
+      }
+    ],
+    "xpRules": {
+      "correctAnswer": 12,
+      "completedExercise": 35,
+      "scenarioChallenge": 55,
+      "moduleCompletion": 80
+    }
+  },
+  "ghanaContext": {
+    "localExamples": ["Sea salt from Ada coast", "Rock salt deposits", "Fertilizer salts for agriculture"],
+    "culturalConnections": ["Traditional salt trading", "Salt in food preservation", "Cultural ceremonies using salt"],
+    "realWorldApplications": ["Agricultural fertilizers", "Food industry", "Chemical manufacturing"]
+  },
+  "prerequisites": ["chemistry-ph-calculations"],
+  "nextModule": null,
+  "tags": ["chemistry", "salts", "agriculture", "industry", "ghana", "shs"]
+}

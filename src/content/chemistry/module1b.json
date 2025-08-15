@@ -1,0 +1,107 @@
+{
+  "id": "chemistry-electron-configuration-basics",
+  "title": "Electron Configuration Basics",
+  "description": "Learn how electrons are arranged in atoms and the rules governing electron configuration",
+  "subject": "Chemistry",
+  "level": "Intermediate",
+  "estimatedTime": 50,
+  "xpReward": 80,
+  "achievement": "Electron Master",
+  "achievementDescription": "Master electron configuration principles",
+  "content": {
+    "text": {
+      "introduction": "Electrons in atoms occupy specific energy levels and orbitals according to established rules. Understanding electron configuration is essential for predicting chemical behavior, bonding patterns, and properties of elements.",
+      "sections": [
+        {
+          "title": "Energy Levels and Sublevels",
+          "content": "Electrons occupy energy levels (n = 1, 2, 3, ...) around the nucleus. Each energy level contains sublevels: s, p, d, and f. The s sublevel holds 2 electrons, p holds 6, d holds 10, and f holds 14. The number of sublevels increases with energy level number."
+        },
+        {
+          "title": "Aufbau Principle",
+          "content": "The Aufbau principle states that electrons fill orbitals in order of increasing energy. The typical filling order is: 1s, 2s, 2p, 3s, 3p, 4s, 3d, 4p, 5s, 4d, 5p, 6s, 4f, 5d, 6p, 7s, 5f, 6d, 7p. This can be remembered using the diagonal rule or electron configuration charts."
+        },
+        {
+          "title": "Pauli Exclusion Principle",
+          "content": "Wolfgang Pauli's exclusion principle states that no two electrons in an atom can have the same set of four quantum numbers. This means each orbital can hold a maximum of two electrons, and they must have opposite spins (paired electrons)."
+        },
+        {
+          "title": "Hund's Rule",
+          "content": "Friedrich Hund's rule states that electrons occupy orbitals of equal energy singly before pairing up. This minimizes electron-electron repulsion and maximizes stability. For example, in the p sublevel, electrons fill px, py, and pz orbitals singly before pairing."
+        }
+      ]
+    },
+    "questions": [
+      {
+        "type": "multiple-choice",
+        "question": "What is the maximum number of electrons that can occupy a d sublevel?",
+        "options": ["2", "6", "10", "14"],
+        "correctAnswer": 2,
+        "explanation": "The d sublevel contains 5 orbitals, and each orbital can hold a maximum of 2 electrons, giving a total of 10 electrons."
+      },
+      {
+        "type": "multiple-choice",
+        "question": "According to Hund's rule, how do electrons fill orbitals of equal energy?",
+        "options": ["Pair up immediately", "Fill singly first, then pair", "Fill randomly", "Fill from highest to lowest energy"],
+        "correctAnswer": 1,
+        "explanation": "Hund's rule states that electrons occupy orbitals of equal energy singly before pairing up to minimize repulsion."
+      }
+    ],
+    "exercises": [
+      {
+        "type": "practice",
+        "title": "Electron Configuration Practice",
+        "instructions": "Write the electron configurations for the first 20 elements using both full notation and noble gas notation.",
+        "hint": "Use the Aufbau principle and remember to follow Hund's rule for half-filled and completely filled sublevels."
+      }
+    ],
+    "scenarioChallenges": [
+      {
+        "title": "Solar Panel Technology in Ghana",
+        "scenario": "Ghana is investing in solar energy to power rural communities. You need to explain how understanding electron configuration helps in developing better photovoltaic cells.",
+        "tasks": [
+          "Explain how electrons in silicon solar cells absorb photons and move to higher energy levels",
+          "Describe why certain elements are better for solar panels based on their electron configurations",
+          "Connect electron behavior to Ghana's renewable energy initiatives"
+        ],
+        "learningObjectives": [
+          "Apply electron configuration to renewable energy technology",
+          "Understand the practical applications of quantum mechanics",
+          "Connect chemistry to Ghana's development goals"
+        ],
+        "ghanaContext": "Ghana has abundant sunlight and is developing solar energy projects to provide electricity to remote areas and reduce dependence on fossil fuels."
+      }
+    ]
+  },
+  "gamification": {
+    "achievements": [
+      {
+        "id": "electron-master",
+        "title": "Electron Master",
+        "description": "Master electron configuration",
+        "xpReward": 80
+      }
+    ],
+    "milestones": [
+      {
+        "id": "configuration-expert",
+        "title": "Configuration Expert",
+        "description": "Write 20 electron configurations correctly",
+        "xpReward": 30
+      }
+    ],
+    "xpRules": {
+      "correctAnswer": 10,
+      "completedExercise": 25,
+      "scenarioChallenge": 45,
+      "moduleCompletion": 80
+    }
+  },
+  "ghanaContext": {
+    "localExamples": ["Solar panels in northern Ghana", "LED lights powered by solar energy", "Electronics in Accra markets"],
+    "culturalConnections": ["Traditional patterns and electron orbital shapes", "Kente weaving patterns as orbital diagrams", "Local innovations in electronics"],
+    "realWorldApplications": ["Solar energy projects", "Electronics manufacturing", "Agricultural technology"]
+  },
+  "prerequisites": ["chemistry-atomic-theory-foundations"],
+  "nextModule": "chemistry-periodic-trends-properties",
+  "tags": ["chemistry", "electron-configuration", "quantum-mechanics", "ghana", "shs"]
+}

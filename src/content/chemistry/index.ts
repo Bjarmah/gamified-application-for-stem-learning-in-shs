@@ -2,6 +2,22 @@ import module1 from './module1.json';
 import module2 from './module2.json';
 import module3 from './module3.json';
 
+// Atomic Structure & Electron Configuration submodules
+import module1a from './module1a.json';
+import module1b from './module1b.json';
+import module1c from './module1c.json';
+import module1d from './module1d.json';
+
+// Chemical Bonding submodules
+import module2a from './module2a.json';
+import module2b from './module2b.json';
+import module2c from './module2c.json';
+
+// Acids, Bases & Salts submodules
+import module3a from './module3a.json';
+import module3b from './module3b.json';
+import module3c from './module3c.json';
+
 export interface StructuredModule {
   id: string;
   title: string;
@@ -146,6 +162,18 @@ const mapByTitle: Record<string, StructuredModule> = {
   'Atomic Structure & Electron Configuration': convertChemistryModule(module1, 0),
   'Chemical Bonding': convertChemistryModule(module2, 1),
   'Acids, Bases & Salts': convertChemistryModule(module3, 2),
+  
+  // Submodules
+  'Atomic Theory Foundations': module1a,
+  'Electron Configuration Basics': module1b,
+  'Periodic Trends & Properties': module1c,
+  'Quantum Numbers & Orbital Shapes': module1d,
+  'Ionic Bonding': module2a,
+  'Covalent Bonding': module2b,
+  'Metallic Bonding & Intermolecular Forces': module2c,
+  'Acid-Base Theories': module3a,
+  'pH and Acid-Base Calculations': module3b,
+  'Salt Formation & Properties': module3c,
 };
 
 // Utility function to find a module by title
@@ -157,7 +185,12 @@ export const findChemistryModuleByTitle = (title: string): StructuredModule | un
 export const chemistryModules: StructuredModule[] = [
   convertChemistryModule(module1, 0),
   convertChemistryModule(module2, 1),
-  convertChemistryModule(module3, 2)
+  convertChemistryModule(module3, 2),
+  
+  // Add all submodules
+  module1a, module1b, module1c, module1d,
+  module2a, module2b, module2c,
+  module3a, module3b, module3c
 ];
 
 // Export individual modules

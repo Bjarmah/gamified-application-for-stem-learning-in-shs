@@ -1,0 +1,108 @@
+{
+  "id": "chemistry-ph-calculations",
+  "title": "pH and Acid-Base Calculations",
+  "description": "Learn to calculate pH, pOH, and solve acid-base problems quantitatively",
+  "subject": "Chemistry",
+  "level": "Advanced",
+  "estimatedTime": 60,
+  "xpReward": 90,
+  "achievement": "pH Calculator",
+  "achievementDescription": "Master pH calculations and acid-base equilibria",
+  "content": {
+    "text": {
+      "introduction": "Quantitative acid-base chemistry involves calculating concentrations, pH values, and equilibrium constants. These calculations are essential for understanding solution chemistry and many industrial processes.",
+      "sections": [
+        {
+          "title": "pH and pOH Scales",
+          "content": "pH = -log[H+] and pOH = -log[OH⁻]. At 25°C, pH + pOH = 14. Solutions with pH < 7 are acidic, pH = 7 is neutral, and pH > 7 is basic. Each pH unit represents a 10-fold change in hydrogen ion concentration. The pH scale typically ranges from 0 to 14, though values outside this range are possible."
+        },
+        {
+          "title": "Strong Acid and Base Calculations",
+          "content": "Strong acids (HCl, HNO3, H2SO4) and strong bases (Group 1 hydroxides, some Group 2 hydroxides) ionize completely in solution. For strong acids: [H+] = [acid] × number of H+ per molecule. For strong bases: [OH⁻] = [base] × number of OH⁻ per formula unit. Use Kw = [H+][OH⁻] = 1.0 × 10⁻¹⁴ at 25°C."
+        },
+        {
+          "title": "Weak Acid and Base Equilibria",
+          "content": "Weak acids and bases partially ionize. Use Ka (acid dissociation constant) for weak acids: Ka = [H+][A⁻]/[HA]. Use Kb (base dissociation constant) for weak bases: Kb = [BH+][OH⁻]/[B]. For conjugate pairs: Ka × Kb = Kw. Use ICE tables (Initial, Change, Equilibrium) to solve equilibrium problems."
+        },
+        {
+          "title": "Buffer Solutions",
+          "content": "Buffers resist pH changes when small amounts of acid or base are added. They consist of a weak acid and its conjugate base (or weak base and conjugate acid). The Henderson-Hasselbalch equation: pH = pKa + log([A⁻]/[HA]) helps calculate buffer pH. Buffer capacity depends on concentrations and the ratio of components."
+        }
+      ]
+    },
+    "questions": [
+      {
+        "type": "multiple-choice",
+        "question": "What is the pH of a 0.01 M HCl solution?",
+        "options": ["1", "2", "12", "13"],
+        "correctAnswer": 1,
+        "explanation": "HCl is a strong acid, so [H+] = 0.01 M = 1 × 10⁻² M. pH = -log(1 × 10⁻²) = 2."
+      },
+      {
+        "type": "multiple-choice",
+        "question": "What happens to pH when you dilute an acidic solution by a factor of 10?",
+        "options": ["Decreases by 1", "Increases by 1", "Stays the same", "Becomes neutral"],
+        "correctAnswer": 1,
+        "explanation": "Diluting by 10 decreases [H+] by 10, so pH increases by 1 unit (becomes less acidic)."
+      }
+    ],
+    "exercises": [
+      {
+        "type": "calculation",
+        "title": "pH Calculation Practice",
+        "instructions": "Calculate the pH of: (a) 0.05 M HNO3, (b) 0.02 M Ba(OH)2, (c) 0.1 M acetic acid (Ka = 1.8 × 10⁻⁵), (d) a buffer containing 0.1 M acetic acid and 0.1 M sodium acetate.",
+        "hint": "For strong acids/bases, use direct calculation. For weak acids, use Ka expression and quadratic equation if necessary. For buffers, use Henderson-Hasselbalch equation."
+      }
+    ],
+    "scenarioChallenges": [
+      {
+        "title": "Water Quality Testing in Ghana's Communities",
+        "scenario": "Access to clean water is crucial in Ghana. Many communities rely on wells, rivers, and treated water supplies. Understanding pH is essential for water quality assessment and treatment.",
+        "tasks": [
+          "Calculate the pH of well water samples with known H+ concentrations",
+          "Determine if water treatment is needed based on pH measurements",
+          "Explain how acid rain (from industrial activities) affects the pH of rivers and lakes",
+          "Design a buffer system to maintain optimal pH for water treatment plants"
+        ],
+        "learningObjectives": [
+          "Apply pH calculations to real-world water quality issues",
+          "Understand the importance of pH in environmental chemistry",
+          "Connect chemistry to public health and environmental protection"
+        ],
+        "ghanaContext": "Ghana faces water quality challenges in many regions, with some areas having acidic or alkaline groundwater that affects taste, health, and usability."
+      }
+    ]
+  },
+  "gamification": {
+    "achievements": [
+      {
+        "id": "ph-calculator",
+        "title": "pH Calculator",
+        "description": "Master pH calculations",
+        "xpReward": 90
+      }
+    ],
+    "milestones": [
+      {
+        "id": "calculation-expert",
+        "title": "Calculation Expert",
+        "description": "Solve 25 pH problems correctly",
+        "xpReward": 40
+      }
+    ],
+    "xpRules": {
+      "correctAnswer": 15,
+      "completedExercise": 40,
+      "scenarioChallenge": 60,
+      "moduleCompletion": 90
+    }
+  },
+  "ghanaContext": {
+    "localExamples": ["Well water testing", "River water quality", "Swimming pool maintenance"],
+    "culturalConnections": ["Traditional water purification methods", "Sacred water bodies", "Community water management"],
+    "realWorldApplications": ["Water treatment plants", "Environmental monitoring", "Industrial processes"]
+  },
+  "prerequisites": ["chemistry-acid-base-theories"],
+  "nextModule": "chemistry-salt-formation-properties",
+  "tags": ["chemistry", "ph-calculations", "water-quality", "environmental", "ghana", "shs"]
+}
