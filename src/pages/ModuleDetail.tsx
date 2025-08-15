@@ -224,7 +224,34 @@ const ModuleDetail: React.FC = () => {
                   </section>
                 </div>
               ) : (
-                module.content ? (
+                module.content && typeof module.content === 'object' && module.content.text ? (
+                  <div className="space-y-6">
+                    <section>
+                      <h2 className="text-lg font-semibold">Description</h2>
+                      <p className="text-sm mt-2">{module.description}</p>
+                    </section>
+
+                    <section className="space-y-4">
+                      <h3 className="text-lg font-semibold">Content</h3>
+                      <div className="p-4 rounded-md bg-muted/30">
+                        <h4 className="font-medium">Introduction</h4>
+                        <div
+                          className="prose prose-sm max-w-none mt-2"
+                          dangerouslySetInnerHTML={{ __html: toHTML(module.content.text.introduction) }}
+                        />
+                      </div>
+                      {module.content.text.sections?.map((section, index) => (
+                        <article key={index} className="p-4 rounded-md bg-muted/30">
+                          <h4 className="font-medium">{section.title}</h4>
+                          <div
+                            className="prose prose-sm max-w-none mt-2"
+                            dangerouslySetInnerHTML={{ __html: toHTML(section.content) }}
+                          />
+                        </article>
+                      ))}
+                    </section>
+                  </div>
+                ) : module.content && typeof module.content === 'string' ? (
                   <div className="prose prose-sm max-w-none bg-muted/30 p-4 rounded-lg">
                     <div className="whitespace-pre-wrap text-sm">{module.content}</div>
                   </div>
