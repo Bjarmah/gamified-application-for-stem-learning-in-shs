@@ -1,0 +1,134 @@
+{
+  "id": "ict-html-basics",
+  "title": "HTML Fundamentals for Web Development",
+  "description": "Learn the building blocks of web development by mastering HTML structure, elements, and creating your first web pages.",
+  "subject": "ICT",
+  "level": "SHS 1",
+  "estimatedTime": 45,
+  "xpReward": 80,
+  "achievement": "Web Builder",
+  "achievementDescription": "Create structured web pages using HTML fundamentals",
+  "content": {
+    "text": {
+      "introduction": "HTML (HyperText Markup Language) is the foundation of all websites. It provides the structure and content of web pages using a system of tags and elements. Learning HTML is the first step toward becoming a web developer and understanding how the internet works.",
+      "sections": [
+        {
+          "title": "What is HTML?",
+          "content": "**HTML Basics:**\n• **H**yper**T**ext **M**arkup **L**anguage\n• Standard language for creating web pages\n• Uses tags to structure content\n• Works with CSS for styling and JavaScript for interactivity\n\n**HTML Structure:**\n```html\n<!DOCTYPE html>\n<html>\n  <head>\n    <title>My Ghana Website</title>\n  </head>\n  <body>\n    <h1>Welcome to Ghana</h1>\n    <p>This is my first webpage!</p>\n  </body>\n</html>\n```\n\n**Key Components:**\n• **<!DOCTYPE html>:** Tells browser this is HTML5\n• **<html>:** Root element containing all content\n• **<head>:** Contains metadata (not displayed)\n• **<body>:** Contains visible page content\n• **Tags:** Keywords enclosed in angle brackets\n• **Elements:** Complete tag pairs with content"
+        },
+        {
+          "title": "Essential HTML Tags",
+          "content": "**Text Structure Tags:**\n• `<h1>` to `<h6>`: Headings (largest to smallest)\n• `<p>`: Paragraphs\n• `<br>`: Line break\n• `<strong>`: Bold text (important)\n• `<em>`: Italicized text (emphasis)\n\n**List Tags:**\n• `<ul>`: Unordered (bulleted) list\n• `<ol>`: Ordered (numbered) list\n• `<li>`: List item\n\n**Link and Image Tags:**\n• `<a href=\"URL\">`: Links to other pages\n• `<img src=\"image.jpg\" alt=\"description\">`: Images\n\n**Container Tags:**\n• `<div>`: Generic container (block-level)\n• `<span>`: Generic container (inline)\n\n**Example:**\n```html\n<h1>Ghana's Beautiful Regions</h1>\n<p>Ghana has <strong>16 regions</strong> with unique attractions:</p>\n<ul>\n  <li>Greater Accra - Capital region</li>\n  <li>Ashanti - Cultural heartland</li>\n  <li>Western - Gold and cocoa region</li>\n</ul>\n```"
+        },
+        {
+          "title": "HTML Attributes",
+          "content": "**What are Attributes?**\n• Additional information about elements\n• Written inside opening tags\n• Come in name=\"value\" pairs\n• Modify element behavior or appearance\n\n**Common Attributes:**\n• **id**: Unique identifier for element\n• **class**: Groups elements for styling\n• **src**: Source file for images/media\n• **href**: Destination for links\n• **alt**: Alternative text for images\n• **title**: Tooltip text on hover\n\n**Examples:**\n```html\n<img src=\"accra.jpg\" alt=\"Accra skyline\" title=\"Beautiful Accra\">\n<a href=\"https://ghana.gov.gh\" title=\"Official Ghana website\">Visit Ghana.gov.gh</a>\n<div id=\"header\" class=\"main-section\">Header content</div>\n<p class=\"highlight\">Important announcement</p>\n```\n\n**Best Practices:**\n• Always use alt attributes for images\n• Use meaningful id and class names\n• Quote all attribute values\n• Keep attributes organized and readable"
+        },
+        {
+          "title": "Creating Your First Ghana Website",
+          "content": "**Project: Ghana Tourism Page**\n\n**Step 1: Basic Structure**\n```html\n<!DOCTYPE html>\n<html>\n<head>\n  <title>Visit Ghana - Gateway to Africa</title>\n</head>\n<body>\n  <!-- Content goes here -->\n</body>\n</html>\n```\n\n**Step 2: Add Content**\n• Header with Ghana flag and title\n• Navigation menu\n• Main content sections\n• Images of tourist attractions\n• Footer with contact information\n\n**Step 3: Use Semantic HTML**\n• `<header>`: Top section with title/logo\n• `<nav>`: Navigation menu\n• `<main>`: Primary content area\n• `<section>`: Themed content blocks\n• `<article>`: Independent content pieces\n• `<footer>`: Bottom section with info\n\n**Step 4: Test Your Page**\n• Open in different browsers\n• Check all links work\n• Verify images display correctly\n• Validate HTML using W3C validator"
+        }
+      ]
+    },
+    "questions": [
+      {
+        "type": "multiple-choice",
+        "question": "Which HTML tag is used for the largest heading?",
+        "options": ["<h6>", "<header>", "<h1>", "<title>"],
+        "correctAnswer": 2,
+        "explanation": "The <h1> tag creates the largest heading, with headings getting smaller from h1 to h6."
+      },
+      {
+        "type": "multiple-choice",
+        "question": "What does the 'alt' attribute in an <img> tag provide?",
+        "options": ["Image source", "Alternative text description", "Image alignment", "Image size"],
+        "correctAnswer": 1,
+        "explanation": "The 'alt' attribute provides alternative text that describes the image for accessibility and when images can't load."
+      }
+    ],
+    "exercises": [
+      {
+        "type": "coding-practice",
+        "title": "Ghana School Website",
+        "instructions": "Create a complete HTML page for a Ghanaian school including header, navigation, content sections, and footer.",
+        "hint": "Use semantic HTML5 elements and include proper headings, lists, links, and images."
+      },
+      {
+        "type": "validation-practice",
+        "title": "HTML Code Review",
+        "instructions": "Review and fix HTML code samples, identifying and correcting common errors.",
+        "hint": "Check for proper tag closure, attribute formatting, and semantic structure."
+      }
+    ],
+    "scenarioChallenges": [
+      {
+        "title": "Ghana National Museum Website",
+        "scenario": "The Ghana National Museum wants to create their first website to showcase Ghana's rich history and cultural artifacts. They need a professional, informative website that highlights their exhibits, provides visitor information, and educates people about Ghana's heritage.",
+        "tasks": [
+          "Create a complete HTML structure with semantic elements",
+          "Design a homepage featuring museum highlights",
+          "Build an exhibits page with artifact descriptions and images",
+          "Create a visitor information page with hours, location, and contact details",
+          "Add a Ghanaian history timeline using lists and headings",
+          "Include proper navigation between all pages",
+          "Ensure all content is accessible with proper alt text and headings",
+          "Validate HTML code for web standards compliance"
+        ],
+        "learningObjectives": [
+          "Apply HTML fundamentals to create a multi-page website",
+          "Use semantic HTML5 elements appropriately",
+          "Implement proper navigation and link structure",
+          "Create accessible web content following best practices",
+          "Understand the role of HTML in preserving and sharing cultural heritage"
+        ],
+        "ghanaContext": "The Ghana National Museum, located in Accra, houses important artifacts and exhibits that tell the story of Ghana's rich history, from ancient kingdoms to independence and beyond."
+      }
+    ]
+  },
+  "gamification": {
+    "achievements": [
+      {
+        "id": "markup-master",
+        "title": "Markup Master",
+        "description": "Create valid HTML pages using 20 different HTML tags",
+        "xpReward": 70
+      }
+    ],
+    "milestones": [
+      {
+        "id": "first-webpage",
+        "title": "First Webpage",
+        "description": "Create and save your first complete HTML page",
+        "xpReward": 35
+      }
+    ],
+    "xpRules": {
+      "correctAnswer": 15,
+      "completedExercise": 30,
+      "scenarioChallenge": 60,
+      "moduleCompletion": 80
+    }
+  },
+  "ghanaContext": {
+    "localExamples": [
+      "School websites and portals",
+      "Local business landing pages",
+      "Community organization sites",
+      "Government information pages"
+    ],
+    "culturalConnections": [
+      "Digital preservation of cultural heritage",
+      "Online promotion of local traditions",
+      "Educational resource sharing"
+    ],
+    "realWorldApplications": [
+      "E-commerce for local businesses",
+      "Educational institution websites",
+      "Tourism and hospitality online presence",
+      "Government digital services"
+    ]
+  },
+  "prerequisites": ["programming-logic", "computer-basics", "text-editing"],
+  "nextModule": "ict-network-basics",
+  "tags": ["ict", "html", "web-development", "markup", "websites", "ghana", "shs"]
+}

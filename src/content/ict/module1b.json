@@ -1,0 +1,133 @@
+{
+  "id": "ict-scratch-programming",
+  "title": "Introduction to Scratch Programming",
+  "description": "Learn programming fundamentals through Scratch's visual programming environment, creating interactive projects and games.",
+  "subject": "ICT",
+  "level": "SHS 1",
+  "estimatedTime": 55,
+  "xpReward": 90,
+  "achievement": "Visual Programmer",
+  "achievementDescription": "Create interactive programs using visual programming concepts",
+  "content": {
+    "text": {
+      "introduction": "Scratch is a visual programming language that makes learning programming fun and accessible. Instead of typing complex code, you drag and drop colorful blocks to create programs. This approach helps beginners understand programming concepts while creating games, animations, and interactive stories.",
+      "sections": [
+        {
+          "title": "Getting Started with Scratch",
+          "content": "**What is Scratch?**\n• Visual programming language developed by MIT\n• Uses drag-and-drop blocks instead of text code\n• Perfect for beginners to learn programming concepts\n• Free to use online at scratch.mit.edu\n\n**Scratch Interface:**\n• **Stage:** Where your program runs and displays output\n• **Sprites:** Characters or objects in your program\n• **Scripts Area:** Where you build programs with blocks\n• **Blocks Palette:** Library of programming blocks\n• **Costumes:** Different appearances for sprites\n• **Sounds:** Audio files for your projects\n\n**Basic Concepts:**\n• Programs are built by connecting blocks\n• Each sprite can have its own scripts\n• Green flag starts the program\n• Red button stops the program"
+        },
+        {
+          "title": "Programming Concepts in Scratch",
+          "content": "**Sequence:** Blocks execute in order from top to bottom\n```\nWhen green flag clicked\nSay \"Hello Ghana!\" for 2 seconds\nMove 10 steps\nPlay sound \"pop\"\n```\n\n**Selection (Conditionals):** Making decisions\n```\nIf <touching edge?> then\n  Turn 180 degrees\nEnd\n```\n\n**Iteration (Loops):** Repeating actions\n```\nRepeat 4 times\n  Move 100 steps\n  Turn 90 degrees\nEnd\n```\n\n**Variables:** Storing and using data\n```\nSet [score] to 0\nChange [score] by 10\nSay [score] for 2 seconds\n```\n\n**Events:** Starting scripts based on actions\n• When green flag clicked\n• When key pressed\n• When sprite clicked\n• When I receive message"
+        },
+        {
+          "title": "Creating Your First Project",
+          "content": "**Ghana Flag Animation Project:**\n\n**Step 1:** Create sprites for flag colors\n• Red rectangle sprite\n• Yellow rectangle sprite  \n• Green rectangle sprite\n• Black star sprite\n\n**Step 2:** Position sprites\n• Red at top\n• Yellow in middle\n• Green at bottom\n• Star in center of yellow\n\n**Step 3:** Add animation\n• Make flag wave using costume changes\n• Add sound effects\n• Create interactive buttons\n\n**Programming Blocks Needed:**\n• Motion blocks (go to x: y:)\n• Looks blocks (switch costume)\n• Sound blocks (play sound)\n• Events blocks (when clicked)\n• Control blocks (forever, wait)"
+        },
+        {
+          "title": "Advanced Scratch Features",
+          "content": "**Custom Blocks (Functions):**\nCreate reusable code blocks for complex actions\n• Define new block \"draw polygon\"\n• Use parameters for flexibility\n• Reduces code repetition\n\n**Broadcasting (Communication):**\nSprites can send messages to each other\n```\nBroadcast \"game over\"\nWhen I receive \"game over\"\n  Stop all sounds\n  Say \"Thanks for playing!\"\n```\n\n**Lists (Arrays):**\nStore multiple pieces of data\n• Ghana regions list\n• High scores\n• Student names\n\n**Sensing Blocks:**\nInteract with users and environment\n• Ask questions and wait for answers\n• Detect mouse position\n• Check if keys are pressed\n• Use camera for motion detection"
+        }
+      ]
+    },
+    "questions": [
+      {
+        "type": "multiple-choice",
+        "question": "Which Scratch block category contains the 'forever' loop block?",
+        "options": ["Motion", "Control", "Events", "Sensing"],
+        "correctAnswer": 1,
+        "explanation": "Control blocks manage program flow, including loops like 'forever', 'repeat', and conditional statements."
+      },
+      {
+        "type": "multiple-choice",
+        "question": "What happens when you click the green flag in Scratch?",
+        "options": ["Saves the project", "Starts scripts with 'when green flag clicked'", "Creates a new sprite", "Opens help menu"],
+        "correctAnswer": 1,
+        "explanation": "The green flag triggers all scripts that start with the 'when green flag clicked' event block."
+      }
+    ],
+    "exercises": [
+      {
+        "type": "project-creation",
+        "title": "Ghana Cultural Animations",
+        "instructions": "Create interactive animations showcasing Ghanaian culture, festivals, or landmarks using Scratch.",
+        "hint": "Start with simple movements and gradually add more complex interactions and sounds."
+      },
+      {
+        "type": "game-development",
+        "title": "Simple Ghana-themed Games",
+        "instructions": "Develop basic games incorporating Ghanaian elements like traditional foods, animals, or geography.",
+        "hint": "Use sprites, scoring systems, and collision detection to create engaging gameplay."
+      }
+    ],
+    "scenarioChallenges": [
+      {
+        "title": "Ghana Geography Learning Game",
+        "scenario": "Create an educational game to help students learn Ghana's 16 regions and their capitals. The game should be interactive, fun, and provide feedback to help students learn. Include features like scoring, hints, and multiple difficulty levels.",
+        "tasks": [
+          "Design game interface with Ghana map sprite",
+          "Create sprites for each region that highlight when clicked",
+          "Implement scoring system for correct answers",
+          "Add hint system for struggling players",
+          "Create different difficulty levels (regions only, capitals only, both)",
+          "Include sound effects and encouraging messages",
+          "Add a leaderboard system using lists"
+        ],
+        "learningObjectives": [
+          "Apply programming concepts to educational game design",
+          "Use variables, lists, and conditional statements effectively",
+          "Create user-friendly interfaces with clear feedback",
+          "Implement game mechanics like scoring and levels",
+          "Understand the connection between programming and education"
+        ],
+        "ghanaContext": "Educational games can make learning Ghana's geography more engaging for students, helping them better understand their country's administrative structure and regional diversity."
+      }
+    ]
+  },
+  "gamification": {
+    "achievements": [
+      {
+        "id": "sprite-animator",
+        "title": "Sprite Animator",
+        "description": "Create 5 different animated sprites with custom costumes",
+        "xpReward": 60
+      }
+    ],
+    "milestones": [
+      {
+        "id": "first-program",
+        "title": "First Program",
+        "description": "Complete your first working Scratch program",
+        "xpReward": 40
+      }
+    ],
+    "xpRules": {
+      "correctAnswer": 20,
+      "completedExercise": 40,
+      "scenarioChallenge": 80,
+      "moduleCompletion": 90
+    }
+  },
+  "ghanaContext": {
+    "localExamples": [
+      "Adinkra symbol animations",
+      "Traditional dance movements",
+      "Local animal behaviors",
+      "Market scene simulations"
+    ],
+    "culturalConnections": [
+      "Storytelling through interactive media",
+      "Traditional games digitization",
+      "Cultural education tools"
+    ],
+    "realWorldApplications": [
+      "Educational software development",
+      "Interactive learning materials",
+      "Game-based learning systems",
+      "Creative digital expression"
+    ]
+  },
+  "prerequisites": ["programming-logic", "computer-basics"],
+  "nextModule": "ict-html-basics",
+  "tags": ["ict", "programming", "scratch", "visual-programming", "games", "ghana", "shs"]
+}

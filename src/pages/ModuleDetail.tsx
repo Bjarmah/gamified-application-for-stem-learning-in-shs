@@ -11,6 +11,10 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { ArrowLeft, Clock, CheckCircle, ListChecks, BookOpen, Play } from "lucide-react";
 import { formatDifficulty, getDifficultyColor } from "@/lib/utils";
 import { findBiologyModuleByTitle } from "@/content/biology";
+import { findChemistryModuleByTitle } from "@/content/chemistry";
+import { findICTModuleByTitle } from "@/content/ict";
+import { findMathematicsModuleByTitle } from "@/content/mathematics";
+import { findPhysicsModuleByTitle } from "@/content/physics";
 
 const ModuleDetail: React.FC = () => {
   const { moduleId, subjectId } = useParams<{ moduleId: string; subjectId: string }>();
@@ -95,7 +99,27 @@ const ModuleDetail: React.FC = () => {
     return getDifficultyColor(formattedDifficulty);
   };
 
-  const structured = findBiologyModuleByTitle(module?.title || null);
+  // Find structured module content based on subject
+  const getStructuredModule = () => {
+    if (!module?.title) return null;
+    
+    switch (module.subject) {
+      case 'Biology':
+        return findBiologyModuleByTitle(module.title);
+      case 'Chemistry':
+        return findChemistryModuleByTitle(module.title);
+      case 'ICT':
+        return findICTModuleByTitle(module.title);
+      case 'Mathematics':
+        return findMathematicsModuleByTitle(module.title);
+      case 'Physics':
+        return findPhysicsModuleByTitle(module.title);
+      default:
+        return null;
+    }
+  };
+  
+  const structured = getStructuredModule();
   const toHTML = (txt?: string) =>
     (txt || "")
       .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')

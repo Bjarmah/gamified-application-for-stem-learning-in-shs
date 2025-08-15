@@ -1,0 +1,130 @@
+{
+  "id": "ict-programming-basics",
+  "title": "Programming Logic & Algorithms",
+  "description": "Master the fundamental concepts of programming logic, problem-solving, and algorithm design using flowcharts and pseudocode.",
+  "subject": "ICT",
+  "level": "SHS 1",
+  "estimatedTime": 50,
+  "xpReward": 85,
+  "achievement": "Logic Master",
+  "achievementDescription": "Master programming logic and algorithm design principles",
+  "content": {
+    "text": {
+      "introduction": "Programming logic forms the foundation of all software development. Before writing code, programmers must think through problems systematically, break them down into steps, and design algorithms to solve them. This logical thinking process is essential for creating efficient, reliable software solutions.",
+      "sections": [
+        {
+          "title": "Understanding Algorithms",
+          "content": "**What is an Algorithm?**\n• A step-by-step procedure to solve a problem\n• Must be precise, unambiguous, and finite\n• Independent of programming language\n• Like a recipe with clear instructions\n\n**Characteristics of Good Algorithms:**\n• **Clear:** Each step is well-defined\n• **Finite:** Has a definite end\n• **Effective:** Actually solves the problem\n• **Efficient:** Uses minimal resources\n\n**Examples:**\n• Making tea: boil water, add tea bag, wait 3 minutes, remove bag\n• Finding maximum number: compare each number with current maximum\n• Sorting names: arrange alphabetically using comparison rules"
+        },
+        {
+          "title": "Flowcharts - Visual Problem Solving",
+          "content": "**Standard Flowchart Symbols:**\n• **Oval:** Start/End (Terminal)\n• **Rectangle:** Process/Action\n• **Diamond:** Decision/Question\n• **Parallelogram:** Input/Output\n• **Circle:** Connector\n• **Arrows:** Flow direction\n\n**Flowchart Rules:**\n• Start with START, end with END\n• One entry point, one exit point per symbol\n• Arrows show flow direction\n• Decision diamonds have Yes/No branches\n\n**Example - Find Largest of 3 Numbers:**\n1. START\n2. Input A, B, C\n3. Is A > B? If Yes, compare A with C; If No, compare B with C\n4. Output the largest\n5. END"
+        },
+        {
+          "title": "Pseudocode - Structured Planning",
+          "content": "**What is Pseudocode?**\n• Informal high-level description of algorithm\n• Uses natural language mixed with programming concepts\n• Bridge between human thinking and code\n• No strict syntax rules\n\n**Common Pseudocode Structures:**\n```\nBEGIN\n  INPUT variable\n  IF condition THEN\n    action\n  ELSE\n    alternative action\n  ENDIF\n  WHILE condition DO\n    repeated action\n  ENDWHILE\n  OUTPUT result\nEND\n```\n\n**Example - Ghana Mobile Money Transfer:**\n```\nBEGIN\n  INPUT sender_number, receiver_number, amount\n  IF amount > balance THEN\n    OUTPUT \"Insufficient funds\"\n  ELSE\n    balance = balance - amount - fee\n    OUTPUT \"Transfer successful\"\n  ENDIF\nEND\n```"
+        },
+        {
+          "title": "Problem-Solving Strategies",
+          "content": "**The 5-Step Problem-Solving Process:**\n\n1. **Understand:** What exactly is the problem?\n2. **Plan:** What approach will you use?\n3. **Divide:** Break into smaller sub-problems\n4. **Implement:** Create algorithm/flowchart/pseudocode\n5. **Review:** Test with different inputs\n\n**Common Problem Types:**\n• **Sequential:** Step-by-step processes\n• **Selection:** Choose between alternatives\n• **Iteration:** Repeat actions\n• **Search:** Find specific information\n• **Sort:** Arrange data in order\n\n**Ghana Context Examples:**\n• Student grade calculation system\n• Inventory management for shop\n• Route planning for delivery services"
+        }
+      ]
+    },
+    "questions": [
+      {
+        "type": "multiple-choice",
+        "question": "Which flowchart symbol represents a decision point?",
+        "options": ["Rectangle", "Diamond", "Oval", "Parallelogram"],
+        "correctAnswer": 1,
+        "explanation": "A diamond shape represents decision points in flowcharts, typically containing yes/no or true/false questions."
+      },
+      {
+        "type": "multiple-choice",
+        "question": "What is the main purpose of pseudocode?",
+        "options": ["To run on computers", "To plan algorithms before coding", "To replace programming languages", "To create flowcharts"],
+        "correctAnswer": 1,
+        "explanation": "Pseudocode helps plan and structure algorithms using natural language before writing actual code."
+      }
+    ],
+    "exercises": [
+      {
+        "type": "algorithm-design",
+        "title": "Ghana School System Algorithms",
+        "instructions": "Create algorithms for common school administration tasks using flowcharts and pseudocode.",
+        "hint": "Break down each problem into clear, logical steps that anyone can follow."
+      },
+      {
+        "type": "flowchart-creation",
+        "title": "Everyday Problem Flowcharts",
+        "instructions": "Design flowcharts for everyday Ghanaian scenarios like market shopping or mobile money transactions.",
+        "hint": "Use proper flowchart symbols and ensure all paths lead to an endpoint."
+      }
+    ],
+    "scenarioChallenges": [
+      {
+        "title": "Ghana National ID Registration System",
+        "scenario": "The National Identification Authority needs an algorithm to process citizen registrations. The system must check if the applicant is 18+ years old, has valid documents (birth certificate OR passport), and hasn't registered before. If eligible, generate a Ghana Card number; if not, provide specific error messages.",
+        "tasks": [
+          "Create a detailed flowchart for the registration process",
+          "Write comprehensive pseudocode for the algorithm",
+          "Identify all possible decision points and outcomes",
+          "Design error handling for each rejection scenario",
+          "Plan how to generate unique ID numbers"
+        ],
+        "learningObjectives": [
+          "Apply algorithmic thinking to real government systems",
+          "Design complex decision-making processes",
+          "Create comprehensive error handling strategies",
+          "Understand system validation requirements"
+        ],
+        "ghanaContext": "The Ghana Card is the official national identity document, and the registration process involves multiple verification steps to ensure data integrity and prevent fraud."
+      }
+    ]
+  },
+  "gamification": {
+    "achievements": [
+      {
+        "id": "algorithm-architect",
+        "title": "Algorithm Architect",
+        "description": "Design 10 different algorithms using flowcharts and pseudocode",
+        "xpReward": 70
+      }
+    ],
+    "milestones": [
+      {
+        "id": "first-flowchart",
+        "title": "First Flowchart",
+        "description": "Create your first complete flowchart",
+        "xpReward": 30
+      }
+    ],
+    "xpRules": {
+      "correctAnswer": 20,
+      "completedExercise": 35,
+      "scenarioChallenge": 70,
+      "moduleCompletion": 85
+    }
+  },
+  "ghanaContext": {
+    "localExamples": [
+      "Mobile money transaction algorithms",
+      "School grading system logic",
+      "Market pricing calculation methods",
+      "Transportation route optimization"
+    ],
+    "culturalConnections": [
+      "Traditional problem-solving methods",
+      "Community decision-making processes",
+      "Agricultural planning strategies"
+    ],
+    "realWorldApplications": [
+      "Government service digitization",
+      "Banking system automation",
+      "Healthcare management systems",
+      "Educational technology solutions"
+    ]
+  },
+  "prerequisites": ["basic-mathematics", "logical-thinking"],
+  "nextModule": "ict-scratch-programming",
+  "tags": ["ict", "programming", "algorithms", "logic", "flowcharts", "ghana", "shs"]
+}
