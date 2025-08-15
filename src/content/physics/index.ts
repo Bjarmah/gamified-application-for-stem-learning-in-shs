@@ -2,6 +2,11 @@ import module1 from './module1.json';
 import module2 from './module2.json';
 import module3 from './module3.json';
 
+// Forces and Motion submodules
+import module1a from './module1a.json';
+import module1b from './module1b.json';
+import module1c from './module1c.json';
+
 export interface StructuredModule {
   id: string;
   title: string;
@@ -146,6 +151,11 @@ const mapByTitle: Record<string, StructuredModule> = {
   'Forces and Motion': convertPhysicsModule(module1, 0),
   'Waves and Sound': convertPhysicsModule(module2, 1),
   'Electricity and Magnetism': convertPhysicsModule(module3, 2),
+  
+  // Submodules
+  'Kinematics - Motion in One Dimension': module1a,
+  'Dynamics - Forces and Newton\'s Laws': module1b,
+  'Work, Energy, and Power': module1c,
 };
 
 // Utility function to find a module by title
@@ -157,7 +167,10 @@ export const findPhysicsModuleByTitle = (title: string): StructuredModule | unde
 export const physicsModules: StructuredModule[] = [
   convertPhysicsModule(module1, 0),
   convertPhysicsModule(module2, 1),
-  convertPhysicsModule(module3, 2)
+  convertPhysicsModule(module3, 2),
+  
+  // Add all submodules
+  module1a, module1b, module1c
 ];
 
 // Export individual modules

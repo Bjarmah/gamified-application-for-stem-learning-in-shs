@@ -1,0 +1,129 @@
+{
+  "id": "mathematics-quadratic-introduction",
+  "title": "Introduction to Quadratic Functions",
+  "description": "Discover the fundamentals of quadratic functions, their characteristics, and how they model real-world parabolic relationships.",
+  "subject": "Mathematics",
+  "level": "SHS 2",
+  "estimatedTime": 45,
+  "xpReward": 85,
+  "achievement": "Quadratic Explorer",
+  "achievementDescription": "Understand the basic structure and behavior of quadratic functions",
+  "content": {
+    "text": {
+      "introduction": "Quadratic functions are polynomial functions of degree 2, with the general form f(x) = ax² + bx + c. Unlike linear functions that create straight lines, quadratic functions create parabolas - curved shapes that appear everywhere in nature and technology, from the path of thrown objects to the design of satellite dishes.",
+      "sections": [
+        {
+          "title": "Understanding Quadratic Functions",
+          "content": "**General Form:** f(x) = ax² + bx + c\nWhere:\n• a ≠ 0 (coefficient of x²)\n• b is the coefficient of x\n• c is the constant term\n\n**Examples:**\n• f(x) = x² (simplest quadratic)\n• f(x) = 2x² - 3x + 1\n• f(x) = -x² + 4x - 2\n\n**Key Characteristic:** The highest power of x is 2, creating a U-shaped curve called a parabola."
+        },
+        {
+          "title": "Parts of a Parabola",
+          "content": "**Vertex:** The highest or lowest point of the parabola\n• Maximum point if a < 0 (opens downward)\n• Minimum point if a > 0 (opens upward)\n\n**Axis of Symmetry:** Vertical line through the vertex\n• Formula: x = -b/(2a)\n• Parabola is symmetric about this line\n\n**Y-intercept:** Where the parabola crosses the y-axis\n• Always at point (0, c)\n\n**X-intercepts (Roots):** Where the parabola crosses the x-axis\n• Found by solving ax² + bx + c = 0"
+        },
+        {
+          "title": "Direction of Opening",
+          "content": "**The coefficient 'a' determines direction:**\n\n**When a > 0:**\n• Parabola opens upward (∪)\n• Has a minimum point (vertex)\n• Example: f(x) = x² + 2x + 1\n\n**When a < 0:**\n• Parabola opens downward (∩)\n• Has a maximum point (vertex)\n• Example: f(x) = -x² + 4x - 1\n\n**The larger |a|, the narrower the parabola**"
+        },
+        {
+          "title": "Real-World Applications in Ghana",
+          "content": "**Projectile Motion:**\nWhen a football is kicked at Cape Coast Stadium, its path follows a parabola. The height h after t seconds might be: h(t) = -5t² + 20t + 2\n\n**Business Revenue:**\nA kenkey seller finds that revenue R depends on price p: R(p) = -10p² + 100p. This helps find the optimal price for maximum revenue.\n\n**Architecture:**\nThe arch of the Kwame Nkrumah Memorial follows a parabolic shape for structural strength and aesthetic beauty."
+        }
+      ]
+    },
+    "questions": [
+      {
+        "type": "multiple-choice",
+        "question": "For f(x) = -2x² + 4x - 1, which way does the parabola open?",
+        "options": ["Upward", "Downward", "Neither", "Both directions"],
+        "correctAnswer": 1,
+        "explanation": "Since a = -2 < 0, the parabola opens downward and has a maximum point."
+      },
+      {
+        "type": "multiple-choice",
+        "question": "What is the y-intercept of f(x) = 3x² - 2x + 5?",
+        "options": ["3", "-2", "5", "0"],
+        "correctAnswer": 2,
+        "explanation": "The y-intercept occurs when x = 0, so f(0) = 5. The y-intercept is always the constant term c."
+      }
+    ],
+    "exercises": [
+      {
+        "type": "identification",
+        "title": "Quadratic Components",
+        "instructions": "Identify the values of a, b, c and describe the parabola's characteristics.",
+        "hint": "Remember: a affects direction and width, b affects the axis of symmetry, c is the y-intercept."
+      },
+      {
+        "type": "graphing",
+        "title": "Sketching Parabolas",
+        "instructions": "Graph quadratic functions by identifying key features before plotting points.",
+        "hint": "Start with the vertex and y-intercept, then use symmetry to find more points."
+      }
+    ],
+    "scenarioChallenges": [
+      {
+        "title": "Ghana Sports Stadium Design",
+        "scenario": "Engineers are designing a new sports complex in Tamale. The roof structure follows a parabolic arch described by h(x) = -0.1x² + 4x, where x is the horizontal distance from one end and h is the height in meters.",
+        "tasks": [
+          "Determine the maximum height of the arch",
+          "Find the width of the arch at ground level",
+          "Calculate the height at the center of the arch",
+          "Explain why this parabolic shape is structurally advantageous"
+        ],
+        "learningObjectives": [
+          "Apply quadratic functions to architectural problems",
+          "Find vertex and roots of parabolas",
+          "Interpret quadratic models in context",
+          "Connect mathematics to engineering applications"
+        ],
+        "ghanaContext": "Ghana has been investing in modern sports infrastructure, with new stadiums and complexes being built across the country for various sporting events and community activities."
+      }
+    ]
+  },
+  "gamification": {
+    "achievements": [
+      {
+        "id": "parabola-identifier",
+        "title": "Parabola Identifier",
+        "description": "Correctly identify parts of 10 different parabolas",
+        "xpReward": 50
+      }
+    ],
+    "milestones": [
+      {
+        "id": "vertex-finder",
+        "title": "Vertex Finder",
+        "description": "Successfully locate the vertex of your first parabola",
+        "xpReward": 25
+      }
+    ],
+    "xpRules": {
+      "correctAnswer": 15,
+      "completedExercise": 30,
+      "scenarioChallenge": 60,
+      "moduleCompletion": 85
+    }
+  },
+  "ghanaContext": {
+    "localExamples": [
+      "Traditional pottery shapes",
+      "Water fountain designs",
+      "Satellite dish curvature",
+      "Bridge arch construction"
+    ],
+    "culturalConnections": [
+      "Traditional architecture curved elements",
+      "Artistic patterns in Kente cloth",
+      "Musical instrument resonance chambers"
+    ],
+    "realWorldApplications": [
+      "Telecommunications antenna design",
+      "Solar panel positioning",
+      "Agricultural sprinkler systems",
+      "Traffic light optimization"
+    ]
+  },
+  "prerequisites": ["linear-functions", "coordinate-plane", "basic-graphing"],
+  "nextModule": "mathematics-solving-quadratics",
+  "tags": ["mathematics", "algebra", "quadratic", "functions", "parabola", "ghana", "shs"]
+}

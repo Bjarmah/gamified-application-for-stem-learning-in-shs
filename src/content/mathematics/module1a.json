@@ -1,0 +1,127 @@
+{
+  "id": "mathematics-solving-linear-equations",
+  "title": "Solving Linear Equations",
+  "description": "Master the fundamentals of solving single-variable linear equations with step-by-step methods and real-world applications.",
+  "subject": "Mathematics",
+  "level": "SHS 1",
+  "estimatedTime": 45,
+  "xpReward": 75,
+  "achievement": "Equation Solver",
+  "achievementDescription": "Successfully solve various types of linear equations",
+  "content": {
+    "text": {
+      "introduction": "Linear equations are the foundation of algebra and essential for solving real-world problems. A linear equation in one variable has the form ax + b = c, where a, b, and c are constants and x is the variable. Understanding how to manipulate and solve these equations is crucial for advanced mathematical concepts.",
+      "sections": [
+        {
+          "title": "What are Linear Equations?",
+          "content": "A linear equation is an algebraic equation where the highest power of the variable is 1. Examples include:\n\n• 2x + 5 = 11\n• 3x - 7 = 14\n• x/4 + 2 = 6\n\nThese equations represent straight lines when graphed, hence the term 'linear'. The goal is to find the value of the variable that makes the equation true."
+        },
+        {
+          "title": "Step-by-Step Solution Methods",
+          "content": "**The PEMDAS Approach:**\n1. **Simplify** both sides if needed\n2. **Add or subtract** to get variables on one side\n3. **Multiply or divide** to isolate the variable\n4. **Check** your answer\n\n**Example:** Solve 3x + 7 = 22\n• Step 1: 3x + 7 = 22\n• Step 2: 3x = 22 - 7 = 15\n• Step 3: x = 15/3 = 5\n• Step 4: Check: 3(5) + 7 = 15 + 7 = 22 ✓"
+        },
+        {
+          "title": "Common Equation Types",
+          "content": "**Type 1: Simple Addition/Subtraction**\nx + 5 = 12 → x = 7\n\n**Type 2: Simple Multiplication/Division**\n3x = 15 → x = 5\n\n**Type 3: Two-Step Equations**\n2x + 3 = 11 → x = 4\n\n**Type 4: Variables on Both Sides**\n5x + 2 = 3x + 8 → x = 3\n\n**Type 5: Fractions**\nx/3 + 2 = 5 → x = 9"
+        },
+        {
+          "title": "Real-World Applications in Ghana",
+          "content": "**Market Pricing:**\nIf plantain costs GH₵2 per piece plus GH₵5 transport, and you spend GH₵17 total, how many pieces did you buy?\nEquation: 2x + 5 = 17, so x = 6 pieces\n\n**Mobile Credit:**\nAirtime costs GH₵0.50 per minute plus GH₵1 daily charge. If your bill is GH₵8, how many minutes did you talk?\nEquation: 0.5x + 1 = 8, so x = 14 minutes\n\n**School Supplies:**\nPens cost GH₵3 each. If you need GH₵21 total, how many pens can you buy?\nEquation: 3x = 21, so x = 7 pens"
+        }
+      ]
+    },
+    "questions": [
+      {
+        "type": "multiple-choice",
+        "question": "Solve: 2x + 7 = 15",
+        "options": ["x = 4", "x = 8", "x = 11", "x = 22"],
+        "correctAnswer": 0,
+        "explanation": "Subtract 7 from both sides: 2x = 8. Divide both sides by 2: x = 4."
+      },
+      {
+        "type": "multiple-choice",
+        "question": "What is the first step to solve: 3x - 5 = 16?",
+        "options": ["Divide by 3", "Add 5 to both sides", "Subtract 5", "Multiply by 3"],
+        "correctAnswer": 1,
+        "explanation": "To isolate the variable term 3x, we first add 5 to both sides to eliminate the -5."
+      }
+    ],
+    "exercises": [
+      {
+        "type": "practice",
+        "title": "Basic Linear Equations",
+        "instructions": "Solve these linear equations step by step. Show all your work.",
+        "hint": "Remember to perform the same operation on both sides of the equation."
+      },
+      {
+        "type": "word-problem",
+        "title": "Ghana Market Problems",
+        "instructions": "Convert these real-world scenarios into linear equations and solve.",
+        "hint": "Identify the unknown quantity and the relationship given in the problem."
+      }
+    ],
+    "scenarioChallenges": [
+      {
+        "title": "Small Business Pricing in Ghana",
+        "scenario": "Kwame runs a small phone charging station in Accra. He charges a base fee of GH₵2 plus GH₵1 per hour. Today he earned GH₵11 from one customer.",
+        "tasks": [
+          "Write an equation to represent this situation",
+          "Solve to find how many hours the phone was charged",
+          "Verify your answer makes sense"
+        ],
+        "learningObjectives": [
+          "Translate word problems to equations",
+          "Apply linear equations to business contexts",
+          "Interpret solutions in real-world terms"
+        ],
+        "ghanaContext": "Phone charging stations are common businesses in Ghana, especially in markets and busy areas where people need to charge their devices."
+      }
+    ]
+  },
+  "gamification": {
+    "achievements": [
+      {
+        "id": "equation-master",
+        "title": "Equation Master",
+        "description": "Solve 10 linear equations correctly",
+        "xpReward": 50
+      }
+    ],
+    "milestones": [
+      {
+        "id": "first-solve",
+        "title": "First Solution",
+        "description": "Solve your first linear equation",
+        "xpReward": 25
+      }
+    ],
+    "xpRules": {
+      "correctAnswer": 10,
+      "completedExercise": 25,
+      "scenarioChallenge": 50,
+      "moduleCompletion": 75
+    }
+  },
+  "ghanaContext": {
+    "localExamples": [
+      "Mobile money transaction calculations",
+      "Market vendor pricing strategies",
+      "Transport fare calculations",
+      "School fee payment plans"
+    ],
+    "culturalConnections": [
+      "Traditional trading practices",
+      "Community contribution calculations",
+      "Festival cost planning"
+    ],
+    "realWorldApplications": [
+      "Business profit calculations",
+      "Budget planning for families",
+      "Agricultural yield planning",
+      "Construction material estimates"
+    ]
+  },
+  "prerequisites": ["basic-arithmetic", "understanding-variables"],
+  "nextModule": "mathematics-linear-inequalities",
+  "tags": ["mathematics", "algebra", "equations", "problem-solving", "ghana", "shs"]
+}

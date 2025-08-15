@@ -1,0 +1,129 @@
+{
+  "id": "mathematics-systems-equations",
+  "title": "Systems of Linear Equations",
+  "description": "Solve systems of linear equations using substitution, elimination, and graphical methods with real-world applications.",
+  "subject": "Mathematics",
+  "level": "SHS 1",
+  "estimatedTime": 50,
+  "xpReward": 80,
+  "achievement": "Systems Master",
+  "achievementDescription": "Successfully solve systems of equations using multiple methods",
+  "content": {
+    "text": {
+      "introduction": "A system of linear equations consists of two or more linear equations with the same variables. The solution is the point where all equations intersect - the values that satisfy all equations simultaneously. These systems model many real-world situations where multiple constraints must be satisfied.",
+      "sections": [
+        {
+          "title": "Understanding Systems of Equations",
+          "content": "**What is a System?**\nA system of linear equations looks like:\n• x + y = 5\n• 2x - y = 1\n\nThe solution is the ordered pair (x, y) that makes both equations true.\n\n**Types of Solutions:**\n• **One solution:** Lines intersect at one point\n• **No solution:** Lines are parallel\n• **Infinite solutions:** Lines are identical"
+        },
+        {
+          "title": "Substitution Method",
+          "content": "**Steps for Substitution:**\n1. Solve one equation for one variable\n2. Substitute into the other equation\n3. Solve for the remaining variable\n4. Back-substitute to find the other variable\n\n**Example:** Solve x + y = 7 and 2x - y = 2\n• From equation 1: y = 7 - x\n• Substitute: 2x - (7 - x) = 2\n• Simplify: 2x - 7 + x = 2 → 3x = 9 → x = 3\n• Back-substitute: y = 7 - 3 = 4\n• Solution: (3, 4)"
+        },
+        {
+          "title": "Elimination Method",
+          "content": "**Steps for Elimination:**\n1. Align equations vertically\n2. Multiply to make coefficients opposites\n3. Add equations to eliminate one variable\n4. Solve for remaining variable\n5. Substitute back to find other variable\n\n**Example:** Solve 3x + 2y = 13 and x - 2y = 3\n• Add equations: (3x + 2y) + (x - 2y) = 13 + 3\n• Simplify: 4x = 16 → x = 4\n• Substitute: 4 - 2y = 3 → y = 0.5\n• Solution: (4, 0.5)"
+        },
+        {
+          "title": "Graphical Method",
+          "content": "**Graphical Approach:**\n1. Graph both equations on the same coordinate plane\n2. Find the intersection point\n3. The coordinates of intersection are the solution\n\n**Advantages:**\n• Visual representation of the problem\n• Easy to see if solutions exist\n• Good for understanding the relationship\n\n**Disadvantages:**\n• May not be exact for non-integer solutions\n• Time-consuming for complex systems"
+        }
+      ]
+    },
+    "questions": [
+      {
+        "type": "multiple-choice",
+        "question": "Solve using substitution: x + y = 8 and x - y = 2",
+        "options": ["(5, 3)", "(3, 5)", "(4, 4)", "(6, 2)"],
+        "correctAnswer": 0,
+        "explanation": "From the second equation: x = y + 2. Substitute: (y + 2) + y = 8 → 2y = 6 → y = 3, x = 5."
+      },
+      {
+        "type": "multiple-choice",
+        "question": "Which method is best for the system: 3x + y = 10 and 3x - y = 2?",
+        "options": ["Substitution", "Elimination", "Graphing", "All equally good"],
+        "correctAnswer": 1,
+        "explanation": "Elimination is best because the y-coefficients are opposites, making elimination immediate."
+      }
+    ],
+    "exercises": [
+      {
+        "type": "practice",
+        "title": "Mixed Methods Practice",
+        "instructions": "Solve these systems using the most appropriate method for each.",
+        "hint": "Choose substitution when one variable has coefficient 1, elimination when coefficients can be easily made opposites."
+      },
+      {
+        "type": "application",
+        "title": "Ghana Business Problems",
+        "instructions": "Set up and solve systems of equations based on Ghanaian business scenarios.",
+        "hint": "Define your variables clearly and identify the two relationships in the problem."
+      }
+    ],
+    "scenarioChallenges": [
+      {
+        "title": "Ghana Market Vendor Problem",
+        "scenario": "Ama sells oranges and bananas at Makola Market. On Monday, she sold 20 oranges and 30 bananas for GH₵25. On Tuesday, she sold 15 oranges and 20 bananas for GH₵18. She wants to know the price per fruit.",
+        "tasks": [
+          "Set up a system of equations for this problem",
+          "Solve to find the price of each fruit",
+          "Verify your answer makes sense",
+          "Calculate Ama's revenue if she sells 25 oranges and 35 bananas"
+        ],
+        "learningObjectives": [
+          "Translate complex word problems into systems",
+          "Apply multiple solving methods appropriately",
+          "Verify solutions in real-world contexts",
+          "Use solutions for prediction and planning"
+        ],
+        "ghanaContext": "Makola Market in Accra is one of West Africa's largest markets, where vendors use mathematical skills daily to manage pricing and profits."
+      }
+    ]
+  },
+  "gamification": {
+    "achievements": [
+      {
+        "id": "systems-solver",
+        "title": "Systems Solver",
+        "description": "Solve 10 systems of equations using different methods",
+        "xpReward": 60
+      }
+    ],
+    "milestones": [
+      {
+        "id": "method-master",
+        "title": "Method Master",
+        "description": "Successfully use all three solution methods",
+        "xpReward": 40
+      }
+    ],
+    "xpRules": {
+      "correctAnswer": 15,
+      "completedExercise": 30,
+      "scenarioChallenge": 60,
+      "moduleCompletion": 80
+    }
+  },
+  "ghanaContext": {
+    "localExamples": [
+      "Multi-product pricing strategies",
+      "Resource allocation in farming",
+      "Transportation route optimization",
+      "Investment portfolio balancing"
+    ],
+    "culturalConnections": [
+      "Traditional bartering systems",
+      "Community resource sharing",
+      "Festival planning and budgeting"
+    ],
+    "realWorldApplications": [
+      "Business profit optimization",
+      "Agricultural planning",
+      "Construction project management",
+      "Educational resource allocation"
+    ]
+  },
+  "prerequisites": ["solving-linear-equations", "coordinate-graphing"],
+  "nextModule": "mathematics-quadratic-introduction",
+  "tags": ["mathematics", "algebra", "systems", "problem-solving", "ghana", "shs"]
+}

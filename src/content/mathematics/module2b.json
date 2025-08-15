@@ -1,0 +1,129 @@
+{
+  "id": "mathematics-solving-quadratics",
+  "title": "Solving Quadratic Equations",
+  "description": "Master multiple methods for solving quadratic equations: factoring, completing the square, and the quadratic formula.",
+  "subject": "Mathematics",
+  "level": "SHS 2",
+  "estimatedTime": 55,
+  "xpReward": 90,
+  "achievement": "Equation Master",
+  "achievementDescription": "Successfully solve quadratic equations using all major methods",
+  "content": {
+    "text": {
+      "introduction": "Solving quadratic equations means finding the values of x that make ax² + bx + c = 0 true. These solutions are called roots or zeros, and they represent where the parabola crosses the x-axis. There are several methods to find these solutions, each with its own advantages.",
+      "sections": [
+        {
+          "title": "Factoring Method",
+          "content": "**When to Use:** When the quadratic can be factored easily\n\n**Steps:**\n1. Set equation equal to zero: ax² + bx + c = 0\n2. Factor the left side: (px + q)(rx + s) = 0\n3. Use Zero Product Property: px + q = 0 or rx + s = 0\n4. Solve each equation\n\n**Example:** x² - 5x + 6 = 0\n• Factor: (x - 2)(x - 3) = 0\n• Solutions: x = 2 or x = 3\n\n**Common Factoring Patterns:**\n• x² - a² = (x - a)(x + a)\n• x² + 2ax + a² = (x + a)²"
+        },
+        {
+          "title": "Completing the Square",
+          "content": "**When to Use:** Always works, especially good for finding vertex form\n\n**Steps:**\n1. Move constant to right side\n2. Complete the square on left side\n3. Take square root of both sides\n4. Solve for x\n\n**Example:** x² + 6x - 7 = 0\n• x² + 6x = 7\n• x² + 6x + 9 = 7 + 9\n• (x + 3)² = 16\n• x + 3 = ±4\n• x = -3 ± 4\n• Solutions: x = 1 or x = -7"
+        },
+        {
+          "title": "The Quadratic Formula",
+          "content": "**The Universal Method:** Works for ANY quadratic equation\n\n**Formula:** x = [-b ± √(b² - 4ac)] / (2a)\n\nWhere ax² + bx + c = 0\n\n**The Discriminant:** b² - 4ac\n• If > 0: Two real solutions\n• If = 0: One real solution (repeated root)\n• If < 0: No real solutions\n\n**Example:** 2x² - 7x + 3 = 0\n• a = 2, b = -7, c = 3\n• x = [7 ± √(49 - 24)] / 4\n• x = [7 ± √25] / 4 = [7 ± 5] / 4\n• Solutions: x = 3 or x = 1/2"
+        },
+        {
+          "title": "Choosing the Best Method",
+          "content": "**Factoring:** Try first if coefficients are small integers\n• Fast when it works\n• Not always possible\n\n**Completing the Square:** Good for understanding vertex form\n• Shows the transformation clearly\n• Useful in calculus and advanced topics\n\n**Quadratic Formula:** The reliable backup\n• Always works\n• Essential for non-factorable equations\n• Gives information about number of solutions"
+        }
+      ]
+    },
+    "questions": [
+      {
+        "type": "multiple-choice",
+        "question": "Solve by factoring: x² - 9 = 0",
+        "options": ["x = 3", "x = ±3", "x = 9", "x = ±9"],
+        "correctAnswer": 1,
+        "explanation": "x² - 9 = (x - 3)(x + 3) = 0, so x = 3 or x = -3, written as x = ±3."
+      },
+      {
+        "type": "multiple-choice",
+        "question": "For 3x² - 2x + 5 = 0, what does the discriminant tell us?",
+        "options": ["Two real solutions", "One real solution", "No real solutions", "Cannot determine"],
+        "correctAnswer": 2,
+        "explanation": "Discriminant = (-2)² - 4(3)(5) = 4 - 60 = -56 < 0, so no real solutions."
+      }
+    ],
+    "exercises": [
+      {
+        "type": "method-practice",
+        "title": "Mixed Solution Methods",
+        "instructions": "Solve each equation using the most appropriate method, then verify with another method.",
+        "hint": "Try factoring first, then use the quadratic formula if factoring doesn't work easily."
+      },
+      {
+        "type": "word-problems",
+        "title": "Ghana Real-World Applications",
+        "instructions": "Set up and solve quadratic equations from real-world scenarios in Ghana.",
+        "hint": "Look for situations involving area, projectile motion, or profit maximization."
+      }
+    ],
+    "scenarioChallenges": [
+      {
+        "title": "Ghana Agricultural Planning",
+        "scenario": "Farmer Kofi has 100 meters of fencing to create a rectangular vegetable garden against his house (so one side doesn't need fencing). He wants the garden to have an area of 1200 square meters. The area A of the rectangle is given by A = x(100 - 2x), where x is the width.",
+        "tasks": [
+          "Set up the equation for the desired area",
+          "Solve the quadratic equation to find possible widths",
+          "Determine which solution makes practical sense",
+          "Calculate the dimensions of the optimal garden"
+        ],
+        "learningObjectives": [
+          "Apply quadratic equations to optimization problems",
+          "Interpret solutions in real-world contexts",
+          "Use multiple solution methods appropriately",
+          "Validate answers for practical reasonableness"
+        ],
+        "ghanaContext": "Agriculture is a major sector in Ghana's economy, and farmers often need to optimize land use and resource allocation for maximum productivity."
+      }
+    ]
+  },
+  "gamification": {
+    "achievements": [
+      {
+        "id": "three-method-master",
+        "title": "Three-Method Master",
+        "description": "Solve the same equation using all three methods",
+        "xpReward": 75
+      }
+    ],
+    "milestones": [
+      {
+        "id": "first-quadratic",
+        "title": "First Quadratic",
+        "description": "Solve your first quadratic equation",
+        "xpReward": 30
+      }
+    ],
+    "xpRules": {
+      "correctAnswer": 20,
+      "completedExercise": 35,
+      "scenarioChallenge": 70,
+      "moduleCompletion": 90
+    }
+  },
+  "ghanaContext": {
+    "localExamples": [
+      "Cocoa farm yield optimization",
+      "Construction project planning",
+      "Market stall area calculations",
+      "Transportation route efficiency"
+    ],
+    "culturalConnections": [
+      "Traditional land measurement practices",
+      "Community space allocation",
+      "Festival ground planning"
+    ],
+    "realWorldApplications": [
+      "Business profit optimization",
+      "Engineering design problems",
+      "Scientific modeling",
+      "Economic planning"
+    ]
+  },
+  "prerequisites": ["quadratic-introduction", "factoring-basics", "square-roots"],
+  "nextModule": "mathematics-quadratic-applications",
+  "tags": ["mathematics", "algebra", "quadratic", "solving", "equations", "ghana", "shs"]
+}

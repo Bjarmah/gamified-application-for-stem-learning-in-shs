@@ -1,0 +1,131 @@
+{
+  "id": "physics-energy-work",
+  "title": "Work, Energy, and Power",
+  "description": "Understand the concepts of work, energy, and power, and learn about energy conservation in mechanical systems.",
+  "subject": "Physics",
+  "level": "SHS 1",
+  "estimatedTime": 45,
+  "xpReward": 80,
+  "achievement": "Energy Master",
+  "achievementDescription": "Master the principles of work, energy, and power in physical systems",
+  "content": {
+    "text": {
+      "introduction": "Energy is the capacity to do work, and work is done when a force causes displacement. These concepts are fundamental to understanding all physical processes, from the operation of machines to the motion of celestial bodies. The law of energy conservation tells us that energy cannot be created or destroyed, only transformed from one form to another.",
+      "sections": [
+        {
+          "title": "Work in Physics",
+          "content": "**Definition:** Work is done when a force causes displacement in the direction of the force.\n\n**Mathematical Form:** W = F·d·cos(θ)\n• W = work done (Joules, J)\n• F = applied force (N)\n• d = displacement (m)\n• θ = angle between force and displacement\n\n**Key Points:**\n• Work is a scalar quantity\n• Only force component parallel to motion does work\n• If θ = 90°, no work is done\n• 1 Joule = 1 N·m\n\n**Examples:**\n• Lifting books: W = mgh\n• Pushing cart horizontally: W = F·d\n• Carrying books while walking level: W = 0 (force perpendicular to motion)"
+        },
+        {
+          "title": "Kinetic Energy",
+          "content": "**Definition:** Energy of motion\n\n**Formula:** KE = ½mv²\n• KE = kinetic energy (J)\n• m = mass (kg)\n• v = speed (m/s)\n\n**Key Insights:**\n• Depends on mass and square of velocity\n• Doubling speed quadruples kinetic energy\n• Always positive (v² is always positive)\n\n**Work-Energy Theorem:**\nW_net = ΔKE = KE_final - KE_initial\n• Net work equals change in kinetic energy\n• Positive work increases KE\n• Negative work decreases KE"
+        },
+        {
+          "title": "Potential Energy",
+          "content": "**Gravitational Potential Energy:**\nPE_gravity = mgh\n• m = mass (kg)\n• g = 9.8 m/s² (acceleration due to gravity)\n• h = height above reference level (m)\n\n**Elastic Potential Energy:**\nPE_spring = ½kx²\n• k = spring constant (N/m)\n• x = displacement from equilibrium (m)\n\n**Key Points:**\n• Potential energy depends on position\n• Reference level can be chosen arbitrarily\n• Conservative forces store recoverable energy\n• Non-conservative forces (friction) convert mechanical energy to heat"
+        },
+        {
+          "title": "Conservation of Mechanical Energy",
+          "content": "**Statement:** In the absence of non-conservative forces, total mechanical energy remains constant.\n\n**Mathematical Form:**\nE_mechanical = KE + PE = constant\n½mv² + mgh = constant\n\n**Energy Transformations:**\n• PE → KE (falling object)\n• KE → PE (object thrown upward)\n• Spring compression/extension: PE_elastic ↔ KE\n\n**Power:** Rate of doing work or energy transfer\nP = W/t = F·v (instantaneous power)\n• Units: Watts (W) = J/s\n• 1 horsepower = 746 W"
+        }
+      ]
+    },
+    "questions": [
+      {
+        "type": "multiple-choice",
+        "question": "A 2 kg object moving at 4 m/s has kinetic energy of:",
+        "options": ["8 J", "16 J", "32 J", "4 J"],
+        "correctAnswer": 1,
+        "explanation": "KE = ½mv² = ½(2)(4²) = ½(2)(16) = 16 J"
+      },
+      {
+        "type": "multiple-choice",
+        "question": "If you lift a 5 kg box 2 m high, the work done against gravity is:",
+        "options": ["10 J", "98 J", "49 J", "20 J"],
+        "correctAnswer": 1,
+        "explanation": "W = mgh = (5 kg)(9.8 m/s²)(2 m) = 98 J"
+      }
+    ],
+    "exercises": [
+      {
+        "type": "energy-calculations",
+        "title": "Energy Problem Solving",
+        "instructions": "Calculate work, kinetic energy, and potential energy in various scenarios.",
+        "hint": "Always identify what type of energy transformations are occurring."
+      },
+      {
+        "type": "conservation-analysis",
+        "title": "Energy Conservation Applications",
+        "instructions": "Apply conservation of energy to solve mechanical problems.",
+        "hint": "Set up energy equations: Initial energy = Final energy (when conservative forces only)."
+      }
+    ],
+    "scenarioChallenges": [
+      {
+        "title": "Ghana Hydroelectric Dam Energy Analysis",
+        "scenario": "The Akosombo Dam on the Volta River generates electricity by allowing water to fall through turbines. Water falls from a height of 120 m at a rate of 1000 m³/s. Each cubic meter of water has a mass of 1000 kg. Calculate the power generation potential and analyze the energy transformations involved.",
+        "tasks": [
+          "Calculate the potential energy of water at the top",
+          "Determine the kinetic energy just before hitting turbines",
+          "Calculate the theoretical maximum power generation",
+          "Account for efficiency losses in real turbines (assume 85% efficiency)",
+          "Compare with the dam's actual power output",
+          "Discuss the environmental energy cycle involved"
+        ],
+        "learningObjectives": [
+          "Apply energy concepts to large-scale power generation",
+          "Understand energy transformations in hydroelectric systems",
+          "Calculate power from energy and time relationships",
+          "Connect physics principles to Ghana's energy infrastructure"
+        ],
+        "ghanaContext": "The Akosombo Dam is crucial for Ghana's electricity supply, providing about 60% of the country's electrical energy. Understanding the physics helps appreciate both the benefits and engineering challenges."
+      }
+    ]
+  },
+  "gamification": {
+    "achievements": [
+      {
+        "id": "energy-transformer",
+        "title": "Energy Transformer",
+        "description": "Successfully analyze 10 energy transformation scenarios",
+        "xpReward": 60
+      }
+    ],
+    "milestones": [
+      {
+        "id": "conservation-master",
+        "title": "Conservation Master",
+        "description": "Apply conservation of energy to solve a complex problem",
+        "xpReward": 45
+      }
+    ],
+    "xpRules": {
+      "correctAnswer": 15,
+      "completedExercise": 30,
+      "scenarioChallenge": 60,
+      "moduleCompletion": 80
+    }
+  },
+  "ghanaContext": {
+    "localExamples": [
+      "Traditional water wheel mechanics",
+      "Cocoa bean processing energy requirements",
+      "Solar panel energy conversion",
+      "Manual water pump efficiency"
+    ],
+    "culturalConnections": [
+      "Traditional tool energy efficiency",
+      "Human-powered transportation",
+      "Agricultural energy optimization"
+    ],
+    "realWorldApplications": [
+      "Renewable energy systems design",
+      "Transportation fuel efficiency",
+      "Industrial process optimization",
+      "Sports performance enhancement"
+    ]
+  },
+  "prerequisites": ["dynamics-forces", "basic-trigonometry", "algebra"],
+  "nextModule": "physics-waves-introduction",
+  "tags": ["physics", "mechanics", "energy", "work", "power", "ghana", "shs"]
+}

@@ -1,0 +1,130 @@
+{
+  "id": "mathematics-quadratic-applications",
+  "title": "Quadratic Applications & Modeling",
+  "description": "Apply quadratic functions to solve real-world problems in business, physics, and engineering with Ghana-focused scenarios.",
+  "subject": "Mathematics",
+  "level": "SHS 2",
+  "estimatedTime": 50,
+  "xpReward": 95,
+  "achievement": "Real-World Problem Solver",
+  "achievementDescription": "Successfully model and solve complex real-world problems using quadratic functions",
+  "content": {
+    "text": {
+      "introduction": "Quadratic functions model many real-world situations where relationships involve squared terms. From the trajectory of projectiles to profit maximization in business, quadratics help us understand and optimize various phenomena. Learning to translate word problems into mathematical models is a crucial skill for problem-solving.",
+      "sections": [
+        {
+          "title": "Projectile Motion Problems",
+          "content": "**General Form:** h(t) = -gt²/2 + v₀t + h₀\nWhere:\n• h(t) = height at time t\n• g = acceleration due to gravity (≈ 9.8 m/s²)\n• v₀ = initial velocity\n• h₀ = initial height\n\n**Key Questions:**\n• When does the object hit the ground? (h = 0)\n• What is the maximum height? (find vertex)\n• When does it reach maximum height?\n\n**Example:** A ball is thrown upward from 2m height with initial velocity 15 m/s\n• h(t) = -4.9t² + 15t + 2\n• Maximum height: t = -15/(2×-4.9) = 1.53s\n• h(1.53) = 13.5m"
+        },
+        {
+          "title": "Area and Optimization Problems",
+          "content": "**Common Scenarios:**\n• Maximizing area with fixed perimeter\n• Minimizing perimeter with fixed area\n• Finding optimal dimensions\n\n**Problem-Solving Steps:**\n1. Define variables clearly\n2. Write constraint equation\n3. Express what you're optimizing\n4. Substitute to get one variable\n5. Find vertex of resulting quadratic\n\n**Example:** Rectangle with perimeter 40m\n• If width = x, then length = 20 - x\n• Area = x(20 - x) = 20x - x²\n• Maximum when x = 10m (square gives max area)"
+        },
+        {
+          "title": "Business Revenue Problems",
+          "content": "**Revenue Model:** R = price × quantity = p × q\n\nOften: q = linear function of p\nSo: R = quadratic function of p\n\n**Typical Problem:** As price increases, fewer items sell\n• q = a - bp (demand decreases with price)\n• R = p(a - bp) = ap - bp²\n• Maximum revenue at p = a/(2b)\n\n**Ghana Example:** Kenkey vendor\n• Daily sales: q = 100 - 10p (cedis)\n• Revenue: R = p(100 - 10p) = 100p - 10p²\n• Optimal price: p = 5 cedis"
+        },
+        {
+          "title": "Problem-Solving Strategy",
+          "content": "**The UNDERSTAND Method:**\n\n**U**nderstand what you're asked to find\n**N**ame your variables\n**D**raw a diagram if helpful\n**E**stablish relationships and constraints\n**R**ecognize the quadratic model\n**S**olve the equation or find the vertex\n**T**est your answer for reasonableness\n**A**nswer the original question clearly\n**N**ote any limitations or assumptions\n**D**ouble-check your work"
+        }
+      ]
+    },
+    "questions": [
+      {
+        "type": "multiple-choice",
+        "question": "A ball is thrown upward with equation h(t) = -5t² + 20t + 3. When does it hit the ground?",
+        "options": ["t = 3s", "t = 4.14s", "t = 5s", "t = 20s"],
+        "correctAnswer": 1,
+        "explanation": "Set h(t) = 0: -5t² + 20t + 3 = 0. Using quadratic formula: t = (20 ± √(400 + 60))/10 ≈ 4.14s (taking positive root)."
+      },
+      {
+        "type": "multiple-choice",
+        "question": "For revenue R = 50p - 2p², what price gives maximum revenue?",
+        "options": ["p = 12.5", "p = 25", "p = 50", "p = 100"],
+        "correctAnswer": 0,
+        "explanation": "For R = -2p² + 50p, maximum occurs at p = -50/(2×-2) = 12.5."
+      }
+    ],
+    "exercises": [
+      {
+        "type": "modeling",
+        "title": "Ghana Context Problems",
+        "instructions": "Create mathematical models for these Ghana-based scenarios and solve using quadratic methods.",
+        "hint": "Focus on identifying what you're trying to optimize and what constraints you have."
+      },
+      {
+        "type": "optimization",
+        "title": "Business Applications",
+        "instructions": "Help Ghanaian businesses optimize their operations using quadratic modeling.",
+        "hint": "Remember that maximum/minimum values occur at the vertex of parabolas."
+      }
+    ],
+    "scenarioChallenges": [
+      {
+        "title": "Ghana Mobile Money Business Optimization",
+        "scenario": "Akosua runs a mobile money business in Kumasi. She's noticed that her daily profit P (in cedis) depends on the transaction fee f she charges (in pesewas) according to: P(f) = -2f² + 180f - 1800. She needs to determine the optimal fee to charge and understand her business model better.",
+        "tasks": [
+          "Find the transaction fee that maximizes daily profit",
+          "Calculate the maximum daily profit possible",
+          "Determine the break-even fees (where profit = 0)",
+          "If she must charge at least 30 pesewas per transaction due to operating costs, what's her optimal fee?",
+          "Create a recommendation report for Akosua"
+        ],
+        "learningObjectives": [
+          "Apply quadratic optimization to business scenarios",
+          "Interpret vertex and roots in business contexts",
+          "Consider practical constraints in optimization",
+          "Communicate mathematical findings effectively"
+        ],
+        "ghanaContext": "Mobile money services are extremely popular in Ghana, with many entrepreneurs running mobile money businesses that serve as financial access points for their communities."
+      }
+    ]
+  },
+  "gamification": {
+    "achievements": [
+      {
+        "id": "real-world-modeler",
+        "title": "Real-World Modeler",
+        "description": "Successfully model and solve 5 different types of quadratic applications",
+        "xpReward": 80
+      }
+    ],
+    "milestones": [
+      {
+        "id": "optimization-expert",
+        "title": "Optimization Expert",
+        "description": "Find the optimal solution to a business problem",
+        "xpReward": 50
+      }
+    ],
+    "xpRules": {
+      "correctAnswer": 25,
+      "completedExercise": 40,
+      "scenarioChallenge": 80,
+      "moduleCompletion": 95
+    }
+  },
+  "ghanaContext": {
+    "localExamples": [
+      "Taxi fare optimization strategies",
+      "Agricultural yield maximization",
+      "Market vendor profit analysis",
+      "Construction cost minimization"
+    ],
+    "culturalConnections": [
+      "Traditional trading optimization",
+      "Community resource management",
+      "Festival cost-benefit analysis"
+    ],
+    "realWorldApplications": [
+      "Telecommunications network optimization",
+      "Manufacturing efficiency",
+      "Urban planning and development",
+      "Environmental conservation projects"
+    ]
+  },
+  "prerequisites": ["quadratic-introduction", "solving-quadratics", "word-problem-strategies"],
+  "nextModule": "mathematics-geometry-foundations",
+  "tags": ["mathematics", "algebra", "quadratic", "applications", "modeling", "ghana", "shs"]
+}

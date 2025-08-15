@@ -2,6 +2,16 @@ import module1 from './module1.json';
 import module2 from './module2.json';
 import module3 from './module3.json';
 
+// Linear Equations & Inequalities submodules
+import module1a from './module1a.json';
+import module1b from './module1b.json';
+import module1c from './module1c.json';
+
+// Quadratic Functions submodules
+import module2a from './module2a.json';
+import module2b from './module2b.json';
+import module2c from './module2c.json';
+
 export interface StructuredModule {
   id: string;
   title: string;
@@ -146,6 +156,14 @@ const mapByTitle: Record<string, StructuredModule> = {
   'Linear Equations & Inequalities': convertMathematicsModule(module1, 0),
   'Quadratic Functions': convertMathematicsModule(module2, 1),
   'Geometry & Trigonometry': convertMathematicsModule(module3, 2),
+  
+  // Submodules
+  'Solving Linear Equations': module1a,
+  'Linear Inequalities': module1b,
+  'Systems of Linear Equations': module1c,
+  'Introduction to Quadratic Functions': module2a,
+  'Solving Quadratic Equations': module2b,
+  'Quadratic Applications & Modeling': module2c,
 };
 
 // Utility function to find a module by title
@@ -157,7 +175,11 @@ export const findMathematicsModuleByTitle = (title: string): StructuredModule | 
 export const mathematicsModules: StructuredModule[] = [
   convertMathematicsModule(module1, 0),
   convertMathematicsModule(module2, 1),
-  convertMathematicsModule(module3, 2)
+  convertMathematicsModule(module3, 2),
+  
+  // Add all submodules
+  module1a, module1b, module1c,
+  module2a, module2b, module2c
 ];
 
 // Export individual modules

@@ -1,0 +1,127 @@
+{
+  "id": "mathematics-linear-inequalities",
+  "title": "Linear Inequalities",
+  "description": "Learn to solve and graph linear inequalities, understanding when solutions represent ranges rather than single values.",
+  "subject": "Mathematics",
+  "level": "SHS 1",
+  "estimatedTime": 40,
+  "xpReward": 70,
+  "achievement": "Inequality Explorer",
+  "achievementDescription": "Master the concepts and applications of linear inequalities",
+  "content": {
+    "text": {
+      "introduction": "Linear inequalities are similar to linear equations but use inequality symbols (<, >, ≤, ≥) instead of equals. They represent ranges of values rather than single solutions, making them perfect for real-world situations involving minimum and maximum constraints.",
+      "sections": [
+        {
+          "title": "Understanding Inequality Symbols",
+          "content": "**The Four Main Symbols:**\n• < means 'less than'\n• > means 'greater than'\n• ≤ means 'less than or equal to'\n• ≥ means 'greater than or equal to'\n\n**Examples:**\n• x < 5 means x can be 4, 3, 2, 1, ... but not 5\n• x ≥ 10 means x can be 10, 11, 12, 13, ...\n• 2 < x < 7 means x is between 2 and 7"
+        },
+        {
+          "title": "Solving Linear Inequalities",
+          "content": "**Same Rules as Equations, with ONE Exception:**\n1. Add/subtract the same number from both sides\n2. Multiply/divide by positive numbers normally\n3. **FLIP the inequality sign when multiplying/dividing by negative numbers**\n\n**Example:** Solve -2x + 6 > 12\n• Step 1: -2x + 6 > 12\n• Step 2: -2x > 6\n• Step 3: x < -3 (sign flipped because we divided by -2)\n\n**Check:** If x = -4: -2(-4) + 6 = 14 > 12 ✓"
+        },
+        {
+          "title": "Graphing on Number Lines",
+          "content": "**Open vs. Closed Circles:**\n• Open circle (○) for < or > (value not included)\n• Closed circle (●) for ≤ or ≥ (value included)\n\n**Direction of Arrow:**\n• Arrow points right for > or ≥\n• Arrow points left for < or ≤\n\n**Examples:**\n• x > 3: Open circle at 3, arrow right\n• x ≤ -1: Closed circle at -1, arrow left"
+        },
+        {
+          "title": "Compound Inequalities",
+          "content": "**Two Types:**\n\n**AND Compound (∩):** a < x < b\nExample: -2 < x < 5\nSolution: x is between -2 and 5\n\n**OR Compound (∪):** x < a OR x > b\nExample: x < -1 OR x > 4\nSolution: x is less than -1 or greater than 4"
+        }
+      ]
+    },
+    "questions": [
+      {
+        "type": "multiple-choice",
+        "question": "Solve: -3x + 9 ≤ 15",
+        "options": ["x ≥ -2", "x ≤ -2", "x ≥ 2", "x ≤ 2"],
+        "correctAnswer": 0,
+        "explanation": "Subtract 9: -3x ≤ 6. Divide by -3 (flip sign): x ≥ -2."
+      },
+      {
+        "type": "multiple-choice",
+        "question": "Which graph represents x < 4?",
+        "options": ["Open circle at 4, arrow left", "Closed circle at 4, arrow left", "Open circle at 4, arrow right", "Closed circle at 4, arrow right"],
+        "correctAnswer": 0,
+        "explanation": "x < 4 means values less than 4, so open circle (4 not included) with arrow pointing left."
+      }
+    ],
+    "exercises": [
+      {
+        "type": "practice",
+        "title": "Inequality Solutions",
+        "instructions": "Solve these inequalities and graph the solutions on number lines.",
+        "hint": "Remember to flip the inequality sign when multiplying or dividing by negative numbers."
+      },
+      {
+        "type": "application",
+        "title": "Ghana Budget Planning",
+        "instructions": "Use inequalities to solve budget constraint problems typical in Ghanaian households.",
+        "hint": "Identify whether the constraint is a maximum (≤) or minimum (≥) requirement."
+      }
+    ],
+    "scenarioChallenges": [
+      {
+        "title": "School Fundraising in Ghana",
+        "scenario": "Akosua's class needs to raise at least GH₵500 for a school trip. They sell water for GH₵1 each and have already raised GH₵150. Each student can sell a maximum of 20 bottles.",
+        "tasks": [
+          "Write an inequality for the minimum bottles needed",
+          "If there are 25 students, can they reach their goal?",
+          "What's the range of bottles each student should sell?"
+        ],
+        "learningObjectives": [
+          "Apply inequalities to fundraising scenarios",
+          "Understand minimum and maximum constraints",
+          "Calculate feasible ranges for group activities"
+        ],
+        "ghanaContext": "School fundraising is common in Ghana, with students often selling items or organizing events to support school activities and trips."
+      }
+    ]
+  },
+  "gamification": {
+    "achievements": [
+      {
+        "id": "inequality-solver",
+        "title": "Inequality Solver",
+        "description": "Successfully solve 10 linear inequalities",
+        "xpReward": 50
+      }
+    ],
+    "milestones": [
+      {
+        "id": "sign-flipper",
+        "title": "Sign Flipper",
+        "description": "Correctly flip inequality signs when dividing by negatives",
+        "xpReward": 30
+      }
+    ],
+    "xpRules": {
+      "correctAnswer": 10,
+      "completedExercise": 25,
+      "scenarioChallenge": 50,
+      "moduleCompletion": 70
+    }
+  },
+  "ghanaContext": {
+    "localExamples": [
+      "Minimum wage requirements",
+      "Maximum transport capacity",
+      "Budget constraints for families",
+      "Production quotas for farmers"
+    ],
+    "culturalConnections": [
+      "Traditional resource allocation",
+      "Community project planning",
+      "Market pricing strategies"
+    ],
+    "realWorldApplications": [
+      "Business profit margins",
+      "Academic grade requirements",
+      "Health and safety limits",
+      "Environmental regulations"
+    ]
+  },
+  "prerequisites": ["solving-linear-equations", "number-line-concepts"],
+  "nextModule": "mathematics-systems-equations",
+  "tags": ["mathematics", "algebra", "inequalities", "graphing", "ghana", "shs"]
+}

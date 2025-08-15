@@ -1,0 +1,131 @@
+{
+  "id": "physics-dynamics-forces",
+  "title": "Dynamics - Forces and Newton's Laws",
+  "description": "Explore the relationship between forces and motion through Newton's three fundamental laws of motion.",
+  "subject": "Physics",
+  "level": "SHS 1",
+  "estimatedTime": 55,
+  "xpReward": 85,
+  "achievement": "Force Expert",
+  "achievementDescription": "Master Newton's laws and their applications to various force scenarios",
+  "content": {
+    "text": {
+      "introduction": "Dynamics studies the relationship between forces and motion. Sir Isaac Newton formulated three laws that govern how forces affect the motion of objects. These laws explain everything from why you feel pushed back in an accelerating vehicle to how rockets work.",
+      "sections": [
+        {
+          "title": "Understanding Forces",
+          "content": "**What is a Force?**\n• A push or pull on an object\n• Vector quantity (has magnitude and direction)\n• Units: Newtons (N)\n• 1 N = 1 kg⋅m/s²\n\n**Types of Forces:**\n• **Contact Forces:** Normal, friction, tension, applied force\n• **Non-contact Forces:** Gravitational, electromagnetic\n\n**Force Representation:**\n• Free body diagrams show all forces on an object\n• Arrows represent force vectors\n• Length indicates magnitude\n• Direction shows force direction"
+        },
+        {
+          "title": "Newton's First Law (Law of Inertia)",
+          "content": "**Statement:** An object at rest stays at rest, and an object in motion stays in motion at constant velocity, unless acted upon by a net external force.\n\n**Key Concepts:**\n• **Inertia:** Tendency to resist changes in motion\n• Depends on mass (more mass = more inertia)\n• Net force = 0 means no acceleration\n\n**Examples:**\n• Passenger lurches forward when car brakes suddenly\n• Ball rolls forever on frictionless surface\n• Seatbelts prevent you from continuing forward in crashes\n\n**Mathematical Form:** ΣF = 0 → a = 0"
+        },
+        {
+          "title": "Newton's Second Law (F = ma)",
+          "content": "**Statement:** The net force on an object equals mass times acceleration.\n\n**Mathematical Form:** ΣF = ma\n• ΣF = net force (sum of all forces)\n• m = mass (constant for object)\n• a = acceleration\n\n**Key Insights:**\n• Force and acceleration are in same direction\n• More force → more acceleration\n• More mass → less acceleration for same force\n\n**Problem-Solving Steps:**\n1. Draw free body diagram\n2. Choose coordinate system\n3. Apply ΣF = ma in each direction\n4. Solve for unknown quantities"
+        },
+        {
+          "title": "Newton's Third Law (Action-Reaction)",
+          "content": "**Statement:** For every action force, there is an equal and opposite reaction force.\n\n**Key Points:**\n• Forces always come in pairs\n• Equal in magnitude, opposite in direction\n• Act on different objects\n• Cannot cancel each other (different objects)\n\n**Examples:**\n• You push wall, wall pushes back\n• Earth pulls you down, you pull Earth up\n• Rocket exhaust pushes down, rocket goes up\n• Walking: foot pushes ground back, ground pushes foot forward\n\n**Common Misconceptions:**\n• Action-reaction pairs don't cancel (different objects)\n• Larger object doesn't exert larger force"
+        }
+      ]
+    },
+    "questions": [
+      {
+        "type": "multiple-choice",
+        "question": "A 5 kg object experiences a net force of 20 N. What is its acceleration?",
+        "options": ["2 m/s²", "4 m/s²", "15 m/s²", "25 m/s²"],
+        "correctAnswer": 1,
+        "explanation": "Using F = ma: 20 = 5 × a, so a = 4 m/s²."
+      },
+      {
+        "type": "multiple-choice",
+        "question": "According to Newton's third law, if you push a wall with 50 N force, the wall pushes back with:",
+        "options": ["25 N", "50 N", "100 N", "0 N"],
+        "correctAnswer": 1,
+        "explanation": "Newton's third law states action and reaction forces are equal in magnitude and opposite in direction."
+      }
+    ],
+    "exercises": [
+      {
+        "type": "force-analysis",
+        "title": "Free Body Diagrams",
+        "instructions": "Draw free body diagrams and solve force problems using Newton's laws.",
+        "hint": "Always identify all forces acting on the object and choose a clear coordinate system."
+      },
+      {
+        "type": "application",
+        "title": "Ghana Transport Physics",
+        "instructions": "Apply Newton's laws to analyze various transportation scenarios in Ghana.",
+        "hint": "Consider friction, normal forces, and weight in your analysis."
+      }
+    ],
+    "scenarioChallenges": [
+      {
+        "title": "Ghana Cargo Truck Analysis",
+        "scenario": "A loaded truck carrying cocoa beans has a total mass of 8000 kg. It's traveling up a hill inclined at 15° to the horizontal. The truck's engine provides a driving force of 12,000 N forward, while friction opposes motion with 3,000 N. Calculate the truck's acceleration and analyze the forces involved.",
+        "tasks": [
+          "Draw a complete free body diagram of the truck",
+          "Resolve the weight into components parallel and perpendicular to the incline",
+          "Calculate the net force along the incline",
+          "Determine the truck's acceleration",
+          "Analyze what happens if the engine force is reduced",
+          "Discuss the role of friction in this scenario"
+        ],
+        "learningObjectives": [
+          "Apply Newton's laws to inclined plane problems",
+          "Resolve forces into components",
+          "Understand the relationship between force and acceleration",
+          "Analyze real-world transportation physics"
+        ],
+        "ghanaContext": "Ghana's economy heavily relies on transporting goods like cocoa, timber, and agricultural products across varied terrain. Understanding the physics helps in vehicle design and road safety."
+      }
+    ]
+  },
+  "gamification": {
+    "achievements": [
+      {
+        "id": "force-diagram-master",
+        "title": "Force Diagram Master",
+        "description": "Create 15 accurate free body diagrams",
+        "xpReward": 70
+      }
+    ],
+    "milestones": [
+      {
+        "id": "newtons-laws-applied",
+        "title": "Newton's Laws Applied",
+        "description": "Successfully apply all three of Newton's laws",
+        "xpReward": 40
+      }
+    ],
+    "xpRules": {
+      "correctAnswer": 20,
+      "completedExercise": 35,
+      "scenarioChallenge": 70,
+      "moduleCompletion": 85
+    }
+  },
+  "ghanaContext": {
+    "localExamples": [
+      "Tug-of-war competitions at festivals",
+      "Construction crane operations",
+      "Mining equipment force analysis",
+      "Traditional fishing boat propulsion"
+    ],
+    "culturalConnections": [
+      "Traditional wrestling physics",
+      "Ancient Ghanaian building techniques",
+      "Agricultural tool mechanics"
+    ],
+    "realWorldApplications": [
+      "Vehicle safety systems design",
+      "Bridge and building engineering",
+      "Sports biomechanics",
+      "Industrial machinery operation"
+    ]
+  },
+  "prerequisites": ["kinematics-fundamentals", "vector-basics", "trigonometry"],
+  "nextModule": "physics-energy-work",
+  "tags": ["physics", "mechanics", "forces", "newton-laws", "ghana", "shs"]
+}

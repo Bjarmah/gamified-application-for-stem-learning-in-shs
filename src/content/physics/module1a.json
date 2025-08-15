@@ -1,0 +1,130 @@
+{
+  "id": "physics-kinematics-fundamentals",
+  "title": "Kinematics - Motion in One Dimension",
+  "description": "Understand the fundamental concepts of motion including displacement, velocity, and acceleration in straight-line motion.",
+  "subject": "Physics",
+  "level": "SHS 1",
+  "estimatedTime": 50,
+  "xpReward": 80,
+  "achievement": "Motion Master",
+  "achievementDescription": "Master the principles of one-dimensional motion and kinematics",
+  "content": {
+    "text": {
+      "introduction": "Kinematics is the study of motion without considering the forces that cause it. It forms the foundation of mechanics and helps us describe and predict the motion of objects. Understanding kinematics is essential for analyzing everything from a falling mango to a rocket launch.",
+      "sections": [
+        {
+          "title": "Key Concepts in Motion",
+          "content": "**Position (x):** Where an object is located relative to a reference point\n• Measured from a chosen origin\n• Can be positive or negative\n• Units: meters (m)\n\n**Displacement (Δx):** Change in position\n• Δx = x_final - x_initial\n• Vector quantity (has direction)\n• Different from distance (which is always positive)\n\n**Time Interval (Δt):** Change in time\n• Δt = t_final - t_initial\n• Always positive in physics problems"
+        },
+        {
+          "title": "Velocity - Rate of Position Change",
+          "content": "**Average Velocity:** v_avg = Δx/Δt\n• Total displacement divided by total time\n• Vector quantity (can be negative)\n• Units: m/s\n\n**Instantaneous Velocity:** Velocity at a specific instant\n• Found using calculus (slope of position-time graph)\n• What speedometer shows\n\n**Speed vs. Velocity:**\n• Speed = magnitude of velocity (always positive)\n• Velocity includes direction\n\nExample: A trotro travels 60m east in 10s\n• v_avg = 60m/10s = 6 m/s east"
+        },
+        {
+          "title": "Acceleration - Rate of Velocity Change",
+          "content": "**Average Acceleration:** a_avg = Δv/Δt\n• Change in velocity divided by time interval\n• Vector quantity\n• Units: m/s²\n\n**Types of Acceleration:**\n• **Positive:** Speeding up in positive direction\n• **Negative:** Slowing down or speeding up in negative direction\n• **Zero:** Constant velocity\n\n**Gravitational Acceleration:** g = 9.8 m/s² (downward)\n• Same for all objects near Earth's surface\n• Air resistance may affect real motion"
+        },
+        {
+          "title": "Kinematic Equations",
+          "content": "**For Constant Acceleration:**\n\n1. v = v₀ + at\n2. x = x₀ + v₀t + ½at²\n3. v² = v₀² + 2a(x - x₀)\n4. x = x₀ + ½(v₀ + v)t\n\n**Variables:**\n• x = final position, x₀ = initial position\n• v = final velocity, v₀ = initial velocity\n• a = acceleration\n• t = time\n\n**Problem-Solving Tips:**\n• List known and unknown variables\n• Choose appropriate equation\n• Check if answer makes physical sense"
+        }
+      ]
+    },
+    "questions": [
+      {
+        "type": "multiple-choice",
+        "question": "A car accelerates from rest to 20 m/s in 5 seconds. What is its acceleration?",
+        "options": ["2 m/s²", "4 m/s²", "10 m/s²", "100 m/s²"],
+        "correctAnswer": 1,
+        "explanation": "Using v = v₀ + at: 20 = 0 + a(5), so a = 4 m/s²."
+      },
+      {
+        "type": "multiple-choice",
+        "question": "An object thrown upward at 15 m/s will reach maximum height when:",
+        "options": ["v = 15 m/s", "v = 0 m/s", "v = -15 m/s", "a = 0 m/s²"],
+        "correctAnswer": 1,
+        "explanation": "At maximum height, the velocity is zero before the object starts falling back down."
+      }
+    ],
+    "exercises": [
+      {
+        "type": "calculation",
+        "title": "Kinematic Problem Solving",
+        "instructions": "Practice solving motion problems using the kinematic equations.",
+        "hint": "Always start by identifying what you know and what you need to find."
+      },
+      {
+        "type": "graph-analysis",
+        "title": "Motion Graphs",
+        "instructions": "Interpret position-time, velocity-time, and acceleration-time graphs.",
+        "hint": "Remember that the slope of position vs. time gives velocity, and slope of velocity vs. time gives acceleration."
+      }
+    ],
+    "scenarioChallenges": [
+      {
+        "title": "Ghana Traffic Safety Analysis",
+        "scenario": "A taxi traveling at 60 km/h (16.7 m/s) on the Accra-Tema highway suddenly sees a pothole 50 meters ahead. The driver needs to brake safely without causing an accident. If the taxi can decelerate at a maximum rate of 8 m/s², will it stop in time?",
+        "tasks": [
+          "Convert the speed to appropriate units",
+          "Calculate the stopping distance using kinematic equations",
+          "Determine if the taxi can stop safely",
+          "Find the minimum braking distance needed",
+          "Suggest safety recommendations for similar situations"
+        ],
+        "learningObjectives": [
+          "Apply kinematics to real traffic situations",
+          "Calculate stopping distances for safety analysis",
+          "Understand the relationship between speed and safety",
+          "Use physics to inform traffic safety decisions"
+        ],
+        "ghanaContext": "Road safety is a major concern in Ghana, with many accidents caused by insufficient braking distances. Understanding the physics of motion helps create safer driving practices."
+      }
+    ]
+  },
+  "gamification": {
+    "achievements": [
+      {
+        "id": "equation-solver",
+        "title": "Equation Solver",
+        "description": "Successfully solve 10 kinematics problems using different equations",
+        "xpReward": 60
+      }
+    ],
+    "milestones": [
+      {
+        "id": "first-calculation",
+        "title": "First Calculation",
+        "description": "Complete your first kinematics calculation",
+        "xpReward": 25
+      }
+    ],
+    "xpRules": {
+      "correctAnswer": 15,
+      "completedExercise": 30,
+      "scenarioChallenge": 60,
+      "moduleCompletion": 80
+    }
+  },
+  "ghanaContext": {
+    "localExamples": [
+      "Trotro acceleration and braking patterns",
+      "Football trajectory in local stadiums",
+      "Water pump flow rates",
+      "Elevator motion in tall buildings"
+    ],
+    "culturalConnections": [
+      "Traditional hunting projectile analysis",
+      "Market goods transport efficiency",
+      "Construction material lifting"
+    ],
+    "realWorldApplications": [
+      "Traffic engineering and safety",
+      "Sports performance analysis",
+      "Mechanical system design",
+      "Accident reconstruction"
+    ]
+  },
+  "prerequisites": ["basic-algebra", "unit-conversions", "graphing"],
+  "nextModule": "physics-dynamics-forces",
+  "tags": ["physics", "mechanics", "kinematics", "motion", "ghana", "shs"]
+}
