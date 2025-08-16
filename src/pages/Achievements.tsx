@@ -77,6 +77,166 @@ const Achievements = () => {
         total: 1
       },
       points: 250
+    },
+    {
+      id: "speed-learner",
+      title: "Speed Learner",
+      description: "Complete 3 modules in a single day",
+      category: "Engagement",
+      icon: <BookOpen size={18} />,
+      isUnlocked: true,
+      dateEarned: "May 18, 2025",
+      points: 175
+    },
+    {
+      id: "perfect-streak",
+      title: "Perfect Scholar",
+      description: "Score 100% on 5 consecutive quizzes",
+      category: "Assessment",
+      icon: <Star size={18} />,
+      isUnlocked: false,
+      progress: {
+        current: 3,
+        total: 5
+      },
+      points: 400
+    },
+    {
+      id: "math-genius",
+      title: "Mathematics Genius",
+      description: "Complete all Mathematics modules with 95%+ average",
+      category: "Subject Mastery",
+      icon: <Award size={18} />,
+      isUnlocked: false,
+      progress: {
+        current: 4,
+        total: 8
+      },
+      points: 350
+    },
+    {
+      id: "chemistry-wizard",
+      title: "Chemistry Wizard",
+      description: "Complete all Chemistry modules and pass all lab simulations",
+      category: "Subject Mastery",
+      icon: <Trophy size={18} />,
+      isUnlocked: false,
+      progress: {
+        current: 2,
+        total: 6
+      },
+      points: 350
+    },
+    {
+      id: "physics-master",
+      title: "Physics Master",
+      description: "Complete all Physics modules and experiments",
+      category: "Subject Mastery",
+      icon: <Medal size={18} />,
+      isUnlocked: false,
+      progress: {
+        current: 1,
+        total: 5
+      },
+      points: 350
+    },
+    {
+      id: "biology-expert",
+      title: "Biology Expert",
+      description: "Complete all Biology modules with practical applications",
+      category: "Subject Mastery",
+      icon: <GraduationCap size={18} />,
+      isUnlocked: false,
+      progress: {
+        current: 0,
+        total: 7
+      },
+      points: 350
+    },
+    {
+      id: "early-bird",
+      title: "Early Bird",
+      description: "Complete 10 study sessions before 8 AM",
+      category: "Engagement",
+      icon: <Calendar size={18} />,
+      isUnlocked: false,
+      progress: {
+        current: 3,
+        total: 10
+      },
+      points: 125
+    },
+    {
+      id: "night-owl",
+      title: "Night Owl",
+      description: "Complete 10 study sessions after 9 PM",
+      category: "Engagement",
+      icon: <Star size={18} />,
+      isUnlocked: true,
+      dateEarned: "May 20, 2025",
+      points: 125
+    },
+    {
+      id: "community-helper",
+      title: "Community Helper",
+      description: "Help 20 other students by answering their questions",
+      category: "Community",
+      icon: <Award size={18} />,
+      isUnlocked: false,
+      progress: {
+        current: 8,
+        total: 20
+      },
+      points: 200
+    },
+    {
+      id: "quiz-creator",
+      title: "Quiz Creator",
+      description: "Create 5 custom quizzes for the community",
+      category: "Community",
+      icon: <BookOpen size={18} />,
+      isUnlocked: false,
+      progress: {
+        current: 2,
+        total: 5
+      },
+      points: 300
+    },
+    {
+      id: "month-streak",
+      title: "Dedication Champion",
+      description: "Maintain a 30-day learning streak",
+      category: "Engagement",
+      icon: <Trophy size={18} />,
+      isUnlocked: false,
+      progress: {
+        current: 18,
+        total: 30
+      },
+      points: 500
+    },
+    {
+      id: "lab-enthusiast",
+      title: "Lab Enthusiast",
+      description: "Complete 15 virtual lab experiments",
+      category: "Practical Learning",
+      icon: <Medal size={18} />,
+      isUnlocked: true,
+      dateEarned: "May 22, 2025",
+      points: 225
+    },
+    {
+      id: "game-champion",
+      title: "Game Champion",
+      description: "Achieve high scores in 10 different educational games",
+      category: "Gamification",
+      icon: <Star size={18} />,
+      isUnlocked: false,
+      progress: {
+        current: 6,
+        total: 10
+      },
+      points: 275
     }
   ];
   
@@ -127,6 +287,131 @@ const Achievements = () => {
       id: "stem-champion",
       name: "STEM Champion",
       description: "Complete all modules across all subjects",
+      icon: <GraduationCap size={24} className="text-white" />,
+      isUnlocked: false,
+      rarity: "Legendary" as const
+    },
+    {
+      id: "ict-specialist",
+      name: "ICT Specialist",
+      description: "Master all ICT modules and programming challenges",
+      icon: <Trophy size={24} className="text-white" />,
+      isUnlocked: false,
+      rarity: "Uncommon" as const
+    },
+    {
+      id: "quick-learner",
+      name: "Quick Learner",
+      description: "Complete any module in under 30 minutes",
+      icon: <Star size={24} className="text-white" />,
+      isUnlocked: true,
+      rarity: "Common" as const
+    },
+    {
+      id: "streak-master",
+      name: "Streak Master",
+      description: "Maintain a 14-day learning streak",
+      icon: <Calendar size={24} className="text-white" />,
+      isUnlocked: true,
+      level: 3,
+      rarity: "Uncommon" as const
+    },
+    {
+      id: "lab-genius",
+      name: "Lab Genius",
+      description: "Perfect score on 10 virtual lab experiments",
+      icon: <Medal size={24} className="text-white" />,
+      isUnlocked: false,
+      rarity: "Rare" as const
+    },
+    {
+      id: "quiz-destroyer",
+      name: "Quiz Destroyer",
+      description: "Score 95%+ on 20 different quizzes",
+      icon: <Award size={24} className="text-white" />,
+      isUnlocked: false,
+      rarity: "Rare" as const
+    },
+    {
+      id: "early-adopter",
+      name: "Early Adopter",
+      description: "Join the platform in its first month",
+      icon: <Star size={24} className="text-white" />,
+      isUnlocked: true,
+      rarity: "Common" as const
+    },
+    {
+      id: "social-butterfly",
+      name: "Social Butterfly",
+      description: "Participate in 50 community discussions",
+      icon: <Trophy size={24} className="text-white" />,
+      isUnlocked: false,
+      level: 2,
+      rarity: "Uncommon" as const
+    },
+    {
+      id: "problem-solver",
+      name: "Problem Solver",
+      description: "Solve 100 practice problems across all subjects",
+      icon: <Medal size={24} className="text-white" />,
+      isUnlocked: false,
+      rarity: "Rare" as const
+    },
+    {
+      id: "time-manager",
+      name: "Time Manager",
+      description: "Complete 25 timed study sessions",
+      icon: <Calendar size={24} className="text-white" />,
+      isUnlocked: true,
+      level: 1,
+      rarity: "Common" as const
+    },
+    {
+      id: "game-master",
+      name: "Game Master",
+      description: "Achieve top score in all educational games",
+      icon: <Star size={24} className="text-white" />,
+      isUnlocked: false,
+      rarity: "Epic" as const
+    },
+    {
+      id: "theory-practitioner",
+      name: "Theory Practitioner",
+      description: "Complete theory and apply in 15 lab experiments",
+      icon: <GraduationCap size={24} className="text-white" />,
+      isUnlocked: false,
+      level: 3,
+      rarity: "Rare" as const
+    },
+    {
+      id: "achievement-hunter",
+      name: "Achievement Hunter",
+      description: "Unlock 50% of all available achievements",
+      icon: <Trophy size={24} className="text-white" />,
+      isUnlocked: false,
+      rarity: "Epic" as const
+    },
+    {
+      id: "knowledge-seeker",
+      name: "Knowledge Seeker",
+      description: "Complete modules from all 5 subjects",
+      icon: <BookOpen size={24} className="text-white" />,
+      isUnlocked: true,
+      level: 2,
+      rarity: "Uncommon" as const
+    },
+    {
+      id: "perfectionist",
+      name: "Perfectionist",
+      description: "Maintain 100% completion rate on first 10 modules",
+      icon: <Star size={24} className="text-white" />,
+      isUnlocked: false,
+      rarity: "Epic" as const
+    },
+    {
+      id: "ultimate-scholar",
+      name: "Ultimate Scholar",
+      description: "Achieve mastery level in all subjects with perfect scores",
       icon: <GraduationCap size={24} className="text-white" />,
       isUnlocked: false,
       rarity: "Legendary" as const
