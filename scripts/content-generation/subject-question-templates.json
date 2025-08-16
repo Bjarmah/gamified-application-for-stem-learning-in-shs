@@ -928,7 +928,7 @@
         }
       ]
     },
-    "ict": {
+    "Elective ICT": {
       "mcq": [
         {
           "id": "ict-mcq-basic-001",
@@ -1171,7 +1171,7 @@
       "chemistry",
       "physics",
       "mathematics",
-      "ict"
+      "Elective ICT"
     ],
     "questionTypes": [
       "mcq",

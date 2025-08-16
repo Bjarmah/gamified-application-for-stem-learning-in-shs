@@ -21,7 +21,7 @@
 ### ✅ 3. Run Quick Audit
 **Created**: `content-audit.js` and executed audit
 - **Results**: Identified 70% content gap (6.1 vs 15-20 questions per lesson)
-- **Gaps Found**: Missing question types, insufficient quantity, ICT structure issues
+- **Gaps Found**: Missing question types, insufficient quantity, Elective ICT structure issues
 
 ### ✅ 4. Set Up Content Generation Folder
 **Created**: `scripts/content-generation/` with all necessary tools
@@ -41,7 +41,7 @@
 | Chemistry | 3 | 9 | 54 | 81 | 🔴 High |
 | Physics | 3 | 9 | 62 | 73 | 🔴 High |
 | Mathematics | 3 | 9 | 62 | 73 | 🔴 High |
-| ICT | 3 | 0 | 0 | 45 | 🔴 Critical |
+| Elective ICT | 3 | 0 | 0 | 45 | 🔴 Critical |
 
 **Total Gap**: 364 questions needed across all subjects
 
@@ -49,13 +49,13 @@
 
 ### Phase 1: Critical Structure Fixes (Days 2-3)
 
-#### Day 2: ICT Module Restructuring
-- [ ] **Task 1**: Restructure ICT modules to match standardized format
+#### Day 2: Elective ICT Module Restructuring
+- [ ] **Task 1**: Restructure Elective ICT modules to match standardized format
   - Convert `module1.json`, `module2.json`, `module3.json`
   - Add proper lesson structure with `lessons` array
   - Implement standardized gamification elements
   
-- [ ] **Task 2**: Create ICT lesson content
+- [ ] **Task 2**: Create Elective ICT lesson content
   - Programming Fundamentals (3 lessons)
   - Computer Networks & Internet (3 lessons)  
   - Database Management (3 lessons)
@@ -96,13 +96,13 @@
   - Focus: Real-world applications
   - Include Ghana business and construction scenarios
 
-#### Day 6: ICT Content Creation
-- [ ] **Task 1**: Create complete ICT lesson content
+#### Day 6: Elective ICT Content Creation
+- [ ] **Task 1**: Create complete Elective ICT lesson content
   - Target: 15 questions per lesson
   - Focus: Practical programming and networking
   - Include Ghana digital economy examples
 
-- [ ] **Task 2**: Implement ICT gamification
+- [ ] **Task 2**: Implement Elective ICT gamification
   - Programming achievements and badges
   - Digital skills milestones
   - Tech innovation rewards
@@ -141,7 +141,7 @@
 ## 📈 Success Metrics & Targets
 
 ### Week 1 Targets
-- [ ] **ICT Restructuring**: 100% complete
+- [ ] **Elective ICT Restructuring**: 100% complete
 - [ ] **Question Types**: 8/9 types implemented
 - [ ] **Question Quantity**: 12+ questions per lesson
 - [ ] **Ghana Context**: 90%+ coverage
@@ -243,7 +243,7 @@ Date: _____________
 - [x] Implementation plan documented
 
 ### Week 1 Success Criteria
-- [ ] ICT modules restructured and functional
+- [ ] Elective ICT modules restructured and functional
 - [ ] All question types implemented in frontend
 - [ ] 12+ questions per lesson across all subjects
 - [ ] Ghana context coverage at 90%+
@@ -266,11 +266,11 @@ Date: _____________
 - ✅ Generated gap analysis
 - ✅ Created implementation plan
 
-**Next**: Begin ICT module restructuring and question type implementation.
+**Next**: Begin Elective ICT module restructuring and question type implementation.
 
 **Estimated Timeline**: 6 weeks to full content enhancement
 **Current Progress**: 15% complete (Day 1 of 42 days)
-**Next Milestone**: ICT restructuring complete (Day 3)
+**Next Milestone**: Elective ICT restructuring complete (Day 3)
 
 ---
 

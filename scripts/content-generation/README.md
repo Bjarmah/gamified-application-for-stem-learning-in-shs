@@ -55,7 +55,7 @@ Check the `generated-questions/` folder for output files.
 **Purpose**: Comprehensive analysis of existing content to identify gaps and inconsistencies.
 
 **Features**:
-- Analyzes all subjects (Biology, Chemistry, Physics, Mathematics, ICT)
+- Analyzes all subjects (Biology, Chemistry, Physics, Mathematics, Elective ICT)
 - Identifies missing questions, Ghana context, and structural issues
 - Generates prioritized recommendations
 - Creates detailed gap analysis reports
@@ -127,7 +127,7 @@ The `unified-question-template.json` defines:
 ### Content Gaps Identified
 - **Total Questions Needed**: 364 additional questions
 - **Average Gap**: 70% below target (6.1 vs 15-20 questions per lesson)
-- **Priority Subjects**: ICT (critical), Biology/Chemistry/Physics/Mathematics (high)
+- **Priority Subjects**: Elective ICT (critical), Biology/Chemistry/Physics/Mathematics (high)
 
 ### Question Type Distribution
 - **Missing Types**: Fill-in-blank, short answer, matching, scenario challenges

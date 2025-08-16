@@ -2,7 +2,7 @@
   "id": "ict-programming-basics",
   "title": "Programming Logic & Algorithms",
   "description": "Master the fundamental concepts of programming logic, problem-solving, and algorithm design using flowcharts and pseudocode.",
-  "subject": "ICT",
+  "subject": "Elective ICT",
   "level": "SHS 1",
   "estimatedTime": 50,
   "xpReward": 85,
@@ -34,14 +34,24 @@
       {
         "type": "multiple-choice",
         "question": "Which flowchart symbol represents a decision point?",
-        "options": ["Rectangle", "Diamond", "Oval", "Parallelogram"],
+        "options": [
+          "Rectangle",
+          "Diamond",
+          "Oval",
+          "Parallelogram"
+        ],
         "correctAnswer": 1,
         "explanation": "A diamond shape represents decision points in flowcharts, typically containing yes/no or true/false questions."
       },
       {
         "type": "multiple-choice",
         "question": "What is the main purpose of pseudocode?",
-        "options": ["To run on computers", "To plan algorithms before coding", "To replace programming languages", "To create flowcharts"],
+        "options": [
+          "To run on computers",
+          "To plan algorithms before coding",
+          "To replace programming languages",
+          "To create flowcharts"
+        ],
         "correctAnswer": 1,
         "explanation": "Pseudocode helps plan and structure algorithms using natural language before writing actual code."
       }
@@ -124,7 +134,18 @@
       "Educational technology solutions"
     ]
   },
-  "prerequisites": ["basic-mathematics", "logical-thinking"],
+  "prerequisites": [
+    "basic-mathematics",
+    "logical-thinking"
+  ],
   "nextModule": "ict-scratch-programming",
-  "tags": ["ict", "programming", "algorithms", "logic", "flowcharts", "ghana", "shs"]
+  "tags": [
+    "ict",
+    "programming",
+    "algorithms",
+    "logic",
+    "flowcharts",
+    "ghana",
+    "shs"
+  ]
 }

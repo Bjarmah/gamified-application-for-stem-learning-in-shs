@@ -37,9 +37,9 @@ const ModuleDetail: React.FC = () => {
         .select("*")
         .eq("module_id", moduleId)
         .order("created_at", { ascending: false });
-      
+
       if (error) throw error;
-      
+
       // Find the first quiz that has questions
       const quizzesWithQuestions = data?.filter(quiz => {
         if (!quiz.questions) return false;
@@ -49,7 +49,7 @@ const ModuleDetail: React.FC = () => {
         }
         return false;
       });
-      
+
       return quizzesWithQuestions?.[0] || null;
     },
     enabled: !!moduleId,
@@ -93,7 +93,7 @@ const ModuleDetail: React.FC = () => {
     );
   }
 
-// Using the imported formatDifficulty and getDifficultyColor functions
+  // Using the imported formatDifficulty and getDifficultyColor functions
   const difficultyBadge = () => {
     const formattedDifficulty = formatDifficulty(module?.level || "beginner");
     return getDifficultyColor(formattedDifficulty);
@@ -102,13 +102,13 @@ const ModuleDetail: React.FC = () => {
   // Find structured module content based on subject
   const getStructuredModule = () => {
     if (!module?.title) return null;
-    
+
     switch (module.subject) {
       case 'Biology':
         return findBiologyModuleByTitle(module.title);
       case 'Chemistry':
         return findChemistryModuleByTitle(module.title);
-      case 'ICT':
+      case 'Elective ICT':
         return findICTModuleByTitle(module.title);
       case 'Mathematics':
         return findMathematicsModuleByTitle(module.title);
@@ -118,12 +118,12 @@ const ModuleDetail: React.FC = () => {
         return null;
     }
   };
-  
+
   const structured = getStructuredModule();
   const toHTML = (txt?: string) =>
     (txt || "")
       .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
-      .replace(/\n\n/g, '<br/><br/>' );
+      .replace(/\n\n/g, '<br/><br/>');
 
   return (
     <div className="space-y-6 pb-8">
@@ -190,7 +190,7 @@ const ModuleDetail: React.FC = () => {
                 <BookOpen className="h-5 w-5" />
                 {module.title}
               </CardTitle>
-<div className="flex items-center gap-2">
+              <div className="flex items-center gap-2">
                 <Badge className={difficultyBadge()}>{formatDifficulty(module.level)}</Badge>
                 <Badge variant="outline" className="flex items-center gap-1">
                   <Clock className="h-3 w-3" /> ~{module.estimatedTime || 30} mins
@@ -211,7 +211,7 @@ const ModuleDetail: React.FC = () => {
               </div>
             </CardHeader>
             <CardContent className="space-y-6">
-{structured ? (
+              {structured ? (
                 <div className="space-y-6">
                   <section>
                     <h2 className="text-lg font-semibold">Description</h2>

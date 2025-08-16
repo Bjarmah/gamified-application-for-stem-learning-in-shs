@@ -1,13 +1,13 @@
 
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
-import { 
-  biologyModules, 
-  chemistryModules, 
-  physicsModules, 
-  mathematicsModules, 
+import {
+  biologyModules,
+  chemistryModules,
+  physicsModules,
+  mathematicsModules,
   ictModules,
-  getModulesBySubject 
+  getModulesBySubject
 } from '@/content';
 
 interface Module {
@@ -34,7 +34,7 @@ const subjectModulesMap: Record<string, Module[]> = {
   'chemistry': chemistryModules,
   'physics': physicsModules,
   'mathematics': mathematicsModules,
-  'ict': ictModules,
+  'Elective ICT': ictModules,
 };
 
 export const useModules = (subjectId: string | undefined) => {
@@ -108,7 +108,7 @@ export const useModule = (moduleId: string | undefined) => {
           ...mathematicsModules,
           ...ictModules
         ];
-        
+
         const localModule = allLocalModules.find(m => m.id === moduleId);
         if (localModule) {
           console.log(`Found local module: ${localModule.title}`);

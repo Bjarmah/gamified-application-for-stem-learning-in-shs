@@ -11,7 +11,7 @@
  * 4. Run validateModuleIndexing() to ensure it's properly registered
  */
 
-import { 
+import {
   allModules,
   biologyModules,
   chemistryModules,
@@ -43,7 +43,7 @@ export function validateModuleIndexing(): ModuleIndexReport {
     chemistry: chemistryModules,
     physics: physicsModules,
     mathematics: mathematicsModules,
-    ict: ictModules
+    'Elective ICT': ictModules
   };
 
   const report: ModuleIndexReport = {
@@ -65,7 +65,7 @@ export function validateModuleIndexing(): ModuleIndexReport {
   // Check for missing or duplicate IDs
   const allIds = allModules.map(m => m.id);
   const uniqueIds = new Set(allIds);
-  
+
   if (allIds.length !== uniqueIds.size) {
     // Find duplicates
     const seen = new Set();
@@ -98,7 +98,7 @@ export function getTrackableModules(subjectId: string) {
     chemistry: chemistryModules,
     physics: physicsModules,
     mathematics: mathematicsModules,
-    ict: ictModules
+    'Elective ICT': ictModules
   };
 
   return subjectModules[subjectId as keyof typeof subjectModules] || [];
@@ -111,14 +111,14 @@ export function ensureModuleTrackingId(module: any, subject: string, index: numb
   if (module.moduleId && typeof module.moduleId === 'string') {
     return module.moduleId;
   }
-  
+
   // Generate a consistent ID based on subject and content
   const title = module.moduleTitle || module.title || `Module ${index + 1}`;
   const cleanTitle = title.toLowerCase()
     .replace(/[^a-z0-9\s]/g, '')
     .replace(/\s+/g, '-')
     .substring(0, 30);
-  
+
   return `${subject}-${cleanTitle}-${index + 1}`;
 }
 
@@ -127,16 +127,16 @@ export function ensureModuleTrackingId(module: any, subject: string, index: numb
  */
 export function autoFixModuleIndexing(): { fixed: string[]; errors: string[] } {
   const result = { fixed: [], errors: [] };
-  
+
   try {
     const report = validateModuleIndexing();
-    
+
     if (!report.isValid) {
       if (report.missingIds.length > 0) {
         result.errors.push(`Missing or invalid IDs found: ${report.missingIds.join(', ')}`);
         result.errors.push('Please regenerate module IDs using ensureModuleTrackingId()');
       }
-      
+
       if (report.duplicateIds.length > 0) {
         result.errors.push(`Duplicate IDs found: ${report.duplicateIds.join(', ')}`);
         result.errors.push('Please ensure all module IDs are unique');
@@ -144,7 +144,7 @@ export function autoFixModuleIndexing(): { fixed: string[]; errors: string[] } {
     } else {
       result.fixed.push('All modules are properly indexed');
     }
-    
+
     return result;
   } catch (error) {
     result.errors.push(`Auto-fix failed: ${error}`);

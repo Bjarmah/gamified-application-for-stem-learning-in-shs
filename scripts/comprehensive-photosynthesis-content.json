@@ -1,0 +1,363 @@
+{
+    "moduleTitle": "Photosynthesis & Respiration: Complete Energy Systems",
+    "moduleDescription": "Master the complete energy transformations in living systems: from light capture to ATP production, with real-world applications in Ghanaian agriculture, medicine, and environmental science.",
+    "estimatedDuration": 120,
+    "difficultyLevel": "advanced",
+    "comprehensiveContent": {
+        "introduction": "Energy is the currency of life. In this comprehensive module, you'll explore how plants capture solar energy through photosynthesis and how all organisms release that energy through cellular respiration. We'll dive deep into the molecular mechanisms, explore environmental factors, and connect everything to real-world applications in Ghana and beyond.",
+        "lessons": [
+            {
+                "id": "photosynthesis-fundamentals",
+                "title": "Photosynthesis Fundamentals",
+                "content": "Photosynthesis is the process by which plants, algae, and some bacteria convert light energy into chemical energy stored in glucose and other organic compounds. This process is the foundation of almost all life on Earth.\n\nKey Concepts:\n- Location: Chloroplasts in plant cells\n- Energy Source: Sunlight (electromagnetic radiation)\n- Raw Materials: Carbon dioxide (CO₂) and water (H₂O)\n- Products: Glucose (C₆H₁₂O₆) and oxygen (O₂)\n- Overall Equation: 6CO₂ + 6H₂O + light energy → C₆H₁₂O₆ + 6O₂\n\nHistorical Discovery:\nThe process was first described by Jan Ingenhousz in 1779, who discovered that plants produce oxygen only in the presence of light. Later, Julius von Sachs showed that glucose is produced during photosynthesis.\n\nEconomic Importance in Ghana:\n- Cocoa production (major export crop)\n- Maize and cassava farming (staple foods)\n- Timber and forest products\n- Medicinal plant cultivation",
+                "topics": [
+                    "Basic Process",
+                    "Historical Context",
+                    "Economic Importance",
+                    "Chemical Equations"
+                ],
+                "knowledgeChecks": [
+                    {
+                        "id": "pf-q1",
+                        "type": "mcq",
+                        "stem": "What is the primary energy source for photosynthesis?",
+                        "options": {
+                            "A": "Chemical energy from glucose",
+                            "B": "Sunlight (electromagnetic radiation)",
+                            "C": "Heat from the environment",
+                            "D": "Electrical energy from the soil"
+                        },
+                        "answer": "B",
+                        "explanation": "Photosynthesis converts light energy from the sun into chemical energy stored in glucose."
+                    },
+                    {
+                        "id": "pf-q2",
+                        "type": "mcq",
+                        "stem": "Which of the following is NOT a product of photosynthesis?",
+                        "options": {
+                            "A": "Glucose",
+                            "B": "Oxygen",
+                            "C": "Carbon dioxide",
+                            "D": "Water"
+                        },
+                        "answer": "C",
+                        "explanation": "Carbon dioxide is a reactant (input) of photosynthesis, not a product. The products are glucose and oxygen."
+                    }
+                ]
+            },
+            {
+                "id": "light-reactions-detailed",
+                "title": "Light Reactions: Energy Capture",
+                "content": "The light reactions occur in the thylakoid membranes of chloroplasts. These membranes contain:\n- Photosystem I (PSI): Contains chlorophyll a (P700)\n- Photosystem II (PSII): Contains chlorophyll a (P680)\n- Cytochrome b6f complex: Electron transport chain\n- ATP synthase: Enzyme that produces ATP\n\nStep-by-Step Process:\n1. Light Absorption: Chlorophyll molecules absorb light energy, electrons become excited\n2. Water Splitting (Photolysis): PSII absorbs light, water molecules are split: 2H₂O → 4H⁺ + 4e⁻ + O₂\n3. Electron Transport Chain: Electrons flow from PSII → cytochrome b6f → PSI\n4. ATP Production (Photophosphorylation): Protons flow back through ATP synthase, ADP + Pi → ATP\n5. NADPH Production: PSI absorbs light, electrons reduce NADP⁺ to NADPH\n\nEnvironmental Factors:\n- Light Intensity: Low light limits electron excitation, high light can cause photoinhibition\n- Temperature: Optimal 20-30°C, high temperature can denature proteins\n- Water Availability: Dehydration reduces water splitting, flooding can damage membranes\n\nGhanaian Context - Cocoa Farming:\n- Shade management: Young cocoa trees need shade to prevent photoinhibition\n- Irrigation: Ensures adequate water for photolysis\n- Fertilizer: Provides nutrients for chlorophyll synthesis\n- Pest control: Protects leaves from damage\n\nMathematical Relationships:\n- Quantum yield: ~8-10 photons per O₂ molecule\n- Efficiency: ~3-6% of incident light converted to chemical energy",
+                "topics": [
+                    "Thylakoid Structure",
+                    "Photosystems",
+                    "Electron Transport",
+                    "ATP Synthesis",
+                    "Environmental Factors"
+                ],
+                "knowledgeChecks": [
+                    {
+                        "id": "lr-q1",
+                        "type": "mcq",
+                        "stem": "Where do the light reactions of photosynthesis occur?",
+                        "options": {
+                            "A": "Stroma of chloroplasts",
+                            "B": "Thylakoid membranes",
+                            "C": "Mitochondrial matrix",
+                            "D": "Cytosol"
+                        },
+                        "answer": "B",
+                        "explanation": "Light reactions occur on the thylakoid membranes where chlorophyll captures light energy."
+                    },
+                    {
+                        "id": "lr-q2",
+                        "type": "mcq",
+                        "stem": "What is the primary product of water splitting (photolysis)?",
+                        "options": {
+                            "A": "Carbon dioxide",
+                            "B": "Oxygen",
+                            "C": "Glucose",
+                            "D": "ATP"
+                        },
+                        "answer": "B",
+                        "explanation": "Photolysis splits water molecules, releasing oxygen as a byproduct while providing electrons."
+                    },
+                    {
+                        "id": "lr-q3",
+                        "type": "mcq",
+                        "stem": "How many photons are typically required to produce one molecule of oxygen?",
+                        "options": {
+                            "A": "2-4",
+                            "B": "8-10",
+                            "C": "15-20",
+                            "D": "25-30"
+                        },
+                        "answer": "B",
+                        "explanation": "The quantum yield is approximately 8-10 photons per oxygen molecule produced."
+                    }
+                ]
+            },
+            {
+                "id": "calvin-cycle-comprehensive",
+                "title": "Calvin Cycle: Carbon Fixation",
+                "content": "The Calvin cycle occurs in the stroma of chloroplasts. It uses ATP and NADPH from the light reactions to convert CO₂ into organic molecules.\n\nThree Main Phases:\n1. Carbon Fixation:\n- Enzyme: RuBisCO (Ribulose-1,5-bisphosphate carboxylase/oxygenase)\n- Substrate: CO₂ + RuBP (5-carbon sugar)\n- Product: Two molecules of 3-phosphoglycerate (3-PGA)\n- Reaction: CO₂ + RuBP → 2(3-PGA)\n\nRuBisCO Facts:\n- Most abundant protein on Earth\n- Can bind both CO₂ and O₂ (photorespiration)\n- Efficiency decreases at high temperatures\n- Requires magnesium (Mg²⁺) as a cofactor\n\n2. Reduction:\n- Enzyme: Glyceraldehyde-3-phosphate dehydrogenase\n- Process: 3-PGA is reduced using ATP and NADPH\n- Products: Glyceraldehyde-3-phosphate (G3P)\n- Energy cost: 6 ATP and 6 NADPH per cycle\n\n3. Regeneration:\n- Enzyme: Various enzymes including transketolase and aldolase\n- Process: Regenerate RuBP from G3P\n- Energy cost: 3 ATP per cycle\n- Net result: 1 G3P molecule available for glucose synthesis\n\nComplete Cycle Summary:\nInputs per cycle: 3 CO₂ molecules, 9 ATP molecules, 6 NADPH molecules\nOutputs per cycle: 1 G3P molecule, 6 ADP + Pi, 6 NADP⁺\nTo make 1 glucose molecule: 6 CO₂ molecules, 18 ATP molecules, 12 NADPH molecules, 2 cycles\n\nEnvironmental Factors:\n- CO₂ Concentration: Low CO₂ limits carbon fixation, high CO₂ increases productivity up to a point\n- Temperature: Low temperature slows enzyme activity, high temperature can cause photorespiration\n- Light Intensity: Indirect effect through ATP and NADPH production\n\nPhotorespiration:\n- What it is: RuBisCO binds O₂ instead of CO₂\n- When it occurs: High temperatures, low CO₂, high O₂\n- Problems: Wastes energy, reduces productivity\n- Adaptations: C₄ and CAM photosynthesis\n\nGhanaian Agricultural Applications:\n- CO₂ Enrichment: Adding CO₂ can increase yields by 20-40%\n- Temperature Management: Shade nets reduce temperature, minimize photorespiration\n- Fertilization: Nitrogen essential for RuBisCO synthesis, magnesium required for function",
+                "topics": [
+                    "Carbon Fixation",
+                    "Reduction Phase",
+                    "Regeneration",
+                    "RuBisCO",
+                    "Photorespiration",
+                    "Environmental Factors"
+                ],
+                "knowledgeChecks": [
+                    {
+                        "id": "cc-q1",
+                        "type": "mcq",
+                        "stem": "The Calvin cycle occurs in which part of the chloroplast?",
+                        "options": {
+                            "A": "Thylakoid lumen",
+                            "B": "Stroma",
+                            "C": "Matrix",
+                            "D": "Cristae"
+                        },
+                        "answer": "B",
+                        "explanation": "The Calvin cycle takes place in the stroma, where CO₂ is fixed into organic molecules."
+                    },
+                    {
+                        "id": "cc-q2",
+                        "type": "mcq",
+                        "stem": "How many ATP molecules are required to produce one glucose molecule via the Calvin cycle?",
+                        "options": {
+                            "A": "12",
+                            "B": "18",
+                            "C": "24",
+                            "D": "36"
+                        },
+                        "answer": "B",
+                        "explanation": "18 ATP molecules are required: 12 for reduction and 6 for regeneration."
+                    },
+                    {
+                        "id": "cc-q3",
+                        "type": "mcq",
+                        "stem": "What is the most abundant protein on Earth?",
+                        "options": {
+                            "A": "Hemoglobin",
+                            "B": "Collagen",
+                            "C": "RuBisCO",
+                            "D": "Actin"
+                        },
+                        "answer": "C",
+                        "explanation": "RuBisCO is the most abundant protein on Earth, found in all photosynthetic organisms."
+                    }
+                ]
+            },
+            {
+                "id": "cellular-respiration-comprehensive",
+                "title": "Cellular Respiration: Energy Release",
+                "content": "Cellular respiration is the process by which cells break down glucose and other organic molecules to produce ATP. It occurs in all living cells and is essential for life.\n\nThree Main Stages:\n1. Glycolysis:\n- Location: Cytosol (cytoplasm)\n- Process: Glucose → 2 Pyruvate\n- Energy Investment: 2 ATP\n- Energy Production: 4 ATP (net gain: 2 ATP)\n- Electron Carriers: 2 NADH\n\nDetailed Steps:\n1. Phosphorylation: Glucose + ATP → Glucose-6-phosphate + ADP\n2. Isomerization: Glucose-6-phosphate → Fructose-6-phosphate\n3. Second Phosphorylation: Fructose-6-phosphate + ATP → Fructose-1,6-bisphosphate + ADP\n4. Cleavage: Fructose-1,6-bisphosphate → 2 G3P\n5. Oxidation: 2 G3P + 2 NAD⁺ → 2 1,3-BPG + 2 NADH\n6. ATP Production: 2 1,3-BPG + 2 ADP → 2 3-PG + 2 ATP\n7. Final Steps: 2 3-PG → 2 Pyruvate\n\nKey Enzymes:\n- Hexokinase (step 1)\n- Phosphofructokinase (step 3) - rate limiting step\n- Glyceraldehyde-3-phosphate dehydrogenase (step 5)\n- Pyruvate kinase (step 7)\n\n2. Pyruvate Oxidation & Krebs Cycle:\n- Location: Mitochondrial matrix\n- Process: Pyruvate → Acetyl CoA → CO₂ + H₂O\n\nPyruvate Oxidation:\n- Pyruvate + CoA + NAD⁺ → Acetyl CoA + CO₂ + NADH\n- Enzyme: Pyruvate dehydrogenase complex\n- CO₂ is released as waste\n\nKrebs Cycle (Citric Acid Cycle):\n1. Acetyl CoA + Oxaloacetate → Citrate\n2. Citrate → Isocitrate\n3. Isocitrate + NAD⁺ → α-Ketoglutarate + CO₂ + NADH\n4. α-Ketoglutarate + NAD⁺ + CoA → Succinyl CoA + CO₂ + NADH\n5. Succinyl CoA + GDP → Succinate + GTP\n6. Succinate + FAD → Fumarate + FADH₂\n7. Fumarate + H₂O → Malate\n8. Malate + NAD⁺ → Oxaloacetate + NADH\n\nProducts per glucose: 6 CO₂ molecules, 8 NADH molecules, 2 FADH₂ molecules, 2 GTP molecules\n\n3. Electron Transport Chain & Oxidative Phosphorylation:\n- Location: Inner mitochondrial membrane\n- Process: NADH/FADH₂ → ATP via chemiosmosis\n\nElectron Transport Chain:\n- Complex I: NADH → FMN → Fe-S clusters → CoQ\n- Complex II: FADH₂ → Fe-S clusters → CoQ\n- Complex III: CoQ → Cytochrome c\n- Complex IV: Cytochrome c → O₂ (final electron acceptor)\n\nChemiosmosis:\n- Electrons flow through ETC, releasing energy\n- Energy used to pump H⁺ from matrix to intermembrane space\n- Creates proton gradient (pH difference)\n- H⁺ flow back through ATP synthase\n- ADP + Pi → ATP\n\nEnergy Yield Summary:\nPer glucose molecule:\n- Glycolysis: 2 ATP + 2 NADH\n- Pyruvate Oxidation: 2 NADH\n- Krebs Cycle: 2 ATP + 6 NADH + 2 FADH₂\n- ETC: 2 NADH → 6 ATP, 2 FADH₂ → 4 ATP\n- Total: 32-34 ATP molecules\n\nEfficiency: ~40% of glucose energy converted to ATP\n\nAnaerobic Respiration:\nLactic Acid Fermentation:\n- Location: Muscle cells during intense exercise\n- Process: Pyruvate + NADH → Lactate + NAD⁺\n- Purpose: Regenerate NAD⁺ for continued glycolysis\n- Ghanaian Context: Important for athletes and manual laborers\n\nAlcoholic Fermentation:\n- Location: Yeast and some bacteria\n- Process: Pyruvate → Acetaldehyde → Ethanol + CO₂\n- Ghanaian Context: Used in traditional brewing and bread making\n\nEnvironmental Factors:\n- Temperature: Low temperature slows enzyme activity, high temperature can denature proteins\n- Oxygen Availability: Aerobic with oxygen, anaerobic without oxygen\n- Substrate Availability: Glucose primary fuel, fatty acids alternative, amino acids can be converted\n\nGhanaian Applications:\n- Sports and Exercise: Aerobic training improves mitochondrial efficiency, anaerobic training increases glycolytic capacity\n- Agriculture: Seed germination provides energy for growth, post-harvest respiration affects storage\n- Medicine: Understanding energy pathways for metabolic disorders, exercise physiology",
+                "topics": [
+                    "Glycolysis",
+                    "Krebs Cycle",
+                    "Electron Transport",
+                    "ATP Production",
+                    "Anaerobic Respiration",
+                    "Environmental Factors"
+                ],
+                "knowledgeChecks": [
+                    {
+                        "id": "cr-q1",
+                        "type": "mcq",
+                        "stem": "Where does glycolysis occur?",
+                        "options": {
+                            "A": "Mitochondrial matrix",
+                            "B": "Cytosol",
+                            "C": "Thylakoid membranes",
+                            "D": "Nucleus"
+                        },
+                        "answer": "B",
+                        "explanation": "Glycolysis occurs in the cytosol of all cells."
+                    },
+                    {
+                        "id": "cr-q2",
+                        "type": "mcq",
+                        "stem": "What is the final electron acceptor in aerobic respiration?",
+                        "options": {
+                            "A": "Carbon dioxide",
+                            "B": "Oxygen",
+                            "C": "NAD⁺",
+                            "D": "FAD"
+                        },
+                        "answer": "B",
+                        "explanation": "Oxygen accepts electrons to form water in the final step."
+                    },
+                    {
+                        "id": "cr-q3",
+                        "type": "mcq",
+                        "stem": "How many ATP molecules are produced per glucose molecule in complete aerobic respiration?",
+                        "options": {
+                            "A": "2",
+                            "B": "18",
+                            "C": "32-34",
+                            "D": "50"
+                        },
+                        "answer": "C",
+                        "explanation": "Complete aerobic respiration produces 32-34 ATP molecules per glucose."
+                    }
+                ]
+            },
+            {
+                "id": "energy-flow-ecosystems",
+                "title": "Energy Flow in Ecosystems",
+                "content": "Energy flows through ecosystems following fundamental laws of thermodynamics and ecological principles.\n\nEnergy Laws and Principles:\nFirst Law of Thermodynamics:\n- Energy cannot be created or destroyed\n- Energy can only be transformed from one form to another\n- Total energy in the universe remains constant\n\nSecond Law of Thermodynamics:\n- Energy transformations are never 100% efficient\n- Some energy is always lost as heat\n- Entropy (disorder) increases in isolated systems\n\nEnergy Flow Through Food Chains:\nTrophic Levels:\n1. Producers (Autotrophs): Plants, algae, cyanobacteria\n- Convert solar energy to chemical energy\n- Efficiency: ~1-3% of incident sunlight\n- Examples: Cocoa trees, maize, cassava\n\n2. Primary Consumers (Herbivores): Animals that eat plants\n- Efficiency: ~10% of plant energy\n- Examples: Goats, cattle, grasshoppers\n\n3. Secondary Consumers (Carnivores): Animals that eat herbivores\n- Efficiency: ~10% of herbivore energy\n- Examples: Lions, hawks, snakes\n\n4. Tertiary Consumers: Top predators\n- Efficiency: ~10% of secondary consumer energy\n- Examples: Eagles, crocodiles\n\nEnergy Loss at Each Level:\nWhy only ~10% efficiency?\n- Respiration: 60-70% lost as heat\n- Excretion: 10-20% lost in waste\n- Movement: 5-15% used for locomotion\n- Growth: 10-20% stored in biomass\n\nGhanaian Ecosystem Examples:\nForest Ecosystems - Kakum National Park:\n- Producers: Mahogany, teak, bamboo\n- Primary consumers: Forest elephants, duikers\n- Secondary consumers: Leopards, eagles\n- Decomposers: Fungi, bacteria, termites\n\nEnergy Flow:\n- Sunlight → Trees (photosynthesis)\n- Trees → Elephants (herbivory)\n- Elephants → Leopards (predation)\n- All levels → Decomposers (decay)\n\nAgricultural Ecosystems - Cocoa Farms:\n- Producers: Cocoa trees, shade trees\n- Primary consumers: Insects, rodents\n- Secondary consumers: Birds, lizards\n- Human intervention: Harvesting, pest control\n\nEnergy Efficiency Improvements:\n- Intercropping: Multiple crops increase total productivity\n- Agroforestry: Trees provide shade and nutrients\n- Integrated pest management: Reduces energy loss to pests\n\nMarine Ecosystems - Gulf of Guinea:\n- Producers: Phytoplankton, seaweeds\n- Primary consumers: Zooplankton, small fish\n- Secondary consumers: Larger fish, squid\n- Top predators: Sharks, tuna\n\nHuman Impact on Energy Flow:\nDeforestation:\n- Reduces producer biomass\n- Decreases total energy capture\n- Affects all trophic levels\n- Ghana example: Forest cover decreased from 35% to 10% in 50 years\n\nOverfishing:\n- Removes top predators\n- Disrupts food web balance\n- Can cause trophic cascades\n- Ghana example: Declining fish stocks in coastal waters\n\nPollution:\n- Toxic chemicals accumulate up food chains\n- Biomagnification: Higher concentrations in top predators\n- Ghana example: Mercury in fish from gold mining areas\n\nMathematical Modeling:\nEnergy Flow Equations:\nNet Primary Productivity (NPP): NPP = GPP - R\nWhere: GPP = Gross Primary Productivity, R = Respiration\n\nEcological Efficiency: Efficiency = (Energy at level n) / (Energy at level n-1) × 100%\n\nBiomass Pyramid:\n- Producers: 1000 kg/ha\n- Primary consumers: 100 kg/ha\n- Secondary consumers: 10 kg/ha\n- Tertiary consumers: 1 kg/ha\n\nCarbon Cycling:\n- Photosynthesis: CO₂ + H₂O → Glucose + O₂\n- Respiration: Glucose + O₂ → CO₂ + H₂O + ATP\n- Net effect: Carbon cycles between atmosphere and biosphere\n\nClimate Change Implications:\nTemperature Effects:\n- Higher temperatures: Increase respiration rates\n- Net effect: More CO₂ released to atmosphere\n- Feedback loop: Warming → more CO₂ → more warming\n\nCO₂ Fertilization:\n- Higher CO₂: Can increase photosynthesis\n- Limiting factors: Water, nutrients, temperature\n- Ghana example: Some crops may benefit, others may not\n\nExtreme Weather:\n- Droughts: Reduce photosynthesis, increase respiration\n- Floods: Damage plants, reduce productivity\n- Storms: Physical damage to ecosystems\n\nConservation Strategies:\nProtected Areas:\n- National parks: Preserve natural energy flow\n- Marine reserves: Protect ocean ecosystems\n- Community forests: Sustainable resource use\n\nSustainable Agriculture:\n- Crop rotation: Maintain soil fertility\n- Organic farming: Reduce chemical inputs\n- Agroecology: Work with natural systems\n\nRestoration Ecology:\n- Reforestation: Restore producer biomass\n- Wetland restoration: Improve water quality\n- Coral reef restoration: Protect marine biodiversity",
+                "topics": [
+                    "Energy Laws",
+                    "Trophic Levels",
+                    "Energy Efficiency",
+                    "Ghanaian Ecosystems",
+                    "Human Impact",
+                    "Conservation"
+                ],
+                "knowledgeChecks": [
+                    {
+                        "id": "ef-q1",
+                        "type": "mcq",
+                        "stem": "What percentage of energy is typically transferred between trophic levels?",
+                        "options": {
+                            "A": "1%",
+                            "B": "10%",
+                            "C": "50%",
+                            "D": "90%"
+                        },
+                        "answer": "B",
+                        "explanation": "Only about 10% of energy is transferred between trophic levels due to respiration, excretion, and movement."
+                    },
+                    {
+                        "id": "ef-q2",
+                        "type": "mcq",
+                        "stem": "Which trophic level has the highest biomass in most ecosystems?",
+                        "options": {
+                            "A": "Primary consumers",
+                            "B": "Secondary consumers",
+                            "C": "Producers",
+                            "D": "Tertiary consumers"
+                        },
+                        "answer": "C",
+                        "explanation": "Producers have the highest biomass as they capture and store solar energy."
+                    },
+                    {
+                        "id": "ef-q3",
+                        "type": "mcq",
+                        "stem": "What is the main reason for energy loss between trophic levels?",
+                        "options": {
+                            "A": "Predation",
+                            "B": "Respiration",
+                            "C": "Competition",
+                            "D": "Migration"
+                        },
+                        "answer": "B",
+                        "explanation": "Respiration accounts for 60-70% of energy loss as organisms use energy for cellular processes."
+                    }
+                ]
+            }
+        ],
+        "interactiveElements": [
+            {
+                "id": "energy-flow-simulation",
+                "title": "Energy Flow Simulation",
+                "type": "interactive",
+                "description": "Simulate energy flow through a Ghanaian ecosystem",
+                "instructions": "Adjust parameters to see how they affect energy flow and ecosystem health"
+            },
+            {
+                "id": "photosynthesis-lab",
+                "title": "Virtual Photosynthesis Lab",
+                "type": "simulation",
+                "description": "Experiment with light intensity, CO₂ levels, and temperature",
+                "instructions": "Design experiments to optimize photosynthesis rates"
+            },
+            {
+                "id": "respiration-calculator",
+                "title": "Respiration Calculator",
+                "type": "tool",
+                "description": "Calculate ATP production and energy efficiency",
+                "instructions": "Input glucose amount and see detailed energy calculations"
+            }
+        ],
+        "realWorldApplications": [
+            {
+                "id": "ghana-cocoa",
+                "title": "Ghanaian Cocoa Production",
+                "description": "How photosynthesis and respiration affect cocoa yields",
+                "content": "Cocoa trees in Ghana face unique challenges: seasonal drought, soil nutrient depletion, and climate change. Understanding photosynthesis helps farmers optimize shade, irrigation, and fertilization. Respiration rates affect post-harvest storage and fermentation processes."
+            },
+            {
+                "id": "sports-performance",
+                "title": "Sports Performance in Ghana",
+                "description": "Energy systems in athletics and physical labor",
+                "content": "Ghanaian athletes and manual laborers rely on understanding aerobic vs. anaerobic respiration. Training programs can be optimized based on energy system requirements for different sports and work activities."
+            },
+            {
+                "id": "environmental-conservation",
+                "title": "Environmental Conservation",
+                "description": "Protecting Ghana's ecosystems and biodiversity",
+                "content": "Ghana's forests, wetlands, and marine ecosystems provide essential ecosystem services. Understanding energy flow helps conservationists protect these systems and restore degraded areas."
+            }
+        ],
+        "comprehensiveQuizzes": [
+            {
+                "title": "Photosynthesis & Respiration - Comprehensive Assessment",
+                "description": "50-question comprehensive assessment covering all aspects of energy systems",
+                "timeLimit": 90,
+                "passingScore": 70,
+                "questions": [
+                    {
+                        "id": "comp-1",
+                        "type": "mcq",
+                        "topic": "Light Reactions",
+                        "question": "Which pigment is primarily responsible for absorbing light energy in Photosystem II?",
+                        "options": {
+                            "A": "Chlorophyll a (P680)",
+                            "B": "Chlorophyll b",
+                            "C": "Carotenoids",
+                            "D": "Phycobilins"
+                        },
+                        "correctAnswer": "A",
+                        "explanation": "Photosystem II contains chlorophyll a with an absorption peak at 680nm (P680).",
+                        "difficulty": "intermediate"
+                    },
+                    {
+                        "id": "comp-2",
+                        "type": "mcq",
+                        "topic": "Calvin Cycle",
+                        "question": "How many CO₂ molecules must enter the Calvin cycle to produce one glucose molecule?",
+                        "options": {
+                            "A": "3",
+                            "B": "6",
+                            "C": "12",
+                            "D": "18"
+                        },
+                        "correctAnswer": "B",
+                        "explanation": "Six CO₂ molecules are required because each cycle produces one G3P, and two G3P molecules are needed to make one glucose.",
+                        "difficulty": "intermediate"
+                    },
+                    {
+                        "id": "comp-3",
+                        "type": "mcq",
+                        "topic": "Cellular Respiration",
+                        "question": "Which enzyme catalyzes the rate-limiting step of glycolysis?",
+                        "options": {
+                            "A": "Hexokinase",
+                            "B": "Phosphofructokinase-1",
+                            "C": "Glyceraldehyde-3-phosphate dehydrogenase",
+                            "D": "Pyruvate kinase"
+                        },
+                        "correctAnswer": "B",
+                        "explanation": "Phosphofructokinase-1 is the rate-limiting enzyme of glycolysis and is regulated by ATP and citrate levels.",
+                        "difficulty": "advanced"
+                    }
+                ]
+            }
+        ]
+    }
+}

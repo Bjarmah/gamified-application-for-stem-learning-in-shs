@@ -2,7 +2,7 @@
   "id": "ict-html-basics",
   "title": "HTML Fundamentals for Web Development",
   "description": "Learn the building blocks of web development by mastering HTML structure, elements, and creating your first web pages.",
-  "subject": "ICT",
+  "subject": "Elective ICT",
   "level": "SHS 1",
   "estimatedTime": 45,
   "xpReward": 80,
@@ -34,14 +34,24 @@
       {
         "type": "multiple-choice",
         "question": "Which HTML tag is used for the largest heading?",
-        "options": ["<h6>", "<header>", "<h1>", "<title>"],
+        "options": [
+          "<h6>",
+          "<header>",
+          "<h1>",
+          "<title>"
+        ],
         "correctAnswer": 2,
         "explanation": "The <h1> tag creates the largest heading, with headings getting smaller from h1 to h6."
       },
       {
         "type": "multiple-choice",
         "question": "What does the 'alt' attribute in an <img> tag provide?",
-        "options": ["Image source", "Alternative text description", "Image alignment", "Image size"],
+        "options": [
+          "Image source",
+          "Alternative text description",
+          "Image alignment",
+          "Image size"
+        ],
         "correctAnswer": 1,
         "explanation": "The 'alt' attribute provides alternative text that describes the image for accessibility and when images can't load."
       }
@@ -128,7 +138,19 @@
       "Government digital services"
     ]
   },
-  "prerequisites": ["programming-logic", "computer-basics", "text-editing"],
+  "prerequisites": [
+    "programming-logic",
+    "computer-basics",
+    "text-editing"
+  ],
   "nextModule": "ict-network-basics",
-  "tags": ["ict", "html", "web-development", "markup", "websites", "ghana", "shs"]
+  "tags": [
+    "ict",
+    "html",
+    "web-development",
+    "markup",
+    "websites",
+    "ghana",
+    "shs"
+  ]
 }

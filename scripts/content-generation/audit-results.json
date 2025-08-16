@@ -900,12 +900,12 @@
       "hasGhanaContext": true,
       "hasFinalAssessment": true
     },
-    "ict": {
+    "Elective ICT": {
       "modules": [
         {
           "moduleId": "ict-module-1",
           "moduleTitle": "Programming Fundamentals",
-          "subject": "ict",
+          "subject": "Elective ICT",
           "level": "shs",
           "lessons": [],
           "totalLessons": 0,
@@ -922,7 +922,7 @@
         {
           "moduleId": "ict-module-2",
           "moduleTitle": "Computer Networks & Internet",
-          "subject": "ict",
+          "subject": "Elective ICT",
           "level": "shs",
           "lessons": [],
           "totalLessons": 0,
@@ -939,7 +939,7 @@
         {
           "moduleId": "ict-module-3",
           "moduleTitle": "Database Management",
-          "subject": "ict",
+          "subject": "Elective ICT",
           "level": "shs",
           "lessons": [],
           "totalLessons": 0,
@@ -999,16 +999,16 @@
     {
       "priority": "high",
       "category": "assessment",
-      "subject": "ict",
+      "subject": "Elective ICT",
       "recommendation": "Increase questions per lesson from 0.0 to 15-20",
-      "action": "Add 15 questions per lesson in ict"
+      "action": "Add 15 questions per lesson in Elective ICT"
     },
     {
       "priority": "medium",
       "category": "context",
-      "subject": "ict",
+      "subject": "Elective ICT",
       "recommendation": "Add Ghana-specific examples and context",
-      "action": "Review and enhance Ghana context in ict modules"
+      "action": "Review and enhance Ghana context in Elective ICT modules"
     },
     {
       "priority": "medium",

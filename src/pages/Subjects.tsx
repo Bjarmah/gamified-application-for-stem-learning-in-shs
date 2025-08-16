@@ -7,12 +7,12 @@ import { Calculator, Atom, FlaskConical, Activity, Monitor, Bot } from "lucide-r
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/context/AuthContext";
-import { 
-  biologyModules, 
-  chemistryModules, 
-  physicsModules, 
-  mathematicsModules, 
-  ictModules 
+import {
+  biologyModules,
+  chemistryModules,
+  physicsModules,
+  mathematicsModules,
+  ictModules
 } from "@/content";
 
 // Debug: Test direct imports
@@ -48,7 +48,7 @@ const Subjects = () => {
     'chemistry': chemistryModules.length,
     'physics': physicsModules.length,
     'mathematics': mathematicsModules.length,
-    'ict': ictModules.length,
+    'Elective ICT': ictModules.length,
   };
 
   // Fetch user progress for modules
@@ -56,7 +56,7 @@ const Subjects = () => {
     queryKey: ["user-progress", user?.id],
     queryFn: async () => {
       if (!user) return {};
-      
+
       try {
         const { data, error } = await supabase
           .from("user_progress")
@@ -68,7 +68,7 @@ const Subjects = () => {
             )
           `)
           .eq("user_id", user.id);
-        
+
         if (error) {
           console.error("Error fetching user progress:", error);
           return {};
@@ -163,10 +163,10 @@ const Subjects = () => {
           // Use local content for module counts
           const totalModules = moduleCounts[subject.id as keyof typeof moduleCounts] || 0;
           const modulesCompleted = progressData?.[subject.id] || 0;
-          
+
           // Debug: Log subject ID and module count
           console.log(`Subject: ${subject.name}, ID: ${subject.id}, Total modules: ${totalModules}, Module counts keys:`, Object.keys(moduleCounts));
-          
+
           return (
             <SubjectCard
               key={subject.id}

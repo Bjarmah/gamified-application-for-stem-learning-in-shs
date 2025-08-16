@@ -2,7 +2,7 @@
   "id": "ict-scratch-programming",
   "title": "Introduction to Scratch Programming",
   "description": "Learn programming fundamentals through Scratch's visual programming environment, creating interactive projects and games.",
-  "subject": "ICT",
+  "subject": "Elective ICT",
   "level": "SHS 1",
   "estimatedTime": 55,
   "xpReward": 90,
@@ -34,14 +34,24 @@
       {
         "type": "multiple-choice",
         "question": "Which Scratch block category contains the 'forever' loop block?",
-        "options": ["Motion", "Control", "Events", "Sensing"],
+        "options": [
+          "Motion",
+          "Control",
+          "Events",
+          "Sensing"
+        ],
         "correctAnswer": 1,
         "explanation": "Control blocks manage program flow, including loops like 'forever', 'repeat', and conditional statements."
       },
       {
         "type": "multiple-choice",
         "question": "What happens when you click the green flag in Scratch?",
-        "options": ["Saves the project", "Starts scripts with 'when green flag clicked'", "Creates a new sprite", "Opens help menu"],
+        "options": [
+          "Saves the project",
+          "Starts scripts with 'when green flag clicked'",
+          "Creates a new sprite",
+          "Opens help menu"
+        ],
         "correctAnswer": 1,
         "explanation": "The green flag triggers all scripts that start with the 'when green flag clicked' event block."
       }
@@ -127,7 +137,18 @@
       "Creative digital expression"
     ]
   },
-  "prerequisites": ["programming-logic", "computer-basics"],
+  "prerequisites": [
+    "programming-logic",
+    "computer-basics"
+  ],
   "nextModule": "ict-html-basics",
-  "tags": ["ict", "programming", "scratch", "visual-programming", "games", "ghana", "shs"]
+  "tags": [
+    "ict",
+    "programming",
+    "scratch",
+    "visual-programming",
+    "games",
+    "ghana",
+    "shs"
+  ]
 }

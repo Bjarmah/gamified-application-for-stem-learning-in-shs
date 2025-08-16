@@ -2,7 +2,7 @@
   "id": "ict-module-2",
   "title": "Computer Networks & Internet",
   "description": "Learn about network fundamentals, internet services, and cybersecurity practices essential for the digital age.",
-  "subject": "ict",
+  "subject": "Elective ICT",
   "level": "shs",
   "estimatedTime": 120,
   "xpReward": 150,
@@ -30,35 +30,60 @@
       {
         "type": "multiple_choice",
         "question": "What does LAN stand for in computer networking?",
-        "options": ["Large Area Network", "Local Area Network", "Long Area Network", "Limited Area Network"],
+        "options": [
+          "Large Area Network",
+          "Local Area Network",
+          "Long Area Network",
+          "Limited Area Network"
+        ],
         "correctAnswer": 1,
         "explanation": "LAN stands for Local Area Network, which connects devices in a small geographical area like a home, office, or school."
       },
       {
         "type": "multiple_choice",
         "question": "Which protocol is used for secure web browsing?",
-        "options": ["HTTP", "HTTPS", "FTP", "SMTP"],
+        "options": [
+          "HTTP",
+          "HTTPS",
+          "FTP",
+          "SMTP"
+        ],
         "correctAnswer": 1,
         "explanation": "HTTPS (Hypertext Transfer Protocol Secure) provides encrypted communication for secure web browsing."
       },
       {
         "type": "multiple_choice",
         "question": "What is the purpose of a firewall in network security?",
-        "options": ["To speed up internet connection", "To block unauthorized access to networks", "To store data", "To connect devices"],
+        "options": [
+          "To speed up internet connection",
+          "To block unauthorized access to networks",
+          "To store data",
+          "To connect devices"
+        ],
         "correctAnswer": 1,
         "explanation": "A firewall acts as a barrier to block unauthorized access to networks while allowing legitimate traffic to pass through."
       },
       {
         "type": "multiple_choice",
         "question": "Which of the following is a social media platform?",
-        "options": ["Microsoft Word", "Facebook", "Adobe Photoshop", "Windows"],
+        "options": [
+          "Microsoft Word",
+          "Facebook",
+          "Adobe Photoshop",
+          "Windows"
+        ],
         "correctAnswer": 1,
         "explanation": "Facebook is a social media platform that allows users to connect, share content, and communicate with others."
       },
       {
         "type": "multiple_choice",
         "question": "What should you do if you receive a suspicious email asking for personal information?",
-        "options": ["Reply immediately with the information", "Forward it to friends", "Delete it without responding", "Click on all links in the email"],
+        "options": [
+          "Reply immediately with the information",
+          "Forward it to friends",
+          "Delete it without responding",
+          "Click on all links in the email"
+        ],
         "correctAnswer": 2,
         "explanation": "Suspicious emails should be deleted without responding, as they may be phishing attempts to steal personal information."
       }
@@ -80,8 +105,13 @@
         "title": "OSI Model Layers",
         "instructions": "Label the seven layers of the OSI model and provide one example of what happens at each layer during data transmission.",
         "layers": [
-          "Physical", "Data Link", "Network", "Transport",
-          "Session", "Presentation", "Application"
+          "Physical",
+          "Data Link",
+          "Network",
+          "Transport",
+          "Session",
+          "Presentation",
+          "Application"
         ],
         "hint": "Start from the bottom (Physical) and work up to the top (Application). Think about what happens to data at each level."
       },
@@ -266,7 +296,17 @@
       "Protecting personal and business data"
     ]
   },
-  "prerequisites": ["ict-module-1"],
+  "prerequisites": [
+    "ict-module-1"
+  ],
   "nextModule": "ict-module-3",
-  "tags": ["networks", "internet", "cybersecurity", "protocols", "topology", "social media", "e-commerce"]
+  "tags": [
+    "networks",
+    "internet",
+    "cybersecurity",
+    "protocols",
+    "topology",
+    "social media",
+    "e-commerce"
+  ]
 }
