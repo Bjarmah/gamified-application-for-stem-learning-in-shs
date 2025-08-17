@@ -196,17 +196,31 @@ export const getContentStats = () => {
   const levels = getAllLevels();
   const tags = getAllTags();
 
-  return {
-    totalModules,
-    totalContent,
-    subjects,
-    levels,
-    tags,
-    subjectBreakdown: subjects.map(subject => ({
+  // Create subject breakdown, but filter out ICT to replace with biology focus
+  const subjectBreakdown = subjects
+    .filter(subject => subject !== 'Elective ICT') // Remove ICT
+    .map(subject => ({
       subject,
       count: searchBySubject(subject).length,
       modules: searchBySubject(subject).filter(c => c.type === 'module').length,
-    })),
+    }));
+
+  // Ensure biology is prioritized in the breakdown
+  const biologySubject = subjectBreakdown.find(s => s.subject === 'Biology');
+  if (biologySubject) {
+    // Move biology to the front to ensure it appears in featured modules
+    const otherSubjects = subjectBreakdown.filter(s => s.subject !== 'Biology');
+    subjectBreakdown.length = 0;
+    subjectBreakdown.push(biologySubject, ...otherSubjects);
+  }
+
+  return {
+    totalModules,
+    totalContent,
+    subjects: subjects.filter(subject => subject !== 'Elective ICT'), // Also filter subjects list
+    levels,
+    tags,
+    subjectBreakdown,
     levelBreakdown: levels.map(level => ({
       level,
       count: searchableContent.filter(c => c.level === level).length,
