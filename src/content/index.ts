@@ -217,7 +217,7 @@ export const getContentStats = () => {
   return {
     totalModules,
     totalContent,
-    subjects: subjects.filter(subject => subject !== 'Elective ICT'), // Also filter subjects list
+    subjects, // Keep all subjects including Elective ICT for accurate count
     levels,
     tags,
     subjectBreakdown,
