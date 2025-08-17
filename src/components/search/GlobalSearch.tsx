@@ -16,6 +16,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { useQuery } from "@tanstack/react-query";
 import { formatDifficulty } from "@/lib/utils";
 
+
 const extractSearchableText = (item: any): string => {
   const textParts = [
     item.title || '',
@@ -60,6 +61,8 @@ const GlobalSearch: React.FC<GlobalSearchProps> = ({ isOpen, onClose }) => {
     }
   }, [isOpen]);
 
+
+
   useEffect(() => {
     if (!isOpen) {
       setSearchTerm('');
@@ -69,7 +72,7 @@ const GlobalSearch: React.FC<GlobalSearchProps> = ({ isOpen, onClose }) => {
 
   const fetchSearchResults = async () => {
     try {
-      // Fetch modules
+      // Fetch modules from database
       const { data: modulesData, error: modulesError } = await supabase
         .from('modules')
         .select(`
@@ -80,7 +83,7 @@ const GlobalSearch: React.FC<GlobalSearchProps> = ({ isOpen, onClose }) => {
 
       if (modulesError) throw modulesError;
 
-      // Fetch quizzes
+      // Fetch quizzes from database
       const { data: quizzesData, error: quizzesError } = await supabase
         .from('quizzes')
         .select(`
@@ -100,6 +103,7 @@ const GlobalSearch: React.FC<GlobalSearchProps> = ({ isOpen, onClose }) => {
           title: module.title,
           description: module.description,
           subject: module.subject?.name || '',
+          subjectId: module.subject?.id || '',
           duration: `${module.estimated_duration || 30} minutes`,
           difficulty: formatDifficulty(module.difficulty_level),
           type: 'module',
@@ -112,8 +116,9 @@ const GlobalSearch: React.FC<GlobalSearchProps> = ({ isOpen, onClose }) => {
           title: quiz.title,
           description: quiz.description || '',
           subject: quiz.module?.subject?.name || '',
+          subjectId: quiz.module?.subject?.id || '',
           duration: `${Math.ceil((quiz.time_limit || 300) / 60)} minutes`,
-          difficulty: 'Beginner', // Default since quizzes don't have difficulty in schema
+          difficulty: 'Beginner',
           type: 'quiz',
           keywords: quiz.keywords || []
         }))
@@ -122,6 +127,7 @@ const GlobalSearch: React.FC<GlobalSearchProps> = ({ isOpen, onClose }) => {
       setSearchResults(results);
     } catch (error) {
       console.error('Error fetching search results:', error);
+      setSearchResults([]);
     } finally {
       setIsLoading(false);
     }
@@ -133,6 +139,7 @@ const GlobalSearch: React.FC<GlobalSearchProps> = ({ isOpen, onClose }) => {
 
   const handleSelect = (item: any) => {
     if (item.type === 'module') {
+      // Use subject ID from database for navigation
       navigate(`/subjects/${item.subjectId}/${item.id}`);
     } else if (item.type === 'quiz') {
       navigate(`/quizzes/${item.id}`);
@@ -176,9 +183,13 @@ const GlobalSearch: React.FC<GlobalSearchProps> = ({ isOpen, onClose }) => {
         onValueChange={setSearchTerm}
       />
       <CommandList>
-        <CommandEmpty>No results found.</CommandEmpty>
-
-        {filteredResults.length > 0 && (
+        {isLoading ? (
+          <CommandEmpty>Loading search results...</CommandEmpty>
+        ) : filteredResults.length === 0 && searchTerm ? (
+          <CommandEmpty>No results found for "{searchTerm}".</CommandEmpty>
+        ) : filteredResults.length === 0 ? (
+          <CommandEmpty>Start typing to search...</CommandEmpty>
+        ) : (
           <CommandGroup heading="Results">
             {filteredResults.slice(0, 10).map((item) => (
               <CommandItem
@@ -196,8 +207,8 @@ const GlobalSearch: React.FC<GlobalSearchProps> = ({ isOpen, onClose }) => {
                       </Badge>
                     </div>
                     <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                      {getSubjectIcon(item.subjectName)}
-                      <span>{item.subjectName}</span>
+                      {getSubjectIcon(item.subject)}
+                      <span>{item.subject}</span>
                     </div>
                   </div>
                 </div>
@@ -214,6 +225,7 @@ const GlobalSearch: React.FC<GlobalSearchProps> = ({ isOpen, onClose }) => {
                 <CommandItem
                   key={`subject-${subject.id}`}
                   onSelect={() => {
+                    // Use subject ID from database for navigation
                     navigate(`/subjects/${subject.id}`);
                     onClose();
                   }}
