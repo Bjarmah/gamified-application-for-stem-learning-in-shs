@@ -31,6 +31,7 @@ const AppLayout = () => {
   const navItems = [
     { path: "/dashboard", label: "Dashboard", icon: Home },
     { path: "/subjects", label: "Subjects", icon: BookOpen },
+    { path: "/rooms", label: "Rooms", icon: Users },
     { path: "/achievements", label: "Achievements", icon: Trophy },
 
     { path: "/profile", label: "Profile", icon: User },
