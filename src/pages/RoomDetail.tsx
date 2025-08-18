@@ -596,7 +596,7 @@ const RoomDetail = () => {
                                                                                             <RadioGroupItem value={oIndex.toString()} id={`q${qIndex}-o${oIndex}`} />
                                                                                             <Label htmlFor={`q${qIndex}-o${oIndex}`}>Correct Answer</Label>
                                                                                         </div>
-                                                                                    </RadioGroupItem>
+                                                                                    </RadioGroup>
                                                                                     <Input
                                                                                         placeholder={`Option ${oIndex + 1}`}
                                                                                         value={option}
