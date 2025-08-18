@@ -37,7 +37,7 @@ export class RoomService {
   // Create a new room
   static async createRoom(data: CreateRoomData, userId: string): Promise<{ roomId: string; roomCode: string } | null> {
     try {
-      const { data: result, error } = await supabase.rpc('create_room_with_owner', {
+      const { data: result, error } = await (supabase as any).rpc('create_room_with_owner', {
         room_name: data.name,
         room_description: data.description,
         room_subject_id: data.subjectId,
@@ -64,8 +64,8 @@ export class RoomService {
       }
 
       return {
-        roomId: result,
-        roomCode: roomData.room_code || ''
+        roomId: result as string,
+        roomCode: roomData.room_code as string || ''
       };
     } catch (error) {
       console.error('Error creating room:', error);
@@ -76,7 +76,7 @@ export class RoomService {
   // Join a room by code
   static async joinRoomByCode(roomCode: string, userId: string): Promise<boolean> {
     try {
-      const { data, error } = await supabase.rpc('join_room_by_code', {
+      const { data, error } = await (supabase as any).rpc('join_room_by_code', {
         room_code_input: roomCode.toUpperCase(),
         user_id_input: userId
       });
@@ -86,7 +86,7 @@ export class RoomService {
         return false;
       }
 
-      return data;
+      return data as boolean;
     } catch (error) {
       console.error('Error joining room:', error);
       return false;
@@ -153,7 +153,7 @@ export class RoomService {
       }
 
       const memberRoomIds = new Set(memberRooms.map(mr => mr.room_id));
-      
+
       // Filter out rooms user is already a member of
       return publicRooms.filter(room => !memberRoomIds.has(room.id));
     } catch (error) {
