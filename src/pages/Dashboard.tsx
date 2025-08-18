@@ -11,18 +11,24 @@ import {
   Award,
   Calendar,
   BarChart3,
-  Search
+  Search,
+  Flame,
+  Zap
 } from 'lucide-react';
 import { getContentStats } from "@/content";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
+import { useGamification } from "@/hooks/use-gamification";
+import XPBar from "@/components/gamification/XPBar";
+import LevelBadge from "@/components/gamification/LevelBadge";
 
 const Dashboard: React.FC = () => {
   const navigate = useNavigate();
   const [stats, setStats] = useState<any>(null);
   const [loading, setLoading] = useState(true);
+  const { gamificationData, loading: gamificationLoading, getXpForNextLevel, getLevelProgress } = useGamification();
 
   useEffect(() => {
     const loadStats = () => {
@@ -66,6 +72,41 @@ const Dashboard: React.FC = () => {
           <h1 className="text-3xl font-bold text-foreground mb-2">Welcome to Your Dashboard</h1>
           <p className="text-muted-foreground">Track your progress and discover new learning opportunities</p>
         </div>
+
+        {/* Gamification Stats */}
+        {!gamificationLoading && gamificationData && (
+          <div className="mb-8">
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+              {/* Level & XP Progress */}
+              <div className="lg:col-span-2">
+                <XPBar
+                  currentXP={gamificationData.total_xp}
+                  totalXP={gamificationData.total_xp}
+                  level={gamificationData.current_level}
+                  nextLevelXP={getXpForNextLevel(gamificationData.current_level)}
+                />
+              </div>
+              
+              {/* Daily Streak */}
+              <Card>
+                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                  <CardTitle className="text-sm font-medium">Daily Streak</CardTitle>
+                  <Flame className="h-4 w-4 text-stemOrange" />
+                </CardHeader>
+                <CardContent>
+                  <div className="text-2xl font-bold flex items-center gap-2">
+                    <Flame className="h-6 w-6 text-stemOrange" />
+                    {gamificationData.current_streak}
+                    <span className="text-sm font-normal text-muted-foreground">days</span>
+                  </div>
+                  <p className="text-xs text-muted-foreground">
+                    Best: {gamificationData.longest_streak} days
+                  </p>
+                </CardContent>
+              </Card>
+            </div>
+          </div>
+        )}
 
         {/* Stats Cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
