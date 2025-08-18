@@ -603,9 +603,23 @@ export type Database = {
       }
     }
     Functions: {
+      award_xp: {
+        Args: {
+          ref_id?: string
+          ref_type?: string
+          user_uuid: string
+          xp_amount: number
+          xp_reason: string
+        }
+        Returns: Json
+      }
       calculate_level_from_xp: {
         Args: { xp: number }
         Returns: number
+      }
+      initialize_user_gamification: {
+        Args: { user_uuid: string }
+        Returns: undefined
       }
       is_admin: {
         Args: Record<PropertyKey, never>
