@@ -180,10 +180,74 @@ const SubjectDetail: React.FC = () => {
           <ArrowLeft className="h-4 w-4 mr-2" />
           Back to Subjects
         </Button>
-        <div>
-          <h1 className="text-2xl font-bold tracking-tight">{subject.name}</h1>
-          <p className="text-muted-foreground">{subject.description}</p>
+        <div className="flex-1">
+          <div className="flex items-center gap-4">
+            <div>
+              <h1 className="text-2xl font-bold tracking-tight">{subject.name}</h1>
+              <p className="text-muted-foreground">{subject.description}</p>
+            </div>
+            <div className="ml-auto">
+              <Badge variant="outline" className="px-4 py-2 text-base">
+                <div className="text-center">
+                  <div className="font-bold text-primary">
+                    {completedModules}/{totalModules}
+                  </div>
+                  <div className="text-xs text-muted-foreground">
+                    {totalModules - completedModules} remaining
+                  </div>
+                </div>
+              </Badge>
+            </div>
+          </div>
         </div>
+      </div>
+
+      {/* Module Count Summary Cards */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+        <Card className="card-stem">
+          <CardHeader className="pb-3">
+            <CardTitle className="text-lg flex items-center gap-2">
+              <BookOpen className="h-5 w-5 text-blue-600" />
+              Total Modules
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="text-3xl font-bold text-blue-600">{totalModules}</div>
+            <p className="text-sm text-muted-foreground mt-1">
+              Available for learning
+            </p>
+          </CardContent>
+        </Card>
+
+        <Card className="card-stem">
+          <CardHeader className="pb-3">
+            <CardTitle className="text-lg flex items-center gap-2">
+              <CheckCircle className="h-5 w-5 text-green-600" />
+              Completed
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="text-3xl font-bold text-green-600">{completedModules}</div>
+            <p className="text-sm text-muted-foreground mt-1">
+              Modules finished
+            </p>
+          </CardContent>
+        </Card>
+
+        <Card className="card-stem">
+          <CardHeader className="pb-3">
+            <CardTitle className="text-lg flex items-center gap-2">
+              <PlayCircle className="h-5 w-5 text-orange-600" />
+              Remaining
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="text-3xl font-bold text-orange-600">{totalModules - completedModules}</div>
+            <p className="text-sm text-muted-foreground mt-1">
+              Modules to complete
+            </p>
+          </CardContent>
+        </Card>
       </div>
 
       {/* TryHackMe-style Learning Track */}
@@ -192,13 +256,25 @@ const SubjectDetail: React.FC = () => {
         <div className="lg:col-span-3">
           <Card className="card-stem">
             <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Target className="h-5 w-5" />
-                Learning Track
-              </CardTitle>
-              <CardDescription>
-                Complete modules in order to master {subject.name}. Take quizzes to test your understanding.
-              </CardDescription>
+              <div className="flex items-center justify-between">
+                <div>
+                  <CardTitle className="flex items-center gap-2">
+                    <Target className="h-5 w-5" />
+                    Learning Track
+                  </CardTitle>
+                  <CardDescription>
+                    Complete modules in order to master {subject.name}. Take quizzes to test your understanding.
+                  </CardDescription>
+                </div>
+                <div className="text-right">
+                  <div className="text-2xl font-bold text-primary">
+                    {completedModules}/{totalModules}
+                  </div>
+                  <div className="text-sm text-muted-foreground">
+                    {totalModules - completedModules} remaining
+                  </div>
+                </div>
+              </div>
             </CardHeader>
             <CardContent>
               <div className="space-y-4">
@@ -222,7 +298,15 @@ const SubjectDetail: React.FC = () => {
                       <div className="flex-1 min-w-0">
                         <div className="flex items-start justify-between gap-4">
                           <div className="space-y-1">
-                            <h3 className="font-medium text-sm">{module.title}</h3>
+                            <div className="flex items-center gap-2">
+                              <h3 className="font-medium text-sm">{module.title}</h3>
+                              {isCompleted && (
+                                <Badge variant="outline" className="text-xs bg-green-50 text-green-700 border-green-200">
+                                  <CheckCircle className="h-3 w-3 mr-1" />
+                                  Completed
+                                </Badge>
+                              )}
+                            </div>
                             <p className="text-xs text-muted-foreground line-clamp-2">
                               {module.description}
                             </p>
