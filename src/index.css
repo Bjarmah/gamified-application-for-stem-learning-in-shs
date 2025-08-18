@@ -135,11 +135,11 @@
   }
 
   .subject-progress {
-    @apply bg-stemPurple/10 dark:bg-stemPurple/20 border border-stemPurple/30 dark:border-stemPurple/40;
+    @apply bg-stemPurple/20 dark:bg-stemPurple/30 border border-stemPurple/30 dark:border-stemPurple/40;
   }
 
   .subject-progress-text {
-    @apply text-stemPurple-dark dark:text-stemPurple-light;
+    @apply text-stemPurple dark:text-stemPurple-light;
   }
 
   .subject-progress-value {
@@ -151,50 +151,50 @@
   }
 
   .subject-completed {
-    @apply bg-stemPurple/15 dark:bg-stemPurple/25 border-stemPurple/30 dark:border-stemPurple/40;
+    @apply bg-stemGreen/20 dark:bg-stemGreen/30 border-stemGreen/30 dark:border-stemGreen/40;
   }
 
   .subject-completed-text {
-    @apply text-stemPurple-dark dark:text-stemPurple-light;
+    @apply text-stemGreen-dark dark:text-stemGreen-light;
   }
 
   .subject-completed-value {
-    @apply text-stemPurple-dark dark:text-stemPurple-light;
+    @apply text-stemGreen-dark dark:text-stemGreen-light;
   }
 
   .subject-completed-icon {
-    @apply text-stemPurple dark:text-stemPurple-light;
+    @apply text-stemGreen dark:text-stemGreen-light;
   }
 
   .subject-remaining {
-    @apply bg-stemPurple/10 dark:bg-stemPurple/20 border-stemPurple/30 dark:border-stemPurple/40;
+    @apply bg-stemOrange/20 dark:bg-stemOrange/30 border-stemOrange/30 dark:border-stemOrange/40;
   }
 
   .subject-remaining-text {
-    @apply text-stemPurple-dark dark:text-stemPurple-light;
+    @apply text-stemOrange-dark dark:text-stemOrange-light;
   }
 
   .subject-remaining-value {
-    @apply text-stemPurple-dark dark:text-stemPurple-light;
+    @apply text-stemOrange-dark dark:text-stemOrange-light;
   }
 
   .subject-remaining-icon {
-    @apply text-stemPurple dark:text-stemPurple-light;
+    @apply text-stemOrange dark:text-stemOrange-light;
   }
 
   .subject-overall {
-    @apply bg-stemPurple/15 dark:bg-stemPurple/25 border-stemPurple/30 dark:border-stemPurple/40;
+    @apply bg-stemYellow/20 dark:bg-stemYellow/30 border-stemYellow/30 dark:border-stemYellow/40;
   }
 
   .subject-overall-text {
-    @apply text-stemPurple-dark dark:text-stemPurple-light;
+    @apply text-stemYellow-dark dark:text-stemYellow-light;
   }
 
   .subject-overall-value {
-    @apply text-stemPurple-dark dark:text-stemPurple-light;
+    @apply text-stemYellow-dark dark:text-stemYellow-light;
   }
 
   .subject-overall-icon {
-    @apply text-stemPurple dark:text-stemPurple-light;
+    @apply text-stemYellow dark:text-stemYellow-light;
   }
 }
