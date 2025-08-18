@@ -135,15 +135,15 @@
   }
 
   .subject-progress {
-    @apply bg-stemPurple/10 dark:bg-stemPurple/20 border border-stemPurple/30 dark:border-stemPurple/40;
+    @apply bg-stemPurple/20 dark:bg-stemPurple/30 border border-stemPurple/30 dark:border-stemPurple/40;
   }
 
   .subject-progress-text {
-    @apply text-stemPurple-dark dark:text-stemPurple-light;
+    @apply text-stemPurple dark:text-stemPurple-light;
   }
 
   .subject-progress-value {
-    @apply text-stemPurple-dark dark:text-stemPurple-light;
+    @apply text-stemPurple dark:text-stemPurple-light;
   }
 
   .subject-progress-icon {
@@ -151,15 +151,15 @@
   }
 
   .subject-completed {
-    @apply bg-stemPurple/15 dark:bg-stemPurple/25 border-stemPurple/30 dark:border-stemPurple/40;
+    @apply bg-stemPurple/25 dark:bg-stemPurple/35 border-stemPurple/30 dark:border-stemPurple/40;
   }
 
   .subject-completed-text {
-    @apply text-stemPurple-dark dark:text-stemPurple-light;
+    @apply text-stemPurple dark:text-stemPurple-light;
   }
 
   .subject-completed-value {
-    @apply text-stemPurple-dark dark:text-stemPurple-light;
+    @apply text-stemPurple dark:text-stemPurple-light;
   }
 
   .subject-completed-icon {
@@ -167,15 +167,15 @@
   }
 
   .subject-remaining {
-    @apply bg-stemPurple/10 dark:bg-stemPurple/20 border-stemPurple/30 dark:border-stemPurple/40;
+    @apply bg-stemPurple/15 dark:bg-stemPurple/25 border-stemPurple/30 dark:border-stemPurple/40;
   }
 
   .subject-remaining-text {
-    @apply text-stemPurple-dark dark:text-stemPurple-light;
+    @apply text-stemPurple dark:text-stemPurple-light;
   }
 
   .subject-remaining-value {
-    @apply text-stemPurple-dark dark:text-stemPurple-light;
+    @apply text-stemPurple dark:text-stemPurple-light;
   }
 
   .subject-remaining-icon {
@@ -183,15 +183,15 @@
   }
 
   .subject-overall {
-    @apply bg-stemPurple/15 dark:bg-stemPurple/25 border-stemPurple/30 dark:border-stemPurple/40;
+    @apply bg-stemPurple/30 dark:bg-stemPurple/40 border-stemPurple/30 dark:border-stemPurple/40;
   }
 
   .subject-overall-text {
-    @apply text-stemPurple-dark dark:text-stemPurple-light;
+    @apply text-stemPurple dark:text-stemPurple-light;
   }
 
   .subject-overall-value {
-    @apply text-stemPurple-dark dark:text-stemPurple-light;
+    @apply text-stemPurple dark:text-stemPurple-light;
   }
 
   .subject-overall-icon {
