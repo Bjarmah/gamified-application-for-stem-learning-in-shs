@@ -4,7 +4,8 @@ import AchievementCard from "@/components/achievements/AchievementCard";
 import BadgeCard from "@/components/achievements/BadgeCard";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Award, Trophy, Calendar, Star, BookOpen, Medal, GraduationCap, Skeleton } from "lucide-react";
+import { Skeleton } from "@/components/ui/skeleton";
+import { Award, Trophy, Calendar, Star, BookOpen, Medal, GraduationCap } from "lucide-react";
 import { useGamification } from "@/hooks/use-gamification";
 
 const Achievements = () => {
