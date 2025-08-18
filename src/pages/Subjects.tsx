@@ -7,49 +7,46 @@ import { Calculator, Atom, FlaskConical, Activity, Monitor, Bot, BookOpen, Check
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/context/AuthContext";
-import {
-  biologyModules,
-  chemistryModules,
-  physicsModules,
-  mathematicsModules,
-  ictModules
-} from "@/content";
 
-// Debug: Test direct imports
-console.log('Direct import test:');
-console.log('biologyModules:', biologyModules);
-console.log('biologyModules.length:', biologyModules?.length);
-console.log('chemistryModules.length:', chemistryModules?.length);
-console.log('physicsModules.length:', physicsModules.length);
-console.log('mathematicsModules.length:', mathematicsModules?.length);
-console.log('ictModules.length:', ictModules?.length);
 
-// Debug: Check if modules are arrays
-console.log('biologyModules is Array:', Array.isArray(biologyModules));
-console.log('chemistryModules is Array:', Array.isArray(chemistryModules));
-console.log('physicsModules is Array:', Array.isArray(physicsModules));
-console.log('mathematicsModules is Array:', Array.isArray(mathematicsModules));
-console.log('ictModules is Array:', Array.isArray(ictModules));
 
-// Debug: Check first module structure
-if (biologyModules && biologyModules.length > 0) {
-  console.log('First biology module:', biologyModules[0]);
-  console.log('First biology module id:', biologyModules[0]?.id);
-  console.log('First biology module title:', biologyModules[0]?.title);
-}
 
 const Subjects = () => {
   const { data: subjects, isLoading, error } = useSubjects();
   const { user } = useAuth();
 
-  // Use local content for module counts instead of database
-  const moduleCounts = {
-    'biology': biologyModules.length,
-    'chemistry': chemistryModules.length,
-    'physics': physicsModules.length,
-    'mathematics': mathematicsModules.length,
-    'Elective ICT': ictModules.length,
-  };
+  // Fetch module counts from database for each subject
+  const { data: moduleCounts, isLoading: moduleCountsLoading } = useQuery({
+    queryKey: ["module-counts"],
+    queryFn: async () => {
+      try {
+        const { data, error } = await supabase
+          .from("modules")
+          .select("subject_id")
+          .not("subject_id", "is", null);
+
+        if (error) {
+          console.error("Error fetching module counts:", error);
+          return {};
+        }
+
+        // Count modules per subject
+        const counts: Record<string, number> = {};
+        data.forEach((module) => {
+          const subjectId = module.subject_id;
+          if (subjectId) {
+            counts[subjectId] = (counts[subjectId] || 0) + 1;
+          }
+        });
+
+        return counts;
+      } catch (error) {
+        console.error("Error fetching module counts:", error);
+        return {};
+      }
+    },
+    staleTime: 1000 * 60 * 5, // 5 minutes
+  });
 
   // Fetch user progress for modules
   const { data: progressData, isLoading: progressLoading } = useQuery({
@@ -110,7 +107,7 @@ const Subjects = () => {
     }
   };
 
-  if (isLoading || progressLoading) {
+  if (isLoading || progressLoading || moduleCountsLoading) {
     return (
       <div className="space-y-6 pb-8">
         <div>
@@ -159,14 +156,14 @@ const Subjects = () => {
       </div>
 
       {/* Overall Progress Summary */}
-      {user && progressData && (
+      {user && progressData && moduleCounts && (
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
           <div className="bg-blue-50 dark:bg-blue-950/20 p-4 rounded-lg border">
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm font-medium text-blue-600 dark:text-blue-400">Total Modules</p>
                 <p className="text-2xl font-bold text-blue-700 dark:text-blue-300">
-                  {Object.values(moduleCounts).reduce((sum, count) => sum + count, 0)}
+                  {Object.values(moduleCounts || {}).reduce((sum, count) => sum + count, 0)}
                 </p>
               </div>
               <div className="text-blue-400">
@@ -194,7 +191,7 @@ const Subjects = () => {
               <div>
                 <p className="text-sm font-medium text-orange-600 dark:text-orange-400">Remaining</p>
                 <p className="text-2xl font-bold text-orange-700 dark:text-orange-300">
-                  {Object.values(moduleCounts).reduce((sum, count) => sum + count, 0) -
+                  {Object.values(moduleCounts || {}).reduce((sum, count) => sum + count, 0) -
                     Object.values(progressData).reduce((sum, count) => sum + count, 0)}
                 </p>
               </div>
@@ -211,7 +208,7 @@ const Subjects = () => {
                 <p className="text-2xl font-bold text-purple-700 dark:text-purple-300">
                   {Math.round(
                     (Object.values(progressData).reduce((sum, count) => sum + count, 0) /
-                      Object.values(moduleCounts).reduce((sum, count) => sum + count, 0)) * 100
+                      Object.values(moduleCounts || {}).reduce((sum, count) => sum + count, 0)) * 100
                   )}%
                 </p>
               </div>
@@ -225,12 +222,9 @@ const Subjects = () => {
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {subjects?.map((subject) => {
-          // Use local content for module counts
-          const totalModules = moduleCounts[subject.id as keyof typeof moduleCounts] || 0;
+          // Use database module counts
+          const totalModules = moduleCounts?.[subject.id] || 0;
           const modulesCompleted = progressData?.[subject.id] || 0;
-
-          // Debug: Log subject ID and module count
-          console.log(`Subject: ${subject.name}, ID: ${subject.id}, Total modules: ${totalModules}, Module counts keys:`, Object.keys(moduleCounts));
 
           return (
             <SubjectCard

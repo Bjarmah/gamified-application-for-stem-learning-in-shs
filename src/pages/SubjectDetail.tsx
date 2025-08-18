@@ -187,12 +187,12 @@ const SubjectDetail: React.FC = () => {
               <p className="text-muted-foreground">{subject.description}</p>
             </div>
             <div className="ml-auto">
-              <Badge variant="outline" className="px-4 py-2 text-base">
+              <Badge variant="outline" className="px-4 py-2 text-base border-gray-300 bg-gray-50 dark:border-gray-600 dark:bg-gray-800">
                 <div className="text-center">
-                  <div className="font-bold text-primary">
+                  <div className="font-bold text-gray-700 dark:text-gray-300">
                     {completedModules}/{totalModules}
                   </div>
-                  <div className="text-xs text-muted-foreground">
+                  <div className="text-xs text-gray-500 dark:text-gray-400">
                     {totalModules - completedModules} remaining
                   </div>
                 </div>
@@ -204,46 +204,46 @@ const SubjectDetail: React.FC = () => {
 
       {/* Module Count Summary Cards */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-        <Card className="card-stem">
+        <Card className="border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900">
           <CardHeader className="pb-3">
-            <CardTitle className="text-lg flex items-center gap-2">
-              <BookOpen className="h-5 w-5 text-blue-600" />
+            <CardTitle className="text-lg flex items-center gap-2 text-gray-800 dark:text-gray-200">
+              <BookOpen className="h-5 w-5 text-gray-600 dark:text-gray-400" />
               Total Modules
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-3xl font-bold text-blue-600">{totalModules}</div>
-            <p className="text-sm text-muted-foreground mt-1">
+            <div className="text-3xl font-bold text-gray-700 dark:text-gray-300">{totalModules}</div>
+            <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
               Available for learning
             </p>
           </CardContent>
         </Card>
 
-        <Card className="card-stem">
+        <Card className="border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900">
           <CardHeader className="pb-3">
-            <CardTitle className="text-lg flex items-center gap-2">
-              <CheckCircle className="h-5 w-5 text-green-600" />
+            <CardTitle className="text-lg flex items-center gap-2 text-gray-800 dark:text-gray-200">
+              <CheckCircle className="h-5 w-5 text-gray-600 dark:text-gray-400" />
               Completed
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-3xl font-bold text-green-600">{completedModules}</div>
-            <p className="text-sm text-muted-foreground mt-1">
+            <div className="text-3xl font-bold text-gray-700 dark:text-gray-300">{completedModules}</div>
+            <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
               Modules finished
             </p>
           </CardContent>
         </Card>
 
-        <Card className="card-stem">
+        <Card className="border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900">
           <CardHeader className="pb-3">
-            <CardTitle className="text-lg flex items-center gap-2">
-              <PlayCircle className="h-5 w-5 text-orange-600" />
+            <CardTitle className="text-lg flex items-center gap-2 text-gray-800 dark:text-gray-200">
+              <PlayCircle className="h-5 w-5 text-gray-600 dark:text-gray-400" />
               Remaining
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-3xl font-bold text-orange-600">{totalModules - completedModules}</div>
-            <p className="text-sm text-muted-foreground mt-1">
+            <div className="text-3xl font-bold text-gray-700 dark:text-gray-300">{totalModules - completedModules}</div>
+            <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
               Modules to complete
             </p>
           </CardContent>
@@ -254,23 +254,23 @@ const SubjectDetail: React.FC = () => {
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
         {/* Left: Learning Track (vertical progression) */}
         <div className="lg:col-span-3">
-          <Card className="card-stem">
+          <Card className="border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900">
             <CardHeader>
               <div className="flex items-center justify-between">
                 <div>
-                  <CardTitle className="flex items-center gap-2">
-                    <Target className="h-5 w-5" />
+                  <CardTitle className="flex items-center gap-2 text-gray-800 dark:text-gray-200">
+                    <Target className="h-5 w-5 text-gray-600 dark:text-gray-400" />
                     Learning Track
                   </CardTitle>
-                  <CardDescription>
+                  <CardDescription className="text-gray-600 dark:text-gray-400">
                     Complete modules in order to master {subject.name}. Take quizzes to test your understanding.
                   </CardDescription>
                 </div>
                 <div className="text-right">
-                  <div className="text-2xl font-bold text-primary">
+                  <div className="text-2xl font-bold text-gray-700 dark:text-gray-300">
                     {completedModules}/{totalModules}
                   </div>
-                  <div className="text-sm text-muted-foreground">
+                  <div className="text-sm text-gray-500 dark:text-gray-400">
                     {totalModules - completedModules} remaining
                   </div>
                 </div>
@@ -285,11 +285,14 @@ const SubjectDetail: React.FC = () => {
                   return (
                     <div
                       key={module.id}
-                      className="flex items-center gap-4 p-4 border rounded-lg hover:bg-muted/50 transition-colors"
+                      className="flex items-center gap-4 p-4 border border-gray-200 dark:border-gray-700 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
                     >
                       {/* Step number */}
                       <div className="flex-shrink-0">
-                        <div className={`flex h-8 w-8 items-center justify-center rounded-full border-2 text-sm font-medium ${isCompleted ? "bg-stemGreen border-stemGreen text-white" : "border-muted-foreground text-muted-foreground"}`}>
+                        <div className={`flex h-8 w-8 items-center justify-center rounded-full border-2 text-sm font-medium ${isCompleted
+                          ? "bg-gray-700 border-gray-700 text-white dark:bg-gray-300 dark:border-gray-300 dark:text-gray-800"
+                          : "border-gray-300 text-gray-500 dark:border-gray-600 dark:text-gray-400"
+                          }`}>
                           {isCompleted ? <CheckCircle className="h-4 w-4" /> : idx + 1}
                         </div>
                       </div>
@@ -299,27 +302,27 @@ const SubjectDetail: React.FC = () => {
                         <div className="flex items-start justify-between gap-4">
                           <div className="space-y-1">
                             <div className="flex items-center gap-2">
-                              <h3 className="font-medium text-sm">{module.title}</h3>
+                              <h3 className="font-medium text-sm text-gray-800 dark:text-gray-200">{module.title}</h3>
                               {isCompleted && (
-                                <Badge variant="outline" className="text-xs bg-green-50 text-green-700 border-green-200">
+                                <Badge variant="outline" className="text-xs bg-gray-100 text-gray-700 border-gray-300 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-600">
                                   <CheckCircle className="h-3 w-3 mr-1" />
                                   Completed
                                 </Badge>
                               )}
                             </div>
-                            <p className="text-xs text-muted-foreground line-clamp-2">
+                            <p className="text-xs text-gray-600 dark:text-gray-400 line-clamp-2">
                               {module.description}
                             </p>
-                            <div className="flex items-center gap-3 text-xs text-muted-foreground">
+                            <div className="flex items-center gap-3 text-xs text-gray-500 dark:text-gray-400">
                               <div className="flex items-center gap-1">
                                 <Clock className="h-3 w-3" />
                                 ~{module.estimatedTime || 30} mins
                               </div>
-                              <Badge variant="outline" className="text-xs">
+                              <Badge variant="outline" className="text-xs bg-gray-50 text-gray-600 border-gray-300 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600">
                                 {prettyDifficulty(module.level)}
                               </Badge>
                               {moduleQuiz && (
-                                <Badge variant="secondary" className="text-xs">
+                                <Badge variant="outline" className="text-xs bg-gray-50 text-gray-600 border-gray-300 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600">
                                   <Trophy className="h-3 w-3 mr-1" />
                                   Quiz Available
                                 </Badge>
@@ -332,7 +335,7 @@ const SubjectDetail: React.FC = () => {
                             <Button
                               size="sm"
                               onClick={() => navigate(`/subjects/${subjectId}/${module.id}`)}
-                              className="btn-stem"
+                              className="bg-gray-700 hover:bg-gray-800 text-white border-gray-700 hover:border-gray-800 dark:bg-gray-600 dark:hover:bg-gray-700 dark:border-gray-600 dark:hover:border-gray-700"
                             >
                               <PlayCircle className="h-3 w-3 mr-1" />
                               {isCompleted ? "Review" : "Start"}
@@ -342,6 +345,7 @@ const SubjectDetail: React.FC = () => {
                                 size="sm"
                                 variant="outline"
                                 onClick={() => navigate(`/quizzes/${moduleQuiz.id}`)}
+                                className="bg-gray-100 hover:bg-gray-200 text-gray-700 border-gray-300 hover:border-gray-400 dark:bg-gray-700 dark:hover:bg-gray-600 dark:text-gray-300 dark:border-gray-600 dark:hover:border-gray-500"
                               >
                                 <BookOpen className="h-3 w-3 mr-1" />
                                 Quiz
@@ -370,23 +374,23 @@ const SubjectDetail: React.FC = () => {
 
         {/* Right: Progress Summary */}
         <div className="space-y-6">
-          <Card>
+          <Card className="border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900">
             <CardHeader>
-              <CardTitle className="text-lg">Progress</CardTitle>
+              <CardTitle className="text-lg text-gray-800 dark:text-gray-200">Progress</CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
               {progressLoading ? (
                 <div className="space-y-4">
                   <div className="space-y-2">
                     <div className="flex justify-between text-sm">
-                      <span>Modules</span>
+                      <span className="text-gray-700 dark:text-gray-300">Modules</span>
                       <Skeleton className="h-4 w-12" />
                     </div>
                     <Skeleton className="h-2 w-full rounded-full" />
                   </div>
                   <div className="space-y-2">
                     <div className="flex justify-between text-sm">
-                      <span>Quizzes</span>
+                      <span className="text-gray-700 dark:text-gray-300">Quizzes</span>
                       <Skeleton className="h-4 w-12" />
                     </div>
                     <Skeleton className="h-2 w-full rounded-full" />
@@ -396,21 +400,21 @@ const SubjectDetail: React.FC = () => {
                 <>
                   <div className="space-y-2">
                     <div className="flex justify-between text-sm">
-                      <span>Modules</span>
-                      <span>{completedModules}/{totalModules}</span>
+                      <span className="text-gray-700 dark:text-gray-300">Modules</span>
+                      <span className="text-gray-600 dark:text-gray-400">{completedModules}/{totalModules}</span>
                     </div>
-                    <div className="w-full bg-muted rounded-full h-2">
-                      <div className="bg-primary h-2 rounded-full transition-all duration-300" style={{ width: `${moduleProgressPercentage}%` }} />
+                    <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
+                      <div className="bg-gray-600 dark:bg-gray-400 h-2 rounded-full transition-all duration-300" style={{ width: `${moduleProgressPercentage}%` }} />
                     </div>
                   </div>
 
                   <div className="space-y-2">
                     <div className="flex justify-between text-sm">
-                      <span>Quizzes</span>
-                      <span>{completedQuizzes}/{totalQuizzes}</span>
+                      <span className="text-gray-700 dark:text-gray-300">Quizzes</span>
+                      <span className="text-gray-600 dark:text-gray-400">{completedQuizzes}/{totalQuizzes}</span>
                     </div>
-                    <div className="w-full bg-muted rounded-full h-2">
-                      <div className="bg-stemGreen h-2 rounded-full transition-all duration-300" style={{ width: `${quizProgressPercentage}%` }} />
+                    <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
+                      <div className="bg-gray-600 dark:bg-gray-400 h-2 rounded-full transition-all duration-300" style={{ width: `${quizProgressPercentage}%` }} />
                     </div>
                   </div>
                 </>
@@ -420,7 +424,7 @@ const SubjectDetail: React.FC = () => {
                 {progressLoading ? (
                   <Skeleton className="h-5 w-24 mx-auto rounded-full" />
                 ) : (
-                  <Badge variant="outline" className="text-xs">
+                  <Badge variant="outline" className="text-xs bg-gray-50 text-gray-600 border-gray-300 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600">
                     {moduleProgressPercentage === 100 ? "Subject Mastered!" :
                       moduleProgressPercentage >= 75 ? "Almost There!" :
                         moduleProgressPercentage >= 50 ? "Halfway There!" :
@@ -433,16 +437,16 @@ const SubjectDetail: React.FC = () => {
           </Card>
 
           {/* Quick Actions */}
-          <Card>
+          <Card className="border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900">
             <CardHeader>
-              <CardTitle className="text-lg">Quick Actions</CardTitle>
+              <CardTitle className="text-lg text-gray-800 dark:text-gray-200">Quick Actions</CardTitle>
             </CardHeader>
             <CardContent className="space-y-2">
               {modules && modules.length > 0 && (
                 <Button
                   variant="outline"
                   size="sm"
-                  className="w-full justify-start"
+                  className="w-full justify-start bg-gray-100 hover:bg-gray-200 text-gray-700 border-gray-300 hover:border-gray-400 dark:bg-gray-700 dark:hover:bg-gray-600 dark:text-gray-300 dark:border-gray-600 dark:hover:border-gray-500"
                   onClick={() => navigate(`/subjects/${subjectId}/${modules[0].id}`)}
                 >
                   <PlayCircle className="h-4 w-4 mr-2" />
@@ -452,7 +456,7 @@ const SubjectDetail: React.FC = () => {
               <Button
                 variant="outline"
                 size="sm"
-                className="w-full justify-start"
+                className="w-full justify-start bg-gray-100 hover:bg-gray-200 text-gray-700 border-gray-300 hover:border-gray-400 dark:bg-gray-700 dark:hover:bg-gray-600 dark:text-gray-300 dark:border-gray-600 dark:hover:border-gray-500"
                 onClick={() => navigate("/subjects")}
               >
                 <ArrowLeft className="h-4 w-4 mr-2" />
