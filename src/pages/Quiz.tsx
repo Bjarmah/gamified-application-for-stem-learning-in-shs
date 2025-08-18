@@ -13,7 +13,7 @@ import QuizQuestion, { QuizQuestionType } from "@/components/quiz/QuizQuestion";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useToast } from "@/hooks/use-toast";
 import { useTabMonitoring } from "@/hooks/use-tab-monitoring";
-import { Clock, Trophy, ArrowLeft, Eye, EyeOff, AlertTriangle, Maximize } from "lucide-react";
+import { Clock, Trophy, ArrowLeft, Eye, EyeOff, AlertTriangle, Maximize, Check } from "lucide-react";
 
 interface DbQuiz {
   id: string;
@@ -22,6 +22,7 @@ interface DbQuiz {
   questions: any[] | { questions: any[] } | any;
   time_limit: number | null;
   passing_score: number | null;
+  module_id?: string; // Added module_id
 }
 
 const secondsToMMSS = (s: number) => {
@@ -36,8 +37,8 @@ const Quiz: React.FC = () => {
   const { user } = useAuth();
   const { toast } = useToast();
   const qc = useQueryClient();
-  const { setIsQuizActive, setQuizTitle } = useQuizContext();
-  const { awardXP, updateStreak } = useGamification();
+  const { setIsQuizActive, setQuizTitle, setCurrentModuleId, markModuleCompleted } = useQuizContext();
+  const { awardXP, updateStreak, updateModulesCompleted, updateQuizzesCompleted } = useGamification();
 
   useEffect(() => {
     document.title = "Quiz • STEM Learner";
@@ -53,7 +54,7 @@ const Quiz: React.FC = () => {
         .eq("id", quizId)
         .maybeSingle();
       if (error) throw error;
-      
+
       // Process the questions data
       if (data) {
         // If questions is a string, try to parse it
@@ -65,13 +66,13 @@ const Quiz: React.FC = () => {
             data.questions = [];
           }
         }
-        
+
         // Ensure questions is an array
         if (!data.questions || !Array.isArray(data.questions)) {
           data.questions = [];
         }
       }
-      
+
       return data as DbQuiz | null;
     },
     enabled: !!quizId,
@@ -98,7 +99,7 @@ const Quiz: React.FC = () => {
   const [correct, setCorrect] = useState(0);
   const [answers, setAnswers] = useState<any[]>([]);
   const [quizStarted, setQuizStarted] = useState(false);
-  
+
   // Calculate total questions, handling nested structure
   const total = useMemo(() => {
     if (!quiz?.questions) return 0;
@@ -116,6 +117,7 @@ const Quiz: React.FC = () => {
     setFinished(true);
     setIsQuizActive(false);
     setQuizTitle(undefined);
+    setCurrentModuleId(undefined);
     if (!user || !quiz) return;
     const scorePct = total ? Math.round((correct / total) * 100) : 0;
     const payload = {
@@ -162,11 +164,16 @@ const Quiz: React.FC = () => {
   useEffect(() => {
     if (!quiz) return;
     setSecondsLeft(quiz.time_limit ?? 300);
-    
+
+    // Set the current module ID when quiz loads
+    if (quiz.module_id) {
+      setCurrentModuleId(quiz.module_id);
+    }
+
     // Debug the quiz data structure
     if (quiz) {
       console.log('Quiz loaded:', quiz.title);
-      
+
       // Check questions using the same logic as total calculation
       let questionsCount = 0;
       if (Array.isArray(quiz.questions)) {
@@ -174,14 +181,14 @@ const Quiz: React.FC = () => {
       } else if (typeof quiz.questions === 'object' && quiz.questions?.questions && Array.isArray(quiz.questions.questions)) {
         questionsCount = quiz.questions.questions.length;
       }
-      
+
       console.log('Questions count:', questionsCount);
-      
+
       if (questionsCount === 0) {
         console.warn('No questions found in quiz data');
       }
     }
-  }, [quizId, quiz]);
+  }, [quizId, quiz, setCurrentModuleId]);
 
   useEffect(() => {
     if (finished) return;
@@ -198,20 +205,20 @@ const Quiz: React.FC = () => {
 
   const currentQuestion: QuizQuestionType | null = useMemo(() => {
     if (!quiz || !quiz.questions || index >= total) return null;
-    
+
     // Handle nested questions structure
     let questions = quiz.questions;
     if (typeof quiz.questions === 'object' && !Array.isArray(quiz.questions) && quiz.questions.questions && Array.isArray(quiz.questions.questions)) {
       questions = quiz.questions.questions;
     }
-    
+
     const q = questions[index];
     if (!q) return null;
-    
+
     // Handle different question formats
     let options = [];
     let correctOption = 0;
-    
+
     if (Array.isArray(q.options)) {
       // Format: options: ["A", "B", "C", "D"], correct_answer: 1
       options = q.options;
@@ -223,7 +230,7 @@ const Quiz: React.FC = () => {
       const correctLetter = q.answer || q.correctAnswer;
       correctOption = optionKeys.indexOf(correctLetter);
     }
-    
+
     return {
       id: q.id ?? String(index),
       question: q.question || q.stem,
@@ -235,16 +242,16 @@ const Quiz: React.FC = () => {
 
   const recordAnswer = (isCorrect: boolean) => {
     if (!quiz || !quiz.questions) return;
-    
+
     // Handle nested questions structure for recording answers
     let questions = quiz.questions;
     if (typeof quiz.questions === 'object' && !Array.isArray(quiz.questions) && quiz.questions.questions && Array.isArray(quiz.questions.questions)) {
       questions = quiz.questions.questions;
     }
-    
+
     const q = Array.isArray(questions) ? questions[index] : null;
     if (!q) return;
-    
+
     setAnswers((prev) => ([...prev, {
       questionId: q.id ?? String(index),
       selected: undefined, // captured in UI; optional here
@@ -269,29 +276,48 @@ const Quiz: React.FC = () => {
       if (error) throw error;
       return data;
     },
-    onSuccess: (data) => {
+    onSuccess: async (data) => {
       qc.invalidateQueries({ queryKey: ["quiz-attempts"] });
+      qc.invalidateQueries({ queryKey: ["user-progress"] });
       toast({ title: "Quiz submitted", description: "Your attempt has been saved." });
-      
+
       // Award XP based on quiz performance
       const scorePct = total ? Math.round((correct / total) * 100) : 0;
       let xpAmount = 50; // Base XP for completing quiz
-      
+
       // Bonus XP for performance
       if (scorePct >= 90) xpAmount += 50; // Perfect/near-perfect bonus
       else if (scorePct >= 80) xpAmount += 30; // Good score bonus
       else if (scorePct >= 70) xpAmount += 20; // Passing score bonus
-      
+
       // Time bonus (if completed in less than half the time limit)
       const timeSpent = (quiz?.time_limit ?? 300) - secondsLeft;
       const timeLimit = quiz?.time_limit ?? 300;
       if (timeSpent < timeLimit / 2) {
         xpAmount += 25; // Speed bonus
       }
-      
+
       // Award XP and update streak
       awardXP(xpAmount, `Quiz completed: ${quiz?.title} (${scorePct}%)`, data.id, 'quiz');
       updateStreak();
+
+      // Update quizzes completed count
+      await updateQuizzesCompleted();
+
+      // Check if module should be marked as completed (score >= 70%)
+      if (scorePct >= 70 && quiz?.module_id) {
+        try {
+          await markModuleCompleted(quiz.module_id, scorePct, updateModulesCompleted);
+
+          toast({
+            title: "Module Completed!",
+            description: `Congratulations! You've completed this module with a score of ${scorePct}%.`,
+            variant: "default"
+          });
+        } catch (error) {
+          console.error("Error marking module as completed:", error);
+        }
+      }
     },
     onError: (e: any) => {
       toast({ title: "Submit failed", description: e.message, variant: "destructive" });
@@ -340,7 +366,7 @@ const Quiz: React.FC = () => {
             <Clock className="h-3 w-3" /> {secondsToMMSS(secondsLeft)}
           </Badge>
           {quizStarted && !finished && (
-            <Badge 
+            <Badge
               variant={tabMonitoring.isVisible && tabMonitoring.isFocused ? "default" : "destructive"}
               className="flex items-center gap-1"
             >
@@ -360,7 +386,7 @@ const Quiz: React.FC = () => {
         <Alert variant="destructive">
           <AlertTriangle className="h-4 w-4" />
           <AlertDescription>
-            {tabMonitoring.violations === 3 
+            {tabMonitoring.violations === 3
               ? "Quiz terminated due to excessive tab switching."
               : `Warning: Tab switching detected (${tabMonitoring.violations}/3). Keep this tab active during the quiz.`}
           </AlertDescription>
@@ -397,6 +423,13 @@ const Quiz: React.FC = () => {
                 <div>
                   <p className="font-medium">Fullscreen recommended</p>
                   <p className="text-muted-foreground">We'll suggest fullscreen mode for the best quiz experience</p>
+                </div>
+              </div>
+              <div className="flex items-start gap-3">
+                <Trophy className="h-4 w-4 mt-0.5 text-stemGreen" />
+                <div>
+                  <p className="font-medium">Passing score: 70%</p>
+                  <p className="text-muted-foreground">Score 70% or higher to complete this module and earn XP</p>
                 </div>
               </div>
             </div>
@@ -462,41 +495,55 @@ const Quiz: React.FC = () => {
           </CardHeader>
           <CardContent>
             <div className="space-y-2 text-sm">
-              <div className="flex justify-between"><span>Score</span><span className="font-medium">{Math.round((correct/total)*100)}%</span></div>
+              <div className="flex justify-between"><span>Score</span><span className="font-medium">{Math.round((correct / total) * 100)}%</span></div>
               <div className="flex justify-between"><span>Correct</span><span className="font-medium">{correct}/{total}</span></div>
               <div className="flex justify-between"><span>Time Spent</span><span className="font-medium">{secondsToMMSS((quiz.time_limit ?? 300) - secondsLeft)}</span></div>
             </div>
-            
+
+            {/* Module completion status */}
+            {quiz?.module_id && Math.round((correct / total) * 100) >= 70 && (
+              <div className="mt-4 p-3 bg-stemGreen/10 border border-stemGreen/20 rounded-lg">
+                <div className="flex items-center gap-2 text-stemGreen-dark">
+                  <Check className="h-4 w-4" />
+                  <span className="font-medium">Module Completed!</span>
+                </div>
+                <p className="text-sm text-stemGreen-dark mt-1">
+                  Congratulations! You've successfully completed this module with a score of {Math.round((correct / total) * 100)}%.
+                </p>
+              </div>
+            )}
+
             <div className="mt-4 space-y-2">
               <div className="grid grid-cols-2 gap-2">
-                <Button 
-                  variant="outline" 
+                <Button
+                  variant="outline"
                   onClick={() => navigate('/dashboard')}
                   className="w-full"
                 >
                   <ArrowLeft className="h-4 w-4 mr-2" />
                   Dashboard
                 </Button>
-                <Button 
-                  variant="outline" 
+                <Button
+                  variant="outline"
                   onClick={() => navigate('/subjects')}
                   className="w-full"
                 >
                   More Quizzes
                 </Button>
               </div>
-              <Button 
-                className="btn-stem w-full" 
-                onClick={() => { 
-                  setIndex(0); 
-                  setCorrect(0); 
-                  setAnswers([]); 
+              <Button
+                className="btn-stem w-full"
+                onClick={() => {
+                  setIndex(0);
+                  setCorrect(0);
+                  setAnswers([]);
                   setFinished(false);
                   setQuizStarted(false);
                   setIsQuizActive(false);
                   setQuizTitle(undefined);
+                  setCurrentModuleId(undefined);
                   tabMonitoring.reset();
-                  setSecondsLeft(quiz.time_limit ?? 300); 
+                  setSecondsLeft(quiz.time_limit ?? 300);
                 }}
               >
                 Retake Quiz
@@ -512,7 +559,7 @@ const Quiz: React.FC = () => {
           <p className="text-sm text-muted-foreground">No attempts yet.</p>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
-            {attempts.slice(0,6).map((a: any) => (
+            {attempts.slice(0, 6).map((a: any) => (
               <Card key={a.id}>
                 <CardContent className="p-4 text-sm flex items-center justify-between">
                   <div>

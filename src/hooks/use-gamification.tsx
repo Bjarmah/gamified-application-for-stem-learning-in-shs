@@ -196,9 +196,9 @@ export function useGamification() {
 
   // Award XP to user
   const awardXP = async (
-    amount: number, 
-    reason: string, 
-    referenceId?: string, 
+    amount: number,
+    reason: string,
+    referenceId?: string,
     referenceType?: string
   ) => {
     try {
@@ -233,7 +233,7 @@ export function useGamification() {
       // Refresh data
       await fetchGamificationData();
       await fetchXpHistory();
-      
+
       return data;
     } catch (error) {
       console.error('Error awarding XP:', error);
@@ -288,6 +288,76 @@ export function useGamification() {
     }
   };
 
+  // Update modules completed count
+  const updateModulesCompleted = async () => {
+    try {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) return;
+
+      // Count completed modules from user_progress
+      const { data: completedModules, error } = await supabase
+        .from('user_progress')
+        .select('module_id')
+        .eq('user_id', user.id)
+        .eq('completed', true);
+
+      if (error) throw error;
+
+      const modulesCompletedCount = completedModules?.length || 0;
+
+      // Update the gamification record
+      const { error: updateError } = await supabase
+        .from('user_gamification')
+        .update({
+          modules_completed: modulesCompletedCount,
+          updated_at: new Date().toISOString()
+        })
+        .eq('user_id', user.id);
+
+      if (updateError) throw updateError;
+
+      // Refresh gamification data
+      await fetchGamificationData();
+    } catch (error) {
+      console.error('Error updating modules completed count:', error);
+    }
+  };
+
+  // Update quizzes completed count
+  const updateQuizzesCompleted = async () => {
+    try {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) return;
+
+      // Count completed quizzes from quiz_attempts
+      const { data: completedQuizzes, error } = await supabase
+        .from('quiz_attempts')
+        .select('id')
+        .eq('user_id', user.id)
+        .not('completed_at', 'is', null);
+
+      if (error) throw error;
+
+      const quizzesCompletedCount = completedQuizzes?.length || 0;
+
+      // Update the gamification record
+      const { error: updateError } = await supabase
+        .from('user_gamification')
+        .update({
+          quizzes_completed: quizzesCompletedCount,
+          updated_at: new Date().toISOString()
+        })
+        .eq('user_id', user.id);
+
+      if (updateError) throw updateError;
+
+      // Refresh gamification data
+      await fetchGamificationData();
+    } catch (error) {
+      console.error('Error updating quizzes completed count:', error);
+    }
+  };
+
   useEffect(() => {
     const loadData = async () => {
       setLoading(true);
@@ -309,12 +379,12 @@ export function useGamification() {
 
   const getLevelProgress = () => {
     if (!gamificationData) return 0;
-    
+
     const currentLevelXp = getXpForNextLevel(gamificationData.current_level - 1);
     const nextLevelXp = getXpForNextLevel(gamificationData.current_level);
     const progressXp = gamificationData.total_xp - currentLevelXp;
     const neededXp = nextLevelXp - currentLevelXp;
-    
+
     return Math.min((progressXp / neededXp) * 100, 100);
   };
 
@@ -326,6 +396,8 @@ export function useGamification() {
     loading,
     awardXP,
     updateStreak,
+    updateModulesCompleted,
+    updateQuizzesCompleted,
     fetchGamificationData,
     getLevelProgress,
     getXpForNextLevel,

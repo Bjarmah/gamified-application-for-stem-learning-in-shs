@@ -24,7 +24,7 @@ import { useQuizContext } from "@/context/QuizContext";
 const AppLayout = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const { isQuizActive, quizTitle } = useQuizContext();
+  const { isQuizActive, quizTitle, currentModuleId } = useQuizContext();
 
   const isActive = (path: string) => location.pathname === path;
 
@@ -46,7 +46,13 @@ const AppLayout = () => {
         <Alert className="border-destructive bg-destructive/10 rounded-none">
           <Lock className="h-4 w-4" />
           <AlertDescription className="text-center">
-            Quiz in progress: {quizTitle || 'Untitled Quiz'} - Navigation is disabled for quiz integrity
+            Quiz in progress: {quizTitle || 'Untitled Quiz'}
+            {currentModuleId && (
+              <span className="block text-sm mt-1">
+                Module completion requires 70% or higher score
+              </span>
+            )}
+            <span className="block text-sm mt-1">Navigation is disabled for quiz integrity</span>
           </AlertDescription>
         </Alert>
       )}
