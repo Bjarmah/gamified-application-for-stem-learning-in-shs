@@ -14,6 +14,101 @@ export type Database = {
   }
   public: {
     Tables: {
+      achievements: {
+        Row: {
+          category: string
+          created_at: string | null
+          description: string
+          icon: string
+          id: string
+          is_active: boolean | null
+          name: string
+          rarity: string
+          requirement_type: string
+          requirement_value: number
+          xp_reward: number
+        }
+        Insert: {
+          category: string
+          created_at?: string | null
+          description: string
+          icon: string
+          id?: string
+          is_active?: boolean | null
+          name: string
+          rarity?: string
+          requirement_type: string
+          requirement_value: number
+          xp_reward?: number
+        }
+        Update: {
+          category?: string
+          created_at?: string | null
+          description?: string
+          icon?: string
+          id?: string
+          is_active?: boolean | null
+          name?: string
+          rarity?: string
+          requirement_type?: string
+          requirement_value?: number
+          xp_reward?: number
+        }
+        Relationships: []
+      }
+      badges: {
+        Row: {
+          category: string
+          created_at: string | null
+          description: string
+          icon: string
+          id: string
+          is_active: boolean | null
+          name: string
+          rarity: string
+          requirement_type: string
+          requirement_value: number
+          subject_id: string | null
+          unlock_condition: string
+        }
+        Insert: {
+          category: string
+          created_at?: string | null
+          description: string
+          icon: string
+          id?: string
+          is_active?: boolean | null
+          name: string
+          rarity?: string
+          requirement_type: string
+          requirement_value: number
+          subject_id?: string | null
+          unlock_condition: string
+        }
+        Update: {
+          category?: string
+          created_at?: string | null
+          description?: string
+          icon?: string
+          id?: string
+          is_active?: boolean | null
+          name?: string
+          rarity?: string
+          requirement_type?: string
+          requirement_value?: number
+          subject_id?: string | null
+          unlock_condition?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "badges_subject_id_fkey"
+            columns: ["subject_id"]
+            isOneToOne: false
+            referencedRelation: "subjects"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       messages: {
         Row: {
           content: string | null
@@ -291,6 +386,121 @@ export type Database = {
         }
         Relationships: []
       }
+      user_achievements: {
+        Row: {
+          achievement_id: string
+          earned_at: string | null
+          id: string
+          progress: number | null
+          user_id: string
+        }
+        Insert: {
+          achievement_id: string
+          earned_at?: string | null
+          id?: string
+          progress?: number | null
+          user_id: string
+        }
+        Update: {
+          achievement_id?: string
+          earned_at?: string | null
+          id?: string
+          progress?: number | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "user_achievements_achievement_id_fkey"
+            columns: ["achievement_id"]
+            isOneToOne: false
+            referencedRelation: "achievements"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      user_badges: {
+        Row: {
+          badge_id: string
+          earned_at: string | null
+          id: string
+          level: number | null
+          user_id: string
+        }
+        Insert: {
+          badge_id: string
+          earned_at?: string | null
+          id?: string
+          level?: number | null
+          user_id: string
+        }
+        Update: {
+          badge_id?: string
+          earned_at?: string | null
+          id?: string
+          level?: number | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "user_badges_badge_id_fkey"
+            columns: ["badge_id"]
+            isOneToOne: false
+            referencedRelation: "badges"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      user_gamification: {
+        Row: {
+          created_at: string | null
+          current_level: number
+          current_streak: number
+          id: string
+          last_activity: string | null
+          longest_streak: number
+          modules_completed: number
+          perfect_scores: number
+          quizzes_completed: number
+          total_time_studied: number
+          total_xp: number
+          updated_at: string | null
+          user_id: string
+          xp_to_next_level: number
+        }
+        Insert: {
+          created_at?: string | null
+          current_level?: number
+          current_streak?: number
+          id?: string
+          last_activity?: string | null
+          longest_streak?: number
+          modules_completed?: number
+          perfect_scores?: number
+          quizzes_completed?: number
+          total_time_studied?: number
+          total_xp?: number
+          updated_at?: string | null
+          user_id: string
+          xp_to_next_level?: number
+        }
+        Update: {
+          created_at?: string | null
+          current_level?: number
+          current_streak?: number
+          id?: string
+          last_activity?: string | null
+          longest_streak?: number
+          modules_completed?: number
+          perfect_scores?: number
+          quizzes_completed?: number
+          total_time_studied?: number
+          total_xp?: number
+          updated_at?: string | null
+          user_id?: string
+          xp_to_next_level?: number
+        }
+        Relationships: []
+      }
       user_progress: {
         Row: {
           completed: boolean | null
@@ -332,6 +542,36 @@ export type Database = {
           },
         ]
       }
+      xp_transactions: {
+        Row: {
+          amount: number
+          created_at: string | null
+          id: string
+          reason: string
+          reference_id: string | null
+          reference_type: string | null
+          user_id: string
+        }
+        Insert: {
+          amount: number
+          created_at?: string | null
+          id?: string
+          reason: string
+          reference_id?: string | null
+          reference_type?: string | null
+          user_id: string
+        }
+        Update: {
+          amount?: number
+          created_at?: string | null
+          id?: string
+          reason?: string
+          reference_id?: string | null
+          reference_type?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       public_profiles: {
@@ -363,6 +603,10 @@ export type Database = {
       }
     }
     Functions: {
+      calculate_level_from_xp: {
+        Args: { xp: number }
+        Returns: number
+      }
       is_admin: {
         Args: Record<PropertyKey, never>
         Returns: boolean
