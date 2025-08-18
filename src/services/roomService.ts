@@ -37,35 +37,61 @@ export class RoomService {
   // Create a new room
   static async createRoom(data: CreateRoomData, userId: string): Promise<{ roomId: string; roomCode: string } | null> {
     try {
-      const { data: result, error } = await (supabase as any).rpc('create_room_with_owner', {
-        room_name: data.name,
-        room_description: data.description,
-        room_subject_id: data.subjectId || null, // Handle optional subjectId
-        room_is_public: data.isPublic,
-        room_max_members: data.maxMembers,
-        owner_user_id: userId
-      });
+      console.log('RoomService.createRoom called with:', { data, userId });
 
-      if (error) {
-        console.error('Error creating room:', error);
-        return null;
-      }
+      // Generate a simple room code (8 characters)
+      const generateRoomCode = () => {
+        const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+        let result = '';
+        for (let i = 0; i < 8; i++) {
+          result += chars.charAt(Math.floor(Math.random() * chars.length));
+        }
+        return result;
+      };
 
-      // Get the room code for the newly created room
-      const { data: roomData, error: roomError } = await supabase
+      const roomCode = generateRoomCode();
+
+      // Create the room directly
+      const { data: room, error: roomError } = await supabase
         .from('rooms')
-        .select('room_code')
-        .eq('id', result)
+        .insert({
+          name: data.name,
+          description: data.description,
+          subject_id: data.subjectId || null,
+          is_public: data.isPublic,
+          max_members: data.maxMembers,
+          room_code: roomCode,
+          created_by: userId
+        })
+        .select('id, room_code')
         .single();
 
-      if (roomError || !roomData) {
-        console.error('Error getting room code:', roomError);
+      if (roomError) {
+        console.error('Error creating room:', roomError);
         return null;
       }
 
+      // Add the creator as owner
+      const { error: memberError } = await supabase
+        .from('room_members')
+        .insert({
+          room_id: room.id,
+          user_id: userId,
+          role: 'owner'
+        });
+
+      if (memberError) {
+        console.error('Error adding room owner:', memberError);
+        // Try to delete the room if adding owner fails
+        await supabase.from('rooms').delete().eq('id', room.id);
+        return null;
+      }
+
+      console.log('Room created successfully:', room);
+
       return {
-        roomId: result as string,
-        roomCode: roomData.room_code as string || ''
+        roomId: room.id,
+        roomCode: room.room_code || roomCode
       };
     } catch (error) {
       console.error('Error creating room:', error);
@@ -76,17 +102,58 @@ export class RoomService {
   // Join a room by code
   static async joinRoomByCode(roomCode: string, userId: string): Promise<boolean> {
     try {
-      const { data, error } = await (supabase as any).rpc('join_room_by_code', {
-        room_code_input: roomCode.toUpperCase(),
-        user_id_input: userId
-      });
+      // Find the room by code
+      const { data: room, error: roomError } = await supabase
+        .from('rooms')
+        .select('id, max_members, is_public')
+        .eq('room_code', roomCode.toUpperCase())
+        .eq('is_public', true)
+        .single();
 
-      if (error) {
-        console.error('Error joining room:', error);
+      if (roomError || !room) {
+        console.error('Room not found or not public:', roomError);
         return false;
       }
 
-      return data as boolean;
+      // Check if user is already a member
+      const { data: existingMember } = await supabase
+        .from('room_members')
+        .select('id')
+        .eq('room_id', room.id)
+        .eq('user_id', userId)
+        .single();
+
+      if (existingMember) {
+        console.log('User already a member of this room');
+        return false;
+      }
+
+      // Check if room is full
+      const { count: memberCount } = await supabase
+        .from('room_members')
+        .select('*', { count: 'exact', head: true })
+        .eq('room_id', room.id);
+
+      if (memberCount && memberCount >= (room.max_members || 50)) {
+        console.error('Room is full');
+        return false;
+      }
+
+      // Add user to room
+      const { error: joinError } = await supabase
+        .from('room_members')
+        .insert({
+          room_id: room.id,
+          user_id: userId,
+          role: 'member'
+        });
+
+      if (joinError) {
+        console.error('Error joining room:', joinError);
+        return false;
+      }
+
+      return true;
     } catch (error) {
       console.error('Error joining room:', error);
       return false;

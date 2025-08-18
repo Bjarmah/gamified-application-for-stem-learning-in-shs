@@ -175,7 +175,9 @@ const Rooms = () => {
                 maxMembers: newRoom.maxMembers
             };
 
+            console.log('Creating room with data:', roomData);
             const result = await RoomService.createRoom(roomData, user.id);
+            console.log('Room creation result:', result);
             if (result) {
                 toast({
                     title: "Room Created",
