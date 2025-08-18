@@ -38,7 +38,7 @@ const Quiz: React.FC = () => {
   const { toast } = useToast();
   const qc = useQueryClient();
   const { setIsQuizActive, setQuizTitle, setCurrentModuleId, markModuleCompleted } = useQuizContext();
-  const { awardXP, updateStreak, updateModulesCompleted, updateQuizzesCompleted } = useGamification();
+  const { awardXP, updateStreak, updateModulesCompleted, updateQuizzesCompleted, checkAchievements, checkBadges } = useGamification();
 
   useEffect(() => {
     document.title = "Quiz • STEM Learner";
@@ -308,6 +308,10 @@ const Quiz: React.FC = () => {
       if (scorePct >= 70 && quiz?.module_id) {
         try {
           await markModuleCompleted(quiz.module_id, scorePct, updateModulesCompleted);
+
+          // Check for new achievements and badges after module completion
+          await checkAchievements();
+          await checkBadges();
 
           toast({
             title: "Module Completed!",

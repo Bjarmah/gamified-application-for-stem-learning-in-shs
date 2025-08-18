@@ -125,7 +125,8 @@ export function useGamification() {
             progress
           )
         `)
-        .eq('user_achievements.user_id', user.id);
+        .eq('is_active', true)
+        .order('requirement_value', { ascending: true });
 
       if (error) throw error;
 
@@ -157,7 +158,8 @@ export function useGamification() {
             level
           )
         `)
-        .eq('user_badges.user_id', user.id);
+        .eq('is_active', true)
+        .order('requirement_value', { ascending: true });
 
       if (error) throw error;
 
@@ -171,6 +173,236 @@ export function useGamification() {
       setBadges(formattedBadges as Badge[]);
     } catch (error) {
       console.error('Error fetching badges:', error);
+    }
+  };
+
+  // Check and award achievements based on current user data
+  const checkAchievements = async () => {
+    try {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user || !gamificationData) return;
+
+      // Get all active achievements
+      const { data: allAchievements, error: achievementsError } = await supabase
+        .from('achievements')
+        .select('*')
+        .eq('is_active', true);
+
+      if (achievementsError) throw achievementsError;
+
+      for (const achievement of allAchievements || []) {
+        // Check if user already has this achievement
+        const { data: existingAchievement } = await supabase
+          .from('user_achievements')
+          .select('id')
+          .eq('user_id', user.id)
+          .eq('achievement_id', achievement.id)
+          .single();
+
+        if (existingAchievement) continue; // Already earned
+
+        let shouldAward = false;
+        let progress = 0;
+
+        // Check achievement requirements based on type
+        switch (achievement.requirement_type) {
+          case 'modules_completed':
+            progress = gamificationData.modules_completed;
+            shouldAward = progress >= achievement.requirement_value;
+            break;
+          case 'quizzes_completed':
+            progress = gamificationData.quizzes_completed;
+            shouldAward = progress >= achievement.requirement_value;
+            break;
+          case 'streak_days':
+            progress = gamificationData.current_streak;
+            shouldAward = progress >= achievement.requirement_value;
+            break;
+          case 'perfect_scores':
+            progress = gamificationData.perfect_scores;
+            shouldAward = progress >= achievement.requirement_value;
+            break;
+          case 'xp_total':
+            progress = gamificationData.total_xp;
+            shouldAward = progress >= achievement.requirement_value;
+            break;
+          case 'time_studied':
+            progress = gamificationData.total_time_studied;
+            shouldAward = progress >= achievement.requirement_value;
+            break;
+          default:
+            continue;
+        }
+
+        if (shouldAward) {
+          // Award the achievement
+          const { error: awardError } = await supabase
+            .from('user_achievements')
+            .insert({
+              user_id: user.id,
+              achievement_id: achievement.id,
+              progress: progress,
+              earned_at: new Date().toISOString()
+            });
+
+          if (!awardError) {
+            // Award XP for the achievement
+            await awardXP(achievement.xp_reward, `Achievement unlocked: ${achievement.name}`, achievement.id, 'achievement');
+
+            // Show achievement notification
+            toast({
+              title: `🏆 Achievement Unlocked!`,
+              description: achievement.name,
+            });
+          }
+        } else if (progress > 0) {
+          // Update progress even if not yet earned
+          if (existingAchievement) {
+            await supabase
+              .from('user_achievements')
+              .update({ progress: progress })
+              .eq('id', existingAchievement.id);
+          } else {
+            await supabase
+              .from('user_achievements')
+              .insert({
+                user_id: user.id,
+                achievement_id: achievement.id,
+                progress: progress
+              });
+          }
+        }
+      }
+
+      // Refresh achievements data
+      await fetchAchievements();
+    } catch (error) {
+      console.error('Error checking achievements:', error);
+    }
+  };
+
+  // Check and award badges based on current user data
+  const checkBadges = async () => {
+    try {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user || !gamificationData) return;
+
+      // Get all active badges
+      const { data: allBadges, error: badgesError } = await supabase
+        .from('badges')
+        .select('*')
+        .eq('is_active', true);
+
+      if (badgesError) throw badgesError;
+
+      for (const badge of allBadges || []) {
+        // Check if user already has this badge
+        const { data: existingBadge } = await supabase
+          .from('user_badges')
+          .select('id')
+          .eq('user_id', user.id)
+          .eq('badge_id', badge.id)
+          .single();
+
+        if (existingBadge) continue; // Already earned
+
+        let shouldAward = false;
+        let level = 1;
+
+        // Check badge requirements based on type
+        switch (badge.requirement_type) {
+          case 'subject_modules':
+            // Check modules completed for specific subject
+            if (badge.subject_id) {
+              const { data: subjectModules } = await supabase
+                .from('user_progress')
+                .select('module_id')
+                .eq('user_id', user.id)
+                .eq('completed', true)
+                .in('module_id',
+                  supabase
+                    .from('modules')
+                    .select('id')
+                    .eq('subject_id', badge.subject_id)
+                );
+
+              const completedCount = subjectModules?.length || 0;
+              shouldAward = completedCount >= badge.requirement_value;
+              level = Math.floor(completedCount / badge.requirement_value) + 1;
+            }
+            break;
+          case 'subject_perfect_modules':
+            // Check perfect scores for specific subject
+            if (badge.subject_id) {
+              const { data: perfectModules } = await supabase
+                .from('user_progress')
+                .select('module_id')
+                .eq('user_id', user.id)
+                .eq('completed', true)
+                .gte('score', 95)
+                .in('module_id',
+                  supabase
+                    .from('modules')
+                    .select('id')
+                    .eq('subject_id', badge.subject_id)
+                );
+
+              const perfectCount = perfectModules?.length || 0;
+              shouldAward = perfectCount >= badge.requirement_value;
+              level = Math.floor(perfectCount / badge.requirement_value) + 1;
+            }
+            break;
+          case 'streak_days':
+            shouldAward = gamificationData.current_streak >= badge.requirement_value;
+            level = Math.floor(gamificationData.current_streak / badge.requirement_value) + 1;
+            break;
+          case 'fast_completion':
+            // This would need to be tracked separately in user_progress
+            // For now, skip this type
+            continue;
+          case 'night_study':
+          case 'morning_study':
+          case 'weekend_study':
+            // These would need time-based tracking
+            // For now, skip these types
+            continue;
+          case 'quick_quiz':
+            // This would need quiz completion time tracking
+            // For now, skip this type
+            continue;
+          case 'consecutive_perfects':
+            // This would need consecutive perfect score tracking
+            // For now, skip this type
+            continue;
+          default:
+            continue;
+        }
+
+        if (shouldAward) {
+          // Award the badge
+          const { error: awardError } = await supabase
+            .from('user_badges')
+            .insert({
+              user_id: user.id,
+              badge_id: badge.id,
+              level: level,
+              earned_at: new Date().toISOString()
+            });
+
+          if (!awardError) {
+            // Show badge notification
+            toast({
+              title: `🎖️ Badge Earned!`,
+              description: `${badge.name} (Level ${level})`,
+            });
+          }
+        }
+      }
+
+      // Refresh badges data
+      await fetchBadges();
+    } catch (error) {
+      console.error('Error checking badges:', error);
     }
   };
 
@@ -318,6 +550,10 @@ export function useGamification() {
 
       // Refresh gamification data
       await fetchGamificationData();
+
+      // Check for new achievements and badges
+      await checkAchievements();
+      await checkBadges();
     } catch (error) {
       console.error('Error updating modules completed count:', error);
     }
@@ -340,11 +576,24 @@ export function useGamification() {
 
       const quizzesCompletedCount = completedQuizzes?.length || 0;
 
+      // Count perfect scores (95% or higher)
+      const { data: perfectScores, error: perfectError } = await supabase
+        .from('quiz_attempts')
+        .select('id')
+        .eq('user_id', user.id)
+        .not('completed_at', 'is', null)
+        .gte('score', 95);
+
+      if (perfectError) throw perfectError;
+
+      const perfectScoresCount = perfectScores?.length || 0;
+
       // Update the gamification record
       const { error: updateError } = await supabase
         .from('user_gamification')
         .update({
           quizzes_completed: quizzesCompletedCount,
+          perfect_scores: perfectScoresCount,
           updated_at: new Date().toISOString()
         })
         .eq('user_id', user.id);
@@ -353,6 +602,10 @@ export function useGamification() {
 
       // Refresh gamification data
       await fetchGamificationData();
+
+      // Check for new achievements and badges
+      await checkAchievements();
+      await checkBadges();
     } catch (error) {
       console.error('Error updating quizzes completed count:', error);
     }
@@ -398,6 +651,8 @@ export function useGamification() {
     updateStreak,
     updateModulesCompleted,
     updateQuizzesCompleted,
+    checkAchievements,
+    checkBadges,
     fetchGamificationData,
     getLevelProgress,
     getXpForNextLevel,
