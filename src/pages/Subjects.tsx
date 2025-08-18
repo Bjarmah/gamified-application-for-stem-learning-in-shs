@@ -3,7 +3,7 @@ import React from "react";
 import SubjectCard from "@/components/subjects/SubjectCard";
 import { useSubjects } from "@/hooks/use-subjects";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Calculator, Atom, FlaskConical, Activity, Monitor, Bot } from "lucide-react";
+import { Calculator, Atom, FlaskConical, Activity, Monitor, Bot, BookOpen, CheckCircle, PlayCircle, TrendingUp } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/context/AuthContext";
@@ -157,6 +157,71 @@ const Subjects = () => {
           Explore subjects and learn at your own pace.
         </p>
       </div>
+
+      {/* Overall Progress Summary */}
+      {user && progressData && (
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+          <div className="bg-blue-50 dark:bg-blue-950/20 p-4 rounded-lg border">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm font-medium text-blue-600 dark:text-blue-400">Total Modules</p>
+                <p className="text-2xl font-bold text-blue-700 dark:text-blue-300">
+                  {Object.values(moduleCounts).reduce((sum, count) => sum + count, 0)}
+                </p>
+              </div>
+              <div className="text-blue-400">
+                <BookOpen className="h-8 w-8" />
+              </div>
+            </div>
+          </div>
+
+          <div className="bg-green-50 dark:bg-green-950/20 p-4 rounded-lg border">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm font-medium text-green-600 dark:text-green-400">Completed</p>
+                <p className="text-2xl font-bold text-green-700 dark:text-green-300">
+                  {Object.values(progressData).reduce((sum, count) => sum + count, 0)}
+                </p>
+              </div>
+              <div className="text-green-400">
+                <CheckCircle className="h-8 w-8" />
+              </div>
+            </div>
+          </div>
+
+          <div className="bg-orange-50 dark:bg-orange-950/20 p-4 rounded-lg border">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm font-medium text-orange-600 dark:text-orange-400">Remaining</p>
+                <p className="text-2xl font-bold text-orange-700 dark:text-orange-300">
+                  {Object.values(moduleCounts).reduce((sum, count) => sum + count, 0) -
+                    Object.values(progressData).reduce((sum, count) => sum + count, 0)}
+                </p>
+              </div>
+              <div className="text-orange-400">
+                <PlayCircle className="h-8 w-8" />
+              </div>
+            </div>
+          </div>
+
+          <div className="bg-purple-50 dark:bg-purple-950/20 p-4 rounded-lg border">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm font-medium text-purple-600 dark:text-purple-400">Overall Progress</p>
+                <p className="text-2xl font-bold text-purple-700 dark:text-purple-300">
+                  {Math.round(
+                    (Object.values(progressData).reduce((sum, count) => sum + count, 0) /
+                      Object.values(moduleCounts).reduce((sum, count) => sum + count, 0)) * 100
+                  )}%
+                </p>
+              </div>
+              <div className="text-purple-400">
+                <TrendingUp className="h-8 w-8" />
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {subjects?.map((subject) => {
