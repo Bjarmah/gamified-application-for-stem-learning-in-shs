@@ -16,8 +16,6 @@ import SubjectDetail from "./pages/SubjectDetail";
 import ModuleDetail from "./pages/ModuleDetail";
 import Search from "./pages/Search";
 import Communities from "./pages/Communities";
-import Rooms from "./pages/Rooms";
-import RoomDetail from "./pages/RoomDetail";
 import Achievements from "./pages/Achievements";
 import Profile from "./pages/Profile";
 import VirtualLab from "./pages/VirtualLab";
@@ -63,8 +61,6 @@ function App() {
                         <Route path="subjects/:subjectId/:moduleId" element={<ModuleDetail />} />
                         <Route path="search" element={<Search />} />
                         <Route path="communities" element={<Communities />} />
-                        <Route path="rooms" element={<Rooms />} />
-                        <Route path="rooms/:roomId" element={<RoomDetail />} />
                         <Route path="achievements" element={<Achievements />} />
                         <Route path="profile" element={<Profile />} />
                         <Route path="virtual-lab" element={<VirtualLab />} />
