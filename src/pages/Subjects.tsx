@@ -7,8 +7,7 @@ import { Calculator, Atom, FlaskConical, Activity, Monitor, Bot, BookOpen, Check
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/context/AuthContext";
-
-
+import { FloatingAIChatbot } from "@/components/ai-chatbot";
 
 
 const Subjects = () => {
@@ -240,6 +239,12 @@ const Subjects = () => {
           );
         })}
       </div>
+
+      {/* AI Learning Assistant */}
+      <FloatingAIChatbot
+        position="bottom-right"
+        className="md:hidden" // Only show on mobile to avoid cluttering desktop layout
+      />
     </div>
   );
 };

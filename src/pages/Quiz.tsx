@@ -14,6 +14,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { useToast } from "@/hooks/use-toast";
 import { useTabMonitoring } from "@/hooks/use-tab-monitoring";
 import { Clock, Trophy, ArrowLeft, Eye, EyeOff, AlertTriangle, Maximize, Check } from "lucide-react";
+import { FloatingAIChatbot } from "@/components/ai-chatbot";
 
 interface DbQuiz {
   id: string;
@@ -577,6 +578,14 @@ const Quiz: React.FC = () => {
           </div>
         )}
       </section>
+
+      {/* AI Learning Assistant - Available during quiz for help */}
+      {!quizStarted && (
+        <FloatingAIChatbot
+          position="bottom-left"
+          className="hidden md:block" // Show on medium screens and up when not in quiz
+        />
+      )}
     </main>
   );
 };

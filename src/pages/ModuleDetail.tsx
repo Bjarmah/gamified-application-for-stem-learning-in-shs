@@ -15,6 +15,8 @@ import { findChemistryModuleByTitle } from "@/content/chemistry";
 import { findICTModuleByTitle } from "@/content/ict";
 import { findMathematicsModuleByTitle } from "@/content/mathematics";
 import { findPhysicsModuleByTitle } from "@/content/physics";
+import { AIChatbot } from "@/components/ai-chatbot";
+import { ContextualAIChatbot } from "@/components/ai-chatbot";
 
 const ModuleDetail: React.FC = () => {
   const { moduleId, subjectId } = useParams<{ moduleId: string; subjectId: string }>();
@@ -160,16 +162,16 @@ const ModuleDetail: React.FC = () => {
                     <li key={m.id} className="mb-6 ml-2">
                       <div className={`flex items-start gap-3 ${active ? "font-medium" : ""}`}>
                         <span className={`flex h-6 w-6 items-center justify-center rounded-full border text-xs ${active
-                            ? "bg-gray-700 text-white border-gray-700 dark:bg-gray-300 dark:text-gray-800 dark:border-gray-300"
-                            : "bg-gray-100 text-gray-600 border-gray-300 dark:bg-gray-700 dark:text-gray-400 dark:border-gray-600"
+                          ? "bg-gray-700 text-white border-gray-700 dark:bg-gray-300 dark:text-gray-800 dark:border-gray-300"
+                          : "bg-gray-100 text-gray-600 border-gray-300 dark:bg-gray-700 dark:text-gray-400 dark:border-gray-600"
                           }`}>
                           {idx + 1}
                         </span>
                         <div>
                           <button
                             className={`text-left hover:underline transition-colors ${active
-                                ? "text-gray-900 dark:text-gray-100"
-                                : "text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200"
+                              ? "text-gray-900 dark:text-gray-100"
+                              : "text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200"
                               }`}
                             onClick={() => navigate(`/subjects/${subjectId}/${m.id}`)}
                           >
@@ -331,6 +333,14 @@ const ModuleDetail: React.FC = () => {
           </div>
         </main>
       </div>
+
+      {/* AI Learning Assistant - Contextual to the module */}
+      <ContextualAIChatbot
+        position="bottom-right"
+        className="hidden lg:block" // Show on larger screens for better learning experience
+        subject={module?.subject}
+        moduleTitle={module?.title}
+      />
     </div>
   );
 };
