@@ -4,14 +4,13 @@ import { Outlet, useNavigate, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Alert, AlertDescription } from "@/components/ui/alert";
-import { 
-  Home, 
-  BookOpen, 
-  Trophy, 
-  User, 
-  Search, 
+import {
+  Home,
+  BookOpen,
+  Trophy,
+  User,
+  Search,
   Users,
-  Beaker,
   GraduationCap,
   Bell,
   Lock
@@ -32,22 +31,16 @@ const AppLayout = () => {
   const navItems = [
     { path: "/dashboard", label: "Dashboard", icon: Home },
     { path: "/subjects", label: "Subjects", icon: BookOpen },
-    { 
-      path: "/virtual-lab", 
-      label: "Virtual Lab", 
-      icon: Beaker,
-      featured: true,
-      badge: "New"
-    },
+    { path: "/rooms", label: "Rooms", icon: Users },
     { path: "/achievements", label: "Achievements", icon: Trophy },
-    
+
     { path: "/profile", label: "Profile", icon: User },
   ];
 
   return (
     <div className="min-h-screen bg-background">
       <OfflineBanner />
-      
+
       {/* Quiz Active Warning */}
       {isQuizActive && (
         <Alert className="border-destructive bg-destructive/10 rounded-none">
@@ -57,12 +50,12 @@ const AppLayout = () => {
           </AlertDescription>
         </Alert>
       )}
-      
+
       {/* Header */}
       <header className="sticky top-0 z-50 w-full border-b bg-stemPurple text-white shadow-sm">
         <div className="container mx-auto flex h-16 items-center justify-between px-4">
           <div className="flex items-center space-x-4">
-            <div 
+            <div
               className={`flex items-center space-x-2 ${isQuizActive ? 'cursor-not-allowed opacity-50' : 'cursor-pointer'}`}
               onClick={() => !isQuizActive && navigate("/dashboard")}
             >
@@ -94,8 +87,8 @@ const AppLayout = () => {
                 disabled={isQuizActive}
                 className={`
                   flex items-center space-x-2 px-4 py-3 rounded-none border-b-2 transition-colors
-                  ${isActive(item.path) 
-                    ? "border-stemPurple bg-stemPurple/10 text-stemPurple" 
+                  ${isActive(item.path)
+                    ? "border-stemPurple bg-stemPurple/10 text-stemPurple"
                     : "border-transparent hover:border-stemPurple/30 hover:bg-stemPurple/5"
                   }
                   ${item.featured ? "relative" : ""}
@@ -106,8 +99,8 @@ const AppLayout = () => {
                 <item.icon size={18} />
                 <span className="whitespace-nowrap">{item.label}</span>
                 {item.badge && (
-                  <Badge 
-                    variant="secondary" 
+                  <Badge
+                    variant="secondary"
                     className="ml-1 bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-100 text-xs"
                   >
                     {item.badge}
