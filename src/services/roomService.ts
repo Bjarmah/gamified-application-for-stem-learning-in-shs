@@ -10,7 +10,7 @@ type RoomMessage = Database['public']['Tables']['room_messages']['Row'];
 export interface CreateRoomData {
   name: string;
   description: string;
-  subjectId: string;
+  subjectId?: string; // Made optional since UI doesn't collect it as a required field
   isPublic: boolean;
   maxMembers: number;
 }
@@ -40,7 +40,7 @@ export class RoomService {
       const { data: result, error } = await (supabase as any).rpc('create_room_with_owner', {
         room_name: data.name,
         room_description: data.description,
-        room_subject_id: data.subjectId,
+        room_subject_id: data.subjectId || null, // Handle optional subjectId
         room_is_public: data.isPublic,
         room_max_members: data.maxMembers,
         owner_user_id: userId

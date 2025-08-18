@@ -91,21 +91,12 @@ const AppLayout = () => {
                     ? "border-stemPurple bg-stemPurple/10 text-stemPurple"
                     : "border-transparent hover:border-stemPurple/30 hover:bg-stemPurple/5"
                   }
-                  ${item.featured ? "relative" : ""}
                   ${isQuizActive ? "cursor-not-allowed" : ""}
                 `}
                 onClick={() => !isQuizActive && navigate(item.path)}
               >
                 <item.icon size={18} />
                 <span className="whitespace-nowrap">{item.label}</span>
-                {item.badge && (
-                  <Badge
-                    variant="secondary"
-                    className="ml-1 bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-100 text-xs"
-                  >
-                    {item.badge}
-                  </Badge>
-                )}
               </Button>
             ))}
           </div>

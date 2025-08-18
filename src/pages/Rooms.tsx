@@ -73,7 +73,7 @@ const Rooms = () => {
 
     const loadRooms = async () => {
         if (!user) return;
-        
+
         setLoading(true);
         try {
             // Load user's rooms
@@ -157,7 +157,7 @@ const Rooms = () => {
     };
 
     const handleCreateRoom = async () => {
-        if (!user || !newRoom.name.trim() || !newRoom.description.trim() || !newRoom.subjectId.trim()) {
+        if (!user || !newRoom.name.trim() || !newRoom.description.trim()) {
             toast({
                 title: "Missing Information",
                 description: "Please fill in all required fields.",
@@ -170,7 +170,7 @@ const Rooms = () => {
             const roomData: CreateRoomData = {
                 name: newRoom.name.trim(),
                 description: newRoom.description.trim(),
-                subjectId: newRoom.subjectId,
+                subjectId: newRoom.subjectId.trim() || undefined, // Only include if provided
                 isPublic: newRoom.isPublic,
                 maxMembers: newRoom.maxMembers
             };
