@@ -19,234 +19,193 @@ import {
     UserPlus,
     Lock,
     Globe,
-    FileText
+    FileText,
+    Trash2
 } from 'lucide-react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { useToast } from "@/hooks/use-toast";
+import { RoomService, CreateRoomData } from '@/services/roomService';
+import { useAuth } from '@/context/AuthContext';
+import { supabase } from '@/integrations/supabase/client';
 
 interface Room {
     id: string;
     name: string;
-    description: string;
-    code: string;
-    memberCount: number;
-    maxMembers: number;
-    isPrivate: boolean;
-    subject: string;
-    createdAt: Date;
-    lastActivity: Date;
-    isMember: boolean;
-    quizCount: number;
-    owner: {
-        id: string;
-        name: string;
-        avatar: string;
-    };
-}
-
-interface RoomMessage {
-    id: string;
-    content: string;
-    author: {
-        id: string;
-        name: string;
-        avatar: string;
-    };
-    timestamp: Date;
+    description: string | null;
+    room_code: string | null;
+    max_members: number | null;
+    is_public: boolean | null;
+    subject_id: string | null;
+    created_at: string | null;
+    updated_at: string | null;
+    created_by: string | null;
+    memberCount?: number;
+    quizCount?: number;
+    subject?: string;
 }
 
 const Rooms = () => {
     const navigate = useNavigate();
     const { toast } = useToast();
+    const { user } = useAuth();
     const [searchQuery, setSearchQuery] = useState('');
     const [joinCode, setJoinCode] = useState('');
-    const [selectedRoom, setSelectedRoom] = useState<Room | null>(null);
     const [activeTab, setActiveTab] = useState('my-rooms');
+    const [loading, setLoading] = useState(false);
 
     const [newRoom, setNewRoom] = useState({
         name: '',
         description: '',
-        isPrivate: false,
-        subject: '',
+        isPublic: false,
+        subjectId: '',
         maxMembers: 50
     });
 
-    // Demo data - would come from API in a real app
-    const [rooms, setRooms] = useState<Room[]>([
-        {
-            id: 'physics-study-1',
-            name: 'Physics Study Group',
-            description: 'Weekly physics study sessions for SHS students. We cover mechanics, thermodynamics, and modern physics.',
-            code: 'PHYSICS2024',
-            memberCount: 24,
-            maxMembers: 50,
-            isPrivate: false,
-            subject: 'Physics',
-            createdAt: new Date('2024-01-15'),
-            lastActivity: new Date('2024-01-20T14:30:00'),
-            isMember: true,
-            quizCount: 2,
-            owner: {
-                id: 'user-1',
-                name: 'Kwame Asante',
-                avatar: '/placeholder.svg'
-            }
-        },
-        {
-            id: 'chemistry-lab-1',
-            name: 'Chemistry Lab Partners',
-            description: 'Collaborative chemistry experiments and problem-solving. Share lab results and help each other understand concepts.',
-            code: 'CHEMLAB24',
-            memberCount: 18,
-            maxMembers: 30,
-            isPrivate: false,
-            subject: 'Chemistry',
-            createdAt: new Date('2024-01-10'),
-            lastActivity: new Date('2024-01-20T16:45:00'),
-            isMember: true,
-            quizCount: 1,
-            owner: {
-                id: 'user-2',
-                name: 'Ama Boateng',
-                avatar: '/placeholder.svg'
-            }
-        },
-        {
-            id: 'math-club-1',
-            name: 'Math Problem Solvers',
-            description: 'Advanced mathematics discussion and problem-solving. Calculus, algebra, and geometry challenges.',
-            code: 'MATHCLUB',
-            memberCount: 32,
-            maxMembers: 40,
-            isPrivate: false,
-            subject: 'Mathematics',
-            createdAt: new Date('2024-01-05'),
-            lastActivity: new Date('2024-01-20T12:15:00'),
-            isMember: false,
-            quizCount: 3,
-            owner: {
-                id: 'user-3',
-                name: 'Kofi Mensah',
-                avatar: '/placeholder.svg'
-            }
-        },
-        {
-            id: 'biology-study-1',
-            name: 'Biology Study Room',
-            description: 'Biology concepts, cell biology, genetics, and ecology discussions. Perfect for exam preparation.',
-            code: 'BIO2024',
-            memberCount: 15,
-            maxMembers: 25,
-            isPrivate: true,
-            subject: 'Biology',
-            createdAt: new Date('2024-01-12'),
-            lastActivity: new Date('2024-01-20T10:20:00'),
-            isMember: false,
-            quizCount: 0,
-            owner: {
-                id: 'user-4',
-                name: 'Efua Osei',
-                avatar: '/placeholder.svg'
-            }
-        }
-    ]);
-
+    const [rooms, setRooms] = useState<Room[]>([]);
     const [myRooms, setMyRooms] = useState<Room[]>([]);
     const [discoverableRooms, setDiscoverableRooms] = useState<Room[]>([]);
 
     useEffect(() => {
-        // Filter rooms based on membership
-        setMyRooms(rooms.filter(room => room.isMember));
-        setDiscoverableRooms(rooms.filter(room => !room.isMember && !room.isPrivate));
-    }, [rooms]);
+        if (user) {
+            loadRooms();
+        }
+    }, [user]);
 
-    const handleJoinRoom = (roomId: string) => {
-        setRooms(rooms.map(room =>
-            room.id === roomId
-                ? { ...room, isMember: true, memberCount: room.memberCount + 1 }
-                : room
-        ));
+    const loadRooms = async () => {
+        if (!user) return;
+        
+        setLoading(true);
+        try {
+            // Load user's rooms
+            const userRooms = await RoomService.getUserRooms(user.id);
+            setMyRooms(userRooms);
 
-        toast({
-            title: "Joined Room",
-            description: "You have successfully joined this room."
-        });
+            // Load discoverable rooms
+            const discoverable = await RoomService.getDiscoverableRooms(user.id);
+            setDiscoverableRooms(discoverable);
+
+            // Combine all rooms for search
+            setRooms([...userRooms, ...discoverable]);
+        } catch (error) {
+            console.error('Error loading rooms:', error);
+            toast({
+                title: "Error",
+                description: "Failed to load rooms. Please try again.",
+                variant: "destructive"
+            });
+        } finally {
+            setLoading(false);
+        }
     };
 
-    const handleJoinByCode = () => {
-        if (joinCode.trim()) {
-            const room = rooms.find(r => r.code === joinCode.trim().toUpperCase());
-            if (room) {
-                if (room.isMember) {
-                    toast({
-                        title: "Already a Member",
-                        description: "You are already a member of this room."
-                    });
-                } else if (room.memberCount >= room.maxMembers) {
-                    toast({
-                        title: "Room Full",
-                        description: "This room has reached its maximum capacity."
-                    });
-                } else {
-                    handleJoinRoom(room.id);
-                    setJoinCode('');
-                }
+    const handleJoinRoom = async (roomId: string) => {
+        if (!user) return;
+
+        try {
+            const success = await RoomService.joinRoomByCode(joinCode, user.id);
+            if (success) {
+                toast({
+                    title: "Joined Room",
+                    description: "You have successfully joined this room."
+                });
+                setJoinCode('');
+                loadRooms(); // Reload rooms to update the lists
             } else {
                 toast({
-                    title: "Invalid Code",
-                    description: "No room found with this code. Please check and try again.",
+                    title: "Failed to Join",
+                    description: "Unable to join the room. Please check the code and try again.",
                     variant: "destructive"
                 });
             }
+        } catch (error) {
+            console.error('Error joining room:', error);
+            toast({
+                title: "Error",
+                description: "Failed to join room. Please try again.",
+                variant: "destructive"
+            });
         }
     };
 
-    const handleCreateRoom = () => {
-        if (newRoom.name.trim() && newRoom.description.trim() && newRoom.subject.trim()) {
-            const code = generateRoomCode();
-            const newRoomItem: Room = {
-                id: `room-${Date.now()}`,
-                name: newRoom.name,
-                description: newRoom.description,
-                code: code,
-                memberCount: 1,
-                maxMembers: newRoom.maxMembers,
-                isPrivate: newRoom.isPrivate,
-                subject: newRoom.subject,
-                createdAt: new Date(),
-                lastActivity: new Date(),
-                isMember: true,
-                owner: {
-                    id: 'current-user',
-                    name: 'You',
-                    avatar: '/placeholder.svg'
-                }
+    const handleJoinByCode = async () => {
+        if (!user || !joinCode.trim()) return;
+
+        try {
+            const success = await RoomService.joinRoomByCode(joinCode.trim(), user.id);
+            if (success) {
+                toast({
+                    title: "Joined Room",
+                    description: "You have successfully joined this room."
+                });
+                setJoinCode('');
+                loadRooms(); // Reload rooms to update the lists
+            } else {
+                toast({
+                    title: "Failed to Join",
+                    description: "Unable to join the room. Please check the code and try again.",
+                    variant: "destructive"
+                });
+            }
+        } catch (error) {
+            console.error('Error joining room:', error);
+            toast({
+                title: "Error",
+                description: "Failed to join room. Please try again.",
+                variant: "destructive"
+            });
+        }
+    };
+
+    const handleCreateRoom = async () => {
+        if (!user || !newRoom.name.trim() || !newRoom.description.trim() || !newRoom.subjectId.trim()) {
+            toast({
+                title: "Missing Information",
+                description: "Please fill in all required fields.",
+                variant: "destructive"
+            });
+            return;
+        }
+
+        try {
+            const roomData: CreateRoomData = {
+                name: newRoom.name.trim(),
+                description: newRoom.description.trim(),
+                subjectId: newRoom.subjectId,
+                isPublic: newRoom.isPublic,
+                maxMembers: newRoom.maxMembers
             };
 
-            setRooms([...rooms, newRoomItem]);
+            const result = await RoomService.createRoom(roomData, user.id);
+            if (result) {
+                toast({
+                    title: "Room Created",
+                    description: `${newRoom.name} has been created successfully with code: ${result.roomCode}`
+                });
 
-            setNewRoom({
-                name: '',
-                description: '',
-                isPrivate: false,
-                subject: '',
-                maxMembers: 50
-            });
+                setNewRoom({
+                    name: '',
+                    description: '',
+                    isPublic: false,
+                    subjectId: '',
+                    maxMembers: 50
+                });
 
+                loadRooms(); // Reload rooms to show the new room
+            } else {
+                toast({
+                    title: "Error",
+                    description: "Failed to create room. Please try again.",
+                    variant: "destructive"
+                });
+            }
+        } catch (error) {
+            console.error('Error creating room:', error);
             toast({
-                title: "Room Created",
-                description: `${newRoom.name} has been created successfully with code: ${code}`
+                title: "Error",
+                description: "Failed to create room. Please try again.",
+                variant: "destructive"
             });
         }
-    };
-
-    const generateRoomCode = (): string => {
-        const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-        let result = '';
-        for (let i = 0; i < 8; i++) {
-            result += chars.charAt(Math.floor(Math.random() * chars.length));
-        }
-        return result;
     };
 
     const copyRoomCode = (code: string) => {
@@ -257,25 +216,57 @@ const Rooms = () => {
         });
     };
 
+    const handleDeleteRoom = async (roomId: string) => {
+        if (!user) return;
+
+        try {
+            const success = await RoomService.deleteRoom(roomId, user.id);
+            if (success) {
+                toast({
+                    title: "Room Deleted",
+                    description: "Room has been deleted successfully."
+                });
+                loadRooms(); // Reload rooms to update the lists
+            } else {
+                toast({
+                    title: "Error",
+                    description: "Failed to delete room. You may not have permission.",
+                    variant: "destructive"
+                });
+            }
+        } catch (error) {
+            console.error('Error deleting room:', error);
+            toast({
+                title: "Error",
+                description: "Failed to delete room. Please try again.",
+                variant: "destructive"
+            });
+        }
+    };
+
     const filteredRooms = (roomList: Room[]) => {
         if (!searchQuery) return roomList;
         return roomList.filter(room =>
             room.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-            room.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
-            room.subject.toLowerCase().includes(searchQuery.toLowerCase()) ||
-            room.code.toLowerCase().includes(searchQuery.toLowerCase())
+            (room.description && room.description.toLowerCase().includes(searchQuery.toLowerCase())) ||
+            (room.room_code && room.room_code.toLowerCase().includes(searchQuery.toLowerCase()))
         );
     };
 
-    const getSubjectColor = (subject: string) => {
-        const colors: { [key: string]: string } = {
-            'Physics': 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-100',
-            'Chemistry': 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-100',
-            'Mathematics': 'bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-100',
-            'Biology': 'bg-orange-100 text-orange-800 dark:bg-orange-900 dark:text-orange-100'
-        };
-        return colors[subject] || 'bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-100';
+    const getSubjectColor = (subjectId: string | null) => {
+        // You can implement subject color logic here based on subject_id
+        return 'bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-100';
     };
+
+    if (!user) {
+        return (
+            <div className="max-w-7xl mx-auto pb-8">
+                <div className="text-center py-8">
+                    <p>Please log in to access study rooms.</p>
+                </div>
+            </div>
+        );
+    }
 
     return (
         <div className="max-w-7xl mx-auto pb-8">
@@ -321,8 +312,8 @@ const Rooms = () => {
                                 </label>
                                 <Input
                                     id="room-subject"
-                                    value={newRoom.subject}
-                                    onChange={(e) => setNewRoom({ ...newRoom, subject: e.target.value })}
+                                    value={newRoom.subjectId}
+                                    onChange={(e) => setNewRoom({ ...newRoom, subjectId: e.target.value })}
                                     placeholder="E.g., Physics, Chemistry, Mathematics"
                                 />
                             </div>
@@ -357,12 +348,12 @@ const Rooms = () => {
                             <div className="flex items-center space-x-2">
                                 <input
                                     type="checkbox"
-                                    id="room-private"
-                                    checked={newRoom.isPrivate}
-                                    onChange={(e) => setNewRoom({ ...newRoom, isPrivate: e.target.checked })}
+                                    id="room-public"
+                                    checked={newRoom.isPublic}
+                                    onChange={(e) => setNewRoom({ ...newRoom, isPublic: e.target.checked })}
                                 />
-                                <label htmlFor="room-private" className="text-sm font-medium">
-                                    Make room private (only accessible via code)
+                                <label htmlFor="room-public" className="text-sm font-medium">
+                                    Make room public (discoverable by others)
                                 </label>
                             </div>
                         </div>
@@ -393,7 +384,7 @@ const Rooms = () => {
                             onChange={(e) => setJoinCode(e.target.value.toUpperCase())}
                             className="flex-1"
                         />
-                        <Button onClick={handleJoinByCode}>
+                        <Button onClick={handleJoinByCode} disabled={!joinCode.trim()}>
                             <UserPlus className="mr-2 h-4 w-4" />
                             Join Room
                         </Button>
@@ -406,7 +397,7 @@ const Rooms = () => {
                 <div className="relative">
                     <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
                     <Input
-                        placeholder="Search rooms by name, description, subject, or code..."
+                        placeholder="Search rooms by name, description, or code..."
                         value={searchQuery}
                         onChange={(e) => setSearchQuery(e.target.value)}
                         className="pl-10"
@@ -422,153 +413,160 @@ const Rooms = () => {
                 </TabsList>
 
                 <TabsContent value="my-rooms" className="mt-6">
-                    <div className="grid gap-4">
-                        {filteredRooms(myRooms).map((room) => (
-                            <Card key={room.id} className="hover:shadow-md transition-shadow cursor-pointer">
-                                <CardContent className="p-6">
-                                    <div className="flex items-start justify-between">
-                                        <div className="flex-1">
-                                            <div className="flex items-center gap-3 mb-2">
-                                                <h3 className="text-lg font-semibold">{room.name}</h3>
-                                                <Badge className={getSubjectColor(room.subject)}>
-                                                    {room.subject}
-                                                </Badge>
-                                                {room.isPrivate && (
-                                                    <Badge variant="outline" className="flex items-center gap-1">
-                                                        <Lock className="h-3 w-3" />
-                                                        Private
+                    {loading ? (
+                        <div className="text-center py-8">
+                            <p>Loading your rooms...</p>
+                        </div>
+                    ) : (
+                        <div className="grid gap-4">
+                            {filteredRooms(myRooms).map((room) => (
+                                <Card key={room.id} className="hover:shadow-md transition-shadow cursor-pointer">
+                                    <CardContent className="p-6">
+                                        <div className="flex items-start justify-between">
+                                            <div className="flex-1">
+                                                <div className="flex items-center gap-3 mb-2">
+                                                    <h3 className="text-lg font-semibold">{room.name}</h3>
+                                                    <Badge className={getSubjectColor(room.subject_id)}>
+                                                        {room.subject_id || 'General'}
                                                     </Badge>
+                                                    {!room.is_public && (
+                                                        <Badge variant="outline" className="flex items-center gap-1">
+                                                            <Lock className="h-3 w-3" />
+                                                            Private
+                                                        </Badge>
+                                                    )}
+                                                </div>
+
+                                                <p className="text-muted-foreground mb-3">{room.description}</p>
+
+                                                <div className="flex items-center gap-4 text-sm text-muted-foreground">
+                                                    <div className="flex items-center gap-1">
+                                                        <Hash className="h-4 w-4" />
+                                                        Code: {room.room_code}
+                                                    </div>
+                                                    <div className="flex items-center gap-1">
+                                                        <Clock className="h-4 w-4" />
+                                                        Created {room.created_at ? new Date(room.created_at).toLocaleDateString() : 'Unknown'}
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div className="flex flex-col gap-2 ml-4">
+                                                <Button
+                                                    variant="outline"
+                                                    size="sm"
+                                                    onClick={() => copyRoomCode(room.room_code || '')}
+                                                    className="flex items-center gap-1"
+                                                >
+                                                    <Copy className="h-3 w-3" />
+                                                    Copy Code
+                                                </Button>
+                                                <Button
+                                                    size="sm"
+                                                    onClick={() => navigate(`/rooms/${room.id}`)}
+                                                    className="flex items-center gap-1"
+                                                >
+                                                    <MessageSquare className="h-3 w-3" />
+                                                    Enter Room
+                                                </Button>
+                                                {room.created_by === user.id && (
+                                                    <Button
+                                                        variant="outline"
+                                                        size="sm"
+                                                        onClick={() => handleDeleteRoom(room.id)}
+                                                        className="flex items-center gap-1 text-red-600 hover:text-red-700"
+                                                    >
+                                                        <Trash2 className="h-3 w-3" />
+                                                        Delete
+                                                    </Button>
                                                 )}
                                             </div>
-
-                                            <p className="text-muted-foreground mb-3">{room.description}</p>
-
-                                            <div className="flex items-center gap-4 text-sm text-muted-foreground">
-                                                <div className="flex items-center gap-1">
-                                                    <Users className="h-4 w-4" />
-                                                    {room.memberCount}/{room.maxMembers} members
-                                                </div>
-                                                <div className="flex items-center gap-1">
-                                                    <FileText className="h-4 w-4" />
-                                                    {room.quizCount} quiz{room.quizCount !== 1 ? 'es' : ''}
-                                                </div>
-                                                <div className="flex items-center gap-1">
-                                                    <Clock className="h-4 w-4" />
-                                                    Last active {room.lastActivity.toLocaleDateString()}
-                                                </div>
-                                                <div className="flex items-center gap-1">
-                                                    <Hash className="h-4 w-4" />
-                                                    Code: {room.code}
-                                                </div>
-                                            </div>
                                         </div>
+                                    </CardContent>
+                                </Card>
+                            ))}
 
-                                        <div className="flex flex-col gap-2 ml-4">
-                                            <Button
-                                                variant="outline"
-                                                size="sm"
-                                                onClick={() => copyRoomCode(room.code)}
-                                                className="flex items-center gap-1"
-                                            >
-                                                <Copy className="h-3 w-3" />
-                                                Copy Code
-                                            </Button>
-                                            <Button
-                                                size="sm"
-                                                onClick={() => navigate(`/rooms/${room.id}`)}
-                                                className="flex items-center gap-1"
-                                            >
-                                                <MessageSquare className="h-3 w-3" />
-                                                Enter Room
-                                            </Button>
-                                        </div>
-                                    </div>
-                                </CardContent>
-                            </Card>
-                        ))}
-
-                        {filteredRooms(myRooms).length === 0 && (
-                            <div className="text-center py-8 text-muted-foreground">
-                                <Users className="h-12 w-12 mx-auto mb-4 opacity-50" />
-                                <p>No rooms found.</p>
-                                <p className="text-sm">Create a room or join one using a code to get started.</p>
-                            </div>
-                        )}
-                    </div>
+                            {filteredRooms(myRooms).length === 0 && (
+                                <div className="text-center py-8 text-muted-foreground">
+                                    <Users className="h-12 w-12 mx-auto mb-4 opacity-50" />
+                                    <p>No rooms found.</p>
+                                    <p className="text-sm">Create a room or join one using a code to get started.</p>
+                                </div>
+                            )}
+                        </div>
+                    )}
                 </TabsContent>
 
                 <TabsContent value="discover" className="mt-6">
-                    <div className="grid gap-4">
-                        {filteredRooms(discoverableRooms).map((room) => (
-                            <Card key={room.id} className="hover:shadow-md transition-shadow">
-                                <CardContent className="p-6">
-                                    <div className="flex items-start justify-between">
-                                        <div className="flex-1">
-                                            <div className="flex items-center gap-3 mb-2">
-                                                <h3 className="text-lg font-semibold">{room.name}</h3>
-                                                <Badge className={getSubjectColor(room.subject)}>
-                                                    {room.subject}
-                                                </Badge>
-                                                <Badge variant="outline" className="flex items-center gap-1">
-                                                    <Globe className="h-3 w-3" />
-                                                    Public
-                                                </Badge>
-                                            </div>
+                    {loading ? (
+                        <div className="text-center py-8">
+                            <p>Loading discoverable rooms...</p>
+                        </div>
+                    ) : (
+                        <div className="grid gap-4">
+                            {filteredRooms(discoverableRooms).map((room) => (
+                                <Card key={room.id} className="hover:shadow-md transition-shadow">
+                                    <CardContent className="p-6">
+                                        <div className="flex items-start justify-between">
+                                            <div className="flex-1">
+                                                <div className="flex items-center gap-3 mb-2">
+                                                    <h3 className="text-lg font-semibold">{room.name}</h3>
+                                                    <Badge className={getSubjectColor(room.subject_id)}>
+                                                        {room.subject_id || 'General'}
+                                                    </Badge>
+                                                    <Badge variant="outline" className="flex items-center gap-1">
+                                                        <Globe className="h-3 w-3" />
+                                                        Public
+                                                    </Badge>
+                                                </div>
 
-                                            <p className="text-muted-foreground mb-3">{room.description}</p>
+                                                <p className="text-muted-foreground mb-3">{room.description}</p>
 
-                                            <div className="flex items-center gap-4 text-sm text-muted-foreground">
-                                                <div className="flex items-center gap-1">
-                                                    <Users className="h-4 w-4" />
-                                                    {room.memberCount}/{room.maxMembers} members
-                                                </div>
-                                                <div className="flex items-center gap-1">
-                                                    <FileText className="h-4 w-4" />
-                                                    {room.quizCount} quiz{room.quizCount !== 1 ? 'es' : ''}
-                                                </div>
-                                                <div className="flex items-center gap-1">
-                                                    <Clock className="h-4 w-4" />
-                                                    Last active {room.lastActivity.toLocaleDateString()}
-                                                </div>
-                                                <div className="flex items-center gap-1">
-                                                    <Hash className="h-4 w-4" />
-                                                    Code: {room.code}
+                                                <div className="flex items-center gap-4 text-sm text-muted-foreground">
+                                                    <div className="flex items-center gap-1">
+                                                        <Hash className="h-4 w-4" />
+                                                        Code: {room.room_code}
+                                                    </div>
+                                                    <div className="flex items-center gap-1">
+                                                        <Clock className="h-4 w-4" />
+                                                        Created {room.created_at ? new Date(room.created_at).toLocaleDateString() : 'Unknown'}
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
 
-                                        <div className="flex flex-col gap-2 ml-4">
-                                            <Button
-                                                variant="outline"
-                                                size="sm"
-                                                onClick={() => copyRoomCode(room.code)}
-                                                className="flex items-center gap-1"
-                                            >
-                                                <Copy className="h-3 w-3" />
-                                                Copy Code
-                                            </Button>
-                                            <Button
-                                                size="sm"
-                                                onClick={() => handleJoinRoom(room.id)}
-                                                className="flex items-center gap-1"
-                                            >
-                                                <UserPlus className="h-3 w-3" />
-                                                Join Room
-                                            </Button>
+                                            <div className="flex flex-col gap-2 ml-4">
+                                                <Button
+                                                    variant="outline"
+                                                    size="sm"
+                                                    onClick={() => copyRoomCode(room.room_code || '')}
+                                                    className="flex items-center gap-1"
+                                                >
+                                                    <Copy className="h-3 w-3" />
+                                                    Copy Code
+                                                </Button>
+                                                <Button
+                                                    size="sm"
+                                                    onClick={() => handleJoinRoom(room.id)}
+                                                    className="flex items-center gap-1"
+                                                >
+                                                    <UserPlus className="h-3 w-3" />
+                                                    Join Room
+                                                </Button>
+                                            </div>
                                         </div>
-                                    </div>
-                                </CardContent>
-                            </Card>
-                        ))}
+                                    </CardContent>
+                                </Card>
+                            ))}
 
-                        {filteredRooms(discoverableRooms).length === 0 && (
-                            <div className="text-center py-8 text-muted-foreground">
-                                <Search className="h-12 w-12 mx-auto mb-4 opacity-50" />
-                                <p>No discoverable rooms found.</p>
-                                <p className="text-sm">Try adjusting your search or ask friends for room codes.</p>
-                            </div>
-                        )}
-                    </div>
+                            {filteredRooms(discoverableRooms).length === 0 && (
+                                <div className="text-center py-8 text-muted-foreground">
+                                    <Search className="h-12 w-12 mx-auto mb-4 opacity-50" />
+                                    <p>No discoverable rooms found.</p>
+                                    <p className="text-sm">Try adjusting your search or ask friends for room codes.</p>
+                                </div>
+                            )}
+                        </div>
+                    )}
                 </TabsContent>
             </Tabs>
         </div>
