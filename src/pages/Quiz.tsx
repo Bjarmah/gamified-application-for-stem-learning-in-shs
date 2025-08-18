@@ -4,6 +4,7 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/context/AuthContext";
 import { useQuizContext } from "@/context/QuizContext";
+import { useGamification } from "@/hooks/use-gamification";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -36,6 +37,7 @@ const Quiz: React.FC = () => {
   const { toast } = useToast();
   const qc = useQueryClient();
   const { setIsQuizActive, setQuizTitle } = useQuizContext();
+  const { awardXP, updateStreak } = useGamification();
 
   useEffect(() => {
     document.title = "Quiz • STEM Learner";
@@ -267,9 +269,29 @@ const Quiz: React.FC = () => {
       if (error) throw error;
       return data;
     },
-    onSuccess: () => {
+    onSuccess: (data) => {
       qc.invalidateQueries({ queryKey: ["quiz-attempts"] });
       toast({ title: "Quiz submitted", description: "Your attempt has been saved." });
+      
+      // Award XP based on quiz performance
+      const scorePct = total ? Math.round((correct / total) * 100) : 0;
+      let xpAmount = 50; // Base XP for completing quiz
+      
+      // Bonus XP for performance
+      if (scorePct >= 90) xpAmount += 50; // Perfect/near-perfect bonus
+      else if (scorePct >= 80) xpAmount += 30; // Good score bonus
+      else if (scorePct >= 70) xpAmount += 20; // Passing score bonus
+      
+      // Time bonus (if completed in less than half the time limit)
+      const timeSpent = (quiz?.time_limit ?? 300) - secondsLeft;
+      const timeLimit = quiz?.time_limit ?? 300;
+      if (timeSpent < timeLimit / 2) {
+        xpAmount += 25; // Speed bonus
+      }
+      
+      // Award XP and update streak
+      awardXP(xpAmount, `Quiz completed: ${quiz?.title} (${scorePct}%)`, data.id, 'quiz');
+      updateStreak();
     },
     onError: (e: any) => {
       toast({ title: "Submit failed", description: e.message, variant: "destructive" });
