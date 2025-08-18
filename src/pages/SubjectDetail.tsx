@@ -213,9 +213,9 @@ const SubjectDetail: React.FC = () => {
               <p className="text-muted-foreground">{subject.description}</p>
             </div>
             <div className="ml-auto">
-              <Badge variant="outline" className="px-4 py-2 text-base border-stemPurple/30 bg-stemPurple/20 dark:border-stemPurple/40 dark:bg-stemPurple/30">
+              <Badge variant="outline" className="px-4 py-2 text-base border-stemPurple/40 bg-stemPurple/10 dark:border-stemPurple/50 dark:bg-stemPurple/20">
                 <div className="text-center">
-                  <div className="font-bold text-stemPurple dark:text-stemPurple-light">
+                  <div className="font-bold text-stemPurple-dark dark:text-stemPurple-light">
                     {completedModules}/{dbModuleCount || 0}
                   </div>
                   <div className="text-xs text-stemPurple dark:text-stemPurple-light">
@@ -232,44 +232,44 @@ const SubjectDetail: React.FC = () => {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
         <Card className="border border-stemPurple/30 dark:border-stemPurple/40 bg-white dark:bg-gray-900">
           <CardHeader className="pb-3">
-            <CardTitle className="text-lg flex items-center gap-2 text-stemPurple dark:text-stemPurple-light">
+            <CardTitle className="text-lg flex items-center gap-2 text-stemPurple-dark dark:text-stemPurple-light">
               <BookOpen className="h-5 w-5 text-stemPurple dark:text-stemPurple-light" />
               Total Modules
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-3xl font-bold text-stemPurple dark:text-stemPurple-light">{dbModuleCount || 0}</div>
+            <div className="text-3xl font-bold text-stemPurple-dark dark:text-stemPurple-light">{dbModuleCount || 0}</div>
             <p className="text-sm text-stemPurple dark:text-stemPurple-light mt-1">
               Available for learning
             </p>
           </CardContent>
         </Card>
 
-        <Card className="border border-stemGreen/30 dark:border-stemGreen/40 bg-white dark:bg-gray-900">
+        <Card className="border border-stemPurple/30 dark:border-stemPurple/40 bg-white dark:bg-gray-900">
           <CardHeader className="pb-3">
-            <CardTitle className="text-lg flex items-center gap-2 text-stemGreen-dark dark:text-stemGreen-light">
-              <CheckCircle className="h-5 w-5 text-stemGreen dark:text-stemGreen-light" />
+            <CardTitle className="text-lg flex items-center gap-2 text-stemPurple-dark dark:text-stemPurple-light">
+              <CheckCircle className="h-5 w-5 text-stemPurple dark:text-stemPurple-light" />
               Completed
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-3xl font-bold text-stemGreen-dark dark:text-stemGreen-light">{completedModules}</div>
-            <p className="text-sm text-stemGreen dark:text-stemGreen-light mt-1">
+            <div className="text-3xl font-bold text-stemPurple-dark dark:text-stemPurple-light">{completedModules}</div>
+            <p className="text-sm text-stemPurple dark:text-stemPurple-light mt-1">
               Modules finished
             </p>
           </CardContent>
         </Card>
 
-        <Card className="border border-stemOrange/30 dark:border-stemOrange/40 bg-white dark:bg-gray-900">
+        <Card className="border border-stemPurple/30 dark:border-stemPurple/40 bg-white dark:bg-gray-900">
           <CardHeader className="pb-3">
-            <CardTitle className="text-lg flex items-center gap-2 text-stemOrange-dark dark:text-stemOrange-light">
-              <PlayCircle className="h-5 w-5 text-stemOrange dark:text-stemOrange-light" />
+            <CardTitle className="text-lg flex items-center gap-2 text-stemPurple-dark dark:text-stemPurple-light">
+              <PlayCircle className="h-5 w-5 text-stemPurple dark:text-stemPurple-light" />
               Remaining
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-3xl font-bold text-stemOrange-dark dark:text-stemOrange-light">{(dbModuleCount || 0) - completedModules}</div>
-            <p className="text-sm text-stemOrange dark:text-stemOrange-light mt-1">
+            <div className="text-3xl font-bold text-stemPurple-dark dark:text-stemPurple-light">{(dbModuleCount || 0) - completedModules}</div>
+            <p className="text-sm text-stemPurple dark:text-stemPurple-light mt-1">
               Modules to complete
             </p>
           </CardContent>
@@ -284,7 +284,7 @@ const SubjectDetail: React.FC = () => {
             <CardHeader>
               <div className="flex items-center justify-between">
                 <div>
-                  <CardTitle className="flex items-center gap-2 text-stemPurple dark:text-stemPurple-light">
+                  <CardTitle className="flex items-center gap-2 text-stemPurple-dark dark:text-stemPurple-light">
                     <Target className="h-5 w-5 text-stemPurple dark:text-stemPurple-light" />
                     Learning Track
                   </CardTitle>
@@ -293,7 +293,7 @@ const SubjectDetail: React.FC = () => {
                   </CardDescription>
                 </div>
                 <div className="text-right">
-                  <div className="text-2xl font-bold text-stemPurple dark:text-stemPurple-light">
+                  <div className="text-2xl font-bold text-stemPurple-dark dark:text-stemPurple-light">
                     {completedModules}/{dbModuleCount || 0}
                   </div>
                   <div className="text-sm text-stemPurple dark:text-stemPurple-light">
@@ -311,12 +311,12 @@ const SubjectDetail: React.FC = () => {
                   return (
                     <div
                       key={module.id}
-                      className="flex items-center gap-4 p-4 border border-stemPurple/30 dark:border-stemPurple/40 rounded-lg hover:bg-stemPurple/10 dark:hover:bg-stemPurple/20 transition-colors"
+                      className="flex items-center gap-4 p-4 border border-stemPurple/30 dark:border-stemPurple/40 rounded-lg hover:bg-stemPurple/5 dark:hover:bg-stemPurple/10 transition-colors"
                     >
                       {/* Step number */}
                       <div className="flex-shrink-0">
                         <div className={`flex h-8 w-8 items-center justify-center rounded-full border-2 text-sm font-medium ${isCompleted
-                          ? "bg-stemGreen border-stemGreen text-white dark:bg-stemGreen-light dark:border-stemGreen-light dark:text-stemGreen-dark"
+                          ? "bg-stemPurple border-stemPurple text-white dark:bg-stemPurple-light dark:border-stemPurple-light dark:text-stemPurple-dark"
                           : "border-stemPurple/40 text-stemPurple dark:border-stemPurple/50 dark:text-stemPurple-light"
                           }`}>
                           {isCompleted ? <CheckCircle className="h-4 w-4" /> : idx + 1}
@@ -328,9 +328,9 @@ const SubjectDetail: React.FC = () => {
                         <div className="flex items-start justify-between gap-4">
                           <div className="space-y-1">
                             <div className="flex items-center gap-2">
-                              <h3 className="font-medium text-sm text-stemPurple dark:text-stemPurple-light">{module.title}</h3>
+                              <h3 className="font-medium text-sm text-stemPurple-dark dark:text-stemPurple-light">{module.title}</h3>
                               {isCompleted && (
-                                <Badge variant="outline" className="text-xs bg-stemGreen/20 text-stemGreen-dark border-stemGreen/30 dark:bg-stemGreen/30 dark:text-stemGreen-light dark:border-stemGreen/40">
+                                <Badge variant="outline" className="text-xs bg-stemPurple/10 text-stemPurple-dark border-stemPurple/30 dark:bg-stemPurple/20 dark:text-stemPurple-light dark:border-stemPurple/40">
                                   <CheckCircle className="h-3 w-3 mr-1" />
                                   Completed
                                 </Badge>
@@ -344,11 +344,11 @@ const SubjectDetail: React.FC = () => {
                                 <Clock className="h-3 w-3" />
                                 ~{module.estimatedTime || 30} mins
                               </div>
-                              <Badge variant="outline" className="text-xs bg-stemPurple/20 text-stemPurple dark:border-stemPurple/30 dark:bg-stemPurple/30 dark:text-stemPurple-light dark:border-stemPurple/40">
+                              <Badge variant="outline" className="text-xs bg-stemPurple/10 text-stemPurple dark:border-stemPurple/30 dark:bg-stemPurple/20 dark:text-stemPurple-light dark:border-stemPurple/40">
                                 {prettyDifficulty(module.level)}
                               </Badge>
                               {moduleQuiz && (
-                                <Badge variant="outline" className="text-xs bg-stemOrange/20 text-stemOrange-dark border-stemOrange/30 dark:bg-stemOrange/30 dark:text-stemOrange-light dark:border-stemOrange/40">
+                                <Badge variant="outline" className="text-xs bg-stemPurple/10 text-stemPurple dark:border-stemPurple/30 dark:bg-stemPurple/20 dark:text-stemPurple-light dark:border-stemPurple/40">
                                   <Trophy className="h-3 w-3 mr-1" />
                                   Quiz Available
                                 </Badge>
@@ -371,7 +371,7 @@ const SubjectDetail: React.FC = () => {
                                 size="sm"
                                 variant="outline"
                                 onClick={() => navigate(`/quizzes/${moduleQuiz.id}`)}
-                                className="bg-stemOrange/20 hover:bg-stemOrange/30 text-stemOrange-dark border-stemOrange/30 hover:border-stemOrange/40 dark:bg-stemOrange/30 dark:hover:bg-stemOrange/40 dark:text-stemOrange-light dark:border-stemOrange/40 dark:hover:border-stemOrange/50"
+                                className="bg-stemPurple/10 hover:bg-stemPurple/20 text-stemPurple-dark border-stemPurple/30 hover:border-stemPurple/40 dark:bg-stemPurple/20 dark:hover:bg-stemPurple/30 dark:text-stemPurple-light dark:border-stemPurple/40 dark:hover:border-stemPurple/50"
                               >
                                 <BookOpen className="h-3 w-3 mr-1" />
                                 Quiz
@@ -402,21 +402,21 @@ const SubjectDetail: React.FC = () => {
         <div className="space-y-6">
           <Card className="border border-stemPurple/30 dark:border-stemPurple/40 bg-white dark:bg-gray-900">
             <CardHeader>
-              <CardTitle className="text-lg text-stemPurple dark:text-stemPurple-light">Progress</CardTitle>
+              <CardTitle className="text-lg text-stemPurple-dark dark:text-stemPurple-light">Progress</CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
               {progressLoading ? (
                 <div className="space-y-4">
                   <div className="space-y-2">
                     <div className="flex justify-between text-sm">
-                      <span className="text-stemPurple dark:text-stemPurple-light">Modules</span>
+                      <span className="text-stemPurple-dark dark:text-stemPurple-light">Modules</span>
                       <Skeleton className="h-4 w-12" />
                     </div>
                     <Skeleton className="h-2 w-full rounded-full" />
                   </div>
                   <div className="space-y-2">
                     <div className="flex justify-between text-sm">
-                      <span className="text-stemPurple dark:text-stemPurple-light">Quizzes</span>
+                      <span className="text-stemPurple-dark dark:text-stemPurple-light">Quizzes</span>
                       <Skeleton className="h-4 w-12" />
                     </div>
                     <Skeleton className="h-2 w-full rounded-full" />
@@ -426,7 +426,7 @@ const SubjectDetail: React.FC = () => {
                 <>
                   <div className="space-y-2">
                     <div className="flex justify-between text-sm">
-                      <span className="text-stemPurple dark:text-stemPurple-light">Modules</span>
+                      <span className="text-stemPurple-dark dark:text-stemPurple-light">Modules</span>
                       <span className="text-stemPurple dark:text-stemPurple-light">{completedModules}/{dbModuleCount || 0}</span>
                     </div>
                     <div className="w-full bg-stemPurple/20 dark:bg-stemPurple/30 rounded-full h-2">
@@ -436,11 +436,11 @@ const SubjectDetail: React.FC = () => {
 
                   <div className="space-y-2">
                     <div className="flex justify-between text-sm">
-                      <span className="text-stemPurple dark:text-stemPurple-light">Quizzes</span>
+                      <span className="text-stemPurple-dark dark:text-stemPurple-light">Quizzes</span>
                       <span className="text-stemPurple dark:text-stemPurple-light">{completedQuizzes}/{totalQuizzes}</span>
                     </div>
-                    <div className="w-full bg-stemOrange/20 dark:bg-stemOrange/30 rounded-full h-2">
-                      <div className="bg-stemOrange dark:bg-stemOrange-light h-2 rounded-full transition-all duration-300" style={{ width: `${quizProgressPercentage}%` }} />
+                    <div className="w-full bg-stemPurple/20 dark:bg-stemPurple/30 rounded-full h-2">
+                      <div className="bg-stemPurple dark:bg-stemPurple-light h-2 rounded-full transition-all duration-300" style={{ width: `${quizProgressPercentage}%` }} />
                     </div>
                   </div>
                 </>
@@ -450,7 +450,7 @@ const SubjectDetail: React.FC = () => {
                 {progressLoading ? (
                   <Skeleton className="h-5 w-24 mx-auto rounded-full" />
                 ) : (
-                  <Badge variant="outline" className="text-xs bg-stemGreen/20 text-stemGreen-dark border-stemGreen/30 dark:bg-stemGreen/30 dark:text-stemGreen-light dark:border-stemGreen/40">
+                  <Badge variant="outline" className="text-xs bg-stemPurple/10 text-stemPurple-dark border-stemPurple/30 dark:bg-stemPurple/20 dark:text-stemPurple-light dark:border-stemPurple/40">
                     {moduleProgressPercentage === 100 ? "Subject Mastered!" :
                       moduleProgressPercentage >= 75 ? "Almost There!" :
                         moduleProgressPercentage >= 50 ? "Halfway There!" :
@@ -465,14 +465,14 @@ const SubjectDetail: React.FC = () => {
           {/* Quick Actions */}
           <Card className="border border-stemPurple/30 dark:border-stemPurple/40 bg-white dark:bg-gray-900">
             <CardHeader>
-              <CardTitle className="text-lg text-stemPurple dark:text-stemPurple-light">Quick Actions</CardTitle>
+              <CardTitle className="text-lg text-stemPurple-dark dark:text-stemPurple-light">Quick Actions</CardTitle>
             </CardHeader>
             <CardContent className="space-y-2">
               {modules && modules.length > 0 && (
                 <Button
                   variant="outline"
                   size="sm"
-                  className="w-full justify-start bg-stemPurple/20 hover:bg-stemPurple/30 text-stemPurple border-stemPurple/30 hover:border-stemPurple/40 dark:bg-stemPurple/30 dark:hover:bg-stemPurple/40 dark:text-stemPurple-light dark:border-stemPurple/40 dark:hover:border-stemPurple/50"
+                  className="w-full justify-start bg-stemPurple/10 hover:bg-stemPurple/20 text-stemPurple-dark border-stemPurple/30 hover:border-stemPurple/40 dark:bg-stemPurple/20 dark:hover:bg-stemPurple/30 dark:text-stemPurple-light dark:border-stemPurple/40 dark:hover:border-stemPurple/50"
                   onClick={() => navigate(`/subjects/${subjectId}/${modules[0].id}`)}
                 >
                   <PlayCircle className="h-4 w-4 mr-2" />
@@ -482,7 +482,7 @@ const SubjectDetail: React.FC = () => {
               <Button
                 variant="outline"
                 size="sm"
-                className="w-full justify-start bg-stemPurple/20 hover:bg-stemPurple/30 text-stemPurple border-stemPurple/30 hover:border-stemPurple/40 dark:bg-stemPurple/30 dark:hover:bg-stemPurple/40 dark:text-stemPurple-light dark:border-stemPurple/40 dark:hover:border-stemPurple/50"
+                className="w-full justify-start bg-stemPurple/10 hover:bg-stemPurple/20 text-stemPurple-dark border-stemPurple/30 hover:border-stemPurple/40 dark:bg-stemPurple/20 dark:hover:bg-stemPurple/30 dark:text-stemPurple-light dark:border-stemPurple/40 dark:hover:border-stemPurple/50"
                 onClick={() => navigate("/subjects")}
               >
                 <ArrowLeft className="h-4 w-4 mr-2" />

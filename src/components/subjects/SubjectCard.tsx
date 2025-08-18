@@ -79,23 +79,23 @@ const SubjectCard = ({
           {/* Progress Status */}
           <div className="text-center">
             {progressPercentage === 100 ? (
-              <Badge variant="outline" className="bg-stemGreen/20 text-stemGreen-dark border-stemGreen/30 dark:bg-stemGreen/30 dark:text-stemGreen-light dark:border-stemGreen/40">
+              <Badge variant="outline" className="bg-stemPurple/10 text-stemPurple-dark border-stemPurple/30 dark:bg-stemPurple/20 dark:text-stemPurple-light dark:border-stemPurple/40">
                 🎉 Subject Mastered!
               </Badge>
             ) : progressPercentage >= 75 ? (
-              <Badge variant="outline" className="bg-stemOrange/20 text-stemOrange-dark border-stemOrange/30 dark:bg-stemOrange/30 dark:text-stemOrange-light dark:border-stemOrange/40">
+              <Badge variant="outline" className="bg-stemPurple/10 text-stemPurple-dark border-stemPurple/30 dark:bg-stemPurple/20 dark:text-stemPurple-light dark:border-stemPurple/40">
                 🚀 Almost There!
               </Badge>
             ) : progressPercentage >= 50 ? (
-              <Badge variant="outline" className="bg-stemYellow/20 text-stemYellow-dark border-stemYellow/30 dark:bg-stemYellow/30 dark:text-stemYellow-light dark:border-stemYellow/40">
+              <Badge variant="outline" className="bg-stemPurple/10 text-stemPurple-dark border-stemPurple/30 dark:bg-stemPurple/20 dark:text-stemPurple-light dark:border-stemPurple/40">
                 📚 Halfway There!
               </Badge>
             ) : progressPercentage >= 25 ? (
-              <Badge variant="outline" className="bg-stemPurple/20 text-stemPurple border-stemPurple/30 dark:bg-stemPurple/30 dark:text-stemPurple-light dark:border-stemPurple/40">
+              <Badge variant="outline" className="bg-stemPurple/10 text-stemPurple-dark border-stemPurple/30 dark:bg-stemPurple/20 dark:text-stemPurple-light dark:border-stemPurple/40">
                 🌱 Making Progress!
               </Badge>
             ) : (
-              <Badge variant="outline" className="bg-stemPurple/20 text-stemPurple border-stemPurple/30 dark:bg-stemPurple/30 dark:text-stemPurple-light dark:border-stemPurple/40">
+              <Badge variant="outline" className="bg-stemPurple/10 text-stemPurple-dark border-stemPurple/30 dark:bg-stemPurple/20 dark:text-stemPurple-light dark:border-stemPurple/40">
                 🚀 Just Getting Started!
               </Badge>
             )}
