@@ -139,14 +139,40 @@ const SubjectDetail: React.FC = () => {
   // Calculate completion counts
   const completedModules = userProgress?.modules?.filter(p => p.completed)?.length || 0;
   const completedQuizzes = userProgress?.quizzes?.length || 0;
-  const totalModules = modules?.length || 0;
+
+  // Use database module count for consistency with Subjects page
+  const { data: dbModuleCount } = useQuery({
+    queryKey: ["db-module-count", subjectId],
+    queryFn: async () => {
+      if (!subjectId) return 0;
+      try {
+        const { data, error } = await supabase
+          .from("modules")
+          .select("id")
+          .eq("subject_id", subjectId);
+
+        if (error) {
+          console.error("Error fetching DB module count:", error);
+          return 0;
+        }
+
+        return data?.length || 0;
+      } catch (error) {
+        console.error("Error fetching DB module count:", error);
+        return 0;
+      }
+    },
+    enabled: !!subjectId,
+  });
+
+  const totalModules = dbModuleCount || 0;
   const totalQuizzes = quizzes?.length || 0;
 
   // Calculate progress percentages
-  const moduleProgressPercentage = totalModules > 0 ? Math.round((completedModules / totalModules) * 100) : 0;
+  const moduleProgressPercentage = (dbModuleCount || 0) > 0 ? Math.round((completedModules / (dbModuleCount || 0)) * 100) : 0;
   const quizProgressPercentage = totalQuizzes > 0 ? Math.round((completedQuizzes / totalQuizzes) * 100) : 0;
 
-  const isLoading = subjectLoading || modulesLoading || quizzesLoading || progressLoading;
+  const isLoading = subjectLoading || modulesLoading || quizzesLoading || progressLoading || !dbModuleCount;
 
   if (isLoading) {
     return (
@@ -190,10 +216,10 @@ const SubjectDetail: React.FC = () => {
               <Badge variant="outline" className="px-4 py-2 text-base border-gray-300 bg-gray-50 dark:border-gray-600 dark:bg-gray-800">
                 <div className="text-center">
                   <div className="font-bold text-gray-700 dark:text-gray-300">
-                    {completedModules}/{totalModules}
+                    {completedModules}/{dbModuleCount || 0}
                   </div>
                   <div className="text-xs text-gray-500 dark:text-gray-400">
-                    {totalModules - completedModules} remaining
+                    {(dbModuleCount || 0) - completedModules} remaining
                   </div>
                 </div>
               </Badge>
@@ -212,7 +238,7 @@ const SubjectDetail: React.FC = () => {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-3xl font-bold text-gray-700 dark:text-gray-300">{totalModules}</div>
+            <div className="text-3xl font-bold text-gray-700 dark:text-gray-300">{dbModuleCount || 0}</div>
             <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
               Available for learning
             </p>
@@ -242,7 +268,7 @@ const SubjectDetail: React.FC = () => {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-3xl font-bold text-gray-700 dark:text-gray-300">{totalModules - completedModules}</div>
+            <div className="text-3xl font-bold text-gray-700 dark:text-gray-300">{(dbModuleCount || 0) - completedModules}</div>
             <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
               Modules to complete
             </p>
@@ -268,10 +294,10 @@ const SubjectDetail: React.FC = () => {
                 </div>
                 <div className="text-right">
                   <div className="text-2xl font-bold text-gray-700 dark:text-gray-300">
-                    {completedModules}/{totalModules}
+                    {completedModules}/{dbModuleCount || 0}
                   </div>
                   <div className="text-sm text-gray-500 dark:text-gray-400">
-                    {totalModules - completedModules} remaining
+                    {(dbModuleCount || 0) - completedModules} remaining
                   </div>
                 </div>
               </div>
@@ -401,7 +427,7 @@ const SubjectDetail: React.FC = () => {
                   <div className="space-y-2">
                     <div className="flex justify-between text-sm">
                       <span className="text-gray-700 dark:text-gray-300">Modules</span>
-                      <span className="text-gray-600 dark:text-gray-400">{completedModules}/{totalModules}</span>
+                      <span className="text-gray-600 dark:text-gray-400">{completedModules}/{dbModuleCount || 0}</span>
                     </div>
                     <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
                       <div className="bg-gray-600 dark:bg-gray-400 h-2 rounded-full transition-all duration-300" style={{ width: `${moduleProgressPercentage}%` }} />
