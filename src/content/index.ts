@@ -196,11 +196,6 @@ export const getContentStats = () => {
   const levels = getAllLevels();
   const tags = getAllTags();
 
-  // Debug: Log what subjects are found
-  console.log('Debug - All subjects found:', subjects);
-  console.log('Debug - All modules:', allModules.map(m => ({ title: m.title, subject: m.subject })));
-  console.log('Debug - Searchable content subjects:', searchableContent.map(c => c.subject));
-
   // Create subject breakdown, but filter out ICT to replace with biology focus
   const subjectBreakdown = subjects
     .filter(subject => subject !== 'Elective ICT') // Remove ICT

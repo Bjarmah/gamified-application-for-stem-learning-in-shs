@@ -158,61 +158,61 @@ const Subjects = () => {
       {/* Overall Progress Summary */}
       {user && progressData && moduleCounts && (
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
-          <div className="bg-blue-50 dark:bg-blue-950/20 p-4 rounded-lg border">
+          <div className="subject-progress p-4 rounded-lg">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-blue-600 dark:text-blue-400">Total Modules</p>
-                <p className="text-2xl font-bold text-blue-700 dark:text-blue-300">
+                <p className="text-sm font-medium subject-progress-text">Total Modules</p>
+                <p className="text-2xl font-bold subject-progress-value">
                   {Object.values(moduleCounts || {}).reduce((sum, count) => sum + count, 0)}
                 </p>
               </div>
-              <div className="text-blue-400">
+              <div className="subject-progress-icon">
                 <BookOpen className="h-8 w-8" />
               </div>
             </div>
           </div>
 
-          <div className="bg-green-50 dark:bg-green-950/20 p-4 rounded-lg border">
+          <div className="subject-completed p-4 rounded-lg">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-green-600 dark:text-green-400">Completed</p>
-                <p className="text-2xl font-bold text-green-700 dark:text-green-300">
+                <p className="text-sm font-medium subject-completed-text">Completed</p>
+                <p className="text-2xl font-bold subject-completed-value">
                   {Object.values(progressData).reduce((sum, count) => sum + count, 0)}
                 </p>
               </div>
-              <div className="text-green-400">
+              <div className="subject-completed-icon">
                 <CheckCircle className="h-8 w-8" />
               </div>
             </div>
           </div>
 
-          <div className="bg-orange-50 dark:bg-orange-950/20 p-4 rounded-lg border">
+          <div className="subject-remaining p-4 rounded-lg">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-orange-600 dark:text-orange-400">Remaining</p>
-                <p className="text-2xl font-bold text-orange-700 dark:text-orange-300">
+                <p className="text-sm font-medium subject-remaining-text">Remaining</p>
+                <p className="text-2xl font-bold subject-remaining-value">
                   {Object.values(moduleCounts || {}).reduce((sum, count) => sum + count, 0) -
                     Object.values(progressData).reduce((sum, count) => sum + count, 0)}
                 </p>
               </div>
-              <div className="text-orange-400">
+              <div className="subject-remaining-icon">
                 <PlayCircle className="h-8 w-8" />
               </div>
             </div>
           </div>
 
-          <div className="bg-purple-50 dark:bg-purple-950/20 p-4 rounded-lg border">
+          <div className="subject-overall p-4 rounded-lg">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-purple-600 dark:text-purple-400">Overall Progress</p>
-                <p className="text-2xl font-bold text-purple-700 dark:text-purple-300">
+                <p className="text-sm font-medium subject-overall-text">Overall Progress</p>
+                <p className="text-2xl font-bold subject-overall-value">
                   {Math.round(
                     (Object.values(progressData).reduce((sum, count) => sum + count, 0) /
                       Object.values(moduleCounts || {}).reduce((sum, count) => sum + count, 0)) * 100
                   )}%
                 </p>
               </div>
-              <div className="text-purple-400">
+              <div className="subject-overall-icon">
                 <TrendingUp className="h-8 w-8" />
               </div>
             </div>

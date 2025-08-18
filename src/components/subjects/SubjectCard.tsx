@@ -29,7 +29,7 @@ const SubjectCard = ({
   const progressPercentage = totalModules > 0 ? Math.round((modulesCompleted / totalModules) * 100) : 0;
 
   return (
-    <Card className="card-stem overflow-hidden">
+    <Card className="subject-card overflow-hidden">
       <div className={`h-2 ${color}`} />
       <CardHeader>
         <div className="flex justify-between items-start">
@@ -62,40 +62,40 @@ const SubjectCard = ({
 
           {/* Module Counts */}
           <div className="grid grid-cols-3 gap-2 text-xs">
-            <div className="text-center p-2 bg-blue-50 dark:bg-blue-950/20 rounded-md">
-              <div className="font-bold text-blue-600 dark:text-blue-400">{totalModules}</div>
-              <div className="text-blue-500 dark:text-blue-300">Total</div>
+            <div className="text-center p-2 subject-progress rounded-md">
+              <div className="font-bold subject-progress-value">{totalModules}</div>
+              <div className="subject-progress-text">Total</div>
             </div>
-            <div className="text-center p-2 bg-green-50 dark:bg-green-950/20 rounded-md">
-              <div className="font-bold text-green-600 dark:text-green-400">{modulesCompleted}</div>
-              <div className="text-green-500 dark:text-green-300">Completed</div>
+            <div className="text-center p-2 subject-completed rounded-md">
+              <div className="font-bold subject-completed-value">{modulesCompleted}</div>
+              <div className="subject-completed-text">Completed</div>
             </div>
-            <div className="text-center p-2 bg-orange-50 dark:bg-orange-950/20 rounded-md">
-              <div className="font-bold text-orange-600 dark:text-orange-400">{totalModules - modulesCompleted}</div>
-              <div className="text-orange-500 dark:text-orange-300">Remaining</div>
+            <div className="text-center p-2 subject-remaining rounded-md">
+              <div className="font-bold subject-remaining-value">{totalModules - modulesCompleted}</div>
+              <div className="subject-remaining-text">Remaining</div>
             </div>
           </div>
 
           {/* Progress Status */}
           <div className="text-center">
             {progressPercentage === 100 ? (
-              <Badge variant="outline" className="bg-green-50 text-green-700 border-green-200 dark:bg-green-950/20 dark:text-green-300 dark:border-green-800">
+              <Badge variant="outline" className="bg-emerald-50 text-emerald-700 border-emerald-200 dark:bg-emerald-950/20 dark:text-emerald-300 dark:border-emerald-800">
                 🎉 Subject Mastered!
               </Badge>
             ) : progressPercentage >= 75 ? (
-              <Badge variant="outline" className="bg-blue-50 text-blue-700 border-blue-200 dark:bg-blue-950/20 dark:text-blue-300 dark:border-blue-800">
+              <Badge variant="outline" className="bg-indigo-50 text-indigo-700 border-indigo-200 dark:bg-indigo-950/20 dark:text-indigo-300 dark:border-indigo-800">
                 🚀 Almost There!
               </Badge>
             ) : progressPercentage >= 50 ? (
-              <Badge variant="outline" className="bg-yellow-50 text-yellow-700 border-yellow-200 dark:bg-yellow-950/20 dark:text-yellow-300 dark:border-yellow-800">
+              <Badge variant="outline" className="bg-amber-50 text-amber-700 border-amber-200 dark:bg-amber-950/20 dark:text-amber-300 dark:border-amber-800">
                 📚 Halfway There!
               </Badge>
             ) : progressPercentage >= 25 ? (
-              <Badge variant="outline" className="bg-purple-50 text-purple-700 border-purple-200 dark:bg-purple-950/20 dark:text-purple-300 dark:border-purple-800">
+              <Badge variant="outline" className="bg-slate-50 text-slate-700 border-slate-200 dark:bg-slate-950/20 dark:text-slate-300 dark:border-slate-800">
                 🌱 Making Progress!
               </Badge>
             ) : (
-              <Badge variant="outline" className="bg-gray-50 text-gray-700 border-gray-200 dark:bg-gray-950/20 dark:text-gray-300 dark:border-gray-800">
+              <Badge variant="outline" className="bg-slate-50 text-slate-700 border-slate-200 dark:bg-slate-950/20 dark:text-slate-300 dark:border-slate-800">
                 🚀 Just Getting Started!
               </Badge>
             )}
