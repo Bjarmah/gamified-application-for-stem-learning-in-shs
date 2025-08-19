@@ -80,9 +80,11 @@ ALTER TABLE room_quiz_attempts ENABLE ROW LEVEL SECURITY;
 ALTER TABLE room_messages ENABLE ROW LEVEL SECURITY;
 
 -- Create RLS policies for rooms
+DROP POLICY IF EXISTS "Users can view public rooms" ON rooms;
 CREATE POLICY "Users can view public rooms" ON rooms
     FOR SELECT USING (is_public = true);
 
+DROP POLICY IF EXISTS "Users can view rooms they belong to" ON rooms;
 CREATE POLICY "Users can view rooms they belong to" ON rooms
     FOR SELECT USING (
         EXISTS (
@@ -92,16 +94,20 @@ CREATE POLICY "Users can view rooms they belong to" ON rooms
         )
     );
 
+DROP POLICY IF EXISTS "Users can create rooms" ON rooms;
 CREATE POLICY "Users can create rooms" ON rooms
     FOR INSERT WITH CHECK (created_by = auth.uid());
 
+DROP POLICY IF EXISTS "Room owners can update their rooms" ON rooms;
 CREATE POLICY "Room owners can update their rooms" ON rooms
     FOR UPDATE USING (created_by = auth.uid());
 
+DROP POLICY IF EXISTS "Room owners can delete their rooms" ON rooms;
 CREATE POLICY "Room owners can delete their rooms" ON rooms
     FOR DELETE USING (created_by = auth.uid());
 
 -- Create RLS policies for room_members
+DROP POLICY IF EXISTS "Users can view room members of rooms they belong to" ON room_members;
 CREATE POLICY "Users can view room members of rooms they belong to" ON room_members
     FOR SELECT USING (
         EXISTS (
@@ -111,6 +117,7 @@ CREATE POLICY "Users can view room members of rooms they belong to" ON room_memb
         )
     );
 
+DROP POLICY IF EXISTS "Room owners can add/remove members" ON room_members;
 CREATE POLICY "Room owners can add/remove members" ON room_members
     FOR ALL USING (
         EXISTS (
@@ -122,6 +129,7 @@ CREATE POLICY "Room owners can add/remove members" ON room_members
     );
 
 -- Create RLS policies for room_quizzes
+DROP POLICY IF EXISTS "Users can view quizzes in rooms they belong to" ON room_quizzes;
 CREATE POLICY "Users can view quizzes in rooms they belong to" ON room_quizzes
     FOR SELECT USING (
         EXISTS (
@@ -131,6 +139,7 @@ CREATE POLICY "Users can view quizzes in rooms they belong to" ON room_quizzes
         )
     );
 
+DROP POLICY IF EXISTS "Room owners can create/edit quizzes" ON room_quizzes;
 CREATE POLICY "Room owners can create/edit quizzes" ON room_quizzes
     FOR ALL USING (
         EXISTS (
@@ -142,13 +151,16 @@ CREATE POLICY "Room owners can create/edit quizzes" ON room_quizzes
     );
 
 -- Create RLS policies for room_quiz_attempts
+DROP POLICY IF EXISTS "Users can view their own quiz attempts" ON room_quiz_attempts;
 CREATE POLICY "Users can view their own quiz attempts" ON room_quiz_attempts
     FOR SELECT USING (user_id = auth.uid());
 
+DROP POLICY IF EXISTS "Users can create their own quiz attempts" ON room_quiz_attempts;
 CREATE POLICY "Users can create their own quiz attempts" ON room_quiz_attempts
     FOR INSERT WITH CHECK (user_id = auth.uid());
 
 -- Create RLS policies for room_messages
+DROP POLICY IF EXISTS "Users can view messages in rooms they belong to" ON room_messages;
 CREATE POLICY "Users can view messages in rooms they belong to" ON room_messages
     FOR SELECT USING (
         EXISTS (
@@ -158,6 +170,7 @@ CREATE POLICY "Users can view messages in rooms they belong to" ON room_messages
         )
     );
 
+DROP POLICY IF EXISTS "Users can send messages to rooms they belong to" ON room_messages;
 CREATE POLICY "Users can send messages to rooms they belong to" ON room_messages
     FOR INSERT WITH CHECK (
         user_id = auth.uid() AND

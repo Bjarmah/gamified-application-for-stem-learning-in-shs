@@ -220,7 +220,7 @@ const Rooms = () => {
             const roomData: CreateRoomData = {
                 name: newRoom.name.trim(),
                 description: newRoom.description.trim(),
-                subjectId: newRoom.subjectId.trim() || undefined, // Only include if provided
+                subjectId: undefined, // Don't include subject for now - it should be a UUID, not a string
                 isPublic: newRoom.isPublic,
                 maxMembers: newRoom.maxMembers
             };
@@ -362,13 +362,14 @@ const Rooms = () => {
 
                             <div className="grid gap-2">
                                 <label htmlFor="room-subject" className="text-sm font-medium">
-                                    Subject
+                                    Subject (Coming Soon)
                                 </label>
                                 <Input
                                     id="room-subject"
                                     value={newRoom.subjectId}
                                     onChange={(e) => setNewRoom({ ...newRoom, subjectId: e.target.value })}
-                                    placeholder="E.g., Physics, Chemistry, Mathematics"
+                                    placeholder="Subject selection will be available soon"
+                                    disabled={true}
                                 />
                             </div>
 
