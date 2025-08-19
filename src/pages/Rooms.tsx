@@ -58,7 +58,7 @@ const Rooms = () => {
         name: '',
         description: '',
         isPublic: false,
-        subjectId: '',
+        subjectId: undefined, // Changed from empty string to undefined
         maxMembers: 50
     });
 
@@ -72,6 +72,17 @@ const Rooms = () => {
             checkDatabaseState();
         }
     }, [user]);
+
+    // Clear form data when component mounts
+    useEffect(() => {
+        setNewRoom({
+            name: '',
+            description: '',
+            isPublic: false,
+            subjectId: undefined,
+            maxMembers: 50
+        });
+    }, []);
 
     const checkDatabaseState = async () => {
         try {
@@ -239,7 +250,7 @@ const Rooms = () => {
                     name: '',
                     description: '',
                     isPublic: false,
-                    subjectId: '',
+                    subjectId: undefined, // Reset to undefined, not empty string
                     maxMembers: 50
                 });
 
