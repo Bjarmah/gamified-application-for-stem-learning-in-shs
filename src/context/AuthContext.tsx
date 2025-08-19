@@ -48,37 +48,31 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       async (event, session) => {
         setSession(session);
         setUser(session?.user ?? null);
-        
+
         if (session?.user) {
-          // Fetch user profile with setTimeout to prevent deadlock
-          setTimeout(async () => {
-            try {
-              const { data: profileData, error } = await supabase
-                .from('profiles')
-                .select('*')
-                .eq('id', session.user.id)
-                .single();
-              
-              if (error && error.code !== 'PGRST116') {
-                // Only log non-offline errors to avoid spam
-                if (!error.message?.includes('offline')) {
-                  console.error('Error fetching profile:', error);
-                }
-              } else if (profileData) {
-                // Type assertion to ensure role is properly typed
-                setProfile({
-                  ...profileData,
-                  role: profileData.role as 'student' | 'teacher' | 'admin'
-                });
-              }
-            } catch (error) {
-              console.error('Error in profile fetch:', error);
+          // Fetch user profile
+          try {
+            const { data: profileData, error } = await supabase
+              .from('profiles')
+              .select('*')
+              .eq('id', session.user.id)
+              .single();
+
+            if (error && error.code !== 'PGRST116') {
+              console.error('Error fetching profile:', error);
+            } else if (profileData) {
+              setProfile({
+                ...profileData,
+                role: profileData.role as 'student' | 'teacher' | 'admin'
+              });
             }
-          }, 0);
+          } catch (error) {
+            console.error('Error in profile fetch:', error);
+          }
         } else {
           setProfile(null);
         }
-        
+
         setLoading(false);
       }
     );
@@ -181,7 +175,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       if (error) throw error;
 
       setProfile(prev => prev ? { ...prev, ...updates } : null);
-      
+
       toast({
         title: "Profile updated",
         description: "Your profile has been updated successfully.",
