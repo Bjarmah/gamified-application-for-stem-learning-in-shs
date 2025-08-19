@@ -13,7 +13,8 @@ import {
   Users,
   GraduationCap,
   Bell,
-  Lock
+  Lock,
+  Beaker
 } from "lucide-react";
 import SearchButton from "./SearchButton";
 import NotificationDropdown from "@/components/notifications/NotificationDropdown";
@@ -32,6 +33,7 @@ const AppLayout = () => {
     { path: "/dashboard", label: "Dashboard", icon: Home },
     { path: "/subjects", label: "Subjects", icon: BookOpen },
     { path: "/rooms", label: "Rooms", icon: Users },
+    { path: "/virtual-lab", label: "Virtual Lab", icon: Beaker },
     { path: "/achievements", label: "Achievements", icon: Trophy },
     { path: "/leaderboard", label: "Leaderboard", icon: GraduationCap },
     { path: "/profile", label: "Profile", icon: User },
