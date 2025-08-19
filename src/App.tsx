@@ -29,6 +29,7 @@ import ModuleRedirect from "./pages/ModuleRedirect";
 import AdminDashboard from "./pages/AdminDashboard";
 import AdminSubjects from "./pages/AdminSubjects";
 import NotFound from "./pages/NotFound";
+import Leaderboard from "./pages/Leaderboard";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -66,6 +67,7 @@ function App() {
                         <Route path="rooms" element={<Rooms />} />
                         <Route path="rooms/:roomId" element={<RoomDetail />} />
                         <Route path="achievements" element={<Achievements />} />
+                        <Route path="leaderboard" element={<Leaderboard />} />
                         <Route path="profile" element={<Profile />} />
                         <Route path="virtual-lab" element={<VirtualLab />} />
                         <Route path="teacher/quizzes" element={<TeacherQuizzes />} />

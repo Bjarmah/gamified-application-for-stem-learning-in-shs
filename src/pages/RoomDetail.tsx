@@ -210,7 +210,7 @@ const RoomDetail = () => {
     const startQuiz = (quiz: RoomQuiz) => {
         setCurrentQuiz(quiz);
         setCurrentQuestionIndex(0);
-        const questions = quiz.questions as QuizQuestion[];
+        const questions = quiz.questions as unknown as QuizQuestion[];
         setUserAnswers(new Array(questions.length).fill(-1));
         setQuizStartTime(new Date());
         setShowQuizResults(false);
@@ -225,7 +225,7 @@ const RoomDetail = () => {
 
     const nextQuestion = () => {
         if (!currentQuiz) return;
-        const questions = currentQuiz.questions as QuizQuestion[];
+        const questions = currentQuiz.questions as unknown as QuizQuestion[];
         if (currentQuestionIndex < questions.length - 1) {
             setCurrentQuestionIndex(currentQuestionIndex + 1);
         } else {
@@ -242,7 +242,7 @@ const RoomDetail = () => {
     const finishQuiz = async () => {
         if (!currentQuiz || !user) return;
 
-        const questions = currentQuiz.questions as QuizQuestion[];
+        const questions = currentQuiz.questions as unknown as QuizQuestion[];
         const score = userAnswers.reduce((acc, answer, index) => {
             return acc + (answer === questions[index].correctAnswer ? 1 : 0);
         }, 0);
@@ -647,7 +647,7 @@ const RoomDetail = () => {
                 <TabsContent value="quizzes" className="mt-6">
                     <div className="grid gap-4">
                         {quizzes.map((quiz) => {
-                            const questions = quiz.questions as QuizQuestion[];
+                            const questions = quiz.questions as unknown as QuizQuestion[];
                             return (
                                 <Card key={quiz.id} className="hover:shadow-md transition-shadow">
                                     <CardContent className="p-6">
@@ -805,7 +805,7 @@ const RoomDetail = () => {
                                     <span>{currentQuiz.title}</span>
                                     <div className="flex items-center gap-2">
                                         <Badge variant="outline">
-                                            Question {currentQuestionIndex + 1} of {(currentQuiz.questions as QuizQuestion[]).length}
+                                            Question {currentQuestionIndex + 1} of {(currentQuiz.questions as unknown as QuizQuestion[]).length}
                                         </Badge>
                                         {quizStartTime && currentQuiz.time_limit && (
                                             <Badge variant="outline">
@@ -822,7 +822,7 @@ const RoomDetail = () => {
                                     <>
                                         <div>
                                             <h3 className="text-lg font-medium mb-4">
-                                                {(currentQuiz.questions as QuizQuestion[])[currentQuestionIndex].question}
+                                                {(currentQuiz.questions as unknown as QuizQuestion[])[currentQuestionIndex].question}
                                             </h3>
 
                                             <RadioGroup
@@ -830,7 +830,7 @@ const RoomDetail = () => {
                                                 onValueChange={(value) => handleAnswerSelect(parseInt(value))}
                                             >
                                                 <div className="space-y-3">
-                                                    {(currentQuiz.questions as QuizQuestion[])[currentQuestionIndex].options.map((option, index) => (
+                                                    {(currentQuiz.questions as unknown as QuizQuestion[])[currentQuestionIndex].options.map((option, index) => (
                                                         <div key={index} className="flex items-center space-x-2">
                                                             <RadioGroupItem value={index.toString()} id={`option-${index}`} />
                                                             <Label htmlFor={`option-${index}`} className="text-base cursor-pointer">
@@ -854,7 +854,7 @@ const RoomDetail = () => {
                                                 onClick={nextQuestion}
                                                 disabled={userAnswers[currentQuestionIndex] === -1}
                                             >
-                                                {currentQuestionIndex === (currentQuiz.questions as QuizQuestion[]).length - 1 ? 'Finish Quiz' : 'Next'}
+                                                {currentQuestionIndex === (currentQuiz.questions as unknown as QuizQuestion[]).length - 1 ? 'Finish Quiz' : 'Next'}
                                             </Button>
                                         </div>
                                     </>
@@ -867,7 +867,7 @@ const RoomDetail = () => {
                                             Quiz Complete!
                                         </h3>
                                         <p className="text-lg">
-                                            You scored {quizAttempts[quizAttempts.length - 1]?.score} out of {(currentQuiz.questions as QuizQuestion[]).length}
+                                            You scored {quizAttempts[quizAttempts.length - 1]?.score} out of {(currentQuiz.questions as unknown as QuizQuestion[]).length}
                                         </p>
                                         <p className="text-2xl font-bold text-stemPurple">
                                             {quizAttempts[quizAttempts.length - 1]?.percentage}%

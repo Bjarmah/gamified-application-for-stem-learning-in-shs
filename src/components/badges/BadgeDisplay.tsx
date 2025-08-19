@@ -2,7 +2,8 @@
 import React from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Award, Star, Trophy, Flame, BookOpen, Users, Skeleton } from 'lucide-react';
+import { Award, Star, Trophy, Flame, BookOpen, Users } from 'lucide-react';
+import { Skeleton } from "@/components/ui/skeleton";
 import { useGamification } from '@/hooks/use-gamification';
 
 interface BadgeDisplayProps {

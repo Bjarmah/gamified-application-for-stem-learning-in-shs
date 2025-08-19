@@ -230,7 +230,7 @@ const SubjectDetail: React.FC = () => {
 
       {/* Module Count Summary Cards */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-        <Card className="border border-stemPurple/30 dark:border-stemPurple/40 bg-white dark:bg-gray-900">
+        <Card className="border border-stemPurple/30 dark:border-stemPurple/40 bg-card dark:bg-card">
           <CardHeader className="pb-3">
             <CardTitle className="text-lg flex items-center gap-2 text-stemPurple dark:text-stemPurple-light">
               <BookOpen className="h-5 w-5 text-stemPurple dark:text-stemPurple-light" />
@@ -245,7 +245,7 @@ const SubjectDetail: React.FC = () => {
           </CardContent>
         </Card>
 
-        <Card className="border border-stemPurple/30 dark:border-stemPurple/40 bg-white dark:bg-gray-900">
+        <Card className="border border-stemPurple/30 dark:border-stemPurple/40 bg-card dark:bg-card">
           <CardHeader className="pb-3">
             <CardTitle className="text-lg flex items-center gap-2 text-stemPurple dark:text-stemPurple-light">
               <CheckCircle className="h-5 w-5 text-stemPurple dark:text-stemPurple-light" />
@@ -260,7 +260,7 @@ const SubjectDetail: React.FC = () => {
           </CardContent>
         </Card>
 
-        <Card className="border border-stemPurple/30 dark:border-stemPurple/40 bg-white dark:bg-gray-900">
+        <Card className="border border-stemPurple/30 dark:border-stemPurple/40 bg-card dark:bg-card">
           <CardHeader className="pb-3">
             <CardTitle className="text-lg flex items-center gap-2 text-stemPurple dark:text-stemPurple-light">
               <PlayCircle className="h-5 w-5 text-stemPurple dark:text-stemPurple-light" />
@@ -280,7 +280,7 @@ const SubjectDetail: React.FC = () => {
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
         {/* Left: Learning Track (vertical progression) */}
         <div className="lg:col-span-3">
-          <Card className="border border-stemPurple/30 dark:border-stemPurple/40 bg-white dark:bg-gray-900">
+          <Card className="border border-stemPurple/30 dark:border-stemPurple/40 bg-card">
             <CardHeader>
               <div className="flex items-center justify-between">
                 <div>
@@ -400,7 +400,7 @@ const SubjectDetail: React.FC = () => {
 
         {/* Right: Progress Summary */}
         <div className="space-y-6">
-          <Card className="border border-stemPurple/30 dark:border-stemPurple/40 bg-white dark:bg-gray-900">
+          <Card className="border border-stemPurple/30 dark:border-stemPurple/40 bg-card">
             <CardHeader>
               <CardTitle className="text-lg text-stemPurple-dark dark:text-stemPurple-light">Progress</CardTitle>
             </CardHeader>

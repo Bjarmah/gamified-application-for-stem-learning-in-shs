@@ -217,7 +217,7 @@ const Achievements = () => {
                 icon={getBadgeIconComponent(badge.icon)}
                 isUnlocked={!!badge.earned_at}
                 level={badge.level}
-                rarity={badge.rarity}
+                rarity={badge.rarity.charAt(0).toUpperCase() + badge.rarity.slice(1) as "Common" | "Uncommon" | "Rare" | "Epic" | "Legendary"}
               />
             ))}
           </div>

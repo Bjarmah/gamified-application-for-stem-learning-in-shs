@@ -144,40 +144,40 @@ const ModuleDetail: React.FC = () => {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Left: Module Track */}
         <aside className="space-y-4 lg:col-span-1">
-          <Card className="border border-gray-200 dark:border-gray-700">
+          <Card className="border border-border bg-card">
             <CardHeader>
-              <CardTitle className="flex items-center gap-2 text-gray-800 dark:text-gray-200">
-                <ListChecks className="h-5 w-5 text-gray-600 dark:text-gray-400" />
+              <CardTitle className="flex items-center gap-2 text-foreground">
+                <ListChecks className="h-5 w-5 text-muted-foreground" />
                 Module Track
               </CardTitle>
-              <CardDescription className="text-gray-600 dark:text-gray-400">
+              <CardDescription className="text-muted-foreground">
                 Progress through the modules in order.
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <ol className="relative border-l border-gray-300 dark:border-gray-600 pl-4">
+              <ol className="relative border-l border-border pl-4">
                 {modules?.map((m, idx) => {
                   const active = m.id === module.id;
                   return (
                     <li key={m.id} className="mb-6 ml-2">
                       <div className={`flex items-start gap-3 ${active ? "font-medium" : ""}`}>
                         <span className={`flex h-6 w-6 items-center justify-center rounded-full border text-xs ${active
-                          ? "bg-gray-700 text-white border-gray-700 dark:bg-gray-300 dark:text-gray-800 dark:border-gray-300"
-                          : "bg-gray-100 text-gray-600 border-gray-300 dark:bg-gray-700 dark:text-gray-400 dark:border-gray-600"
+                          ? "bg-primary text-primary-foreground border-primary"
+                          : "bg-muted text-muted-foreground border-border"
                           }`}>
                           {idx + 1}
                         </span>
                         <div>
                           <button
                             className={`text-left hover:underline transition-colors ${active
-                              ? "text-gray-900 dark:text-gray-100"
-                              : "text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200"
+                              ? "text-foreground"
+                              : "text-muted-foreground hover:text-foreground"
                               }`}
                             onClick={() => navigate(`/subjects/${subjectId}/${m.id}`)}
                           >
                             {m.title}
                           </button>
-                          <div className="flex items-center gap-2 text-xs text-gray-500 dark:text-gray-500 mt-1">
+                          <div className="flex items-center gap-2 text-xs text-muted-foreground mt-1">
                             <Clock className="h-3 w-3" /> ~{m.estimatedTime || 30} mins
                           </div>
                         </div>
@@ -192,28 +192,28 @@ const ModuleDetail: React.FC = () => {
 
         {/* Right: Module Content */}
         <main className="space-y-6 lg:col-span-2">
-          <Card className="border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900">
+          <Card className="border border-border bg-card">
             <CardHeader>
-              <CardTitle className="flex items-center gap-2 text-gray-800 dark:text-gray-200">
-                <BookOpen className="h-5 w-5 text-gray-600 dark:text-gray-400" />
+              <CardTitle className="flex items-center gap-2 text-foreground">
+                <BookOpen className="h-5 w-5 text-muted-foreground" />
                 {module.title}
               </CardTitle>
               <div className="flex items-center gap-2">
-                <Badge className="bg-gray-100 text-gray-700 border-gray-300 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-600">
+                <Badge className="bg-muted text-muted-foreground border-border">
                   {formatDifficulty(module.level)}
                 </Badge>
-                <Badge variant="outline" className="flex items-center gap-1 border-gray-300 text-gray-600 dark:border-gray-600 dark:text-gray-400">
+                <Badge variant="outline" className="flex items-center gap-1 border-border text-muted-foreground">
                   <Clock className="h-3 w-3" /> ~{module.estimatedTime || 30} mins
                 </Badge>
                 {structured?.level && (
-                  <Badge variant="outline" className="bg-gray-50 text-gray-600 border-gray-300 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600">
+                  <Badge variant="outline" className="bg-muted text-muted-foreground border-border">
                     {structured.level}
                   </Badge>
                 )}
                 {quiz && (
                   <Button
                     size="sm"
-                    className="bg-gray-700 hover:bg-gray-800 text-white border-gray-700 hover:border-gray-800 dark:bg-gray-600 dark:hover:bg-gray-700 dark:border-gray-600 dark:hover:border-gray-700"
+                    className="bg-primary hover:bg-primary/90 text-primary-foreground"
                     onClick={() => navigate(`/quizzes/${quiz.id}`)}
                   >
                     <Play className="h-4 w-4 mr-1" />
@@ -226,15 +226,15 @@ const ModuleDetail: React.FC = () => {
               {structured ? (
                 <div className="space-y-6">
                   <section>
-                    <h2 className="text-lg font-semibold text-gray-800 dark:text-gray-200">Description</h2>
-                    <p className="text-sm mt-2 text-gray-600 dark:text-gray-400">{structured.description}</p>
+                    <h2 className="text-lg font-semibold text-foreground">Description</h2>
+                    <p className="text-sm mt-2 text-muted-foreground">{structured.description}</p>
                   </section>
 
                   <section>
-                    <h3 className="text-sm font-medium text-gray-700 dark:text-gray-300">Tags</h3>
+                    <h3 className="text-sm font-medium text-foreground">Tags</h3>
                     <div className="flex flex-wrap gap-2 mt-2">
                       {structured.tags?.map((tag) => (
-                        <Badge key={tag} variant="outline" className="bg-gray-50 text-gray-600 border-gray-300 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600">
+                        <Badge key={tag} variant="outline" className="bg-muted text-muted-foreground border-border">
                           {tag}
                         </Badge>
                       ))}
@@ -242,19 +242,19 @@ const ModuleDetail: React.FC = () => {
                   </section>
 
                   <section className="space-y-4">
-                    <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-200">Content</h3>
-                    <div className="p-4 rounded-md bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700">
-                      <h4 className="font-medium text-gray-700 dark:text-gray-300">Introduction</h4>
+                    <h3 className="text-lg font-semibold text-foreground">Content</h3>
+                    <div className="p-4 rounded-md bg-muted border border-border">
+                      <h4 className="font-medium text-foreground">Introduction</h4>
                       <div
-                        className="prose prose-sm max-w-none mt-2 text-gray-600 dark:text-gray-400"
+                        className="prose prose-sm max-w-none mt-2 text-muted-foreground"
                         dangerouslySetInnerHTML={{ __html: toHTML(structured.content.text.introduction) }}
                       />
                     </div>
                     {structured.content.text.sections?.map((section, index) => (
-                      <article key={index} className="p-4 rounded-md bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700">
-                        <h4 className="font-medium text-gray-700 dark:text-gray-300">{section.title}</h4>
+                      <article key={index} className="p-4 rounded-md bg-muted border border-border">
+                        <h4 className="font-medium text-foreground">{section.title}</h4>
                         <div
-                          className="prose prose-sm max-w-none mt-2 text-gray-600 dark:text-gray-400"
+                          className="prose prose-sm max-w-none mt-2 text-muted-foreground"
                           dangerouslySetInnerHTML={{ __html: toHTML(section.content) }}
                         />
                       </article>
@@ -265,24 +265,24 @@ const ModuleDetail: React.FC = () => {
                 module.content && typeof module.content === 'object' && module.content.text ? (
                   <div className="space-y-6">
                     <section>
-                      <h2 className="text-lg font-semibold text-gray-800 dark:text-gray-200">Description</h2>
-                      <p className="text-sm mt-2 text-gray-600 dark:text-gray-400">{module.description}</p>
+                      <h2 className="text-lg font-semibold text-foreground">Description</h2>
+                      <p className="text-sm mt-2 text-muted-foreground">{module.description}</p>
                     </section>
 
                     <section className="space-y-4">
-                      <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-200">Content</h3>
-                      <div className="p-4 rounded-md bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700">
-                        <h4 className="font-medium text-gray-700 dark:text-gray-300">Introduction</h4>
+                      <h3 className="text-lg font-semibold text-foreground">Content</h3>
+                      <div className="p-4 rounded-md bg-muted border border-border">
+                        <h4 className="font-medium text-foreground">Introduction</h4>
                         <div
-                          className="prose prose-sm max-w-none mt-2 text-gray-600 dark:text-gray-400"
+                          className="prose prose-sm max-w-none mt-2 text-muted-foreground"
                           dangerouslySetInnerHTML={{ __html: toHTML(module.content.text.introduction) }}
                         />
                       </div>
                       {module.content.text.sections?.map((section, index) => (
-                        <article key={index} className="p-4 rounded-md bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700">
-                          <h4 className="font-medium text-gray-700 dark:text-gray-300">{section.title}</h4>
+                        <article key={index} className="p-4 rounded-md bg-muted border border-border">
+                          <h4 className="font-medium text-foreground">{section.title}</h4>
                           <div
-                            className="prose prose-sm max-w-none mt-2 text-gray-600 dark:text-gray-400"
+                            className="prose prose-sm max-w-none mt-2 text-muted-foreground"
                             dangerouslySetInnerHTML={{ __html: toHTML(section.content) }}
                           />
                         </article>
@@ -290,11 +290,11 @@ const ModuleDetail: React.FC = () => {
                     </section>
                   </div>
                 ) : module.content && typeof module.content === 'string' ? (
-                  <div className="prose prose-sm max-w-none bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 p-4 rounded-lg">
-                    <div className="whitespace-pre-wrap text-sm text-gray-600 dark:text-gray-400">{module.content}</div>
+                  <div className="prose prose-sm max-w-none bg-muted border border-border p-4 rounded-lg">
+                    <div className="whitespace-pre-wrap text-sm text-muted-foreground">{module.content}</div>
                   </div>
                 ) : (
-                  <p className="text-sm text-gray-500 dark:text-gray-400">
+                  <p className="text-sm text-muted-foreground">
                     Content for this module will be available soon.
                   </p>
                 )
@@ -302,14 +302,14 @@ const ModuleDetail: React.FC = () => {
 
               <div className="pt-2 flex flex-col sm:flex-row gap-3">
                 <Button
-                  className="bg-gray-100 hover:bg-gray-200 text-gray-700 border-gray-300 hover:border-gray-400 dark:bg-gray-700 dark:hover:bg-gray-600 dark:text-gray-300 dark:border-gray-600 dark:hover:border-gray-500"
+                  className="bg-secondary hover:bg-secondary/80 text-secondary-foreground"
                   onClick={() => navigate(`/subjects/${subjectId}`)}
                   variant="outline"
                 >
                   Browse Modules
                 </Button>
                 <Button
-                  className="bg-gray-700 hover:bg-gray-800 text-white border-gray-700 hover:border-gray-800 dark:bg-gray-600 dark:hover:bg-gray-700 dark:border-gray-600 dark:hover:border-gray-700"
+                  className="bg-primary hover:bg-primary/90 text-primary-foreground"
                   disabled={!quiz}
                   onClick={() => quiz && navigate(`/quizzes/${quiz.id}`)}
                 >
@@ -319,7 +319,7 @@ const ModuleDetail: React.FC = () => {
               </div>
 
               {quiz && (
-                <p className="text-xs text-gray-500 dark:text-gray-400">
+                <p className="text-xs text-muted-foreground">
                   Complete the module, then take the quiz to test your knowledge.
                 </p>
               )}
@@ -327,8 +327,8 @@ const ModuleDetail: React.FC = () => {
           </Card>
 
           {/* Optional success hint */}
-          <div className="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400">
-            <CheckCircle className="h-4 w-4 text-gray-400 dark:text-gray-500" />
+          <div className="flex items-center gap-2 text-sm text-muted-foreground">
+            <CheckCircle className="h-4 w-4 text-muted-foreground" />
             Tip: Work through modules sequentially for best results.
           </div>
         </main>

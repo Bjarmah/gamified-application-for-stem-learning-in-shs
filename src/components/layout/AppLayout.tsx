@@ -33,7 +33,7 @@ const AppLayout = () => {
     { path: "/subjects", label: "Subjects", icon: BookOpen },
     { path: "/rooms", label: "Rooms", icon: Users },
     { path: "/achievements", label: "Achievements", icon: Trophy },
-
+    { path: "/leaderboard", label: "Leaderboard", icon: GraduationCap },
     { path: "/profile", label: "Profile", icon: User },
   ];
 

@@ -314,17 +314,20 @@ export function useGamification() {
           case 'subject_modules':
             // Check modules completed for specific subject
             if (badge.subject_id) {
+              // First get module IDs for this subject
+              const { data: moduleIds } = await supabase
+                .from('modules')
+                .select('id')
+                .eq('subject_id', badge.subject_id);
+
+              const moduleIdList = moduleIds?.map(m => m.id) || [];
+
               const { data: subjectModules } = await supabase
                 .from('user_progress')
                 .select('module_id')
                 .eq('user_id', user.id)
                 .eq('completed', true)
-                .in('module_id',
-                  supabase
-                    .from('modules')
-                    .select('id')
-                    .eq('subject_id', badge.subject_id)
-                );
+                .in('module_id', moduleIdList);
 
               const completedCount = subjectModules?.length || 0;
               shouldAward = completedCount >= badge.requirement_value;
@@ -334,18 +337,21 @@ export function useGamification() {
           case 'subject_perfect_modules':
             // Check perfect scores for specific subject
             if (badge.subject_id) {
+              // First get module IDs for this subject
+              const { data: moduleIds } = await supabase
+                .from('modules')
+                .select('id')
+                .eq('subject_id', badge.subject_id);
+
+              const moduleIdList = moduleIds?.map(m => m.id) || [];
+
               const { data: perfectModules } = await supabase
                 .from('user_progress')
                 .select('module_id')
                 .eq('user_id', user.id)
                 .eq('completed', true)
                 .gte('score', 95)
-                .in('module_id',
-                  supabase
-                    .from('modules')
-                    .select('id')
-                    .eq('subject_id', badge.subject_id)
-                );
+                .in('module_id', moduleIdList);
 
               const perfectCount = perfectModules?.length || 0;
               shouldAward = perfectCount >= badge.requirement_value;
