@@ -50,44 +50,86 @@ export class RoomService {
       };
 
       const roomCode = generateRoomCode();
+      console.log('Generated room code:', roomCode);
+
+      // First, check if the rooms table exists and has the right structure
+      const { data: tableInfo, error: tableError } = await supabase
+        .from('rooms')
+        .select('*')
+        .limit(1);
+
+      if (tableError) {
+        console.error('Error checking rooms table:', tableError);
+        console.error('Table error details:', {
+          code: tableError.code,
+          message: tableError.message,
+          details: tableError.details,
+          hint: tableError.hint
+        });
+        return null;
+      }
+
+      console.log('Rooms table check successful, proceeding with room creation...');
 
       // Create the room directly
+      const roomData = {
+        name: data.name,
+        description: data.description,
+        subject_id: data.subjectId || null,
+        is_public: data.isPublic,
+        max_members: data.maxMembers,
+        room_code: roomCode,
+        created_by: userId
+      };
+
+      console.log('Attempting to insert room with data:', roomData);
+
       const { data: room, error: roomError } = await supabase
         .from('rooms')
-        .insert({
-          name: data.name,
-          description: data.description,
-          subject_id: data.subjectId || null,
-          is_public: data.isPublic,
-          max_members: data.maxMembers,
-          room_code: roomCode,
-          created_by: userId
-        })
+        .insert(roomData)
         .select('id, room_code')
         .single();
 
       if (roomError) {
         console.error('Error creating room:', roomError);
+        console.error('Room creation error details:', {
+          code: roomError.code,
+          message: roomError.message,
+          details: roomError.details,
+          hint: roomError.hint
+        });
         return null;
       }
 
+      console.log('Room created successfully:', room);
+
       // Add the creator as owner
+      const memberData = {
+        room_id: room.id,
+        user_id: userId,
+        role: 'owner'
+      };
+
+      console.log('Adding room owner with data:', memberData);
+
       const { error: memberError } = await supabase
         .from('room_members')
-        .insert({
-          room_id: room.id,
-          user_id: userId,
-          role: 'owner'
-        });
+        .insert(memberData);
 
       if (memberError) {
         console.error('Error adding room owner:', memberError);
+        console.error('Member creation error details:', {
+          code: memberError.code,
+          message: memberError.message,
+          details: memberError.details,
+          hint: memberError.hint
+        });
         // Try to delete the room if adding owner fails
         await supabase.from('rooms').delete().eq('id', room.id);
         return null;
       }
 
-      console.log('Room created successfully:', room);
+      console.log('Room owner added successfully');
 
       return {
         roomId: room.id,

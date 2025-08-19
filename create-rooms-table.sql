@@ -1,7 +1,7 @@
--- Add room-based quiz system
--- This migration adds support for room-based quizzes and room members
+-- Create rooms table for the room-based quiz system
+-- Run this in your Supabase SQL editor
 
--- Create rooms table first (since it's referenced by other tables)
+-- Create rooms table
 CREATE TABLE IF NOT EXISTS rooms (
     id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
     name TEXT NOT NULL,
@@ -27,7 +27,7 @@ CREATE TABLE IF NOT EXISTS room_members (
     UNIQUE(room_id, user_id)
 );
 
--- Create room_quizzes table (separate from module quizzes)
+-- Create room_quizzes table
 CREATE TABLE IF NOT EXISTS room_quizzes (
     id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
     room_id UUID NOT NULL REFERENCES rooms(id) ON DELETE CASCADE,
@@ -72,14 +72,14 @@ CREATE INDEX IF NOT EXISTS idx_room_quiz_attempts_quiz_id ON room_quiz_attempts(
 CREATE INDEX IF NOT EXISTS idx_room_quiz_attempts_user_id ON room_quiz_attempts(user_id);
 CREATE INDEX IF NOT EXISTS idx_room_messages_room_id ON room_messages(room_id);
 
--- Add RLS policies
+-- Enable Row Level Security
+ALTER TABLE rooms ENABLE ROW LEVEL SECURITY;
 ALTER TABLE room_members ENABLE ROW LEVEL SECURITY;
 ALTER TABLE room_quizzes ENABLE ROW LEVEL SECURITY;
 ALTER TABLE room_quiz_attempts ENABLE ROW LEVEL SECURITY;
 ALTER TABLE room_messages ENABLE ROW LEVEL SECURITY;
-ALTER TABLE rooms ENABLE ROW LEVEL SECURITY;
 
--- Rooms policies
+-- Create RLS policies for rooms
 CREATE POLICY "Users can view public rooms" ON rooms
     FOR SELECT USING (is_public = true);
 
@@ -101,7 +101,7 @@ CREATE POLICY "Room owners can update their rooms" ON rooms
 CREATE POLICY "Room owners can delete their rooms" ON rooms
     FOR DELETE USING (created_by = auth.uid());
 
--- Room members policies
+-- Create RLS policies for room_members
 CREATE POLICY "Users can view room members of rooms they belong to" ON room_members
     FOR SELECT USING (
         EXISTS (
@@ -121,7 +121,7 @@ CREATE POLICY "Room owners can add/remove members" ON room_members
         )
     );
 
--- Room quizzes policies
+-- Create RLS policies for room_quizzes
 CREATE POLICY "Users can view quizzes in rooms they belong to" ON room_quizzes
     FOR SELECT USING (
         EXISTS (
@@ -141,14 +141,14 @@ CREATE POLICY "Room owners can create/edit quizzes" ON room_quizzes
         )
     );
 
--- Room quiz attempts policies
+-- Create RLS policies for room_quiz_attempts
 CREATE POLICY "Users can view their own quiz attempts" ON room_quiz_attempts
     FOR SELECT USING (user_id = auth.uid());
 
 CREATE POLICY "Users can create their own quiz attempts" ON room_quiz_attempts
     FOR INSERT WITH CHECK (user_id = auth.uid());
 
--- Room messages policies
+-- Create RLS policies for room_messages
 CREATE POLICY "Users can view messages in rooms they belong to" ON room_messages
     FOR SELECT USING (
         EXISTS (
@@ -168,98 +168,33 @@ CREATE POLICY "Users can send messages to rooms they belong to" ON room_messages
         )
     );
 
--- Add unique room code column to rooms table
-ALTER TABLE rooms ADD COLUMN IF NOT EXISTS room_code TEXT UNIQUE;
-ALTER TABLE rooms ADD COLUMN IF NOT EXISTS max_members INTEGER DEFAULT 50;
-
--- Create function to generate unique room codes
-CREATE OR REPLACE FUNCTION generate_room_code() RETURNS TEXT AS $$
-DECLARE
-    code TEXT;
-    exists_already BOOLEAN;
+-- Add updated_at trigger function if it doesn't exist
+CREATE OR REPLACE FUNCTION public.set_updated_at()
+RETURNS TRIGGER AS $$
 BEGIN
-    LOOP
-        -- Generate 8-character alphanumeric code
-        code := upper(substring(md5(random()::text) from 1 for 8));
-        
-        -- Check if code already exists
-        SELECT EXISTS(SELECT 1 FROM rooms WHERE room_code = code) INTO exists_already;
-        
-        -- If code doesn't exist, return it
-        IF NOT exists_already THEN
-            RETURN code;
-        END IF;
-    END LOOP;
+  NEW.updated_at = now();
+  RETURN NEW;
 END;
 $$ LANGUAGE plpgsql;
 
--- Create function to create a new room with owner
-CREATE OR REPLACE FUNCTION create_room_with_owner(
-    room_name TEXT,
-    room_description TEXT,
-    room_subject_id UUID,
-    room_is_public BOOLEAN,
-    room_max_members INTEGER,
-    owner_user_id UUID
-) RETURNS UUID AS $$
-DECLARE
-    new_room_id UUID;
-    room_code TEXT;
-BEGIN
-    -- Generate unique room code
-    room_code := generate_room_code();
-    
-    -- Create the room
-    INSERT INTO rooms (name, description, subject_id, is_public, max_members, room_code, created_by)
-    VALUES (room_name, room_description, room_subject_id, room_is_public, room_max_members, room_code, owner_user_id)
-    RETURNING id INTO new_room_id;
-    
-    -- Add the creator as owner
-    INSERT INTO room_members (room_id, user_id, role)
-    VALUES (new_room_id, owner_user_id, 'owner');
-    
-    RETURN new_room_id;
-END;
-$$ LANGUAGE plpgsql;
+-- Add updated_at triggers
+DROP TRIGGER IF EXISTS set_rooms_updated_at ON rooms;
+CREATE TRIGGER set_rooms_updated_at
+BEFORE UPDATE ON rooms
+FOR EACH ROW
+EXECUTE FUNCTION public.set_updated_at();
 
--- Create function to join a room
-CREATE OR REPLACE FUNCTION join_room_by_code(
-    room_code_input TEXT,
-    user_id_input UUID
-) RETURNS BOOLEAN AS $$
-DECLARE
-    target_room_id UUID;
-    current_member_count INTEGER;
-    max_member_count INTEGER;
-BEGIN
-    -- Find the room by code
-    SELECT id, max_members INTO target_room_id, max_member_count
-    FROM rooms 
-    WHERE room_code = room_code_input AND is_public = true;
-    
-    IF target_room_id IS NULL THEN
-        RETURN false; -- Room not found or not public
-    END IF;
-    
-    -- Check if user is already a member
-    IF EXISTS (SELECT 1 FROM room_members WHERE room_id = target_room_id AND user_id = user_id_input) THEN
-        RETURN false; -- Already a member
-    END IF;
-    
-    -- Check if room is full
-    SELECT COUNT(*) INTO current_member_count
-    FROM room_members 
-    WHERE room_id = target_room_id;
-    
-    IF current_member_count >= max_member_count THEN
-        RETURN false; -- Room is full
-    END IF;
-    
-    -- Add user to room
-    INSERT INTO room_members (room_id, user_id, role)
-    VALUES (target_room_id, user_id_input, 'member');
-    
-    RETURN true; -- Successfully joined
-END;
-$$ LANGUAGE plpgsql;
+DROP TRIGGER IF EXISTS set_room_quizzes_updated_at ON room_quizzes;
+CREATE TRIGGER set_room_quizzes_updated_at
+BEFORE UPDATE ON room_quizzes
+FOR EACH ROW
+EXECUTE FUNCTION public.set_updated_at();
 
+-- Verify tables were created
+SELECT 
+    table_name, 
+    table_type 
+FROM information_schema.tables 
+WHERE table_schema = 'public' 
+AND table_name IN ('rooms', 'room_members', 'room_quizzes', 'room_quiz_attempts', 'room_messages')
+ORDER BY table_name;

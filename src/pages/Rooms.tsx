@@ -69,8 +69,54 @@ const Rooms = () => {
     useEffect(() => {
         if (user) {
             loadRooms();
+            checkDatabaseState();
         }
     }, [user]);
+
+    const checkDatabaseState = async () => {
+        try {
+            console.log('🔍 Checking database state...');
+
+            // Check if rooms table exists
+            const { data: roomsCheck, error: roomsError } = await supabase
+                .from('rooms')
+                .select('*')
+                .limit(1);
+
+            if (roomsError) {
+                console.error('❌ Rooms table error:', roomsError);
+                console.error('Error details:', {
+                    code: roomsError.code,
+                    message: roomsError.message,
+                    details: roomsError.details,
+                    hint: roomsError.hint
+                });
+            } else {
+                console.log('✅ Rooms table accessible, found', roomsCheck?.length || 0, 'rooms');
+            }
+
+            // Check if room_members table exists
+            const { data: membersCheck, error: membersError } = await supabase
+                .from('room_members')
+                .select('*')
+                .limit(1);
+
+            if (membersError) {
+                console.error('❌ Room members table error:', membersError);
+                console.error('Error details:', {
+                    code: membersError.code,
+                    message: membersError.message,
+                    details: membersError.details,
+                    hint: membersError.hint
+                });
+            } else {
+                console.log('✅ Room members table accessible, found', membersCheck?.length || 0, 'members');
+            }
+
+        } catch (error) {
+            console.error('❌ Database check error:', error);
+        }
+    };
 
     const loadRooms = async () => {
         if (!user) return;
@@ -167,6 +213,9 @@ const Rooms = () => {
             return;
         }
 
+        console.log('Creating room with user:', user.id);
+        console.log('Room data:', newRoom);
+
         try {
             const roomData: CreateRoomData = {
                 name: newRoom.name.trim(),
@@ -179,6 +228,7 @@ const Rooms = () => {
             console.log('Creating room with data:', roomData);
             const result = await RoomService.createRoom(roomData, user.id);
             console.log('Room creation result:', result);
+
             if (result) {
                 toast({
                     title: "Room Created",
@@ -195,9 +245,10 @@ const Rooms = () => {
 
                 loadRooms(); // Reload rooms to show the new room
             } else {
+                console.error('Room creation returned null/undefined');
                 toast({
                     title: "Error",
-                    description: "Failed to create room. Please try again.",
+                    description: "Failed to create room. Please check the console for details.",
                     variant: "destructive"
                 });
             }
@@ -205,7 +256,7 @@ const Rooms = () => {
             console.error('Error creating room:', error);
             toast({
                 title: "Error",
-                description: "Failed to create room. Please try again.",
+                description: `Failed to create room: ${error instanceof Error ? error.message : 'Unknown error'}`,
                 variant: "destructive"
             });
         }
