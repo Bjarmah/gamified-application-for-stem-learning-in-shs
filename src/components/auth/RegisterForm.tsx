@@ -23,6 +23,7 @@ const RegisterForm = () => {
       await signUp(email, password, fullName, school);
       navigate("/login");
     } catch (error) {
+      console.error("Registration error:", error);
       // Error handling is done in the AuthContext
     }
   };
