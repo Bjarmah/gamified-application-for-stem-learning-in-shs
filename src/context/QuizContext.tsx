@@ -1,6 +1,9 @@
 import React, { createContext, useContext, useState, ReactNode } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 
+// Module completion threshold - user needs 70% to complete a module
+const MODULE_COMPLETION_THRESHOLD = 70;
+
 interface QuizContextType {
   isQuizActive: boolean;
   setIsQuizActive: (active: boolean) => void;
@@ -10,6 +13,8 @@ interface QuizContextType {
   setCurrentModuleId: (moduleId: string | undefined) => void;
   markModuleCompleted: (moduleId: string, score: number, updateGamification?: () => Promise<void>) => Promise<void>;
   isModuleCompleted: (moduleId: string) => Promise<boolean>;
+  isScoreSufficientForCompletion: (score: number) => boolean;
+  MODULE_COMPLETION_THRESHOLD: number;
 }
 
 const QuizContext = createContext<QuizContextType | undefined>(undefined);
@@ -89,6 +94,10 @@ export const QuizProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     }
   };
 
+  const isScoreSufficientForCompletion = (score: number): boolean => {
+    return score >= MODULE_COMPLETION_THRESHOLD;
+  };
+
   const value = {
     isQuizActive,
     setIsQuizActive,
@@ -98,6 +107,8 @@ export const QuizProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     setCurrentModuleId,
     markModuleCompleted,
     isModuleCompleted,
+    isScoreSufficientForCompletion,
+    MODULE_COMPLETION_THRESHOLD,
   };
 
   return (

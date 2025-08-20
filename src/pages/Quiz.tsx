@@ -38,8 +38,8 @@ const Quiz: React.FC = () => {
   const { user } = useAuth();
   const { toast } = useToast();
   const qc = useQueryClient();
-  const { setIsQuizActive, setQuizTitle, setCurrentModuleId, markModuleCompleted } = useQuizContext();
-  const { awardXP, updateStreak, updateModulesCompleted, updateQuizzesCompleted, checkAchievements, checkBadges } = useGamification();
+  const { setIsQuizActive, setQuizTitle, setCurrentModuleId, markModuleCompleted, MODULE_COMPLETION_THRESHOLD } = useQuizContext();
+  const { awardXP, updateStreak, updateModulesCompleted, updateQuizzesCompleted, checkAchievements, checkBadges, checkDailyActivity, awardQuizXP } = useGamification();
 
   useEffect(() => {
     document.title = "Quiz • STEM Learner";
@@ -153,6 +153,9 @@ const Quiz: React.FC = () => {
     setIsQuizActive(true);
     setQuizTitle(quiz?.title);
     tabMonitoring.requestFullscreen();
+
+    // Check daily activity to update streak if needed
+    checkDailyActivity();
   };
 
   // Cleanup fullscreen on finish
@@ -284,29 +287,18 @@ const Quiz: React.FC = () => {
 
       // Award XP based on quiz performance
       const scorePct = total ? Math.round((correct / total) * 100) : 0;
-      let xpAmount = 50; // Base XP for completing quiz
 
-      // Bonus XP for performance
-      if (scorePct >= 90) xpAmount += 50; // Perfect/near-perfect bonus
-      else if (scorePct >= 80) xpAmount += 30; // Good score bonus
-      else if (scorePct >= 70) xpAmount += 20; // Passing score bonus
+      // Award XP using the new system (1 XP per mark)
+      await awardQuizXP(scorePct, quiz?.title || 'Quiz', data.id);
 
-      // Time bonus (if completed in less than half the time limit)
-      const timeSpent = (quiz?.time_limit ?? 300) - secondsLeft;
-      const timeLimit = quiz?.time_limit ?? 300;
-      if (timeSpent < timeLimit / 2) {
-        xpAmount += 25; // Speed bonus
-      }
-
-      // Award XP and update streak
-      awardXP(xpAmount, `Quiz completed: ${quiz?.title} (${scorePct}%)`, data.id, 'quiz');
+      // Update streak
       updateStreak();
 
       // Update quizzes completed count
       await updateQuizzesCompleted();
 
       // Check if module should be marked as completed (score >= 70%)
-      if (scorePct >= 70 && quiz?.module_id) {
+      if (scorePct >= MODULE_COMPLETION_THRESHOLD && quiz?.module_id) {
         try {
           await markModuleCompleted(quiz.module_id, scorePct, updateModulesCompleted);
 
@@ -506,7 +498,7 @@ const Quiz: React.FC = () => {
             </div>
 
             {/* Module completion status */}
-            {quiz?.module_id && Math.round((correct / total) * 100) >= 70 && (
+            {quiz?.module_id && Math.round((correct / total) * 100) >= MODULE_COMPLETION_THRESHOLD && (
               <div className="mt-4 p-3 bg-stemGreen/10 border border-stemGreen/20 rounded-lg">
                 <div className="flex items-center gap-2 text-stemGreen-dark">
                   <Check className="h-4 w-4" />

@@ -432,6 +432,74 @@ export function useGamification() {
     }
   };
 
+  // Get next streak milestone
+  const getNextStreakMilestone = (): { milestone: number; progress: number; percentage: number } => {
+    if (!gamificationData?.current_streak) {
+      return { milestone: 3, progress: 0, percentage: 0 };
+    }
+
+    const milestones = [3, 7, 30, 100];
+    const currentStreak = gamificationData.current_streak;
+
+    // Find the next milestone
+    const nextMilestone = milestones.find(milestone => milestone > currentStreak) || 100;
+
+    // Calculate progress towards next milestone
+    const progress = Math.min(currentStreak, nextMilestone);
+    const percentage = (progress / nextMilestone) * 100;
+
+    return { milestone: nextMilestone, progress, percentage };
+  };
+
+  // Check if streak is in danger (user hasn't been active today)
+  const isStreakInDanger = (): boolean => {
+    if (!gamificationData?.current_streak || gamificationData.current_streak === 0) return false;
+
+    const today = new Date().toISOString().split('T')[0];
+    const lastActivity = gamificationData.last_activity;
+
+    // If user hasn't been active today and has a streak, it's in danger
+    return lastActivity !== today;
+  };
+
+  // Get streak maintenance message
+  const getStreakMaintenanceMessage = (): string => {
+    if (!gamificationData?.current_streak || gamificationData.current_streak === 0) {
+      return "Start your learning journey today!";
+    }
+
+    if (isStreakInDanger()) {
+      return `Don't break your ${gamificationData.current_streak}-day streak! Complete a lesson today.`;
+    }
+
+    return `Great job! You've maintained your ${gamificationData.current_streak}-day streak.`;
+  };
+
+  // Award XP based on quiz performance (1 XP per mark/percentage)
+  const awardQuizXP = async (
+    score: number,
+    quizTitle: string,
+    referenceId?: string
+  ) => {
+    try {
+      // Award 1 XP per mark (score percentage)
+      const xpAmount = score;
+
+      // Award the XP
+      await awardXP(
+        xpAmount,
+        `Quiz completed: ${quizTitle} (${score}%)`,
+        referenceId,
+        'quiz'
+      );
+
+      return xpAmount;
+    } catch (error) {
+      console.error('Error awarding quiz XP:', error);
+      return 0;
+    }
+  };
+
   // Award XP to user
   const awardXP = async (
     amount: number,
@@ -491,17 +559,32 @@ export function useGamification() {
       yesterday.setDate(yesterday.getDate() - 1);
       const yesterdayStr = yesterday.toISOString().split('T')[0];
 
+      console.log('Streak Update Debug:', {
+        today,
+        lastActivity,
+        yesterdayStr,
+        currentStreak: gamificationData.current_streak,
+        longestStreak: gamificationData.longest_streak
+      });
+
       let newStreak = gamificationData.current_streak;
 
       if (lastActivity === today) {
-        // Already studied today, no change
+        // Already studied today, no change to streak
+        console.log('Already active today, no streak change');
         return;
       } else if (lastActivity === yesterdayStr) {
-        // Continuing streak
+        // Continuing streak - user studied yesterday and today
         newStreak = gamificationData.current_streak + 1;
-      } else {
-        // Streak broken, start over
+        console.log('Continuing streak:', newStreak);
+      } else if (lastActivity && lastActivity < yesterdayStr) {
+        // Streak broken - user missed a day or more
         newStreak = 1;
+        console.log('Streak broken, starting over:', newStreak);
+      } else {
+        // First time studying or no previous activity
+        newStreak = 1;
+        console.log('First time studying, starting streak:', newStreak);
       }
 
       const { error } = await supabase
@@ -515,14 +598,61 @@ export function useGamification() {
 
       if (error) throw error;
 
-      // Award streak XP
+      console.log('Streak updated successfully:', {
+        oldStreak: gamificationData.current_streak,
+        newStreak,
+        longestStreak: Math.max(newStreak, gamificationData.longest_streak)
+      });
+
+      // Award streak XP for maintaining or increasing streak
       if (newStreak > 1) {
         await awardXP(25, `${newStreak} day learning streak!`);
+      } else if (newStreak === 1 && gamificationData.current_streak > 0) {
+        // Streak was broken, show encouragement
+        toast({
+          title: "Streak Reset",
+          description: "Don't worry! Start a new streak today.",
+        });
       }
 
       await fetchGamificationData();
     } catch (error) {
       console.error('Error updating streak:', error);
+    }
+  };
+
+  // Check if user has been active today
+  const hasBeenActiveToday = (): boolean => {
+    if (!gamificationData?.last_activity) return false;
+    const today = new Date().toISOString().split('T')[0];
+    return gamificationData.last_activity === today;
+  };
+
+  // Check daily activity and update streak if needed
+  const checkDailyActivity = async () => {
+    try {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user || !gamificationData) return;
+
+      const today = new Date().toISOString().split('T')[0];
+      const lastActivity = gamificationData.last_activity;
+
+      console.log('Daily Activity Check:', {
+        today,
+        lastActivity,
+        currentStreak: gamificationData.current_streak,
+        hasBeenActiveToday: hasBeenActiveToday()
+      });
+
+      // If user hasn't been active today, update streak
+      if (lastActivity !== today) {
+        console.log('User not active today, updating streak...');
+        await updateStreak();
+      } else {
+        console.log('User already active today, no streak update needed');
+      }
+    } catch (error) {
+      console.error('Error checking daily activity:', error);
     }
   };
 
@@ -617,6 +747,23 @@ export function useGamification() {
     }
   };
 
+  // Refresh all gamification data
+  const refreshGamificationData = async () => {
+    try {
+      setLoading(true);
+      await Promise.all([
+        fetchGamificationData(),
+        fetchAchievements(),
+        fetchBadges(),
+        fetchXpHistory()
+      ]);
+    } catch (error) {
+      console.error('Error refreshing gamification data:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
     const loadData = async () => {
       setLoading(true);
@@ -647,6 +794,45 @@ export function useGamification() {
     return Math.min((progressXp / neededXp) * 100, 100);
   };
 
+  // Get streak statistics and insights
+  const getStreakStats = () => {
+    if (!gamificationData) return null;
+
+    const currentStreak = gamificationData.current_streak;
+    const longestStreak = gamificationData.longest_streak;
+    const lastActivity = gamificationData.last_activity;
+
+    // Calculate streak efficiency (current streak vs longest streak)
+    const efficiency = longestStreak > 0 ? (currentStreak / longestStreak) * 100 : 0;
+
+    // Calculate days since last activity
+    const today = new Date();
+    const lastActivityDate = lastActivity ? new Date(lastActivity) : null;
+    const daysSinceLastActivity = lastActivityDate ? Math.floor((today.getTime() - lastActivityDate.getTime()) / (1000 * 60 * 60 * 24)) : 0;
+
+    // Determine streak status
+    let status: 'active' | 'in_danger' | 'broken' | 'none' = 'none';
+    if (currentStreak === 0) {
+      status = 'none';
+    } else if (daysSinceLastActivity === 0) {
+      status = 'active';
+    } else if (daysSinceLastActivity === 1) {
+      status = 'in_danger';
+    } else {
+      status = 'broken';
+    }
+
+    return {
+      currentStreak,
+      longestStreak,
+      efficiency: Math.round(efficiency),
+      daysSinceLastActivity,
+      status,
+      lastActivity,
+      nextMilestone: getNextStreakMilestone()
+    };
+  };
+
   return {
     gamificationData,
     achievements,
@@ -655,6 +841,8 @@ export function useGamification() {
     loading,
     awardXP,
     updateStreak,
+    checkDailyActivity,
+    hasBeenActiveToday,
     updateModulesCompleted,
     updateQuizzesCompleted,
     checkAchievements,
@@ -662,6 +850,12 @@ export function useGamification() {
     fetchGamificationData,
     getLevelProgress,
     getXpForNextLevel,
-    initializeGamification
+    initializeGamification,
+    refreshGamificationData,
+    awardQuizXP,
+    isStreakInDanger,
+    getStreakMaintenanceMessage,
+    getNextStreakMilestone,
+    getStreakStats
   };
 }

@@ -17,17 +17,22 @@ import { findMathematicsModuleByTitle } from "@/content/mathematics";
 import { findPhysicsModuleByTitle } from "@/content/physics";
 import { AIChatbot } from "@/components/ai-chatbot";
 import { ContextualAIChatbot } from "@/components/ai-chatbot";
+import { useGamification } from "@/hooks/use-gamification";
 
 const ModuleDetail: React.FC = () => {
   const { moduleId, subjectId } = useParams<{ moduleId: string; subjectId: string }>();
   const navigate = useNavigate();
+  const { checkDailyActivity } = useGamification();
 
   const { data: module, isLoading: moduleLoading, error } = useModule(moduleId || "");
   const { data: modules, isLoading: modulesLoading } = useModules(subjectId);
 
   useEffect(() => {
     if (module?.title) document.title = `${module.title} • STEM Learner`;
-  }, [module?.title]);
+
+    // Check daily activity to update streak when module is accessed
+    checkDailyActivity();
+  }, [module?.title, checkDailyActivity]);
 
   // Fetch the quiz linked to this module (if any)
   const { data: quiz, isLoading: quizLoading } = useQuery({
