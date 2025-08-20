@@ -318,80 +318,33 @@ export type Database = {
           },
         ]
       }
-      rooms: {
-        Row: {
-          created_at: string | null
-          created_by: string | null
-          description: string | null
-          id: string
-          is_public: boolean | null
-          name: string
-          subject_id: string | null
-          updated_at: string | null
-          room_code: string | null
-          max_members: number | null
-        }
-        Insert: {
-          created_at?: string | null
-          created_by?: string | null
-          description?: string | null
-          id?: string
-          is_public?: boolean | null
-          name: string
-          subject_id?: string | null
-          updated_at?: string | null
-          room_code?: string | null
-          max_members?: number | null
-        }
-        Update: {
-          created_at?: string | null
-          created_by?: string | null
-          description?: string | null
-          id?: string
-          is_public?: boolean | null
-          name?: string
-          subject_id?: string | null
-          updated_at?: string | null
-          room_code?: string | null
-          max_members?: number | null
-        }
-        Relationships: [
-          {
-            foreignKeyName: "rooms_subject_id_fkey"
-            columns: ["subject_id"]
-            isOneToOne: false
-            referencedRelation: "subjects"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
       room_members: {
         Row: {
           id: string
+          is_online: boolean | null
+          joined_at: string | null
+          last_seen: string | null
+          role: string
           room_id: string
           user_id: string
-          role: string
-          joined_at: string | null
-          is_online: boolean | null
-          last_seen: string | null
         }
         Insert: {
           id?: string
+          is_online?: boolean | null
+          joined_at?: string | null
+          last_seen?: string | null
+          role?: string
           room_id: string
           user_id: string
-          role?: string
-          joined_at?: string | null
-          is_online?: boolean | null
-          last_seen?: string | null
         }
         Update: {
           id?: string
+          is_online?: boolean | null
+          joined_at?: string | null
+          last_seen?: string | null
+          role?: string
           room_id?: string
           user_id?: string
-          role?: string
-          joined_at?: string | null
-          is_online?: boolean | null
-          last_seen?: string | null
         }
         Relationships: [
           {
@@ -401,53 +354,122 @@ export type Database = {
             referencedRelation: "rooms"
             referencedColumns: ["id"]
           },
+        ]
+      }
+      room_messages: {
+        Row: {
+          content: string
+          created_at: string | null
+          id: string
+          message_type: string | null
+          room_id: string
+          user_id: string
+        }
+        Insert: {
+          content: string
+          created_at?: string | null
+          id?: string
+          message_type?: string | null
+          room_id: string
+          user_id: string
+        }
+        Update: {
+          content?: string
+          created_at?: string | null
+          id?: string
+          message_type?: string | null
+          room_id?: string
+          user_id?: string
+        }
+        Relationships: [
           {
-            foreignKeyName: "room_members_user_id_fkey"
-            columns: ["user_id"]
+            foreignKeyName: "room_messages_room_id_fkey"
+            columns: ["room_id"]
             isOneToOne: false
-            referencedRelation: "users"
+            referencedRelation: "rooms"
             referencedColumns: ["id"]
-          }
+          },
+        ]
+      }
+      room_quiz_attempts: {
+        Row: {
+          answers: Json
+          completed_at: string | null
+          id: string
+          percentage: number
+          quiz_id: string
+          score: number
+          total_questions: number
+          user_id: string
+        }
+        Insert: {
+          answers: Json
+          completed_at?: string | null
+          id?: string
+          percentage: number
+          quiz_id: string
+          score: number
+          total_questions: number
+          user_id: string
+        }
+        Update: {
+          answers?: Json
+          completed_at?: string | null
+          id?: string
+          percentage?: number
+          quiz_id?: string
+          score?: number
+          total_questions?: number
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "room_quiz_attempts_quiz_id_fkey"
+            columns: ["quiz_id"]
+            isOneToOne: false
+            referencedRelation: "room_quizzes"
+            referencedColumns: ["id"]
+          },
         ]
       }
       room_quizzes: {
         Row: {
-          id: string
-          room_id: string
-          title: string
-          description: string | null
-          questions: Json
-          time_limit: number | null
-          passing_score: number | null
-          is_active: boolean | null
-          created_by: string
           created_at: string | null
+          created_by: string
+          description: string | null
+          id: string
+          is_active: boolean | null
+          passing_score: number | null
+          questions: Json
+          room_id: string
+          time_limit: number | null
+          title: string
           updated_at: string | null
         }
         Insert: {
-          id?: string
-          room_id: string
-          title: string
-          description?: string | null
-          questions: Json
-          time_limit?: number | null
-          passing_score?: number | null
-          is_active?: boolean | null
-          created_by: string
           created_at?: string | null
+          created_by: string
+          description?: string | null
+          id?: string
+          is_active?: boolean | null
+          passing_score?: number | null
+          questions: Json
+          room_id: string
+          time_limit?: number | null
+          title: string
           updated_at?: string | null
         }
         Update: {
-          id?: string
-          room_id?: string
-          title?: string
-          description?: string | null
-          questions?: Json
-          time_limit?: number | null
-          passing_score?: number | null
-          is_active?: boolean | null
-          created_by?: string
           created_at?: string | null
+          created_by?: string
+          description?: string | null
+          id?: string
+          is_active?: boolean | null
+          passing_score?: number | null
+          questions?: Json
+          room_id?: string
+          time_limit?: number | null
+          title?: string
           updated_at?: string | null
         }
         Relationships: [
@@ -458,103 +480,53 @@ export type Database = {
             referencedRelation: "rooms"
             referencedColumns: ["id"]
           },
-          {
-            foreignKeyName: "room_quizzes_created_by_fkey"
-            columns: ["created_by"]
-            isOneToOne: false
-            referencedRelation: "users"
-            referencedColumns: ["id"]
-          }
         ]
       }
-      room_quiz_attempts: {
+      rooms: {
         Row: {
-          id: string
-          quiz_id: string
-          user_id: string
-          score: number
-          total_questions: number
-          percentage: number
-          answers: Json
-          completed_at: string | null
-        }
-        Insert: {
-          id?: string
-          quiz_id: string
-          user_id: string
-          score: number
-          total_questions: number
-          percentage: number
-          answers: Json
-          completed_at?: string | null
-        }
-        Update: {
-          id?: string
-          quiz_id?: string
-          user_id?: string
-          score?: number
-          total_questions?: number
-          percentage?: number
-          answers?: Json
-          completed_at?: string | null
-        }
-        Relationships: [
-          {
-            foreignKeyName: "room_quiz_attempts_quiz_id_fkey"
-            columns: ["quiz_id"]
-            isOneToOne: false
-            referencedRelation: "room_quizzes"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "room_quiz_attempts_user_id_fkey"
-            columns: ["user_id"]
-            isOneToOne: false
-            referencedRelation: "users"
-            referencedColumns: ["id"]
-          }
-        ]
-      }
-      room_messages: {
-        Row: {
-          id: string
-          room_id: string
-          user_id: string
-          content: string
-          message_type: string | null
           created_at: string | null
+          created_by: string | null
+          description: string | null
+          id: string
+          is_public: boolean | null
+          max_members: number | null
+          name: string
+          room_code: string | null
+          subject_id: string | null
+          updated_at: string | null
         }
         Insert: {
-          id?: string
-          room_id: string
-          user_id: string
-          content: string
-          message_type?: string | null
           created_at?: string | null
+          created_by?: string | null
+          description?: string | null
+          id?: string
+          is_public?: boolean | null
+          max_members?: number | null
+          name: string
+          room_code?: string | null
+          subject_id?: string | null
+          updated_at?: string | null
         }
         Update: {
-          id?: string
-          room_id?: string
-          user_id?: string
-          content?: string
-          message_type?: string | null
           created_at?: string | null
+          created_by?: string | null
+          description?: string | null
+          id?: string
+          is_public?: boolean | null
+          max_members?: number | null
+          name?: string
+          room_code?: string | null
+          subject_id?: string | null
+          updated_at?: string | null
         }
         Relationships: [
           {
-            foreignKeyName: "room_messages_room_id_fkey"
-            columns: ["room_id"]
+            foreignKeyName: "rooms_subject_id_fkey"
+            columns: ["subject_id"]
             isOneToOne: false
-            referencedRelation: "rooms"
+            referencedRelation: "subjects"
             referencedColumns: ["id"]
           },
-          {
-            foreignKeyName: "room_messages_user_id_fkey"
-            columns: ["user_id"]
-            isOneToOne: false
-            referencedRelation: "users"
-            referencedColumns: ["id"]
-          }
         ]
       }
       subjects: {
@@ -772,33 +744,7 @@ export type Database = {
       }
     }
     Views: {
-      public_profiles: {
-        Row: {
-          avatar_url: string | null
-          created_at: string | null
-          full_name: string | null
-          id: string | null
-          role: string | null
-          school: string | null
-        }
-        Insert: {
-          avatar_url?: string | null
-          created_at?: string | null
-          full_name?: string | null
-          id?: string | null
-          role?: string | null
-          school?: string | null
-        }
-        Update: {
-          avatar_url?: string | null
-          created_at?: string | null
-          full_name?: string | null
-          id?: string | null
-          role?: string | null
-          school?: string | null
-        }
-        Relationships: []
-      }
+      [_ in never]: never
     }
     Functions: {
       award_xp: {
@@ -815,12 +761,31 @@ export type Database = {
         Args: { xp: number }
         Returns: number
       }
+      create_room_with_owner: {
+        Args: {
+          owner_user_id: string
+          room_description: string
+          room_is_public: boolean
+          room_max_members: number
+          room_name: string
+          room_subject_id: string
+        }
+        Returns: string
+      }
+      generate_room_code: {
+        Args: Record<PropertyKey, never>
+        Returns: string
+      }
       initialize_user_gamification: {
         Args: { user_uuid: string }
         Returns: undefined
       }
       is_admin: {
         Args: Record<PropertyKey, never>
+        Returns: boolean
+      }
+      join_room_by_code: {
+        Args: { room_code_input: string; user_id_input: string }
         Returns: boolean
       }
     }
