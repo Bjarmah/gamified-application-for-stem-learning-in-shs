@@ -161,7 +161,7 @@ const SearchResults: React.FC<SearchResultsProps> = ({ query, filters, resultTyp
               description: quiz.description || '',
               subjectId: quiz.module?.subject_id || '',
               subjectName: quiz.module?.subject?.name || 'Unknown',
-              duration: quiz.time_limit,
+              duration: Array.isArray(quiz.questions) ? quiz.questions.length : 0,
               difficulty: quiz.module?.difficulty_level || null,
               type: 'quiz',
               keywords: [] // This would be extracted from questions or metadata

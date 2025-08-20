@@ -87,7 +87,7 @@ const RoomDetail = () => {
             loadRoomDetails();
             setupPresence();
         }
-        
+
         return () => {
             // Mark user as offline when leaving
             if (roomId && user) {
@@ -137,7 +137,7 @@ const RoomDetail = () => {
 
             // Load user's quiz attempts for this room
             const attempts = await RoomService.getUserQuizAttempts(user.id);
-            const roomAttempts = attempts.filter(attempt => 
+            const roomAttempts = attempts.filter(attempt =>
                 details.quizzes.some(quiz => quiz.id === attempt.quiz_id)
             );
             setQuizAttempts(roomAttempts);
@@ -211,7 +211,7 @@ const RoomDetail = () => {
                     title: "Error",
                     description: "Failed to leave room. Please try again.",
                     variant: "destructive"
-            });
+                });
             }
         } catch (error) {
             console.error('Error leaving room:', error);
@@ -260,7 +260,7 @@ const RoomDetail = () => {
         setQuizStartTime(new Date());
         setShowQuizResults(false);
         setActiveTab('quiz');
-        
+
         // Activate quiz mode
         setIsQuizActive(true);
         setQuizTitle(quiz.title);
@@ -365,7 +365,7 @@ const RoomDetail = () => {
                     title: quizData.title,
                     description: quizData.description,
                     questions: quizData.questions,
-                    time_limit: quizData.timeLimit,
+                    time_limit: quizData.questions.length,
                     passing_score: quizData.passingScore,
                     is_active: true,
                     created_by: user.id,
@@ -497,22 +497,22 @@ const RoomDetail = () => {
                                                     </div>
                                                 ) : (
                                                     <>
-                                                         <Avatar className="h-8 w-8">
-                                                             <AvatarFallback>
-                                                                 {msg.user_id === user.id 
-                                                                     ? 'Y' 
-                                                                     : (msg.profile?.full_name?.charAt(0) || 'U')
-                                                                 }
-                                                             </AvatarFallback>
-                                                         </Avatar>
-                                                         <div className="flex-1">
-                                                             <div className="flex items-center gap-2 mb-1">
-                                                                 <span className="font-medium text-sm">
-                                                                     {msg.user_id === user.id 
-                                                                         ? 'You' 
-                                                                         : (msg.profile?.full_name || 'Unknown User')
-                                                                     }
-                                                                 </span>
+                                                        <Avatar className="h-8 w-8">
+                                                            <AvatarFallback>
+                                                                {msg.user_id === user.id
+                                                                    ? 'Y'
+                                                                    : (msg.profile?.full_name?.charAt(0) || 'U')
+                                                                }
+                                                            </AvatarFallback>
+                                                        </Avatar>
+                                                        <div className="flex-1">
+                                                            <div className="flex items-center gap-2 mb-1">
+                                                                <span className="font-medium text-sm">
+                                                                    {msg.user_id === user.id
+                                                                        ? 'You'
+                                                                        : (msg.profile?.full_name || 'Unknown User')
+                                                                    }
+                                                                </span>
                                                                 <span className="text-xs text-muted-foreground">
                                                                     {msg.created_at ? new Date(msg.created_at).toLocaleTimeString() : ''}
                                                                 </span>
@@ -721,12 +721,10 @@ const RoomDetail = () => {
                                                         <FileText className="h-3 w-3" />
                                                         {questions.length} questions
                                                     </Badge>
-                                                    {quiz.time_limit && (
-                                                        <Badge variant="outline" className="flex items-center gap-1">
-                                                            <Clock className="h-3 w-3" />
-                                                            {quiz.time_limit} min
-                                                        </Badge>
-                                                    )}
+                                                    <Badge variant="outline" className="flex items-center gap-1">
+                                                        <Clock className="h-3 w-3" />
+                                                        {quiz.questions?.length || 0} questions
+                                                    </Badge>
                                                 </div>
 
                                                 <p className="text-muted-foreground mb-3">{quiz.description}</p>
@@ -787,8 +785,8 @@ const RoomDetail = () => {
                                             <div className="flex items-center gap-4">
                                                 <Avatar className="h-12 w-12">
                                                     <AvatarFallback className={isCurrentUser ? 'bg-stemPurple/20 text-stemPurple' : ''}>
-                                                        {isCurrentUser 
-                                                            ? 'Y' 
+                                                        {isCurrentUser
+                                                            ? 'Y'
                                                             : (attempt.profile?.full_name?.charAt(0) || 'U')
                                                         }
                                                     </AvatarFallback>
@@ -805,11 +803,10 @@ const RoomDetail = () => {
                                             </div>
 
                                             <div className="text-right">
-                                                <div className={`text-2xl font-bold ${
-                                                    attempt.percentage >= (quiz?.passing_score || 70) 
-                                                        ? 'text-green-600' 
+                                                <div className={`text-2xl font-bold ${attempt.percentage >= (quiz?.passing_score || 70)
+                                                        ? 'text-green-600'
                                                         : 'text-red-600'
-                                                }`}>
+                                                    }`}>
                                                     {attempt.percentage}%
                                                 </div>
                                                 <div className="text-sm text-muted-foreground">
@@ -857,23 +854,23 @@ const RoomDetail = () => {
                         <CardContent>
                             <div className="space-y-3">
                                 {members.map((member) => (
-                                     <div key={member.id} className="flex items-center gap-3">
-                                         <Avatar className="h-8 w-8">
-                                             <AvatarFallback>
-                                                 {member.user_id === user.id 
-                                                     ? 'Y' 
-                                                     : (member.profile?.full_name?.charAt(0) || 'U')
-                                                 }
-                                             </AvatarFallback>
-                                         </Avatar>
-                                         <div className="flex-1 min-w-0">
-                                             <div className="flex items-center gap-2">
-                                                 <span className="font-medium text-sm truncate">
-                                                     {member.user_id === user.id 
-                                                         ? 'You' 
-                                                         : (member.profile?.full_name || 'Unknown User')
-                                                     }
-                                                 </span>
+                                    <div key={member.id} className="flex items-center gap-3">
+                                        <Avatar className="h-8 w-8">
+                                            <AvatarFallback>
+                                                {member.user_id === user.id
+                                                    ? 'Y'
+                                                    : (member.profile?.full_name?.charAt(0) || 'U')
+                                                }
+                                            </AvatarFallback>
+                                        </Avatar>
+                                        <div className="flex-1 min-w-0">
+                                            <div className="flex items-center gap-2">
+                                                <span className="font-medium text-sm truncate">
+                                                    {member.user_id === user.id
+                                                        ? 'You'
+                                                        : (member.profile?.full_name || 'Unknown User')
+                                                    }
+                                                </span>
                                                 {member.role === 'owner' && (
                                                     <Badge variant="outline" className="text-xs">
                                                         Owner
@@ -910,11 +907,9 @@ const RoomDetail = () => {
                                         <Badge variant="outline">
                                             Question {currentQuestionIndex + 1} of {(currentQuiz.questions as unknown as QuizQuestion[]).length}
                                         </Badge>
-                                        {quizStartTime && currentQuiz.time_limit && (
-                                            <Badge variant="outline">
-                                                Time: {Math.max(0, currentQuiz.time_limit - Math.floor((Date.now() - quizStartTime.getTime()) / 60000))} min
-                                            </Badge>
-                                        )}
+                                        <Badge variant="outline">
+                                            Time: {Math.max(0, (currentQuiz.questions?.length || 0) - Math.floor((Date.now() - quizStartTime.getTime()) / 60000))} questions remaining
+                                        </Badge>
                                     </div>
                                 </CardTitle>
                                 <CardDescription>{currentQuiz.description}</CardDescription>
@@ -979,12 +974,12 @@ const RoomDetail = () => {
                                             <Button onClick={() => setActiveTab('results')}>
                                                 View All Results
                                             </Button>
-                                             <Button variant="outline" onClick={() => {
-                                                 setCurrentQuiz(null);
-                                                 setIsQuizActive(false);
-                                                 setQuizTitle(undefined);
-                                             }}>
-                                                 Back to Room
+                                            <Button variant="outline" onClick={() => {
+                                                setCurrentQuiz(null);
+                                                setIsQuizActive(false);
+                                                setQuizTitle(undefined);
+                                            }}>
+                                                Back to Room
                                             </Button>
                                         </div>
                                     </div>

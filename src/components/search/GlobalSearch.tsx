@@ -117,7 +117,7 @@ const GlobalSearch: React.FC<GlobalSearchProps> = ({ isOpen, onClose }) => {
           description: quiz.description || '',
           subject: quiz.module?.subject?.name || '',
           subjectId: quiz.module?.subject?.id || '',
-          duration: `${Math.ceil((quiz.time_limit || 300) / 60)} minutes`,
+          duration: `${quiz.questions?.length || 0} questions`,
           difficulty: 'Beginner',
           type: 'quiz',
           keywords: quiz.keywords || []

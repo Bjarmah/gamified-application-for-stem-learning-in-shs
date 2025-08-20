@@ -111,7 +111,8 @@ const Quiz: React.FC = () => {
     }
     return 0;
   }, [quiz?.questions]);
-  const timeLimit = quiz?.time_limit ?? 300;
+  // Set time limit equal to total number of questions (1 minute per question)
+  const timeLimit = total;
   const [secondsLeft, setSecondsLeft] = useState(timeLimit);
   const [finished, setFinished] = useState(false);
 
@@ -128,7 +129,7 @@ const Quiz: React.FC = () => {
       score: scorePct,
       total_questions: total,
       correct_answers: correct,
-      time_spent: (quiz.time_limit ?? 300) - secondsLeft,
+      time_spent: timeLimit - secondsLeft,
       answers: answers,
       completed_at: new Date().toISOString(),
     };
@@ -165,7 +166,7 @@ const Quiz: React.FC = () => {
 
   useEffect(() => {
     if (!quiz) return;
-    setSecondsLeft(quiz.time_limit ?? 300);
+    setSecondsLeft(timeLimit);
 
     // Set the current module ID when quiz loads
     if (quiz.module_id) {
@@ -506,7 +507,7 @@ const Quiz: React.FC = () => {
             <div className="space-y-2 text-sm">
               <div className="flex justify-between"><span>Score</span><span className="font-medium">{Math.round((correct / total) * 100)}%</span></div>
               <div className="flex justify-between"><span>Correct</span><span className="font-medium">{correct}/{total}</span></div>
-              <div className="flex justify-between"><span>Time Spent</span><span className="font-medium">{secondsToMMSS((quiz.time_limit ?? 300) - secondsLeft)}</span></div>
+              <div className="flex justify-between"><span>Time Spent</span><span className="font-medium">{secondsToMMSS(timeLimit - secondsLeft)}</span></div>
             </div>
 
             {/* Module completion status */}
@@ -552,7 +553,7 @@ const Quiz: React.FC = () => {
                   setQuizTitle(undefined);
                   setCurrentModuleId(undefined);
                   tabMonitoring.reset();
-                  setSecondsLeft(quiz.time_limit ?? 300);
+                  setSecondsLeft(timeLimit);
                 }}
               >
                 Retake Quiz
