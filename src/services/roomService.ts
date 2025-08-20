@@ -250,14 +250,31 @@ export class RoomService {
       console.log('Fetching discoverable rooms for user:', userId);
       const startTime = performance.now();
 
-      // Use a single efficient query with NOT EXISTS to get public rooms user isn't a member of
-      const { data, error } = await supabase
+      // First get user's room IDs
+      const { data: userRooms, error: userRoomsError } = await supabase
+        .from('room_members')
+        .select('room_id')
+        .eq('user_id', userId);
+
+      if (userRoomsError) {
+        console.error('Error getting user rooms for filtering:', userRoomsError);
+        return [];
+      }
+
+      const userRoomIds = userRooms?.map(r => r.room_id) || [];
+
+      // Get all public rooms excluding user's rooms
+      const query = supabase
         .from('rooms')
         .select('*')
-        .eq('is_public', true)
-        .not('id', 'in', `(
-          SELECT room_id FROM room_members WHERE user_id = '${userId}'
-        )`);
+        .eq('is_public', true);
+
+      // Only filter out user rooms if they have any
+      if (userRoomIds.length > 0) {
+        query.not('id', 'in', `(${userRoomIds.map(id => `'${id}'`).join(',')})`);
+      }
+
+      const { data, error } = await query;
 
       const endTime = performance.now();
       console.log(`Discoverable rooms query took ${endTime - startTime} ms`);
