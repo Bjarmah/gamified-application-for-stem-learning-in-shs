@@ -560,5 +560,72 @@ export class RoomService {
       return [];
     }
   }
+
+  // Get all quiz attempts for a room (for shared results)
+  static async getRoomQuizAttempts(roomId: string): Promise<(RoomQuizAttempt & { profile?: { full_name?: string } })[]> {
+    try {
+      const { data, error } = await supabase
+        .from('room_quiz_attempts')
+        .select(`
+          *,
+          room_quizzes!inner(room_id)
+        `)
+        .eq('room_quizzes.room_id', roomId)
+        .order('completed_at', { ascending: false });
+
+      if (error) {
+        console.error('Error getting room quiz attempts:', error);
+        return [];
+      }
+
+      // Get profiles for all users who took quizzes
+      const userIds = [...new Set(data?.map(attempt => attempt.user_id) || [])];
+      const { data: profiles } = await supabase
+        .from('profiles')
+        .select('id, full_name')
+        .in('id', userIds);
+
+      // Create profile lookup map
+      const profileMap = new Map();
+      profiles?.forEach(profile => {
+        profileMap.set(profile.id, profile);
+      });
+
+      // Merge attempts with profile data
+      const attemptsWithProfiles = data?.map(attempt => ({
+        ...attempt,
+        profile: profileMap.get(attempt.user_id)
+      })) || [];
+
+      return attemptsWithProfiles;
+    } catch (error) {
+      console.error('Error getting room quiz attempts:', error);
+      return [];
+    }
+  }
+
+  // Update user online status
+  static async updateOnlineStatus(roomId: string, userId: string, isOnline: boolean): Promise<boolean> {
+    try {
+      const { error } = await supabase
+        .from('room_members')
+        .update({
+          is_online: isOnline,
+          last_seen: new Date().toISOString()
+        })
+        .eq('room_id', roomId)
+        .eq('user_id', userId);
+
+      if (error) {
+        console.error('Error updating online status:', error);
+        return false;
+      }
+
+      return true;
+    } catch (error) {
+      console.error('Error updating online status:', error);
+      return false;
+    }
+  }
 }
 

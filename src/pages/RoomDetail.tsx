@@ -27,12 +27,15 @@ import {
     XCircle,
     BarChart3,
     Clock,
-    Trash2
+    Trash2,
+    Circle
 } from 'lucide-react';
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from '@/context/AuthContext';
+import { useQuizContext } from '@/context/QuizContext';
 import { RoomService, CreateQuizData } from '@/services/roomService';
 import { Database } from '@/integrations/supabase/types';
+import { supabase } from '@/integrations/supabase/client';
 
 type Room = Database['public']['Tables']['rooms']['Row'];
 type RoomMember = Database['public']['Tables']['room_members']['Row'] & { profile?: { full_name?: string } };
@@ -51,6 +54,7 @@ const RoomDetail = () => {
     const navigate = useNavigate();
     const { toast } = useToast();
     const { user } = useAuth();
+    const { setIsQuizActive, setQuizTitle } = useQuizContext();
     const [message, setMessage] = useState('');
     const [room, setRoom] = useState<Room | null>(null);
     const [members, setMembers] = useState<RoomMember[]>([]);
@@ -61,6 +65,7 @@ const RoomDetail = () => {
     // Quiz states
     const [quizzes, setQuizzes] = useState<RoomQuiz[]>([]);
     const [quizAttempts, setQuizAttempts] = useState<RoomQuizAttempt[]>([]);
+    const [allQuizAttempts, setAllQuizAttempts] = useState<(RoomQuizAttempt & { profile?: { full_name?: string } })[]>([]);
     const [currentQuiz, setCurrentQuiz] = useState<RoomQuiz | null>(null);
     const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
     const [userAnswers, setUserAnswers] = useState<number[]>([]);
@@ -80,8 +85,44 @@ const RoomDetail = () => {
     useEffect(() => {
         if (roomId && user) {
             loadRoomDetails();
+            setupPresence();
         }
+        
+        return () => {
+            // Mark user as offline when leaving
+            if (roomId && user) {
+                RoomService.updateOnlineStatus(roomId, user.id, false);
+            }
+        };
     }, [roomId, user]);
+
+    const setupPresence = async () => {
+        if (!roomId || !user) return;
+
+        // Mark user as online
+        await RoomService.updateOnlineStatus(roomId, user.id, true);
+
+        // Set up realtime subscription for member updates
+        const channel = supabase
+            .channel(`room_${roomId}_presence`)
+            .on(
+                'postgres_changes',
+                {
+                    event: '*',
+                    schema: 'public',
+                    table: 'room_members',
+                    filter: `room_id=eq.${roomId}`
+                },
+                () => {
+                    loadRoomDetails();
+                }
+            )
+            .subscribe();
+
+        return () => {
+            supabase.removeChannel(channel);
+        };
+    };
 
     const loadRoomDetails = async () => {
         if (!roomId || !user) return;
@@ -97,9 +138,13 @@ const RoomDetail = () => {
             // Load user's quiz attempts for this room
             const attempts = await RoomService.getUserQuizAttempts(user.id);
             const roomAttempts = attempts.filter(attempt => 
-                quizzes.some(quiz => quiz.id === attempt.quiz_id)
+                details.quizzes.some(quiz => quiz.id === attempt.quiz_id)
             );
             setQuizAttempts(roomAttempts);
+
+            // Load all quiz attempts for shared results
+            const allAttempts = await RoomService.getRoomQuizAttempts(roomId);
+            setAllQuizAttempts(allAttempts);
         } catch (error) {
             console.error('Error loading room details:', error);
             toast({
@@ -215,6 +260,10 @@ const RoomDetail = () => {
         setQuizStartTime(new Date());
         setShowQuizResults(false);
         setActiveTab('quiz');
+        
+        // Activate quiz mode
+        setIsQuizActive(true);
+        setQuizTitle(quiz.title);
     };
 
     const handleAnswerSelect = (answerIndex: number) => {
@@ -272,7 +321,12 @@ const RoomDetail = () => {
                 };
 
                 setQuizAttempts([...quizAttempts, newAttempt]);
+                setAllQuizAttempts([...allQuizAttempts, { ...newAttempt, profile: user.email ? { full_name: user.email } : undefined }]);
                 setShowQuizResults(true);
+
+                // Deactivate quiz mode
+                setIsQuizActive(false);
+                setQuizTitle(undefined);
             }
         } catch (error) {
             console.error('Error submitting quiz attempt:', error);
@@ -718,18 +772,32 @@ const RoomDetail = () => {
                 {/* Results Tab */}
                 <TabsContent value="results" className="mt-6">
                     <div className="grid gap-4">
-                        {quizAttempts.map((attempt) => {
+                        <div className="flex items-center justify-between mb-4">
+                            <h3 className="text-lg font-semibold">Quiz Results for All Members</h3>
+                            <Badge variant="outline">{allQuizAttempts.length} attempts</Badge>
+                        </div>
+
+                        {allQuizAttempts.map((attempt) => {
                             const quiz = quizzes.find(q => q.id === attempt.quiz_id);
+                            const isCurrentUser = attempt.user_id === user.id;
                             return (
-                                <Card key={attempt.id} className="hover:shadow-md transition-shadow">
+                                <Card key={attempt.id} className={`hover:shadow-md transition-shadow ${isCurrentUser ? 'ring-2 ring-stemPurple/20' : ''}`}>
                                     <CardContent className="p-6">
                                         <div className="flex items-center justify-between">
                                             <div className="flex items-center gap-4">
                                                 <Avatar className="h-12 w-12">
-                                                    <AvatarFallback>U</AvatarFallback>
+                                                    <AvatarFallback className={isCurrentUser ? 'bg-stemPurple/20 text-stemPurple' : ''}>
+                                                        {isCurrentUser 
+                                                            ? 'Y' 
+                                                            : (attempt.profile?.full_name?.charAt(0) || 'U')
+                                                        }
+                                                    </AvatarFallback>
                                                 </Avatar>
                                                 <div>
-                                                    <h3 className="font-semibold">You</h3>
+                                                    <h3 className="font-semibold flex items-center gap-2">
+                                                        {isCurrentUser ? 'You' : (attempt.profile?.full_name || 'Unknown User')}
+                                                        {isCurrentUser && <Badge variant="outline" className="text-xs">Me</Badge>}
+                                                    </h3>
                                                     <p className="text-sm text-muted-foreground">
                                                         {quiz?.title || 'Unknown Quiz'}
                                                     </p>
@@ -737,7 +805,11 @@ const RoomDetail = () => {
                                             </div>
 
                                             <div className="text-right">
-                                                <div className="text-2xl font-bold text-stemPurple">
+                                                <div className={`text-2xl font-bold ${
+                                                    attempt.percentage >= (quiz?.passing_score || 70) 
+                                                        ? 'text-green-600' 
+                                                        : 'text-red-600'
+                                                }`}>
                                                     {attempt.percentage}%
                                                 </div>
                                                 <div className="text-sm text-muted-foreground">
@@ -746,6 +818,16 @@ const RoomDetail = () => {
                                                 <div className="text-xs text-muted-foreground">
                                                     {attempt.completed_at ? new Date(attempt.completed_at).toLocaleDateString() : 'Unknown'}
                                                 </div>
+                                                <div className="flex items-center justify-end gap-1 mt-1">
+                                                    {attempt.percentage >= (quiz?.passing_score || 70) ? (
+                                                        <CheckCircle className="h-4 w-4 text-green-600" />
+                                                    ) : (
+                                                        <XCircle className="h-4 w-4 text-red-600" />
+                                                    )}
+                                                    <span className="text-xs">
+                                                        {attempt.percentage >= (quiz?.passing_score || 70) ? 'Passed' : 'Failed'}
+                                                    </span>
+                                                </div>
                                             </div>
                                         </div>
                                     </CardContent>
@@ -753,11 +835,11 @@ const RoomDetail = () => {
                             );
                         })}
 
-                        {quizAttempts.length === 0 && (
+                        {allQuizAttempts.length === 0 && (
                             <div className="text-center py-8 text-muted-foreground">
                                 <BarChart3 className="h-12 w-12 mx-auto mb-4 opacity-50" />
                                 <p>No quiz results yet.</p>
-                                <p className="text-sm">Take a quiz to see results here.</p>
+                                <p className="text-sm">Members need to take quizzes to see results here.</p>
                             </div>
                         )}
                     </div>
@@ -799,9 +881,14 @@ const RoomDetail = () => {
                                                 )}
                                             </div>
                                             <div className="flex items-center gap-1">
-                                                <div className={`w-2 h-2 rounded-full ${member.is_online ? 'bg-green-500' : 'bg-gray-400'}`} />
+                                                <Circle className={`w-2 h-2 fill-current ${member.is_online ? 'text-green-500' : 'text-gray-400'}`} />
                                                 <span className="text-xs text-muted-foreground">
                                                     {member.is_online ? 'Online' : 'Offline'}
+                                                    {!member.is_online && member.last_seen && (
+                                                        <span className="ml-1">
+                                                            · Last seen {new Date(member.last_seen).toLocaleDateString()}
+                                                        </span>
+                                                    )}
                                                 </span>
                                             </div>
                                         </div>
@@ -892,8 +979,12 @@ const RoomDetail = () => {
                                             <Button onClick={() => setActiveTab('results')}>
                                                 View All Results
                                             </Button>
-                                            <Button variant="outline" onClick={() => setCurrentQuiz(null)}>
-                                                Back to Room
+                                             <Button variant="outline" onClick={() => {
+                                                 setCurrentQuiz(null);
+                                                 setIsQuizActive(false);
+                                                 setQuizTitle(undefined);
+                                             }}>
+                                                 Back to Room
                                             </Button>
                                         </div>
                                     </div>
