@@ -278,9 +278,9 @@ export class RoomService {
   // Get room details with members and quizzes
   static async getRoomDetails(roomId: string): Promise<{
     room: Room | null;
-    members: RoomMember[];
+    members: (RoomMember & { profile?: { full_name?: string } })[];
     quizzes: RoomQuiz[];
-    messages: RoomMessage[];
+    messages: (RoomMessage & { profile?: { full_name?: string } })[];
   }> {
     try {
       // Get room details
@@ -295,47 +295,76 @@ export class RoomService {
         return { room: null, members: [], quizzes: [], messages: [] };
       }
 
-      // Get room members
-      const { data: members, error: membersError } = await supabase
-        .from('room_members')
-        .select('*')
-        .eq('room_id', roomId);
+      // Get all data in parallel
+      const [membersResult, messagesResult, quizzesResult] = await Promise.all([
+        supabase
+          .from('room_members')
+          .select('*')
+          .eq('room_id', roomId),
+        
+        supabase
+          .from('room_messages')
+          .select('*')
+          .eq('room_id', roomId)
+          .order('created_at', { ascending: false })
+          .limit(50),
+        
+        supabase
+          .from('room_quizzes')
+          .select('*')
+          .eq('room_id', roomId)
+          .eq('is_active', true)
+      ]);
 
-      if (membersError) {
-        console.error('Error getting room members:', membersError);
+      if (membersResult.error) {
+        console.error('Error getting room members:', membersResult.error);
         return { room, members: [], quizzes: [], messages: [] };
       }
 
-      // Get room quizzes
-      const { data: quizzes, error: quizzesError } = await supabase
-        .from('room_quizzes')
-        .select('*')
-        .eq('room_id', roomId)
-        .eq('is_active', true);
-
-      if (quizzesError) {
-        console.error('Error getting room quizzes:', quizzesError);
-        return { room, members: members || [], quizzes: [], messages: [] };
+      if (messagesResult.error) {
+        console.error('Error getting room messages:', messagesResult.error);
+        return { room, members: [], quizzes: [], messages: [] };
       }
 
-      // Get room messages (last 50 messages)
-      const { data: messages, error: messagesError } = await supabase
-        .from('room_messages')
-        .select('*')
-        .eq('room_id', roomId)
-        .order('created_at', { ascending: false })
-        .limit(50);
-
-      if (messagesError) {
-        console.error('Error getting room messages:', messagesError);
-        return { room, members: members || [], quizzes: quizzes || [], messages: [] };
+      if (quizzesResult.error) {
+        console.error('Error getting room quizzes:', quizzesResult.error);
+        return { room, members: [], quizzes: [], messages: [] };
       }
+
+      // Get all unique user IDs
+      const memberUserIds = membersResult.data?.map(m => m.user_id) || [];
+      const messageUserIds = messagesResult.data?.map(m => m.user_id) || [];
+      const allUserIds = [...new Set([...memberUserIds, ...messageUserIds])];
+
+      // Get profiles for all users
+      const { data: profiles } = await supabase
+        .from('profiles')
+        .select('id, full_name')
+        .in('id', allUserIds);
+
+      // Create a profile lookup map
+      const profileMap = new Map();
+      profiles?.forEach(profile => {
+        profileMap.set(profile.id, profile);
+      });
+
+      // Merge members with profile data
+      const membersWithProfiles = membersResult.data?.map(member => ({
+        ...member,
+        profile: profileMap.get(member.user_id)
+      })) || [];
+
+      // Merge messages with profile data
+      const messagesWithProfiles = messagesResult.data?.map(message => ({
+        ...message,
+        profile: profileMap.get(message.user_id)
+      })) || [];
 
       return {
         room,
-        members: members || [],
-        quizzes: quizzes || [],
-        messages: (messages || []).reverse() // Reverse to show oldest first
+        members: membersWithProfiles,
+        quizzes: quizzesResult.data || [],
+        messages: messagesWithProfiles.reverse() // Reverse to show oldest first
       };
     } catch (error) {
       console.error('Error getting room details:', error);

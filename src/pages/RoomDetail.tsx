@@ -35,10 +35,10 @@ import { RoomService, CreateQuizData } from '@/services/roomService';
 import { Database } from '@/integrations/supabase/types';
 
 type Room = Database['public']['Tables']['rooms']['Row'];
-type RoomMember = Database['public']['Tables']['room_members']['Row'];
+type RoomMember = Database['public']['Tables']['room_members']['Row'] & { profile?: { full_name?: string } };
 type RoomQuiz = Database['public']['Tables']['room_quizzes']['Row'];
 type RoomQuizAttempt = Database['public']['Tables']['room_quiz_attempts']['Row'];
-type RoomMessage = Database['public']['Tables']['room_messages']['Row'];
+type RoomMessage = Database['public']['Tables']['room_messages']['Row'] & { profile?: { full_name?: string } };
 
 interface QuizQuestion {
     question: string;
@@ -443,14 +443,22 @@ const RoomDetail = () => {
                                                     </div>
                                                 ) : (
                                                     <>
-                                                        <Avatar className="h-8 w-8">
-                                                            <AvatarFallback>{msg.user_id === user.id ? 'You' : 'U'}</AvatarFallback>
-                                                        </Avatar>
-                                                        <div className="flex-1">
-                                                            <div className="flex items-center gap-2 mb-1">
-                                                                <span className="font-medium text-sm">
-                                                                    {msg.user_id === user.id ? 'You' : 'User'}
-                                                                </span>
+                                                         <Avatar className="h-8 w-8">
+                                                             <AvatarFallback>
+                                                                 {msg.user_id === user.id 
+                                                                     ? 'Y' 
+                                                                     : (msg.profile?.full_name?.charAt(0) || 'U')
+                                                                 }
+                                                             </AvatarFallback>
+                                                         </Avatar>
+                                                         <div className="flex-1">
+                                                             <div className="flex items-center gap-2 mb-1">
+                                                                 <span className="font-medium text-sm">
+                                                                     {msg.user_id === user.id 
+                                                                         ? 'You' 
+                                                                         : (msg.profile?.full_name || 'Unknown User')
+                                                                     }
+                                                                 </span>
                                                                 <span className="text-xs text-muted-foreground">
                                                                     {msg.created_at ? new Date(msg.created_at).toLocaleTimeString() : ''}
                                                                 </span>
@@ -767,15 +775,23 @@ const RoomDetail = () => {
                         <CardContent>
                             <div className="space-y-3">
                                 {members.map((member) => (
-                                    <div key={member.id} className="flex items-center gap-3">
-                                        <Avatar className="h-8 w-8">
-                                            <AvatarFallback>U</AvatarFallback>
-                                        </Avatar>
-                                        <div className="flex-1 min-w-0">
-                                            <div className="flex items-center gap-2">
-                                                <span className="font-medium text-sm truncate">
-                                                    {member.user_id === user.id ? 'You' : 'User'}
-                                                </span>
+                                     <div key={member.id} className="flex items-center gap-3">
+                                         <Avatar className="h-8 w-8">
+                                             <AvatarFallback>
+                                                 {member.user_id === user.id 
+                                                     ? 'Y' 
+                                                     : (member.profile?.full_name?.charAt(0) || 'U')
+                                                 }
+                                             </AvatarFallback>
+                                         </Avatar>
+                                         <div className="flex-1 min-w-0">
+                                             <div className="flex items-center gap-2">
+                                                 <span className="font-medium text-sm truncate">
+                                                     {member.user_id === user.id 
+                                                         ? 'You' 
+                                                         : (member.profile?.full_name || 'Unknown User')
+                                                     }
+                                                 </span>
                                                 {member.role === 'owner' && (
                                                     <Badge variant="outline" className="text-xs">
                                                         Owner
