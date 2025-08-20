@@ -133,19 +133,27 @@ const Rooms = () => {
         if (!user) return;
 
         setLoading(true);
+        console.log('🚀 Starting to load rooms for user:', user.id);
+        const startTime = performance.now();
+        
         try {
-            // Load user's rooms
-            const userRooms = await RoomService.getUserRooms(user.id);
-            setMyRooms(userRooms);
+            // Load user's rooms and discoverable rooms in parallel for better performance
+            const [userRooms, discoverable] = await Promise.all([
+                RoomService.getUserRooms(user.id),
+                RoomService.getDiscoverableRooms(user.id)
+            ]);
 
-            // Load discoverable rooms
-            const discoverable = await RoomService.getDiscoverableRooms(user.id);
+            const endTime = performance.now();
+            console.log(`✅ Rooms loaded in ${endTime - startTime} ms`);
+            console.log(`User rooms: ${userRooms.length}, Discoverable: ${discoverable.length}`);
+
+            setMyRooms(userRooms);
             setDiscoverableRooms(discoverable);
 
             // Combine all rooms for search
             setRooms([...userRooms, ...discoverable]);
         } catch (error) {
-            console.error('Error loading rooms:', error);
+            console.error('❌ Error loading rooms:', error);
             toast({
                 title: "Error",
                 description: "Failed to load rooms. Please try again.",

@@ -205,6 +205,9 @@ export class RoomService {
   // Get user's rooms
   static async getUserRooms(userId: string): Promise<Room[]> {
     try {
+      console.log('Fetching user rooms for user:', userId);
+      const startTime = performance.now();
+
       const { data, error } = await supabase
         .from('room_members')
         .select(`
@@ -224,12 +227,17 @@ export class RoomService {
         `)
         .eq('user_id', userId);
 
+      const endTime = performance.now();
+      console.log(`User rooms query took ${endTime - startTime} ms`);
+
       if (error) {
         console.error('Error getting user rooms:', error);
         return [];
       }
 
-      return data.map(item => item.rooms as Room);
+      const rooms = data?.map(item => item.rooms as Room).filter(Boolean) || [];
+      console.log('Found', rooms.length, 'user rooms');
+      return rooms;
     } catch (error) {
       console.error('Error getting user rooms:', error);
       return [];
@@ -239,32 +247,28 @@ export class RoomService {
   // Get discoverable rooms (public rooms user is not a member of)
   static async getDiscoverableRooms(userId: string): Promise<Room[]> {
     try {
-      // Get all public rooms
-      const { data: publicRooms, error: publicError } = await supabase
+      console.log('Fetching discoverable rooms for user:', userId);
+      const startTime = performance.now();
+
+      // Use a single efficient query with NOT EXISTS to get public rooms user isn't a member of
+      const { data, error } = await supabase
         .from('rooms')
         .select('*')
-        .eq('is_public', true);
+        .eq('is_public', true)
+        .not('id', 'in', `(
+          SELECT room_id FROM room_members WHERE user_id = '${userId}'
+        )`);
 
-      if (publicError) {
-        console.error('Error getting public rooms:', publicError);
+      const endTime = performance.now();
+      console.log(`Discoverable rooms query took ${endTime - startTime} ms`);
+
+      if (error) {
+        console.error('Error getting discoverable rooms:', error);
         return [];
       }
 
-      // Get rooms user is already a member of
-      const { data: memberRooms, error: memberError } = await supabase
-        .from('room_members')
-        .select('room_id')
-        .eq('user_id', userId);
-
-      if (memberError) {
-        console.error('Error getting member rooms:', memberError);
-        return [];
-      }
-
-      const memberRoomIds = new Set(memberRooms.map(mr => mr.room_id));
-
-      // Filter out rooms user is already a member of
-      return publicRooms.filter(room => !memberRoomIds.has(room.id));
+      console.log('Found', data?.length || 0, 'discoverable rooms');
+      return data || [];
     } catch (error) {
       console.error('Error getting discoverable rooms:', error);
       return [];
