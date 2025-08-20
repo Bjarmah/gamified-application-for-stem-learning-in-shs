@@ -21,11 +21,14 @@ import NotificationDropdown from "@/components/notifications/NotificationDropdow
 import ThemeToggle from "@/components/theme/ThemeToggle";
 import OfflineBanner from "@/components/offline/OfflineBanner";
 import { useQuizContext } from "@/context/QuizContext";
+import { useAuth } from "@/context/AuthContext";
+import { LogOut } from "lucide-react";
 
 const AppLayout = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { isQuizActive, quizTitle, currentModuleId } = useQuizContext();
+  const { signOut } = useAuth();
 
   const isActive = (path: string) => location.pathname === path;
 
@@ -80,6 +83,15 @@ const AppLayout = () => {
               <NotificationDropdown />
             </div>
             <ThemeToggle />
+            <Button 
+              variant="ghost" 
+              size="icon"
+              onClick={signOut}
+              className="text-white hover:bg-white/10"
+              title="Logout"
+            >
+              <LogOut className="h-[1.2rem] w-[1.2rem]" />
+            </Button>
           </div>
         </div>
       </header>
