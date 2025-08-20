@@ -30,6 +30,7 @@ import AdminDashboard from "./pages/AdminDashboard";
 import AdminSubjects from "./pages/AdminSubjects";
 import NotFound from "./pages/NotFound";
 import Leaderboard from "./pages/Leaderboard";
+import Analytics from "./pages/Analytics";
 import ProtectedRoute from "./components/auth/ProtectedRoute";
 
 const queryClient = new QueryClient({
@@ -69,6 +70,7 @@ function App() {
                         <Route path="rooms/:roomId" element={<RoomDetail />} />
                         <Route path="achievements" element={<Achievements />} />
                         <Route path="leaderboard" element={<Leaderboard />} />
+                        <Route path="analytics" element={<Analytics />} />
                         <Route path="profile" element={<Profile />} />
                         <Route path="virtual-lab" element={<VirtualLab />} />
                         <Route path="teacher/quizzes" element={<TeacherQuizzes />} />
