@@ -15,6 +15,7 @@ import { useToast } from "@/hooks/use-toast";
 import { useTabMonitoring } from "@/hooks/use-tab-monitoring";
 import { Clock, Trophy, ArrowLeft, Eye, EyeOff, AlertTriangle, Maximize, Check } from "lucide-react";
 import { FloatingAIChatbot } from "@/components/ai-chatbot";
+import confetti from 'canvas-confetti';
 
 interface DbQuiz {
   id: string;
@@ -293,6 +294,13 @@ const Quiz: React.FC = () => {
       // Update quizzes completed count
       await updateQuizzesCompleted();
 
+      // Trigger confetti on quiz completion
+      confetti({
+        particleCount: 100,
+        spread: 70,
+        origin: { y: 0.6 }
+      });
+
       // Check if module should be marked as completed (score >= 70%)
       if (scorePct >= 70 && quiz?.module_id) {
         try {
@@ -301,6 +309,14 @@ const Quiz: React.FC = () => {
           // Check for new achievements and badges after module completion
           await checkAchievements();
           await checkBadges();
+
+          // Extra confetti for module completion
+          confetti({
+            particleCount: 150,
+            spread: 100,
+            origin: { y: 0.6 },
+            colors: ['#10B981', '#F59E0B', '#3B82F6']
+          });
 
           toast({
             title: "Module Completed!",

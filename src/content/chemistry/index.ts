@@ -1,6 +1,9 @@
 import module1 from './module1.json';
 import module2 from './module2.json';
 import module3 from './module3.json';
+import moduleWithImages from './module-with-images.json';
+import atomicStructureImg from '@/assets/atomic-structure.jpg';
+import periodicTrendsImg from '@/assets/periodic-trends.jpg';
 
 // Atomic Structure & Electron Configuration submodules
 import module1a from './module1a.json';
@@ -157,9 +160,29 @@ const convertChemistryModule = (module: any, index: number): StructuredModule =>
   };
 };
 
+// Process modules with images by replacing asset paths with imported URLs
+const processModuleImages = (module: any) => {
+  if (module.content?.images) {
+    const processedModule = { ...module };
+    if (processedModule.content.images.introduction?.includes('atomic-structure.jpg')) {
+      processedModule.content.images.introduction = atomicStructureImg;
+    }
+    if (processedModule.content.images.sections) {
+      processedModule.content.images.sections = processedModule.content.images.sections.map((imgPath: string) => {
+        if (imgPath.includes('atomic-structure.jpg')) return atomicStructureImg;
+        if (imgPath.includes('periodic-trends.jpg')) return periodicTrendsImg;
+        return imgPath;
+      });
+    }
+    return processedModule;
+  }
+  return module;
+};
+
 // Create a map for easy lookup by title
 const mapByTitle: Record<string, StructuredModule> = {
-  'Atomic Structure & Electron Configuration': convertChemistryModule(module1, 0),
+  // Add the visual module with images
+  'Atomic Structure & Electron Configuration': processModuleImages(moduleWithImages),
   'Chemical Bonding': convertChemistryModule(module2, 1),
   'Acids, Bases & Salts': convertChemistryModule(module3, 2),
   
@@ -179,6 +202,12 @@ const mapByTitle: Record<string, StructuredModule> = {
 // Utility function to find a module by title
 export const findChemistryModuleByTitle = (title: string): StructuredModule | undefined => {
   return mapByTitle[title];
+};
+
+// Utility function to find a module by title with image processing
+export const findChemistryModuleByTitleWithImages = (title: string): StructuredModule | undefined => {
+  const module = mapByTitle[title];
+  return module ? processModuleImages(module) : undefined;
 };
 
 // Export all chemistry modules

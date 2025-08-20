@@ -11,7 +11,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { ArrowLeft, Clock, CheckCircle, ListChecks, BookOpen, Play } from "lucide-react";
 import { formatDifficulty, getDifficultyColor } from "@/lib/utils";
 import { findBiologyModuleByTitle } from "@/content/biology";
-import { findChemistryModuleByTitle } from "@/content/chemistry";
+import { findChemistryModuleByTitle, findChemistryModuleByTitleWithImages } from "@/content/chemistry";
 import { findICTModuleByTitle } from "@/content/ict";
 import { findMathematicsModuleByTitle } from "@/content/mathematics";
 import { findPhysicsModuleByTitle } from "@/content/physics";
@@ -109,7 +109,7 @@ const ModuleDetail: React.FC = () => {
       case 'Biology':
         return findBiologyModuleByTitle(module.title);
       case 'Chemistry':
-        return findChemistryModuleByTitle(module.title);
+        return findChemistryModuleByTitleWithImages(module.title);
       case 'Elective ICT':
         return findICTModuleByTitle(module.title);
       case 'Mathematics':
@@ -245,6 +245,15 @@ const ModuleDetail: React.FC = () => {
                     <h3 className="text-lg font-semibold text-foreground">Content</h3>
                     <div className="p-4 rounded-md bg-muted border border-border">
                       <h4 className="font-medium text-foreground">Introduction</h4>
+                      {(structured.content as any)?.images?.introduction && (
+                        <div className="my-4">
+                          <img 
+                            src={(structured.content as any).images.introduction} 
+                            alt="Introduction illustration"
+                            className="w-full max-w-md mx-auto rounded-lg shadow-sm"
+                          />
+                        </div>
+                      )}
                       <div
                         className="prose prose-sm max-w-none mt-2 text-muted-foreground"
                         dangerouslySetInnerHTML={{ __html: toHTML(structured.content.text.introduction) }}
@@ -253,6 +262,15 @@ const ModuleDetail: React.FC = () => {
                     {structured.content.text.sections?.map((section, index) => (
                       <article key={index} className="p-4 rounded-md bg-muted border border-border">
                         <h4 className="font-medium text-foreground">{section.title}</h4>
+                        {(structured.content as any)?.images?.sections?.[index] && (
+                          <div className="my-4">
+                            <img 
+                              src={(structured.content as any).images.sections[index]} 
+                              alt={`${section.title} illustration`}
+                              className="w-full max-w-md mx-auto rounded-lg shadow-sm"
+                            />
+                          </div>
+                        )}
                         <div
                           className="prose prose-sm max-w-none mt-2 text-muted-foreground"
                           dangerouslySetInnerHTML={{ __html: toHTML(section.content) }}

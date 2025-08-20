@@ -1,0 +1,47 @@
+{
+  "id": "atomic-structure-visual",
+  "title": "Atomic Structure & Electron Configuration",
+  "description": "Visual guide to understanding atomic structure, electron configuration, and periodic trends with interactive illustrations",
+  "subject": "Chemistry",
+  "level": "Intermediate",
+  "estimatedTime": 45,
+  "tags": [
+    "Atomic Structure",
+    "Electron Configuration", 
+    "Periodic Trends",
+    "Atomic Theory"
+  ],
+  "content": {
+    "text": {
+      "introduction": "**Atoms** are the fundamental building blocks of matter, composed of three main subatomic particles: **protons** (positive charge, mass ~1 amu), **neutrons** (no charge, mass ~1 amu), and **electrons** (negative charge, mass ~1/1840 amu).\n\nThe **atomic number** (Z) equals the number of protons and determines the element's identity. **Mass number** (A) equals protons plus neutrons. **Isotopes** are atoms of the same element with different numbers of neutrons, resulting in different mass numbers.",
+      "sections": [
+        {
+          "title": "Atomic Models and Structure",
+          "content": "The **atomic models** have evolved from Dalton's solid sphere to Rutherford's nuclear model to Bohr's planetary model to the modern quantum mechanical model. The nucleus contains protons and neutrons, while electrons occupy energy levels around it.\n\nIn Ghana, understanding isotopes is crucial for **radioactive dating of archaeological sites** like those in the northern regions, helping determine the age of ancient artifacts and human remains."
+        },
+        {
+          "title": "Periodic Trends and Properties",
+          "content": "**Periodic trends** are patterns in element properties that repeat across periods and groups. **Atomic size** generally decreases across a period (left to right) due to increasing nuclear charge pulling electrons closer, and increases down a group due to additional energy levels.\n\n**Ionization energy** (energy to remove an electron) increases across periods due to stronger nuclear attraction, and decreases down groups due to electrons being farther from nucleus. **Electronegativity** (ability to attract electrons) follows similar patterns."
+        }
+      ]
+    },
+    "images": {
+      "introduction": "/src/assets/atomic-structure.jpg",
+      "sections": [
+        "/src/assets/atomic-structure.jpg",
+        "/src/assets/periodic-trends.jpg"
+      ]
+    }
+  },
+  "questions": [
+    {
+      "type": "multiple-choice",
+      "question": "Which particle has no charge?",
+      "options": ["Proton", "Neutron", "Electron", "Positron"],
+      "correctAnswer": 1,
+      "explanation": "Neutrons are electrically neutral particles found in the nucleus."
+    }
+  ],
+  "exercises": [],
+  "scenarioChallenges": []
+}
