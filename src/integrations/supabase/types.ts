@@ -56,6 +56,36 @@ export type Database = {
         }
         Relationships: []
       }
+      active_quiz_sessions: {
+        Row: {
+          completed: boolean
+          created_at: string
+          expires_at: string
+          id: string
+          quiz_id: string
+          started_at: string
+          user_id: string
+        }
+        Insert: {
+          completed?: boolean
+          created_at?: string
+          expires_at?: string
+          id?: string
+          quiz_id: string
+          started_at?: string
+          user_id: string
+        }
+        Update: {
+          completed?: boolean
+          created_at?: string
+          expires_at?: string
+          id?: string
+          quiz_id?: string
+          started_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       badges: {
         Row: {
           category: string
@@ -761,6 +791,10 @@ export type Database = {
         Args: { xp: number }
         Returns: number
       }
+      complete_quiz_session: {
+        Args: { quiz_id_param: string }
+        Returns: boolean
+      }
       create_room_with_owner: {
         Args: {
           owner_user_id: string
@@ -776,6 +810,10 @@ export type Database = {
         Args: Record<PropertyKey, never>
         Returns: string
       }
+      get_quiz_questions: {
+        Args: { quiz_id_param: string }
+        Returns: Json
+      }
       initialize_user_gamification: {
         Args: { user_uuid: string }
         Returns: undefined
@@ -787,6 +825,14 @@ export type Database = {
       join_room_by_code: {
         Args: { room_code_input: string; user_id_input: string }
         Returns: boolean
+      }
+      start_quiz_session: {
+        Args: { quiz_id_param: string }
+        Returns: string
+      }
+      validate_quiz_answers: {
+        Args: { quiz_id_param: string; user_answers: Json }
+        Returns: Json
       }
     }
     Enums: {
