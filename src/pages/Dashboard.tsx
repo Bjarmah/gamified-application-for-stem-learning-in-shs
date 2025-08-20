@@ -21,6 +21,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { useGamification } from "@/hooks/use-gamification";
+import { useAuth } from "@/context/AuthContext";
 import XPBar from "@/components/gamification/XPBar";
 import LevelBadge from "@/components/gamification/LevelBadge";
 
@@ -29,6 +30,7 @@ const Dashboard: React.FC = () => {
   const [stats, setStats] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const { gamificationData, loading: gamificationLoading, getXpForNextLevel, getLevelProgress } = useGamification();
+  const { profile, user } = useAuth();
 
   useEffect(() => {
     const loadStats = () => {
@@ -69,7 +71,9 @@ const Dashboard: React.FC = () => {
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-foreground mb-2">Welcome to Your Dashboard</h1>
+          <h1 className="text-3xl font-bold text-foreground mb-2">
+            Hi {profile?.full_name?.split(' ')[0] || user?.email?.split('@')[0] || 'there'}! 👋
+          </h1>
           <p className="text-muted-foreground">Track your progress and discover new learning opportunities</p>
         </div>
 

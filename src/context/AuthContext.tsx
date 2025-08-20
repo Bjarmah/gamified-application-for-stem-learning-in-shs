@@ -45,30 +45,35 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   useEffect(() => {
     // Set up auth state listener
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      async (event, session) => {
+      (event, session) => {
         setSession(session);
         setUser(session?.user ?? null);
 
         if (session?.user) {
-          // Fetch user profile
-          try {
-            const { data: profileData, error } = await supabase
-              .from('profiles')
-              .select('*')
-              .eq('id', session.user.id)
-              .single();
+          // Fetch user profile asynchronously to avoid blocking auth state
+          setTimeout(async () => {
+            try {
+              const { data: profileData, error } = await supabase
+                .from('profiles')
+                .select('*')
+                .eq('id', session.user.id)
+                .maybeSingle();
 
-            if (error && error.code !== 'PGRST116') {
-              console.error('Error fetching profile:', error);
-            } else if (profileData) {
-              setProfile({
-                ...profileData,
-                role: profileData.role as 'student' | 'teacher' | 'admin'
-              });
+              if (error) {
+                console.error('Error fetching profile:', error);
+              } else if (profileData) {
+                setProfile({
+                  ...profileData,
+                  role: profileData.role as 'student' | 'teacher' | 'admin'
+                });
+              } else {
+                // Profile doesn't exist, this is normal for new users
+                console.log('No profile found for user');
+              }
+            } catch (error) {
+              console.error('Error in profile fetch:', error);
             }
-          } catch (error) {
-            console.error('Error in profile fetch:', error);
-          }
+          }, 0);
         } else {
           setProfile(null);
         }
@@ -81,7 +86,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     supabase.auth.getSession().then(({ data: { session } }) => {
       setSession(session);
       setUser(session?.user ?? null);
-      setLoading(false);
+      if (!session) {
+        setLoading(false);
+      }
     });
 
     return () => subscription.unsubscribe();
@@ -90,6 +97,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const signUp = async (email: string, password: string, fullName: string, school: string) => {
     setLoading(true);
     try {
+      const redirectUrl = `${window.location.origin}/`;
+      
       const { error } = await supabase.auth.signUp({
         email,
         password,
@@ -98,6 +107,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
             full_name: fullName,
             school: school,
           },
+          emailRedirectTo: redirectUrl
         },
       });
 
