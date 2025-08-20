@@ -8,6 +8,7 @@ import { useNavigate } from 'react-router-dom';
 import ChemistryLab from '@/components/lab/ChemistryLab';
 import PhysicsLab from '@/components/lab/PhysicsLab';
 import MathLab from '@/components/lab/MathLab';
+import PHGameWrapper from '@/components/lab/PHGameWrapper';
 
 const VirtualLab = () => {
   const navigate = useNavigate();
@@ -34,6 +35,14 @@ const VirtualLab = () => {
         difficulty: 'Intermediate',
         duration: '15 minutes',
         ariaLabel: 'Start pH indicator simulation experiment'
+      },
+      {
+        id: 'ph-scale-game',
+        title: 'pH Scale Interactive Game',
+        description: 'Interactive pH simulation with real-time color changes',
+        difficulty: 'Beginner',
+        duration: '10 minutes',
+        ariaLabel: 'Start pH scale interactive game'
       }
     ],
     physics: [
@@ -116,7 +125,12 @@ const VirtualLab = () => {
           </div>
           
           <main role="main" aria-label="Experiment content">
-            {subject === 'chemistry' && <ChemistryLab experimentId={experimentId} />}
+            {subject === 'chemistry' && experimentId === 'ph-scale-game' && (
+              <PHGameWrapper experimentId={experimentId} />
+            )}
+            {subject === 'chemistry' && experimentId !== 'ph-scale-game' && (
+              <ChemistryLab experimentId={experimentId} />
+            )}
             {subject === 'physics' && <PhysicsLab experimentId={experimentId} />}
             {subject === 'math' && <MathLab experimentId={experimentId} />}
           </main>
