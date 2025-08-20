@@ -282,24 +282,12 @@ const Quiz: React.FC = () => {
       qc.invalidateQueries({ queryKey: ["user-progress"] });
       toast({ title: "Quiz submitted", description: "Your attempt has been saved." });
 
-      // Award XP based on quiz performance
+      // Award XP based on correct answers (1 XP per correct answer)
       const scorePct = total ? Math.round((correct / total) * 100) : 0;
-      let xpAmount = 50; // Base XP for completing quiz
-
-      // Bonus XP for performance
-      if (scorePct >= 90) xpAmount += 50; // Perfect/near-perfect bonus
-      else if (scorePct >= 80) xpAmount += 30; // Good score bonus
-      else if (scorePct >= 70) xpAmount += 20; // Passing score bonus
-
-      // Time bonus (if completed in less than half the time limit)
-      const timeSpent = (quiz?.time_limit ?? 300) - secondsLeft;
-      const timeLimit = quiz?.time_limit ?? 300;
-      if (timeSpent < timeLimit / 2) {
-        xpAmount += 25; // Speed bonus
-      }
+      const xpAmount = correct; // 1 XP per correct answer
 
       // Award XP and update streak
-      awardXP(xpAmount, `Quiz completed: ${quiz?.title} (${scorePct}%)`, data.id, 'quiz');
+      awardXP(xpAmount, `Quiz completed: ${quiz?.title} (${correct}/${total} correct)`, data.id, 'quiz');
       updateStreak();
 
       // Update quizzes completed count
