@@ -73,12 +73,46 @@ export function useGamification() {
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) return;
 
+      console.log('Initializing gamification for user:', user.id);
+
+      // Try using the RPC function first
       const { data, error } = await supabase.rpc('initialize_user_gamification', {
         user_uuid: user.id
       });
 
-      if (error) throw error;
-      await fetchGamificationData();
+      if (error) {
+        console.log('RPC function failed, trying direct insert:', error);
+        
+        // Fallback: direct insert
+        const { data: insertData, error: insertError } = await supabase
+          .from('user_gamification')
+          .insert({
+            user_id: user.id,
+            total_xp: 0,
+            current_level: 1,
+            xp_to_next_level: 100,
+            current_streak: 0,
+            longest_streak: 0,
+            last_activity: new Date().toISOString().split('T')[0],
+            total_time_studied: 0,
+            modules_completed: 0,
+            quizzes_completed: 0,
+            perfect_scores: 0
+          })
+          .select()
+          .single();
+
+        if (insertError) {
+          console.error('Failed to initialize gamification:', insertError);
+          return;
+        }
+
+        console.log('Successfully initialized gamification via direct insert:', insertData);
+        setGamificationData(insertData);
+      } else {
+        console.log('Successfully initialized gamification via RPC');
+        await fetchGamificationData();
+      }
     } catch (error) {
       console.error('Error initializing gamification:', error);
     }
@@ -88,25 +122,51 @@ export function useGamification() {
   const fetchGamificationData = async () => {
     try {
       const { data: { user } } = await supabase.auth.getUser();
-      if (!user) return;
+      if (!user) {
+        console.log('No authenticated user found');
+        setLoading(false);
+        return;
+      }
+
+      console.log('Fetching gamification data for user:', user.id);
 
       const { data, error } = await supabase
         .from('user_gamification')
         .select('*')
         .eq('user_id', user.id)
-        .single();
+        .maybeSingle();
 
-      if (error && error.code !== 'PGRST116') {
+      if (error) {
+        console.error('Error fetching gamification data:', error);
         throw error;
       }
 
       if (data) {
+        console.log('Found existing gamification data:', data);
         setGamificationData(data);
       } else {
+        console.log('No gamification data found, initializing...');
         await initializeGamification();
       }
     } catch (error) {
       console.error('Error fetching gamification data:', error);
+      // Set default data if there's an error
+      setGamificationData({
+        id: '',
+        user_id: '',
+        total_xp: 0,
+        current_level: 1,
+        xp_to_next_level: 100,
+        current_streak: 0,
+        longest_streak: 0,
+        last_activity: new Date().toISOString().split('T')[0],
+        total_time_studied: 0,
+        modules_completed: 0,
+        quizzes_completed: 0,
+        perfect_scores: 0,
+        created_at: new Date().toISOString(),
+        updated_at: new Date().toISOString()
+      });
     }
   };
 
