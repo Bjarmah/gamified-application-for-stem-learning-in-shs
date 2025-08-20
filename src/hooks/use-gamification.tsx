@@ -475,20 +475,21 @@ export function useGamification() {
     return `Great job! You've maintained your ${gamificationData.current_streak}-day streak.`;
   };
 
-  // Award XP based on quiz performance (1 XP per mark/percentage)
+  // Award XP based on quiz performance (1 XP per correct answer)
   const awardQuizXP = async (
-    score: number,
+    correctAnswers: number,
+    totalQuestions: number,
     quizTitle: string,
     referenceId?: string
   ) => {
     try {
-      // Award 1 XP per mark (score percentage)
-      const xpAmount = score;
+      // Award 1 XP per correct answer
+      const xpAmount = correctAnswers;
 
       // Award the XP
       await awardXP(
         xpAmount,
-        `Quiz completed: ${quizTitle} (${score}%)`,
+        `Quiz completed: ${quizTitle} (${correctAnswers}/${totalQuestions} correct)`,
         referenceId,
         'quiz'
       );

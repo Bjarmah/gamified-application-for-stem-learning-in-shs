@@ -288,8 +288,8 @@ const Quiz: React.FC = () => {
       // Award XP based on quiz performance
       const scorePct = total ? Math.round((correct / total) * 100) : 0;
 
-      // Award XP using the new system (1 XP per mark)
-      await awardQuizXP(scorePct, quiz?.title || 'Quiz', data.id);
+      // Award XP using the new system (1 XP per correct answer)
+      await awardQuizXP(correct, total, quiz?.title || 'Quiz', data.id);
 
       // Update streak
       updateStreak();
@@ -425,7 +425,7 @@ const Quiz: React.FC = () => {
               <div className="flex items-start gap-3">
                 <Trophy className="h-4 w-4 mt-0.5 text-stemGreen" />
                 <div>
-                  <p className="font-medium">Passing score: 70%</p>
+                  <p className="font-medium">XP System: 1 XP per correct answer</p>
                   <p className="text-muted-foreground">Score 70% or higher to complete this module and earn XP</p>
                 </div>
               </div>
@@ -495,6 +495,7 @@ const Quiz: React.FC = () => {
               <div className="flex justify-between"><span>Score</span><span className="font-medium">{Math.round((correct / total) * 100)}%</span></div>
               <div className="flex justify-between"><span>Correct</span><span className="font-medium">{correct}/{total}</span></div>
               <div className="flex justify-between"><span>Time Spent</span><span className="font-medium">{secondsToMMSS((quiz.time_limit ?? 300) - secondsLeft)}</span></div>
+              <div className="flex justify-between"><span>XP Earned</span><span className="font-medium text-stemGreen">+{correct} XP</span></div>
             </div>
 
             {/* Module completion status */}
