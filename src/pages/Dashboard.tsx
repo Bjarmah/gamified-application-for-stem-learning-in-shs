@@ -29,7 +29,7 @@ const Dashboard: React.FC = () => {
   const navigate = useNavigate();
   const [stats, setStats] = useState<any>(null);
   const [loading, setLoading] = useState(true);
-  const { gamificationData, loading: gamificationLoading, getXpForNextLevel, getLevelProgress, checkDailyActivity } = useGamification();
+  const { gamificationData, loading: gamificationLoading, getXpForNextLevel, getLevelProgress } = useGamification();
   const { profile, user } = useAuth();
 
   useEffect(() => {
@@ -45,10 +45,7 @@ const Dashboard: React.FC = () => {
     };
 
     loadStats();
-
-    // Check daily activity to update streak when dashboard is accessed
-    checkDailyActivity();
-  }, [checkDailyActivity]);
+  }, []);
 
   if (loading) {
     return (

@@ -8,19 +8,11 @@ import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/context/AuthContext";
 import { FloatingAIChatbot } from "@/components/ai-chatbot";
-import { useGamification } from "@/hooks/use-gamification";
-import { useEffect } from "react";
 
 
 const Subjects = () => {
   const { data: subjects, isLoading, error } = useSubjects();
   const { user } = useAuth();
-  const { checkDailyActivity } = useGamification();
-
-  // Check daily activity when page loads
-  useEffect(() => {
-    checkDailyActivity();
-  }, [checkDailyActivity]);
 
   // Fetch module counts from database for each subject
   const { data: moduleCounts, isLoading: moduleCountsLoading } = useQuery({
