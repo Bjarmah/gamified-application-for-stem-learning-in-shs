@@ -164,6 +164,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         title: "Logged out",
         description: "You have been logged out successfully.",
       });
+
+      // Redirect to login page after successful logout
+      window.location.href = '/login';
     } catch (error: any) {
       toast({
         title: "Error signing out",

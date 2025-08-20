@@ -30,6 +30,7 @@ import AdminDashboard from "./pages/AdminDashboard";
 import AdminSubjects from "./pages/AdminSubjects";
 import NotFound from "./pages/NotFound";
 import Leaderboard from "./pages/Leaderboard";
+import ProtectedRoute from "./components/auth/ProtectedRoute";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -57,7 +58,7 @@ function App() {
                       <Route path="/" element={<Index />} />
                       <Route path="/login" element={<Login />} />
                       <Route path="/register" element={<Register />} />
-                      <Route path="/*" element={<AppLayout />}>
+                      <Route path="/*" element={<ProtectedRoute><AppLayout /></ProtectedRoute>}>
                         <Route path="dashboard" element={<Dashboard />} />
                         <Route path="subjects" element={<Subjects />} />
                         <Route path="subjects/:subjectId" element={<SubjectDetail />} />
