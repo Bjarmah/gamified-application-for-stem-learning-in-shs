@@ -807,8 +807,8 @@ const RoomDetail = () => {
 
                                             <div className="text-right">
                                                 <div className={`text-2xl font-bold ${attempt.percentage >= (quiz?.passing_score || 70)
-                                                        ? 'text-green-600'
-                                                        : 'text-red-600'
+                                                    ? 'text-green-600'
+                                                    : 'text-red-600'
                                                     }`}>
                                                     {attempt.percentage}%
                                                 </div>
@@ -994,11 +994,10 @@ const RoomDetail = () => {
                     </div>
                 )}
             </Tabs>
-        </div>
 
-        {/* AI Learning Assistant */ }
-    <FloatingAIChatbot position="bottom-right" />
-    </div >
+            {/* AI Learning Assistant */}
+            <FloatingAIChatbot position="bottom-right" />
+        </div>
   );
 };
 
