@@ -1121,11 +1121,11 @@ class DNASimulationGame implements LabGame {
     /**
      * Starts or resumes the animation based on the current step.
      */
-    private startAnimation = (): void => {
+    private startAnimation = (time: DOMHighResTimeStamp = 0): void => {
         if (this.animationFrameId) {
             cancelAnimationFrame(this.animationFrameId);
         }
-        this.lastTime = performance.now();
+        this.lastTime = time;
         const animate = (time: number) => {
             const deltaTime = time - this.lastTime;
             this.lastTime = time;
@@ -1135,15 +1135,15 @@ class DNASimulationGame implements LabGame {
                 this.replicationForkY = this.unwindProgress * (this.dnaLength * this.baseSpacing);
                 // Mark base pairs as unwound as the fork passes them
                 const unwoundCount = Math.floor(this.unwindProgress * this.dnaLength);
-                for(let i = 0; i < unwoundCount; i++) {
+                for (let i = 0; i < unwoundCount; i++) {
                     if (this.dnaBasePairs[i]) this.dnaBasePairs[i].isUnwound = true;
                 }
             } else if (this.currentStep === 3) { // Synthesis
                 this.synthesisProgress = Math.min(1, this.synthesisProgress + this.animationSpeed * deltaTime);
                 // Mark base pairs as synthesized
                 const synthesizedCount = Math.floor(this.synthesisProgress * this.dnaLength);
-                for(let i = 0; i < synthesizedCount; i++) {
-                     if (this.dnaBasePairs[i]) this.dnaBasePairs[i].isSynthesized = true;
+                for (let i = 0; i < synthesizedCount; i++) {
+                    if (this.dnaBasePairs[i]) this.dnaBasePairs[i].isSynthesized = true;
                 }
             }
 
@@ -1297,23 +1297,23 @@ class DNASimulationGame implements LabGame {
             this.ctx.fillStyle = '#006400'; // DarkGreen for DNA Polymerase
             // Leading strand polymerase
             this.ctx.beginPath();
-            this.ctx.arc(centerX - 30 + (this.helixRadius * Math.sin( (this.dnaLength * this.synthesisProgress) * 0.5)),
-                         topY + (this.dnaLength * this.synthesisProgress) * this.baseSpacing - 10, // Slightly offset
-                         12, 0, Math.PI * 2);
+            this.ctx.arc(centerX - 30 + (this.helixRadius * Math.sin((this.dnaLength * this.synthesisProgress) * 0.5)),
+                topY + (this.dnaLength * this.synthesisProgress) * this.baseSpacing - 10, // Slightly offset
+                12, 0, Math.PI * 2);
             this.ctx.fill();
             this.ctx.fillStyle = 'white';
-            this.ctx.fillText("P", centerX - 30 + (this.helixRadius * Math.sin( (this.dnaLength * this.synthesisProgress) * 0.5)),
-                         topY + (this.dnaLength * this.synthesisProgress) * this.baseSpacing - 10);
+            this.ctx.fillText("P", centerX - 30 + (this.helixRadius * Math.sin((this.dnaLength * this.synthesisProgress) * 0.5)),
+                topY + (this.dnaLength * this.synthesisProgress) * this.baseSpacing - 10);
 
             // Lagging strand polymerase (simplified representation)
             this.ctx.beginPath();
-            this.ctx.arc(centerX + 30 + (-this.helixRadius * Math.sin( (this.dnaLength * this.synthesisProgress) * 0.5)),
-                         topY + (this.dnaLength * this.synthesisProgress) * this.baseSpacing + 10, // Slightly offset
-                         12, 0, Math.PI * 2);
+            this.ctx.arc(centerX + 30 + (-this.helixRadius * Math.sin((this.dnaLength * this.synthesisProgress) * 0.5)),
+                topY + (this.dnaLength * this.synthesisProgress) * this.baseSpacing + 10, // Slightly offset
+                12, 0, Math.PI * 2);
             this.ctx.fill();
             this.ctx.fillStyle = 'white';
-            this.ctx.fillText("P", centerX + 30 + (-this.helixRadius * Math.sin( (this.dnaLength * this.synthesisProgress) * 0.5)),
-                         topY + (this.dnaLength * this.synthesisProgress) * this.baseSpacing + 10);
+            this.ctx.fillText("P", centerX + 30 + (-this.helixRadius * Math.sin((this.dnaLength * this.synthesisProgress) * 0.5)),
+                topY + (this.dnaLength * this.synthesisProgress) * this.baseSpacing + 10);
         }
     }
 
@@ -1344,6 +1344,263 @@ class DNASimulationGame implements LabGame {
     }
 }
 
+/**
+ * @class GasLawsSimulator
+ * @implements LabGame
+ * @description A chemistry lab game simulating Boyle's Law. Users can adjust
+ * the volume of a gas and observe changes in pressure, with a visual representation
+ * of gas particles in a container.
+ */
+class GasLawsSimulator implements LabGame {
+    public id: string = "gas-laws";
+    public name: string = "Gas Laws Simulator (Boyle's Law)";
+    public description: string = "Explore how pressure and volume of a gas relate at constant temperature.";
+
+    private containerElement: HTMLElement | null = null;
+    private volumeSlider: HTMLInputElement | null = null;
+    private volumeDisplay: HTMLElement | null = null;
+    private pressureDisplay: HTMLElement | null = null;
+    private gasCanvas: HTMLCanvasElement | null = null;
+    private ctx: CanvasRenderingContext2D | null = null;
+
+    private initialVolume: number = 100; // Represents initial arbitrary volume units
+    private currentVolume: number = this.initialVolume;
+    private constantTemperature: number = 300; // K (arbitrary constant temperature)
+    private kValue: number = 10000; // PV = k, so k = initialPressure * initialVolume. Let's make it 100 * 100.
+
+    private particles: { x: number; y: number; vx: number; vy: number; }[] = [];
+    private numParticles: number = 100;
+    private particleRadius: number = 2;
+    private animationFrameId: number | null = null;
+    private lastTime: number = 0;
+
+    /**
+     * @constructor
+     * @description Initializes the GasLawsSimulator instance.
+     */
+    constructor() {
+        // Constructor is kept light. DOM interaction in 'initialize'.
+    }
+
+    /**
+     * @method initialize
+     * @param containerId The ID of the HTML element to inject the game UI into.
+     */
+    initialize(containerId: string): void {
+        this.containerElement = document.getElementById(containerId);
+        if (!this.containerElement) {
+            console.error(`Error: Container element with ID '${containerId}' not found for GasLawsSimulator.`);
+            return;
+        }
+
+        this.containerElement.innerHTML = `
+            <div class="lab-game-container p-4 md:p-8 bg-gradient-to-br from-indigo-100 to-sky-100 rounded-2xl shadow-xl border border-gray-200 w-full max-w-2xl mx-auto my-8 font-inter">
+                <h3 class="text-3xl font-extrabold text-center text-gray-800 mb-6">
+                    ${this.name}
+                </h3>
+                
+                <p class="text-md text-gray-600 text-center mb-6">
+                    Change the volume to see the effect on gas pressure (constant temperature).
+                </p>
+
+                <div class="p-4 bg-white rounded-xl shadow-inner border border-gray-200 mb-6">
+                    <label for="volumeSlider" class="block text-lg font-semibold text-gray-700 mb-2">
+                        Volume: <span id="volumeDisplay" class="font-bold text-blue-600">${this.currentVolume}</span> units
+                    </label>
+                    <input type="range" id="volumeSlider" min="10" max="200" step="1" value="${this.currentVolume}"
+                           class="w-full h-3 bg-gradient-to-r from-teal-400 to-blue-400 rounded-full appearance-none cursor-pointer focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 transition duration-300">
+                </div>
+
+                <div class="text-center mb-6 p-4 bg-gray-50 rounded-xl shadow-inner border border-gray-200">
+                    <p class="text-2xl font-bold">
+                        Pressure: <span id="pressureDisplay" class="font-extrabold text-red-600">0.00</span> arbitrary units
+                    </p>
+                    <p class="text-lg font-medium text-gray-700 mt-1">
+                        Temperature: <span class="font-bold">${this.constantTemperature} K (Constant)</span>
+                    </p>
+                </div>
+
+                <div class="relative w-full overflow-hidden rounded-xl shadow-md border border-gray-300 bg-white flex justify-center items-center">
+                    <canvas id="gasCanvas" class="w-full h-80 block bg-gray-100"></canvas>
+                </div>
+            </div>
+        `;
+
+        this.volumeSlider = this.containerElement.querySelector("#volumeSlider") as HTMLInputElement;
+        this.volumeDisplay = this.containerElement.querySelector("#volumeDisplay");
+        this.pressureDisplay = this.containerElement.querySelector("#pressureDisplay");
+        this.gasCanvas = this.containerElement.querySelector("#gasCanvas") as HTMLCanvasElement;
+        this.ctx = this.gasCanvas.getContext("2d");
+
+        this.resizeCanvas();
+        window.addEventListener('resize', this.resizeCanvas.bind(this));
+
+        if (this.volumeSlider) {
+            this.volumeSlider.addEventListener("input", this.handleVolumeChange);
+        }
+
+        this.generateParticles(); // Initialize particle positions
+        this.calculatePressure(); // Calculate initial pressure
+        this.startAnimation(); // Start particle animation
+    }
+
+    /**
+     * Resizes the canvas and recalculates particle positions based on new dimensions.
+     */
+    private resizeCanvas = (): void => {
+        if (this.gasCanvas) {
+            this.gasCanvas.width = this.gasCanvas.offsetWidth;
+            this.gasCanvas.height = this.gasCanvas.offsetHeight;
+            this.generateParticles(); // Regenerate particles for new canvas size
+            this.calculatePressure();
+        }
+    }
+
+    /**
+     * Generates random initial positions and velocities for gas particles.
+     */
+    private generateParticles(): void {
+        this.particles = [];
+        if (!this.gasCanvas) return;
+
+        // Scale visual width based on currentVolume relative to initialVolume, with a factor
+        const boundsWidth = this.gasCanvas.width * (this.currentVolume / this.initialVolume) * 0.7;
+        const boundsHeight = this.gasCanvas.height * 0.9; // Constant height for container
+        const minX = (this.gasCanvas.width - boundsWidth) / 2;
+        const maxX = minX + boundsWidth;
+        const minY = (this.gasCanvas.height - boundsHeight) / 2;
+        const maxY = minY + boundsHeight;
+
+        for (let i = 0; i < this.numParticles; i++) {
+            this.particles.push({
+                x: Math.random() * boundsWidth + minX,
+                y: Math.random() * boundsHeight + minY,
+                vx: (Math.random() - 0.5) * 2, // -1 to 1 range for velocity
+                vy: (Math.random() - 0.5) * 2,
+            });
+        }
+    }
+
+    /**
+     * Handles changes in the volume slider.
+     */
+    private handleVolumeChange = (): void => {
+        if (this.volumeSlider) {
+            this.currentVolume = parseFloat(this.volumeSlider.value);
+            if (this.volumeDisplay) {
+                this.volumeDisplay.textContent = this.currentVolume.toFixed(0);
+            }
+            this.generateParticles(); // Update particle positions for new volume
+            this.calculatePressure();
+        }
+    }
+
+    /**
+     * Calculates and displays pressure based on Boyle's Law (P = k/V).
+     */
+    private calculatePressure(): void {
+        if (this.pressureDisplay) {
+            const pressure = this.kValue / this.currentVolume;
+            this.pressureDisplay.textContent = pressure.toFixed(2);
+        }
+    }
+
+    /**
+     * Updates particle positions and handles boundary collisions.
+     */
+    update(deltaTime: number): void {
+        if (!this.gasCanvas) return;
+
+        const boundsWidth = this.gasCanvas.width * (this.currentVolume / this.initialVolume) * 0.7;
+        const boundsHeight = this.gasCanvas.height * 0.9;
+        const minX = (this.gasCanvas.width - boundsWidth) / 2;
+        const maxX = minX + boundsWidth;
+        const minY = (this.gasCanvas.height - boundsHeight) / 2;
+        const maxY = minY + boundsHeight;
+
+        this.particles.forEach(p => {
+            p.x += p.vx * deltaTime * 0.1; // Scale speed by deltaTime
+            p.y += p.vy * deltaTime * 0.1;
+
+            // Bounce off walls
+            if (p.x < minX + this.particleRadius || p.x > maxX - this.particleRadius) {
+                p.vx *= -1;
+                p.x = Math.max(minX + this.particleRadius, Math.min(p.x, maxX - this.particleRadius)); // Prevent sticking
+            }
+            if (p.y < minY + this.particleRadius || p.y > maxY - this.particleRadius) {
+                p.vy *= -1;
+                p.y = Math.max(minY + this.particleRadius, Math.min(p.y, maxY - this.particleRadius)); // Prevent sticking
+            }
+        });
+    }
+
+    /**
+     * Renders the gas container and particles on the canvas.
+     */
+    render(): void {
+        if (!this.ctx || !this.gasCanvas) return;
+
+        this.ctx.clearRect(0, 0, this.gasCanvas.width, this.gasCanvas.height);
+
+        const boundsWidth = this.gasCanvas.width * (this.currentVolume / this.initialVolume) * 0.7;
+        const boundsHeight = this.gasCanvas.height * 0.9;
+        const minX = (this.gasCanvas.width - boundsWidth) / 2;
+        const maxX = minX + boundsWidth;
+        const minY = (this.gasCanvas.height - boundsHeight) / 2;
+        const maxY = minY + boundsHeight;
+
+        // Draw container
+        this.ctx.strokeStyle = '#6B7280'; // Gray-600
+        this.ctx.lineWidth = 2;
+        this.ctx.strokeRect(minX, minY, boundsWidth, boundsHeight);
+
+        // Draw particles
+        this.ctx.fillStyle = '#10B981'; // Emerald-500
+        this.particles.forEach(p => {
+            this.ctx.beginPath();
+            this.ctx.arc(p.x, p.y, this.particleRadius, 0, Math.PI * 2);
+            this.ctx.fill();
+        });
+    }
+
+    /**
+     * Starts the animation loop for particles.
+     */
+    private startAnimation = (time: DOMHighResTimeStamp = 0): void => {
+        const deltaTime = time - this.lastTime;
+        this.lastTime = time;
+
+        this.update(deltaTime);
+        this.render();
+
+        this.animationFrameId = requestAnimationFrame(this.startAnimation);
+    }
+
+    /**
+     * Stops the animation loop.
+     */
+    private stopAnimation = (): void => {
+        if (this.animationFrameId) {
+            cancelAnimationFrame(this.animationFrameId);
+            this.animationFrameId = null;
+        }
+    }
+
+    /**
+     * Disposes of event listeners and clears the container.
+     */
+    dispose(): void {
+        this.stopAnimation();
+        if (this.volumeSlider) {
+            this.volumeSlider.removeEventListener("input", this.handleVolumeChange);
+        }
+        window.removeEventListener('resize', this.resizeCanvas);
+        if (this.containerElement) {
+            this.containerElement.innerHTML = "";
+        }
+    }
+}
+
 // Export the interface and the game class for easy import into your application.
 export type { LabGame };
-export { PHSimulationGame, ProjectileMotionGame, CellStructureGame, DNASimulationGame };
+export { PHSimulationGame, ProjectileMotionGame, CellStructureGame, DNASimulationGame, GasLawsSimulator };

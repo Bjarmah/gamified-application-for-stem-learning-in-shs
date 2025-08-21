@@ -12,6 +12,7 @@ import PHGameWrapper from '@/components/lab/PHGameWrapper';
 import ProjectileMotionWrapper from '@/components/lab/ProjectileMotionWrapper';
 import CellStructureWrapper from '@/components/lab/CellStructureWrapper';
 import DNAGameWrapper from '@/components/lab/DNAGameWrapper';
+import GasLawsWrapper from '@/components/lab/GasLawsWrapper';
 import { FloatingAIChatbot } from '@/components/ai-chatbot';
 
 const VirtualLab = () => {
@@ -47,6 +48,14 @@ const VirtualLab = () => {
         difficulty: 'Beginner',
         duration: '10 minutes',
         ariaLabel: 'Start pH scale interactive game'
+      },
+      {
+        id: 'gas-laws',
+        title: 'Gas Laws Simulator',
+        description: 'Simulate and visualize gas behavior based on different laws',
+        difficulty: 'Intermediate',
+        duration: '20 minutes',
+        ariaLabel: 'Start gas laws simulation experiment'
       }
     ],
     physics: [
@@ -159,6 +168,9 @@ const VirtualLab = () => {
           <main role="main" aria-label="Experiment content">
             {subject === 'chemistry' && experimentId === 'ph-scale-game' && (
               <PHGameWrapper experimentId={experimentId} />
+            )}
+            {subject === 'chemistry' && experimentId === 'gas-laws' && (
+              <GasLawsWrapper experimentId={experimentId} />
             )}
             {subject === 'chemistry' && experimentId !== 'ph-scale-game' && (
               <ChemistryLab experimentId={experimentId} />
