@@ -19,6 +19,7 @@ import { FloatingAIChatbot } from '@/components/ai-chatbot';
 const VirtualLab = () => {
   const navigate = useNavigate();
   const [activeExperiment, setActiveExperiment] = useState<string | null>(null);
+  const [activeSubjectTab, setActiveSubjectTab] = useState<string>('chemistry');
 
   useEffect(() => {
     // Component mounted
@@ -161,7 +162,11 @@ const VirtualLab = () => {
           <div className="flex items-center gap-4 mb-6">
             <Button
               variant="outline"
-              onClick={() => setActiveExperiment(null)}
+              onClick={() => {
+                setActiveExperiment(null);
+                // Restore the subject tab that was active when the experiment was started
+                setActiveSubjectTab(subject);
+              }}
               className="flex items-center gap-2"
               aria-label="Go back to lab overview"
             >
@@ -226,7 +231,7 @@ const VirtualLab = () => {
         </header>
 
         <main role="main">
-          <Tabs defaultValue="chemistry" className="space-y-6">
+          <Tabs value={activeSubjectTab} onValueChange={setActiveSubjectTab} className="space-y-6">
             <TabsList className="grid w-full grid-cols-4" role="tablist">
               <TabsTrigger
                 value="chemistry"
@@ -294,6 +299,7 @@ const VirtualLab = () => {
                           className="w-full"
                           onClick={() => {
                             setActiveExperiment(`${subject}-${experiment.id}`);
+                            setActiveSubjectTab(subject);
                           }}
                           aria-label={experiment.ariaLabel}
                         >
