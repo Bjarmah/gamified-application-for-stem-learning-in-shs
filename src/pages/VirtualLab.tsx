@@ -3,12 +3,14 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Beaker, Zap, Calculator, Microscope, ArrowLeft, Play } from 'lucide-react';
+import { Beaker, Zap, Calculator, Microscope, ArrowLeft, Play, Dna } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import ChemistryLab from '@/components/lab/ChemistryLab';
 import PhysicsLab from '@/components/lab/PhysicsLab';
 import MathLab from '@/components/lab/MathLab';
 import PHGameWrapper from '@/components/lab/PHGameWrapper';
+import ProjectileMotionWrapper from '@/components/lab/ProjectileMotionWrapper';
+import CellStructureWrapper from '@/components/lab/CellStructureWrapper';
 
 const VirtualLab = () => {
   const navigate = useNavigate();
@@ -47,6 +49,14 @@ const VirtualLab = () => {
     ],
     physics: [
       {
+        id: 'projectile-motion',
+        title: 'Projectile Motion Simulator',
+        description: 'Simulate projectile motion by adjusting launch speed and angle',
+        difficulty: 'Intermediate',
+        duration: '20 minutes',
+        ariaLabel: 'Start projectile motion simulation experiment'
+      },
+      {
         id: 'wave-simulation',
         title: 'Wave Properties Simulator',
         description: 'Visualize wave behavior, frequency, and amplitude',
@@ -61,6 +71,16 @@ const VirtualLab = () => {
         difficulty: 'Advanced',
         duration: '30 minutes',
         ariaLabel: 'Start circuit builder experiment'
+      }
+    ],
+    biology: [
+      {
+        id: 'cell-structure',
+        title: 'Cell Structure Viewer',
+        description: 'Explore cell parts and learn their functions by clicking',
+        difficulty: 'Beginner',
+        duration: '15 minutes',
+        ariaLabel: 'Start cell structure viewer experiment'
       }
     ],
     math: [
@@ -97,13 +117,15 @@ const VirtualLab = () => {
       case 'chemistry': return <Beaker className="h-5 w-5" aria-hidden="true" />;
       case 'physics': return <Zap className="h-5 w-5" aria-hidden="true" />;
       case 'math': return <Calculator className="h-5 w-5" aria-hidden="true" />;
+      case 'biology': return <Dna className="h-5 w-5" aria-hidden="true" />;
       default: return <Microscope className="h-5 w-5" aria-hidden="true" />;
     }
   };
 
   if (activeExperiment) {
-    const [subject, experimentId] = activeExperiment.split('-', 2);
-    
+    const parts = activeExperiment.split('-');
+    const subject = parts[0];
+    const experimentId = parts.slice(1).join('-'); // Handle experiment IDs with hyphens
     
     return (
       <div className="min-h-screen bg-background">
@@ -131,7 +153,15 @@ const VirtualLab = () => {
             {subject === 'chemistry' && experimentId !== 'ph-scale-game' && (
               <ChemistryLab experimentId={experimentId} />
             )}
-            {subject === 'physics' && <PhysicsLab experimentId={experimentId} />}
+            {subject === 'physics' && experimentId === 'projectile-motion' && (
+              <ProjectileMotionWrapper experimentId={experimentId} />
+            )}
+            {subject === 'physics' && experimentId !== 'projectile-motion' && (
+              <PhysicsLab experimentId={experimentId} />
+            )}
+            {subject === 'biology' && experimentId === 'cell-structure' && (
+              <CellStructureWrapper experimentId={experimentId} />
+            )}
             {subject === 'math' && <MathLab experimentId={experimentId} />}
           </main>
         </div>
@@ -160,7 +190,7 @@ const VirtualLab = () => {
 
         <main role="main">
           <Tabs defaultValue="chemistry" className="space-y-6">
-            <TabsList className="grid w-full grid-cols-3" role="tablist">
+            <TabsList className="grid w-full grid-cols-4" role="tablist">
               <TabsTrigger 
                 value="chemistry" 
                 className="flex items-center gap-2"
@@ -178,6 +208,15 @@ const VirtualLab = () => {
               >
                 <Zap className="h-4 w-4" aria-hidden="true" />
                 Physics
+              </TabsTrigger>
+              <TabsTrigger 
+                value="biology" 
+                className="flex items-center gap-2"
+                role="tab"
+                aria-label="Biology experiments"
+              >
+                <Dna className="h-4 w-4" aria-hidden="true" />
+                Biology
               </TabsTrigger>
               <TabsTrigger 
                 value="math" 
