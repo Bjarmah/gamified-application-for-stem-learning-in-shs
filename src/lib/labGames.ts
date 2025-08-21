@@ -1601,6 +1601,290 @@ class GasLawsSimulator implements LabGame {
     }
 }
 
+/**
+ * @class SimpleHarmonicMotionSimulator
+ * @implements LabGame
+ * @description A physics lab game simulating a mass-spring system in SHM.
+ * Users can adjust mass and spring constant to observe the oscillation.
+ */
+class SimpleHarmonicMotionSimulator implements LabGame {
+    public id: string = "shm-simulator";
+    public name: string = "Simple Harmonic Motion Simulator";
+    public description: string = "Observe a mass-spring system in simple harmonic motion.";
+
+    private containerElement: HTMLElement | null = null;
+    private massSlider: HTMLInputElement | null = null;
+    private springConstantSlider: HTMLInputElement | null = null;
+    private massDisplay: HTMLElement | null = null;
+    private springConstantDisplay: HTMLElement | null = null;
+    private periodDisplay: HTMLElement | null = null;
+    private amplitudeDisplay: HTMLElement | null = null;
+    private shmCanvas: HTMLCanvasElement | null = null;
+    private ctx: CanvasRenderingContext2D | null = null;
+
+    // Physics properties
+    private mass: number = 1; // kg
+    private springConstant: number = 50; // N/m
+    private amplitude: number = 80; // pixels (max displacement from equilibrium)
+    private equilibriumY: number = 0; // Will be set to canvas center initially
+    private positionY: number = 0;
+    private velocity: number = 0; // Not directly used in current position calculation, but typical for SHM state
+    private angularFrequency: number = 0;
+    private period: number = 0;
+    private time: number = 0; // Simulation time
+
+    private animationFrameId: number | null = null;
+    private lastTime: number = 0;
+
+    /**
+     * @constructor
+     * @description Initializes the SimpleHarmonicMotionSimulator instance.
+     */
+    constructor() {
+        // Constructor is kept light. DOM interaction in 'initialize'.
+    }
+
+    /**
+     * @method initialize
+     * @param containerId The ID of the HTML element to inject the game UI into.
+     */
+    initialize(containerId: string): void {
+        this.containerElement = document.getElementById(containerId);
+        if (!this.containerElement) {
+            console.error(`Error: Container element with ID '${containerId}' not found for SimpleHarmonicMotionSimulator.`);
+            return;
+        }
+
+        this.containerElement.innerHTML = `
+            <div class="lab-game-container p-4 md:p-8 bg-gradient-to-br from-purple-100 to-pink-100 rounded-2xl shadow-xl border border-gray-200 w-full max-w-2xl mx-auto my-8 font-inter">
+                <h3 class="text-3xl font-extrabold text-center text-gray-800 mb-6">
+                    ${this.name}
+                </h3>
+                
+                <p class="text-md text-gray-600 text-center mb-6">
+                    Adjust mass and spring constant to observe oscillation.
+                </p>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                    <div class="p-4 bg-white rounded-xl shadow-inner border border-gray-200">
+                        <label for="massSlider" class="block text-lg font-semibold text-gray-700 mb-2">
+                            Mass (kg): <span id="massDisplay" class="font-bold text-purple-600">${this.mass}</span> kg
+                        </label>
+                        <input type="range" id="massSlider" min="0.1" max="10" step="0.1" value="${this.mass}"
+                               class="w-full h-3 bg-gradient-to-r from-gray-300 to-purple-400 rounded-full appearance-none cursor-pointer focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-opacity-50 transition duration-300">
+                    </div>
+                    <div class="p-4 bg-white rounded-xl shadow-inner border border-gray-200">
+                        <label for="springConstantSlider" class="block text-lg font-semibold text-gray-700 mb-2">
+                            Spring Constant (N/m): <span id="springConstantDisplay" class="font-bold text-purple-600">${this.springConstant}</span> N/m
+                        </label>
+                        <input type="range" id="springConstantSlider" min="10" max="500" step="10" value="${this.springConstant}"
+                               class="w-full h-3 bg-gradient-to-r from-gray-300 to-indigo-400 rounded-full appearance-none cursor-pointer focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-50 transition duration-300">
+                    </div>
+                </div>
+
+                <div class="text-center mb-6 p-4 bg-gray-50 rounded-xl shadow-inner border border-gray-200">
+                    <p class="text-xl font-bold">
+                        Period (T): <span id="periodDisplay" class="font-extrabold text-teal-600">0.00</span> s
+                    </p>
+                    <p class="text-xl font-bold mt-1">
+                        Amplitude: <span id="amplitudeDisplay" class="font-extrabold text-teal-600">80</span> px
+                    </p>
+                </div>
+
+                <div class="relative w-full overflow-hidden rounded-xl shadow-md border border-gray-300 bg-white flex justify-center items-center">
+                    <canvas id="shmCanvas" class="w-full h-80 block bg-gray-100"></canvas>
+                </div>
+            </div>
+        `;
+
+        this.massSlider = this.containerElement.querySelector("#massSlider") as HTMLInputElement;
+        this.springConstantSlider = this.containerElement.querySelector("#springConstantSlider") as HTMLInputElement;
+        this.massDisplay = this.containerElement.querySelector("#massDisplay");
+        this.springConstantDisplay = this.containerElement.querySelector("#springConstantDisplay");
+        this.periodDisplay = this.containerElement.querySelector("#periodDisplay");
+        this.amplitudeDisplay = this.containerElement.querySelector("#amplitudeDisplay");
+        this.shmCanvas = this.containerElement.querySelector("#shmCanvas") as HTMLCanvasElement;
+        this.ctx = this.shmCanvas.getContext("2d");
+
+        this.resizeCanvas();
+        window.addEventListener('resize', this.resizeCanvas.bind(this));
+
+        if (this.massSlider) {
+            this.massSlider.addEventListener("input", this.handleSliderChange);
+        }
+        if (this.springConstantSlider) {
+            this.springConstantSlider.addEventListener("input", this.handleSliderChange);
+        }
+
+        this.calculateSHMProperties(); // Initial calculation
+        this.startAnimation(); // Start animation
+    }
+
+    /**
+     * Resizes the canvas and adjusts equilibrium position.
+     */
+    private resizeCanvas = (): void => {
+        if (this.shmCanvas) {
+            this.shmCanvas.width = this.shmCanvas.offsetWidth;
+            this.shmCanvas.height = this.shmCanvas.offsetHeight;
+            this.equilibriumY = this.shmCanvas.height / 2;
+            this.render();
+        }
+    }
+
+    /**
+     * Handles changes in the sliders for mass and spring constant.
+     */
+    private handleSliderChange = (): void => {
+        if (this.massSlider) {
+            this.mass = parseFloat(this.massSlider.value);
+            if (this.massDisplay) {
+                this.massDisplay.textContent = this.mass.toFixed(1);
+            }
+        }
+        if (this.springConstantSlider) {
+            this.springConstant = parseFloat(this.springConstantSlider.value);
+            if (this.springConstantDisplay) {
+                this.springConstantDisplay.textContent = this.springConstant.toFixed(0);
+            }
+        }
+        this.calculateSHMProperties();
+    }
+
+    /**
+     * Calculates angular frequency and period for SHM.
+     */
+    private calculateSHMProperties(): void {
+        // Angular frequency: ω = sqrt(k/m)
+        // Ensure mass is not zero to prevent division by zero errors
+        this.angularFrequency = this.mass === 0 ? 0 : Math.sqrt(this.springConstant / this.mass);
+        // Period: T = 2π/ω
+        this.period = this.angularFrequency === 0 ? Infinity : (2 * Math.PI) / this.angularFrequency;
+
+        if (this.periodDisplay) {
+            this.periodDisplay.textContent = isFinite(this.period) ? this.period.toFixed(2) : "∞";
+        }
+        // Amplitude is fixed for now, but could be user-adjustable
+        if (this.amplitudeDisplay) {
+            this.amplitudeDisplay.textContent = this.amplitude.toFixed(0);
+        }
+    }
+
+    /**
+     * Updates the position of the oscillating mass.
+     */
+    update(deltaTime: number): void {
+        this.time += deltaTime / 1000; // Convert to seconds
+
+        // Position in SHM: y(t) = A * cos(ωt)
+        this.positionY = this.amplitude * Math.cos(this.angularFrequency * this.time);
+    }
+
+    /**
+     * Renders the spring-mass system on the canvas.
+     */
+    render(): void {
+        if (!this.ctx || !this.shmCanvas) return;
+
+        this.ctx.clearRect(0, 0, this.shmCanvas.width, this.shmCanvas.height);
+
+        const centerX = this.shmCanvas.width / 2;
+        const topWallY = 30; // Y-coordinate of the fixed top wall
+        const massSize = 40; // Size of the mass square
+
+        // Draw fixed top wall
+        this.ctx.fillStyle = '#6B7280'; // Gray-600
+        this.ctx.fillRect(centerX - 50, topWallY - 5, 100, 10);
+
+        // Calculate current mass center Y
+        const currentMassCenterY = this.equilibriumY - this.positionY;
+
+        // Draw spring (simplified)
+        this.ctx.strokeStyle = '#EF4444'; // Red-500
+        this.ctx.lineWidth = 3;
+        this.ctx.beginPath();
+        this.ctx.moveTo(centerX, topWallY + 5);
+
+        // Draw spring segments (simple zigzag)
+        const numSegments = 10;
+        // Ensure springLength is not negative or zero
+        const springLength = Math.max(1, currentMassCenterY - topWallY - 5 - (massSize / 2));
+        const segmentHeight = springLength / numSegments;
+        const zigZagWidth = 10;
+
+        for (let i = 0; i < numSegments; i++) {
+            const segY = topWallY + 5 + (i * segmentHeight);
+            const isEven = i % 2 === 0;
+            this.ctx.lineTo(centerX + (isEven ? zigZagWidth : -zigZagWidth), segY + segmentHeight / 2);
+        }
+        this.ctx.lineTo(centerX, currentMassCenterY - massSize / 2); // Connect to mass
+        this.ctx.stroke();
+
+        // Draw mass
+        this.ctx.fillStyle = '#3B82F6'; // Blue-500
+        this.ctx.strokeStyle = '#1D4ED8'; // Blue-700
+        this.ctx.lineWidth = 2;
+        this.ctx.fillRect(centerX - massSize / 2, currentMassCenterY - massSize / 2, massSize, massSize);
+        this.ctx.strokeRect(centerX - massSize / 2, currentMassCenterY - massSize / 2, massSize, massSize);
+        this.ctx.fillStyle = 'white';
+        this.ctx.font = '16px Inter';
+        this.ctx.fillText(`${this.mass.toFixed(1)}kg`, centerX, currentMassCenterY + 5);
+
+        // Draw equilibrium line
+        this.ctx.strokeStyle = '#4B5563'; // Gray-700
+        this.ctx.lineWidth = 1;
+        this.ctx.setLineDash([5, 5]); // Dashed line
+        this.ctx.beginPath();
+        this.ctx.moveTo(centerX - 80, this.equilibriumY);
+        this.ctx.lineTo(centerX + 80, this.equilibriumY);
+        this.ctx.stroke();
+        this.ctx.setLineDash([]); // Reset line dash
+        this.ctx.font = '10px Inter';
+        this.ctx.fillStyle = '#4B5563';
+        this.ctx.fillText("Equilibrium", centerX + 60, this.equilibriumY - 10);
+    }
+
+    /**
+     * Starts the animation loop for the SHM simulation.
+     */
+    private startAnimation = (time: DOMHighResTimeStamp = 0): void => {
+        const deltaTime = time - this.lastTime;
+        this.lastTime = time;
+
+        this.update(deltaTime);
+        this.render();
+
+        this.animationFrameId = requestAnimationFrame(this.startAnimation);
+    }
+
+    /**
+     * Stops the animation loop.
+     */
+    private stopAnimation = (): void => {
+        if (this.animationFrameId) {
+            cancelAnimationFrame(this.animationFrameId);
+            this.animationFrameId = null;
+        }
+    }
+
+    /**
+     * Disposes of event listeners and clears the container.
+     */
+    dispose(): void {
+        this.stopAnimation();
+        if (this.massSlider) {
+            this.massSlider.removeEventListener("input", this.handleSliderChange);
+        }
+        if (this.springConstantSlider) {
+            this.springConstantSlider.removeEventListener("input", this.handleSliderChange);
+        }
+        window.removeEventListener('resize', this.resizeCanvas);
+        if (this.containerElement) {
+            this.containerElement.innerHTML = "";
+        }
+    }
+}
+
 // Export the interface and the game class for easy import into your application.
 export type { LabGame };
-export { PHSimulationGame, ProjectileMotionGame, CellStructureGame, DNASimulationGame, GasLawsSimulator };
+export { PHSimulationGame, ProjectileMotionGame, CellStructureGame, DNASimulationGame, GasLawsSimulator, SimpleHarmonicMotionSimulator };

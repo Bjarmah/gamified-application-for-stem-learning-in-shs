@@ -13,6 +13,7 @@ import ProjectileMotionWrapper from '@/components/lab/ProjectileMotionWrapper';
 import CellStructureWrapper from '@/components/lab/CellStructureWrapper';
 import DNAGameWrapper from '@/components/lab/DNAGameWrapper';
 import GasLawsWrapper from '@/components/lab/GasLawsWrapper';
+import SHMWrapper from '@/components/lab/SHMWrapper';
 import { FloatingAIChatbot } from '@/components/ai-chatbot';
 
 const VirtualLab = () => {
@@ -82,6 +83,14 @@ const VirtualLab = () => {
         difficulty: 'Advanced',
         duration: '30 minutes',
         ariaLabel: 'Start circuit builder experiment'
+      },
+      {
+        id: 'shm-simulator',
+        title: 'Simple Harmonic Motion Simulator',
+        description: 'Visualize and simulate the motion of a mass on a spring',
+        difficulty: 'Intermediate',
+        duration: '15 minutes',
+        ariaLabel: 'Start simple harmonic motion simulation experiment'
       }
     ],
     biology: [
@@ -177,6 +186,9 @@ const VirtualLab = () => {
             )}
             {subject === 'physics' && experimentId === 'projectile-motion' && (
               <ProjectileMotionWrapper experimentId={experimentId} />
+            )}
+            {subject === 'physics' && experimentId === 'shm-simulator' && (
+              <SHMWrapper experimentId={experimentId} />
             )}
             {subject === 'physics' && experimentId !== 'projectile-motion' && (
               <PhysicsLab experimentId={experimentId} />
