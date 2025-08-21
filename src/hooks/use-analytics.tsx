@@ -58,6 +58,44 @@ export interface UserAnalytics {
   }[];
 }
 
+// Helper function to generate real progress over time data
+const generateRealProgressOverTime = async (progressData: any[], quizData: any[], gamificationData: any[]) => {
+  const last30Days = Array.from({ length: 30 }, (_, i) => {
+    const date = new Date();
+    date.setDate(date.getDate() - (29 - i));
+    return date.toISOString().split('T')[0];
+  });
+
+  return last30Days.map(date => {
+    const dayStart = new Date(date);
+    const dayEnd = new Date(date);
+    dayEnd.setDate(dayEnd.getDate() + 1);
+
+    // Count modules completed on this date
+    const modulesCompleted = progressData?.filter(p => 
+      p.completed && 
+      new Date(p.last_accessed || p.created_at) >= dayStart && 
+      new Date(p.last_accessed || p.created_at) < dayEnd
+    ).length || 0;
+
+    // Count quizzes taken on this date  
+    const quizzesTaken = quizData?.filter(q =>
+      new Date(q.completed_at) >= dayStart &&
+      new Date(q.completed_at) < dayEnd
+    ).length || 0;
+
+    // Calculate XP earned on this date (simplified - based on activity)
+    const xpEarned = (modulesCompleted * 50) + (quizzesTaken * 25);
+
+    return {
+      date,
+      modules: modulesCompleted,
+      quizzes: quizzesTaken,
+      xp: xpEarned
+    };
+  });
+};
+
 export const useStudentAnalytics = () => {
   const { user } = useAuth();
   const queryClient = useQueryClient();
@@ -117,7 +155,7 @@ export const useStudentAnalytics = () => {
 
       const { data: quizData } = await supabase
         .from('quiz_attempts')
-        .select('user_id, score, total_questions, time_spent');
+        .select('user_id, score, total_questions, time_spent, completed_at');
 
       // Get gamification data
       const { data: gamificationData } = await supabase
@@ -199,17 +237,8 @@ export const useStudentAnalytics = () => {
         return acc;
       }, [] as { days: number; count: number }[]);
 
-      // Generate progress over time (mock data for last 30 days)
-      const progressOverTime = Array.from({ length: 30 }, (_, i) => {
-        const date = new Date();
-        date.setDate(date.getDate() - (29 - i));
-        return {
-          date: date.toISOString().split('T')[0],
-          modules: Math.floor(Math.random() * 10) + i, // Mock progressive data
-          quizzes: Math.floor(Math.random() * 5) + i,
-          xp: Math.floor(Math.random() * 100) + i * 10
-        };
-      });
+      // Generate progress over time from real data
+      const progressOverTime = await generateRealProgressOverTime(progressData, quizData, gamificationData);
 
       return {
         totalStudents,
