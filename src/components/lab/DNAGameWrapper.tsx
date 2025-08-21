@@ -1,23 +1,23 @@
 import React, { useEffect, useRef } from 'react';
-import { PHSimulationGame } from '@/lib/labGames';
+import { DNASimulationGame } from '@/lib/labGames';
 
-interface PHGameWrapperProps {
+interface DNAGameWrapperProps {
   experimentId: string;
 }
 
-const PHGameWrapper: React.FC<PHGameWrapperProps> = ({ experimentId }) => {
+const DNAGameWrapper: React.FC<DNAGameWrapperProps> = ({ experimentId }) => {
   const containerRef = useRef<HTMLDivElement>(null);
-  const gameRef = useRef<PHSimulationGame | null>(null);
-  const containerIdRef = useRef<string>(`ph-game-${Date.now()}`);
+  const gameRef = useRef<DNASimulationGame | null>(null);
+  const containerIdRef = useRef<string>(`dna-game-${Date.now()}`);
 
   useEffect(() => {
-    if (containerRef.current && experimentId === 'ph-scale-game') {
+    if (containerRef.current && experimentId === 'dna-replication') {
       // Create and initialize the game
-      gameRef.current = new PHSimulationGame();
-
+      gameRef.current = new DNASimulationGame();
+      
       // Set the container ID
       containerRef.current.id = containerIdRef.current;
-
+      
       // Initialize the game
       gameRef.current.initialize(containerIdRef.current);
     }
@@ -31,7 +31,7 @@ const PHGameWrapper: React.FC<PHGameWrapperProps> = ({ experimentId }) => {
     };
   }, [experimentId]);
 
-  if (experimentId !== 'ph-scale-game') {
+  if (experimentId !== 'dna-replication') {
     return <div className="text-center text-muted-foreground">Game not found</div>;
   }
 
@@ -42,4 +42,4 @@ const PHGameWrapper: React.FC<PHGameWrapperProps> = ({ experimentId }) => {
   );
 };
 
-export default PHGameWrapper;
+export default DNAGameWrapper;

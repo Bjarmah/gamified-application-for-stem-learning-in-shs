@@ -657,7 +657,7 @@ class CellStructureGame implements LabGame {
         }
     ];
 
-    constructor() {}
+    constructor() { }
 
     initialize(containerId: string): void {
         this.containerElement = document.getElementById(containerId);
@@ -700,7 +700,7 @@ class CellStructureGame implements LabGame {
             this.canvas.addEventListener("mousemove", this.handleMouseMove);
             this.canvas.addEventListener("mouseleave", this.handleMouseLeave);
         }
-        
+
         this.render();
     }
 
@@ -921,6 +921,429 @@ class CellStructureGame implements LabGame {
     }
 }
 
-// Export the interface and game classes for easy import
+/**
+ * @class DNASimulationGame
+ * @implements LabGame
+ * @description A biology lab game simulating DNA replication step by step.
+ */
+class DNASimulationGame implements LabGame {
+    public id: string = "dna-replication";
+    public name: string = "DNA Replication Simulator";
+    public description: string = "Visualize the step-by-step process of DNA replication.";
+
+    private containerElement: HTMLElement | null = null;
+    private canvas: HTMLCanvasElement | null = null;
+    private ctx: CanvasRenderingContext2D | null = null;
+    private infoDisplayElement: HTMLElement | null = null;
+    private stepDescriptionElement: HTMLElement | null = null;
+    private nextButton: HTMLButtonElement | null = null;
+    private resetButton: HTMLButtonElement | null = null;
+
+    private currentStep: number = 0;
+    private maxSteps: number = 4; // Unwind, Primer, Synthesis, Ligation (simplified)
+
+    // DNA properties
+    private dnaBasePairs: { base1: string; base2: string; isUnwound: boolean; isSynthesized: boolean }[] = [];
+    private baseSpacing: number = 20; // Vertical spacing between base pairs
+    private dnaLength: number = 15; // Number of base pairs
+    private helixRadius: number = 10; // Radius for the helix twist effect
+    private basePairOffset: number = 4; // Offset for base pairing lines
+
+    // Animation state
+    private unwindProgress: number = 0; // 0 to 1 for unwinding
+    private synthesisProgress: number = 0; // 0 to 1 for synthesis
+    private animationFrameId: number | null = null;
+    private lastTime: number = 0;
+    private animationSpeed: number = 0.005; // Adjust for faster/slower animation
+
+    // Replication fork position
+    private replicationForkY: number = 0; // Y-coordinate of the replication fork
+
+    private stepsInfo: { title: string; description: string }[] = [
+        {
+            title: "Initial DNA",
+            description: "The DNA double helix before replication begins.",
+        },
+        {
+            title: "Unwinding (Helicase)",
+            description: "Helicase enzyme unwinds the double helix, breaking hydrogen bonds between base pairs.",
+        },
+        {
+            title: "Primer Synthesis (Primase)",
+            description: "Primase synthesizes short RNA primers, providing a starting point for DNA polymerase.",
+        },
+        {
+            title: "DNA Synthesis (DNA Polymerase)",
+            description: "DNA Polymerase adds new nucleotides complementary to the template strands, synthesizing new DNA strands.",
+        },
+        {
+            title: "Ligation (Ligase) & Final",
+            description: "DNA Ligase joins Okazaki fragments on the lagging strand, completing replication. Two identical DNA molecules are formed.",
+        },
+    ];
+
+    /**
+     * @constructor
+     * @description Initializes the DNASimulationGame instance.
+     */
+    constructor() {
+        this.generateInitialDNA();
+    }
+
+    /**
+     * Generates the initial DNA base pairs.
+     */
+    private generateInitialDNA(): void {
+        const bases = ['A', 'T', 'C', 'G'];
+        this.dnaBasePairs = [];
+        for (let i = 0; i < this.dnaLength; i++) {
+            const base1 = bases[Math.floor(Math.random() * 4)];
+            let base2: string;
+            // Complementary pairing
+            if (base1 === 'A') base2 = 'T';
+            else if (base1 === 'T') base2 = 'A';
+            else if (base1 === 'C') base2 = 'G';
+            else base2 = 'C';
+            this.dnaBasePairs.push({ base1, base2, isUnwound: false, isSynthesized: false });
+        }
+    }
+
+    /**
+     * @method initialize
+     * @param containerId The ID of the HTML element to inject the game UI into.
+     */
+    initialize(containerId: string): void {
+        this.containerElement = document.getElementById(containerId);
+        if (!this.containerElement) {
+            console.error(`Error: Container element with ID '${containerId}' not found for DNASimulationGame.`);
+            return;
+        }
+
+        this.containerElement.innerHTML = `
+            <div class="lab-game-container p-4 md:p-8 bg-gradient-to-br from-purple-100 to-pink-100 rounded-2xl shadow-xl border border-gray-200 w-full max-w-2xl mx-auto my-8 font-inter">
+                <h3 class="text-3xl font-extrabold text-center text-gray-800 mb-6">
+                    ${this.name}
+                </h3>
+                
+                <p class="text-md text-gray-600 text-center mb-6">
+                    Watch DNA replication unfold step by step!
+                </p>
+
+                <div class="relative w-full overflow-hidden rounded-xl shadow-md border border-gray-300 bg-white mb-6 flex justify-center items-center">
+                    <canvas id="dnaCanvas" class="w-full h-96 block bg-white"></canvas>
+                </div>
+
+                <div id="dnaControls" class="flex flex-col sm:flex-row justify-center gap-4 mb-6">
+                    <button id="dnaNextButton" class="control-button">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+                        </svg>
+                        Next Step
+                    </button>
+                    <button id="dnaResetButton" class="control-button bg-gray-500 hover:bg-gray-600">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.928M2.268 9.348h4.928m-.206 5.334l.157.018A19.782 19.782 0 0110.597 18.5c2.484 0 4.808-.755 6.777-2.074.214-.149.49-.247.76-.363M4.098 8.784A5.56 5.56 0 017.51 5.39a5.572 0 019.292 2.766L17.7 10.5m-5.485 2.15l-.837-.584A6.155 6.155 0 0010.597 18.5m-.206 5.334l.157.018A19.782 19.782 0 0110.597 18.5c2.484 0 4.808-.755 6.777-2.074.214-.149.49-.247.76-.363" />
+                        </svg>
+                        Reset
+                    </button>
+                </div>
+
+                <div id="dnaInfo" class="p-4 bg-white rounded-xl shadow-inner border border-gray-200">
+                    <h4 class="text-lg font-semibold text-gray-700 mb-2">Current Step: <span id="dnaStepTitle" class="font-bold text-purple-600">${this.stepsInfo[0].title}</span></h4>
+                    <p id="dnaStepDescription" class="text-gray-800">${this.stepsInfo[0].description}</p>
+                </div>
+            </div>
+        `;
+
+        this.canvas = this.containerElement.querySelector("#dnaCanvas") as HTMLCanvasElement;
+        this.ctx = this.canvas.getContext("2d");
+        this.infoDisplayElement = this.containerElement.querySelector("#dnaStepTitle");
+        this.stepDescriptionElement = this.containerElement.querySelector("#dnaStepDescription");
+        this.nextButton = this.containerElement.querySelector("#dnaNextButton") as HTMLButtonElement;
+        this.resetButton = this.containerElement.querySelector("#dnaResetButton") as HTMLButtonElement;
+
+        this.resizeCanvas();
+        window.addEventListener('resize', this.resizeCanvas.bind(this));
+
+        if (this.nextButton) {
+            this.nextButton.addEventListener("click", this.handleNextStep);
+        }
+        if (this.resetButton) {
+            this.resetButton.addEventListener("click", this.handleReset);
+        }
+
+        this.render();
+        this.updateButtonStates();
+    }
+
+    /**
+     * Resizes the canvas to fit its container and redraws the DNA.
+     */
+    private resizeCanvas = (): void => {
+        if (this.canvas) {
+            this.canvas.width = this.canvas.offsetWidth;
+            this.canvas.height = this.canvas.offsetHeight;
+            this.render();
+        }
+    }
+
+    /**
+     * Handles the "Next Step" button click.
+     */
+    private handleNextStep = (): void => {
+        if (this.currentStep < this.maxSteps) {
+            this.currentStep++;
+            this.startAnimation();
+        }
+        this.updateButtonStates();
+        this.updateInfoDisplay();
+    }
+
+    /**
+     * Handles the "Reset" button click.
+     */
+    private handleReset = (): void => {
+        this.stopAnimation();
+        this.currentStep = 0;
+        this.unwindProgress = 0;
+        this.synthesisProgress = 0;
+        this.replicationForkY = 0;
+        this.generateInitialDNA(); // Regenerate new DNA
+        this.dnaBasePairs.forEach(bp => {
+            bp.isUnwound = false;
+            bp.isSynthesized = false;
+        });
+        this.render();
+        this.updateButtonStates();
+        this.updateInfoDisplay();
+    }
+
+    /**
+     * Starts or resumes the animation based on the current step.
+     */
+    private startAnimation = (): void => {
+        if (this.animationFrameId) {
+            cancelAnimationFrame(this.animationFrameId);
+        }
+        this.lastTime = performance.now();
+        const animate = (time: number) => {
+            const deltaTime = time - this.lastTime;
+            this.lastTime = time;
+
+            if (this.currentStep === 1) { // Unwinding
+                this.unwindProgress = Math.min(1, this.unwindProgress + this.animationSpeed * deltaTime);
+                this.replicationForkY = this.unwindProgress * (this.dnaLength * this.baseSpacing);
+                // Mark base pairs as unwound as the fork passes them
+                const unwoundCount = Math.floor(this.unwindProgress * this.dnaLength);
+                for(let i = 0; i < unwoundCount; i++) {
+                    if (this.dnaBasePairs[i]) this.dnaBasePairs[i].isUnwound = true;
+                }
+            } else if (this.currentStep === 3) { // Synthesis
+                this.synthesisProgress = Math.min(1, this.synthesisProgress + this.animationSpeed * deltaTime);
+                // Mark base pairs as synthesized
+                const synthesizedCount = Math.floor(this.synthesisProgress * this.dnaLength);
+                for(let i = 0; i < synthesizedCount; i++) {
+                     if (this.dnaBasePairs[i]) this.dnaBasePairs[i].isSynthesized = true;
+                }
+            }
+
+            this.render();
+
+            if ((this.currentStep === 1 && this.unwindProgress < 1) ||
+                (this.currentStep === 3 && this.synthesisProgress < 1)) {
+                this.animationFrameId = requestAnimationFrame(animate);
+            } else {
+                this.stopAnimation();
+            }
+        };
+        this.animationFrameId = requestAnimationFrame(animate);
+    }
+
+    /**
+     * Stops any ongoing animation.
+     */
+    private stopAnimation = (): void => {
+        if (this.animationFrameId) {
+            cancelAnimationFrame(this.animationFrameId);
+            this.animationFrameId = null;
+        }
+    }
+
+    /**
+     * Updates the current step information display.
+     */
+    private updateInfoDisplay(): void {
+        const info = this.stepsInfo[this.currentStep] || this.stepsInfo[0];
+        if (this.infoDisplayElement) {
+            this.infoDisplayElement.textContent = info.title;
+        }
+        if (this.stepDescriptionElement) {
+            this.stepDescriptionElement.textContent = info.description;
+        }
+    }
+
+    /**
+     * Updates the enabled/disabled state of control buttons.
+     */
+    private updateButtonStates(): void {
+        if (this.nextButton) {
+            this.nextButton.disabled = this.currentStep === this.maxSteps;
+        }
+        if (this.resetButton) {
+            this.resetButton.disabled = this.currentStep === 0 && this.unwindProgress === 0;
+        }
+    }
+
+    /**
+     * Draws the DNA double helix and replication components on the canvas.
+     */
+    render(): void {
+        if (!this.canvas || !this.ctx) return;
+
+        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+        const centerX = this.canvas.width / 2;
+        const topY = 50; // Starting Y position for the top of the DNA
+        const bottomY = topY + this.dnaLength * this.baseSpacing; // Ending Y position
+
+        this.ctx.lineWidth = 2;
+        this.ctx.font = '12px Arial';
+        this.ctx.textAlign = 'center';
+        this.ctx.textBaseline = 'middle';
+
+        // Scale for Y-coordinates to match DNA length
+        // const yOffsetScale = (this.canvas.height - 100) / (this.dnaLength * this.baseSpacing); // Not directly used in current drawing logic
+
+        for (let i = 0; i < this.dnaLength; i++) {
+            const bp = this.dnaBasePairs[i];
+            const currentY = topY + i * this.baseSpacing; // Y position of this base pair
+            const xOffsetLeft = this.helixRadius * Math.sin(i * 0.5); // Sine wave for helix visualization
+            const xOffsetRight = -this.helixRadius * Math.sin(i * 0.5);
+
+            // Draw backbone lines
+            this.ctx.strokeStyle = '#228B22'; // ForestGreen
+            this.ctx.beginPath();
+            this.ctx.moveTo(centerX - 30 + xOffsetLeft, currentY);
+            this.ctx.lineTo(centerX - 30 + xOffsetLeft, currentY + this.baseSpacing);
+            this.ctx.stroke();
+
+            this.ctx.beginPath();
+            this.ctx.moveTo(centerX + 30 + xOffsetRight, currentY);
+            this.ctx.lineTo(centerX + 30 + xOffsetRight, currentY + this.baseSpacing);
+            this.ctx.stroke();
+
+            // Draw base pairs
+            this.ctx.fillStyle = '#6A5ACD'; // SlateBlue
+
+            // Determine if this base pair is unwound or synthesized
+            const isUnwound = this.currentStep >= 1 && currentY >= topY && currentY <= topY + this.replicationForkY;
+            const isSynthesized = this.currentStep >= 3 && bp.isSynthesized;
+
+            if (this.currentStep === 0 || !isUnwound) { // Before unwinding, or not yet unwound
+                this.ctx.strokeStyle = '#8B0000'; // DarkRed for hydrogen bonds
+                this.ctx.beginPath();
+                this.ctx.moveTo(centerX - 30 + xOffsetLeft + this.basePairOffset, currentY + this.baseSpacing / 2);
+                this.ctx.lineTo(centerX + 30 + xOffsetRight - this.basePairOffset, currentY + this.baseSpacing / 2);
+                this.ctx.stroke();
+
+                // Draw bases
+                this.ctx.fillStyle = '#4682B4'; // SteelBlue
+                this.ctx.fillText(bp.base1, centerX - 30 + xOffsetLeft, currentY + this.baseSpacing / 2);
+                this.ctx.fillText(bp.base2, centerX + 30 + xOffsetRight, currentY + this.baseSpacing / 2);
+            } else { // Unwound or synthesizing
+                // Draw template strands
+                this.ctx.fillStyle = '#4682B4'; // SteelBlue
+                this.ctx.fillText(bp.base1, centerX - 30 + xOffsetLeft, currentY + this.baseSpacing / 2);
+                this.ctx.fillText(bp.base2, centerX + 30 + xOffsetRight, currentY + this.baseSpacing / 2);
+
+                // Draw newly synthesized strands (if applicable)
+                if (isSynthesized) {
+                    this.ctx.fillStyle = '#FFA500'; // Orange for new strands
+                    this.ctx.fillText(bp.base2, centerX - 30 + xOffsetLeft + this.basePairOffset * 2, currentY + this.baseSpacing / 2); // Complement of base1
+                    this.ctx.fillText(bp.base1, centerX + 30 + xOffsetRight - this.basePairOffset * 2, currentY + this.baseSpacing / 2); // Complement of base2
+
+                    this.ctx.strokeStyle = '#FF8C00'; // DarkOrange for new strand backbone
+                    this.ctx.beginPath();
+                    this.ctx.beginPath();
+                    this.ctx.moveTo(centerX - 30 + xOffsetLeft + this.basePairOffset * 2.5, currentY);
+                    this.ctx.lineTo(centerX - 30 + xOffsetLeft + this.basePairOffset * 2.5, currentY + this.baseSpacing);
+                    this.ctx.stroke();
+
+                    this.ctx.beginPath();
+                    this.ctx.moveTo(centerX + 30 + xOffsetRight - this.basePairOffset * 2.5, currentY);
+                    this.ctx.lineTo(centerX + 30 + xOffsetRight - this.basePairOffset * 2.5, currentY + this.baseSpacing);
+                    this.ctx.stroke();
+                } else if (this.currentStep >= 2) { // Show primer or just unwound
+                    this.ctx.fillStyle = '#FF4500'; // Red for primer
+                    // Draw a small primer block for the first few unwound bases
+                    if (this.currentStep === 2 && i < 3 && i < Math.floor(this.unwindProgress * this.dnaLength)) {
+                        this.ctx.fillText("RNA", centerX - 30 + xOffsetLeft + this.basePairOffset * 2, currentY + this.baseSpacing / 2);
+                    }
+                }
+            }
+        }
+
+        // Draw replication fork (Helicase)
+        if (this.currentStep >= 1 && this.unwindProgress < 1) {
+            this.ctx.fillStyle = '#8B008B'; // DarkMagenta for Helicase
+            this.ctx.beginPath();
+            this.ctx.arc(centerX, topY + this.replicationForkY, 15, 0, Math.PI * 2);
+            this.ctx.fill();
+            this.ctx.fillStyle = 'white';
+            this.ctx.fillText("H", centerX, topY + this.replicationForkY);
+        }
+
+        // Draw DNA Polymerase (on new strands)
+        if (this.currentStep >= 3 && this.synthesisProgress < 1) {
+            this.ctx.fillStyle = '#006400'; // DarkGreen for DNA Polymerase
+            // Leading strand polymerase
+            this.ctx.beginPath();
+            this.ctx.arc(centerX - 30 + (this.helixRadius * Math.sin( (this.dnaLength * this.synthesisProgress) * 0.5)),
+                         topY + (this.dnaLength * this.synthesisProgress) * this.baseSpacing - 10, // Slightly offset
+                         12, 0, Math.PI * 2);
+            this.ctx.fill();
+            this.ctx.fillStyle = 'white';
+            this.ctx.fillText("P", centerX - 30 + (this.helixRadius * Math.sin( (this.dnaLength * this.synthesisProgress) * 0.5)),
+                         topY + (this.dnaLength * this.synthesisProgress) * this.baseSpacing - 10);
+
+            // Lagging strand polymerase (simplified representation)
+            this.ctx.beginPath();
+            this.ctx.arc(centerX + 30 + (-this.helixRadius * Math.sin( (this.dnaLength * this.synthesisProgress) * 0.5)),
+                         topY + (this.dnaLength * this.synthesisProgress) * this.baseSpacing + 10, // Slightly offset
+                         12, 0, Math.PI * 2);
+            this.ctx.fill();
+            this.ctx.fillStyle = 'white';
+            this.ctx.fillText("P", centerX + 30 + (-this.helixRadius * Math.sin( (this.dnaLength * this.synthesisProgress) * 0.5)),
+                         topY + (this.dnaLength * this.synthesisProgress) * this.baseSpacing + 10);
+        }
+    }
+
+    /**
+     * @method update
+     * @param deltaTime Time elapsed since last update (for animation).
+     */
+    update(deltaTime: number): void {
+        // Animation is driven by requestAnimationFrame in startAnimation
+    }
+
+    /**
+     * @method dispose
+     * @description Cleans up event listeners and animation frames.
+     */
+    dispose(): void {
+        this.stopAnimation();
+        if (this.nextButton) {
+            this.nextButton.removeEventListener("click", this.handleNextStep);
+        }
+        if (this.resetButton) {
+            this.resetButton.removeEventListener("click", this.handleReset);
+        }
+        window.removeEventListener('resize', this.resizeCanvas);
+        if (this.containerElement) {
+            this.containerElement.innerHTML = "";
+        }
+    }
+}
+
+// Export the interface and the game class for easy import into your application.
 export type { LabGame };
-export { PHSimulationGame, ProjectileMotionGame, CellStructureGame };
+export { PHSimulationGame, ProjectileMotionGame, CellStructureGame, DNASimulationGame };

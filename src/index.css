@@ -193,8 +193,12 @@
   .subject-overall-value {
     @apply text-stemPurple dark:text-stemPurple-light;
   }
-
   .subject-overall-icon {
     @apply text-stemPurple dark:text-stemPurple-light;
+  }
+
+  /* Lab game control button styles */
+  .control-button {
+    @apply flex items-center justify-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-all duration-200 shadow-md hover:shadow-lg active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed;
   }
 }

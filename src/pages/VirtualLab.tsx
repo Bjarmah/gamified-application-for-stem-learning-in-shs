@@ -11,6 +11,7 @@ import MathLab from '@/components/lab/MathLab';
 import PHGameWrapper from '@/components/lab/PHGameWrapper';
 import ProjectileMotionWrapper from '@/components/lab/ProjectileMotionWrapper';
 import CellStructureWrapper from '@/components/lab/CellStructureWrapper';
+import DNAGameWrapper from '@/components/lab/DNAGameWrapper';
 
 const VirtualLab = () => {
   const navigate = useNavigate();
@@ -81,6 +82,14 @@ const VirtualLab = () => {
         difficulty: 'Beginner',
         duration: '15 minutes',
         ariaLabel: 'Start cell structure viewer experiment'
+      },
+      {
+        id: 'dna-replication',
+        title: 'DNA Replication Game',
+        description: 'Play a fun game to learn about DNA replication',
+        difficulty: 'Beginner',
+        duration: '10 minutes',
+        ariaLabel: 'Start DNA replication game'
       }
     ],
     math: [
@@ -161,6 +170,9 @@ const VirtualLab = () => {
             )}
             {subject === 'biology' && experimentId === 'cell-structure' && (
               <CellStructureWrapper experimentId={experimentId} />
+            )}
+            {subject === 'biology' && experimentId === 'dna-replication' && (
+              <DNAGameWrapper experimentId={experimentId} />
             )}
             {subject === 'math' && <MathLab experimentId={experimentId} />}
           </main>
