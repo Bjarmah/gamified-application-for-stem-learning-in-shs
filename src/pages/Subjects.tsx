@@ -243,7 +243,7 @@ const Subjects = () => {
       {/* AI Learning Assistant */}
       <FloatingAIChatbot
         position="bottom-right"
-        className="md:hidden" // Only show on mobile to avoid cluttering desktop layout
+        className="hidden lg:block" // Show on larger screens for better learning experience
       />
     </div>
   );

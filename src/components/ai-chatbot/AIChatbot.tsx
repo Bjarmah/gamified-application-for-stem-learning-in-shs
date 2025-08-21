@@ -78,35 +78,35 @@ const AIChatbot: React.FC<AIChatbotProps> = ({
 
     const generateAIResponse = (userInput: string): string => {
         const input = userInput.toLowerCase();
-        
+
         if (input.includes('help') || input.includes('assist')) {
             return "I'm here to help! I can assist with STEM subjects like Biology, Chemistry, Physics, and Mathematics. What specific topic would you like to learn about?";
         }
-        
+
         if (input.includes('biology') || input.includes('bio')) {
             return "Biology is fascinating! I can help you understand topics like cell structure, photosynthesis, human body systems, and more. What specific biology concept would you like to explore?";
         }
-        
+
         if (input.includes('chemistry') || input.includes('chem')) {
             return "Chemistry is all about matter and its changes! I can help with atomic structure, chemical bonding, acids and bases, and more. What chemistry topic interests you?";
         }
-        
+
         if (input.includes('physics') || input.includes('phys')) {
             return "Physics explains how the universe works! I can help with motion, forces, energy, waves, and more. What physics concept would you like to understand?";
         }
-        
+
         if (input.includes('math') || input.includes('mathematics')) {
             return "Mathematics is the language of science! I can help with algebra, geometry, calculus, and more. What math topic would you like to work on?";
         }
-        
+
         if (input.includes('quiz') || input.includes('test')) {
             return "Great idea! Taking quizzes is an excellent way to test your knowledge. You can find quizzes in the Quiz section or create your own. Would you like me to explain any specific concepts first?";
         }
-        
+
         if (input.includes('module') || input.includes('lesson')) {
             return "Modules are organized learning units that break down complex topics into manageable pieces. Each module includes content, examples, and often a quiz. Which subject's modules would you like to explore?";
         }
-        
+
         return "That's an interesting question! I'm here to help you learn. Could you tell me more about what you'd like to understand, or ask about a specific STEM topic?";
     };
 
@@ -171,18 +171,16 @@ const AIChatbot: React.FC<AIChatbotProps> = ({
                                 className={`flex ${message.isUser ? 'justify-end' : 'justify-start'}`}
                             >
                                 <div className={`flex items-start gap-2 max-w-[80%] ${message.isUser ? 'flex-row-reverse' : 'flex-row'}`}>
-                                    <div className={`w-6 h-6 rounded-full flex items-center justify-center text-xs ${
-                                        message.isUser 
-                                            ? 'bg-stemPurple text-white' 
-                                            : 'bg-gray-200 text-gray-600'
-                                    }`}>
+                                    <div className={`w-6 h-6 rounded-full flex items-center justify-center text-xs ${message.isUser
+                                        ? 'bg-stemPurple text-white'
+                                        : 'bg-gray-200 text-gray-600'
+                                        }`}>
                                         {message.isUser ? <User className="h-3 w-3" /> : <Bot className="h-3 w-3" />}
                                     </div>
-                                    <div className={`px-3 py-2 rounded-lg ${
-                                        message.isUser 
-                                            ? 'bg-stemPurple text-white' 
-                                            : 'bg-gray-100 text-gray-800'
-                                    }`}>
+                                    <div className={`px-3 py-2 rounded-lg ${message.isUser
+                                        ? 'bg-stemPurple text-white'
+                                        : 'bg-gray-100 text-gray-800'
+                                        }`}>
                                         <p className="text-sm">{message.text}</p>
                                         <p className="text-xs opacity-70 mt-1">
                                             {message.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}

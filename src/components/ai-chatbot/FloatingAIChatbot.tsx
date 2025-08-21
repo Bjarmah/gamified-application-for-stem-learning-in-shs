@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { MessageCircle, X } from 'lucide-react';
 import AIChatbot from './AIChatbot';
+import { useQuizContext } from '@/context/QuizContext';
 
 interface FloatingAIChatbotProps {
     position?: 'bottom-right' | 'bottom-left' | 'top-right' | 'top-left';
@@ -13,6 +14,12 @@ const FloatingAIChatbot: React.FC<FloatingAIChatbotProps> = ({
     className = ''
 }) => {
     const [isOpen, setIsOpen] = useState(false);
+    const { isQuizActive } = useQuizContext();
+
+    // Don't render anything if a quiz is active
+    if (isQuizActive) {
+        return null;
+    }
 
     if (isOpen) {
         return (
