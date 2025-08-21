@@ -6,14 +6,15 @@ import { useLeaderboard } from "@/hooks/use-leaderboard";
 import LevelBadge from "@/components/gamification/LevelBadge";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Skeleton } from "@/components/ui/skeleton";
+import { FloatingAIChatbot } from "@/components/ai-chatbot";
 
 const Leaderboard = () => {
-  const { 
-    globalLeaderboard, 
-    schoolLeaderboard, 
-    loading, 
-    getCurrentUserRank, 
-    getTopUsers 
+  const {
+    globalLeaderboard,
+    schoolLeaderboard,
+    loading,
+    getCurrentUserRank,
+    getTopUsers
   } = useLeaderboard();
 
   const getRankIcon = (rank: number) => {
@@ -104,11 +105,10 @@ const Leaderboard = () => {
             {topUsers.map((user, index) => (
               <div
                 key={user.user_id}
-                className={`flex items-center gap-3 p-4 rounded-lg border transition-all hover:scale-[1.02] ${
-                  user.is_current_user 
-                    ? "bg-primary/10 border-primary/30 ring-2 ring-primary/20" 
+                className={`flex items-center gap-3 p-4 rounded-lg border transition-all hover:scale-[1.02] ${user.is_current_user
+                    ? "bg-primary/10 border-primary/30 ring-2 ring-primary/20"
                     : getRankColor(user.rank)
-                }`}
+                  }`}
               >
                 {/* Rank */}
                 <div className="flex items-center justify-center w-8">
@@ -184,18 +184,18 @@ const Leaderboard = () => {
         </TabsList>
 
         <TabsContent value="global">
-          <LeaderboardContent 
-            leaderboard={globalLeaderboard} 
-            title="Global Leaderboard" 
-            icon={Users} 
+          <LeaderboardContent
+            leaderboard={globalLeaderboard}
+            title="Global Leaderboard"
+            icon={Users}
           />
         </TabsContent>
 
         <TabsContent value="school">
-          <LeaderboardContent 
-            leaderboard={schoolLeaderboard} 
-            title="School Leaderboard" 
-            icon={School} 
+          <LeaderboardContent
+            leaderboard={schoolLeaderboard}
+            title="School Leaderboard"
+            icon={School}
           />
         </TabsContent>
       </Tabs>
@@ -242,6 +242,9 @@ const Leaderboard = () => {
           </Card>
         </div>
       )}
+
+      {/* AI Learning Assistant */}
+      <FloatingAIChatbot position="bottom-right" />
     </div>
   );
 };

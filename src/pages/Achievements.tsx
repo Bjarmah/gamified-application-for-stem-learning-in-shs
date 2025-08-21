@@ -7,6 +7,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Award, Trophy, Calendar, Star, BookOpen, Medal, GraduationCap } from "lucide-react";
 import { useGamification } from "@/hooks/use-gamification";
+import { FloatingAIChatbot } from "@/components/ai-chatbot";
 
 const Achievements = () => {
   const {
@@ -223,6 +224,9 @@ const Achievements = () => {
           </div>
         </TabsContent>
       </Tabs>
+
+      {/* AI Learning Assistant */}
+      <FloatingAIChatbot position="bottom-right" />
     </div>
   );
 };

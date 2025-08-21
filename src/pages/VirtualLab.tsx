@@ -12,6 +12,7 @@ import PHGameWrapper from '@/components/lab/PHGameWrapper';
 import ProjectileMotionWrapper from '@/components/lab/ProjectileMotionWrapper';
 import CellStructureWrapper from '@/components/lab/CellStructureWrapper';
 import DNAGameWrapper from '@/components/lab/DNAGameWrapper';
+import { FloatingAIChatbot } from '@/components/ai-chatbot';
 
 const VirtualLab = () => {
   const navigate = useNavigate();
@@ -135,13 +136,13 @@ const VirtualLab = () => {
     const parts = activeExperiment.split('-');
     const subject = parts[0];
     const experimentId = parts.slice(1).join('-'); // Handle experiment IDs with hyphens
-    
+
     return (
       <div className="min-h-screen bg-background">
         <div className="container mx-auto p-6">
           <div className="flex items-center gap-4 mb-6">
-            <Button 
-              variant="outline" 
+            <Button
+              variant="outline"
               onClick={() => setActiveExperiment(null)}
               className="flex items-center gap-2"
               aria-label="Go back to lab overview"
@@ -154,7 +155,7 @@ const VirtualLab = () => {
               <p className="text-muted-foreground">Interactive Science Experiments</p>
             </div>
           </div>
-          
+
           <main role="main" aria-label="Experiment content">
             {subject === 'chemistry' && experimentId === 'ph-scale-game' && (
               <PHGameWrapper experimentId={experimentId} />
@@ -185,8 +186,8 @@ const VirtualLab = () => {
     <div className="min-h-screen bg-background">
       <div className="container mx-auto p-6">
         <header className="flex items-center gap-4 mb-6">
-          <Button 
-            variant="outline" 
+          <Button
+            variant="outline"
             onClick={() => navigate('/dashboard')}
             className="flex items-center gap-2"
             aria-label="Go back to dashboard"
@@ -203,8 +204,8 @@ const VirtualLab = () => {
         <main role="main">
           <Tabs defaultValue="chemistry" className="space-y-6">
             <TabsList className="grid w-full grid-cols-4" role="tablist">
-              <TabsTrigger 
-                value="chemistry" 
+              <TabsTrigger
+                value="chemistry"
                 className="flex items-center gap-2"
                 role="tab"
                 aria-label="Chemistry experiments"
@@ -212,8 +213,8 @@ const VirtualLab = () => {
                 <Beaker className="h-4 w-4" aria-hidden="true" />
                 Chemistry
               </TabsTrigger>
-              <TabsTrigger 
-                value="physics" 
+              <TabsTrigger
+                value="physics"
                 className="flex items-center gap-2"
                 role="tab"
                 aria-label="Physics experiments"
@@ -221,8 +222,8 @@ const VirtualLab = () => {
                 <Zap className="h-4 w-4" aria-hidden="true" />
                 Physics
               </TabsTrigger>
-              <TabsTrigger 
-                value="biology" 
+              <TabsTrigger
+                value="biology"
                 className="flex items-center gap-2"
                 role="tab"
                 aria-label="Biology experiments"
@@ -230,8 +231,8 @@ const VirtualLab = () => {
                 <Dna className="h-4 w-4" aria-hidden="true" />
                 Biology
               </TabsTrigger>
-              <TabsTrigger 
-                value="math" 
+              <TabsTrigger
+                value="math"
                 className="flex items-center gap-2"
                 role="tab"
                 aria-label="Mathematics experiments"
@@ -265,7 +266,7 @@ const VirtualLab = () => {
                           <span>Duration: {experiment.duration}</span>
                           <Badge variant="outline">{subject}</Badge>
                         </div>
-                        <Button 
+                        <Button
                           className="w-full"
                           onClick={() => {
                             setActiveExperiment(`${subject}-${experiment.id}`);
@@ -284,6 +285,9 @@ const VirtualLab = () => {
           </Tabs>
         </main>
       </div>
+
+      {/* AI Learning Assistant */}
+      <FloatingAIChatbot position="bottom-right" />
     </div>
   );
 };

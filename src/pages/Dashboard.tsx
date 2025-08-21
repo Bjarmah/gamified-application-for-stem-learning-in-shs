@@ -24,6 +24,7 @@ import { useGamification } from "@/hooks/use-gamification";
 import { useAuth } from "@/context/AuthContext";
 import XPBar from "@/components/gamification/XPBar";
 import LevelBadge from "@/components/gamification/LevelBadge";
+import { FloatingAIChatbot } from "@/components/ai-chatbot";
 
 const Dashboard: React.FC = () => {
   const navigate = useNavigate();
@@ -256,6 +257,9 @@ const Dashboard: React.FC = () => {
           </Card>
         </div>
       </div>
+
+      {/* AI Learning Assistant */}
+      <FloatingAIChatbot position="bottom-right" />
     </div>
   );
 };

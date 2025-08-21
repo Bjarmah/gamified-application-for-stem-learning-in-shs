@@ -10,6 +10,7 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import CommunityCard from '@/components/community/CommunityCard';
 import CommunityPostCard, { CommunityPostProps } from '@/components/community/CommunityPostCard';
 import { useToast } from "@/hooks/use-toast";
+import { FloatingAIChatbot } from '@/components/ai-chatbot';
 
 interface Community {
   id: string;
@@ -106,12 +107,12 @@ const Communities = () => {
   ]);
 
   const handleJoinCommunity = (communityId: string) => {
-    setCommunities(communities.map(community => 
-      community.id === communityId 
+    setCommunities(communities.map(community =>
+      community.id === communityId
         ? { ...community, isMember: true, memberCount: community.memberCount + 1 }
         : community
     ));
-    
+
     toast({
       title: "Joined Community",
       description: "You have successfully joined this community."
@@ -119,8 +120,8 @@ const Communities = () => {
   };
 
   const handleLikePost = (postId: string) => {
-    setPosts(posts.map(post => 
-      post.id === postId 
+    setPosts(posts.map(post =>
+      post.id === postId
         ? { ...post, isLiked: !post.isLiked, likeCount: post.isLiked ? post.likeCount - 1 : post.likeCount + 1 }
         : post
     ));
@@ -135,14 +136,14 @@ const Communities = () => {
         memberCount: 1,
         isMember: true,
       };
-      
+
       setCommunities([...communities, newCommunityItem]);
-      
+
       setNewCommunity({
         name: '',
         description: '',
       });
-      
+
       toast({
         title: "Community Created",
         description: `${newCommunity.name} has been created successfully.`
@@ -159,7 +160,7 @@ const Communities = () => {
             Join learning communities and collaborate with peers.
           </p>
         </div>
-        
+
         <Dialog>
           <DialogTrigger asChild>
             <Button>
@@ -174,7 +175,7 @@ const Communities = () => {
                 Create a new learning community to connect with students and teachers.
               </DialogDescription>
             </DialogHeader>
-            
+
             <div className="grid gap-4 py-4">
               <div className="grid gap-2">
                 <label htmlFor="community-name" className="text-sm font-medium">
@@ -183,11 +184,11 @@ const Communities = () => {
                 <Input
                   id="community-name"
                   value={newCommunity.name}
-                  onChange={(e) => setNewCommunity({...newCommunity, name: e.target.value})}
+                  onChange={(e) => setNewCommunity({ ...newCommunity, name: e.target.value })}
                   placeholder="E.g., Physics Study Group"
                 />
               </div>
-              
+
               <div className="grid gap-2">
                 <label htmlFor="community-description" className="text-sm font-medium">
                   Description
@@ -195,13 +196,13 @@ const Communities = () => {
                 <Textarea
                   id="community-description"
                   value={newCommunity.description}
-                  onChange={(e) => setNewCommunity({...newCommunity, description: e.target.value})}
+                  onChange={(e) => setNewCommunity({ ...newCommunity, description: e.target.value })}
                   placeholder="Describe the purpose of your community"
                   rows={4}
                 />
               </div>
             </div>
-            
+
             <DialogFooter>
               <Button
                 onClick={handleCreateCommunity}
@@ -213,11 +214,11 @@ const Communities = () => {
           </DialogContent>
         </Dialog>
       </div>
-      
+
       <div className="relative mb-6">
         <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
-        <Input 
-          placeholder="Search communities..." 
+        <Input
+          placeholder="Search communities..."
           className="pl-10"
         />
       </div>
@@ -228,7 +229,7 @@ const Communities = () => {
           <TabsTrigger value="my">My Communities</TabsTrigger>
           <TabsTrigger value="feed">Community Feed</TabsTrigger>
         </TabsList>
-        
+
         <TabsContent value="all" className="space-y-6">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
             {communities.map((community) => (
@@ -245,7 +246,7 @@ const Communities = () => {
             ))}
           </div>
         </TabsContent>
-        
+
         <TabsContent value="my" className="space-y-6">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
             {communities
@@ -261,7 +262,7 @@ const Communities = () => {
                   isMember={true}
                 />
               ))}
-              
+
             {communities.filter(community => community.isMember).length === 0 && (
               <div className="col-span-full text-center py-12">
                 <Users className="mx-auto h-12 w-12 text-muted-foreground mb-4" />
@@ -276,7 +277,7 @@ const Communities = () => {
             )}
           </div>
         </TabsContent>
-        
+
         <TabsContent value="feed" className="space-y-6">
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
             <div className="lg:col-span-2 space-y-4">
@@ -288,7 +289,7 @@ const Communities = () => {
                 />
               ))}
             </div>
-            
+
             <div className="space-y-6">
               <div className="bg-card rounded-lg border p-4">
                 <h3 className="font-semibold mb-3">My Communities</h3>
@@ -306,7 +307,7 @@ const Communities = () => {
                     ))}
                 </div>
               </div>
-              
+
               <div className="bg-card rounded-lg border p-4">
                 <h3 className="font-semibold mb-3">Popular Topics</h3>
                 <div className="flex flex-wrap gap-2">
@@ -320,6 +321,9 @@ const Communities = () => {
           </div>
         </TabsContent>
       </Tabs>
+
+      {/* AI Learning Assistant */}
+      <FloatingAIChatbot position="bottom-right" />
     </div>
   );
 };

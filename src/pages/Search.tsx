@@ -25,6 +25,7 @@ import { Badge } from '../components/ui/badge';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../components/ui/card';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../components/ui/select';
 import { Checkbox } from '../components/ui/checkbox';
+import { FloatingAIChatbot } from '../components/ai-chatbot';
 
 const Search: React.FC = () => {
   const navigate = useNavigate();
@@ -354,6 +355,9 @@ const Search: React.FC = () => {
           </div>
         )}
       </div>
+
+      {/* AI Learning Assistant */}
+      <FloatingAIChatbot position="bottom-right" />
     </div>
   );
 };

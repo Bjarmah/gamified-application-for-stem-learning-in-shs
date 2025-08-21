@@ -10,13 +10,14 @@ import { GraduationCap, Trophy, BookOpen, Activity } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/context/AuthContext";
 import { useGamification } from "@/hooks/use-gamification";
+import { FloatingAIChatbot } from "@/components/ai-chatbot";
 
 const Profile = () => {
   const { toast } = useToast();
   const { profile, user, updateProfile } = useAuth();
   const { gamificationData } = useGamification();
   const [isEditing, setIsEditing] = React.useState(false);
-  
+
   const [formData, setFormData] = React.useState({
     full_name: profile?.full_name || '',
     school: profile?.school || '',
@@ -37,11 +38,11 @@ const Profile = () => {
       });
     }
   }, [profile]);
-  
+
   const handleEdit = () => {
     setIsEditing(true);
   };
-  
+
   const handleSave = async () => {
     try {
       await updateProfile({
@@ -53,7 +54,7 @@ const Profile = () => {
       console.error('Error updating profile:', error);
     }
   };
-  
+
   const handleCancel = () => {
     // Reset form data to original values
     setFormData({
@@ -63,15 +64,15 @@ const Profile = () => {
       grade: 'SHS 1',
       trackSystem: 'Green Track'
     });
-    
+
     setIsEditing(false);
   };
-  
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
   };
-  
+
   const handleSelectChange = (name: string, value: string) => {
     setFormData(prev => ({ ...prev, [name]: value }));
   };
@@ -164,8 +165,8 @@ const Profile = () => {
                     disabled
                   />
                 ) : (
-                  <Select 
-                    value={formData.school} 
+                  <Select
+                    value={formData.school}
                     onValueChange={(value) => handleSelectChange("school", value)}
                   >
                     <SelectTrigger>
@@ -191,8 +192,8 @@ const Profile = () => {
                     disabled
                   />
                 ) : (
-                  <Select 
-                    value={formData.grade} 
+                  <Select
+                    value={formData.grade}
                     onValueChange={(value) => handleSelectChange("grade", value)}
                   >
                     <SelectTrigger>
@@ -215,8 +216,8 @@ const Profile = () => {
                     disabled
                   />
                 ) : (
-                  <Select 
-                    value={formData.trackSystem} 
+                  <Select
+                    value={formData.trackSystem}
                     onValueChange={(value) => handleSelectChange("trackSystem", value)}
                   >
                     <SelectTrigger>
@@ -248,7 +249,7 @@ const Profile = () => {
           <CardFooter className="flex justify-end space-x-2">
             {isEditing ? (
               <>
-              <Button variant="outline" onClick={handleCancel}>Cancel</Button>
+                <Button variant="outline" onClick={handleCancel}>Cancel</Button>
                 <Button className="bg-primary hover:bg-primary/90" onClick={handleSave}>Save Changes</Button>
               </>
             ) : (
@@ -296,6 +297,9 @@ const Profile = () => {
           </Card>
         </div>
       </div>
+
+      {/* AI Learning Assistant */}
+      <FloatingAIChatbot position="bottom-right" />
     </div>
   );
 };

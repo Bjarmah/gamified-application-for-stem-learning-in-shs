@@ -9,6 +9,7 @@ import { useModules } from "@/hooks/use-modules";
 import { useAuth } from "@/context/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
 import { useQuery } from "@tanstack/react-query";
+import { FloatingAIChatbot } from "@/components/ai-chatbot";
 
 import { ArrowLeft, Clock, CheckCircle, PlayCircle, BookOpen, Trophy, Target } from "lucide-react";
 
@@ -492,6 +493,9 @@ const SubjectDetail: React.FC = () => {
           </Card>
         </div>
       </div>
+
+      {/* AI Learning Assistant */}
+      <FloatingAIChatbot position="bottom-right" />
     </div>
   );
 };

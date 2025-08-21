@@ -16,7 +16,7 @@ import { findICTModuleByTitle } from "@/content/ict";
 import { findMathematicsModuleByTitle } from "@/content/mathematics";
 import { findPhysicsModuleByTitle } from "@/content/physics";
 import { AIChatbot } from "@/components/ai-chatbot";
-import { ContextualAIChatbot } from "@/components/ai-chatbot";
+import { FloatingAIChatbot } from "@/components/ai-chatbot";
 
 const ModuleDetail: React.FC = () => {
   const { moduleId, subjectId } = useParams<{ moduleId: string; subjectId: string }>();
@@ -247,8 +247,8 @@ const ModuleDetail: React.FC = () => {
                       <h4 className="font-medium text-foreground">Introduction</h4>
                       {(structured.content as any)?.images?.introduction && (
                         <div className="my-4">
-                          <img 
-                            src={(structured.content as any).images.introduction} 
+                          <img
+                            src={(structured.content as any).images.introduction}
                             alt="Introduction illustration"
                             className="w-full max-w-md mx-auto rounded-lg shadow-sm"
                           />
@@ -264,8 +264,8 @@ const ModuleDetail: React.FC = () => {
                         <h4 className="font-medium text-foreground">{section.title}</h4>
                         {(structured.content as any)?.images?.sections?.[index] && (
                           <div className="my-4">
-                            <img 
-                              src={(structured.content as any).images.sections[index]} 
+                            <img
+                              src={(structured.content as any).images.sections[index]}
                               alt={`${section.title} illustration`}
                               className="w-full max-w-md mx-auto rounded-lg shadow-sm"
                             />
@@ -352,12 +352,10 @@ const ModuleDetail: React.FC = () => {
         </main>
       </div>
 
-      {/* AI Learning Assistant - Contextual to the module */}
-      <ContextualAIChatbot
+      {/* AI Learning Assistant */}
+      <FloatingAIChatbot
         position="bottom-right"
         className="hidden lg:block" // Show on larger screens for better learning experience
-        subject={module?.subject}
-        moduleTitle={module?.title}
       />
     </div>
   );
