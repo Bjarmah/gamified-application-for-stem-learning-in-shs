@@ -45,18 +45,14 @@ This document explains the implementation of the room-based quiz system that all
 
 ## 🚀 Setup Instructions
 
-### 1. Database Migration
+### 1. Database Setup
 
-Run the database migration to create the necessary tables:
-
-```bash
-# Option 1: Use the setup script
-node scripts/setup-room-system.js
-
-# Option 2: Manual SQL execution
-# Copy the SQL from supabase/migrations/20250120000000_add_room_quiz_system.sql
-# and run it in your Supabase SQL editor
-```
+The room system database tables are already set up and ready to use. The following tables exist:
+- `rooms` - Room information and settings
+- `room_members` - Room membership and roles
+- `room_quizzes` - Quizzes associated with rooms
+- `room_quiz_attempts` - User attempts on room quizzes
+- `room_messages` - Room chat messages
 
 ### 2. Environment Variables
 
