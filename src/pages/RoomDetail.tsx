@@ -37,6 +37,7 @@ import { RoomService, CreateQuizData } from '@/services/roomService';
 import { Database } from '@/integrations/supabase/types';
 import { supabase } from '@/integrations/supabase/client';
 import { FloatingAIChatbot } from '@/components/ai-chatbot';
+import RoomQuizCreator from '@/components/quiz/RoomQuizCreator';
 
 type Room = Database['public']['Tables']['rooms']['Row'];
 type RoomMember = Database['public']['Tables']['room_members']['Row'] & { profile?: { full_name?: string } };
@@ -75,13 +76,60 @@ const RoomDetail = () => {
 
     // Quiz creation states
     const [showCreateQuiz, setShowCreateQuiz] = useState(false);
-    const [newQuiz, setNewQuiz] = useState({
-        title: '',
-        description: '',
-        timeLimit: 15,
-        passingScore: 70
-    });
-    const [quizQuestions, setQuizQuestions] = useState<QuizQuestion[]>([]);
+
+    // Room quiz creation with new component
+    const handleRoomQuizCreate = async (roomQuiz: any) => {
+        if (!roomId || !user) return;
+
+        try {
+            // Convert room quiz format to backend format (add random correct answers for storage)
+            const questionsWithAnswers = roomQuiz.questions.map((q: any) => ({
+                question: q.question,
+                options: q.options,
+                correctAnswer: Math.floor(Math.random() * 4) // Random correct answer since creator doesn't know
+            }));
+
+            const quizData: CreateQuizData = {
+                title: roomQuiz.title,
+                description: roomQuiz.description,
+                questions: questionsWithAnswers,
+                timeLimit: roomQuiz.timeLimit,
+                passingScore: roomQuiz.passingScore
+            };
+
+            const quizId = await RoomService.createQuiz(roomId, quizData, user.id);
+            if (quizId) {
+                const newQuizItem: RoomQuiz = {
+                    id: quizId,
+                    room_id: roomId,
+                    title: quizData.title,
+                    description: quizData.description,
+                    questions: quizData.questions,
+                    time_limit: quizData.timeLimit,
+                    passing_score: quizData.passingScore,
+                    is_active: true,
+                    created_by: user.id,
+                    created_at: new Date().toISOString(),
+                    updated_at: new Date().toISOString()
+                };
+
+                setQuizzes([...quizzes, newQuizItem]);
+                setShowCreateQuiz(false);
+
+                toast({
+                    title: "Quiz Created! ✨",
+                    description: `${roomQuiz.title} has been created successfully.`
+                });
+            }
+        } catch (error) {
+            console.error('Error creating quiz:', error);
+            toast({
+                title: "Error",
+                description: "Failed to create quiz. Please try again.",
+                variant: "destructive"
+            });
+        }
+    };
 
     useEffect(() => {
         if (roomId && user) {
@@ -339,83 +387,6 @@ const RoomDetail = () => {
         }
     };
 
-    const createQuiz = async () => {
-        if (!roomId || !user || !newQuiz.title.trim() || !newQuiz.description.trim() || quizQuestions.length === 0) {
-            toast({
-                title: "Missing Information",
-                description: "Please fill in all required fields and add at least one question.",
-                variant: "destructive"
-            });
-            return;
-        }
-
-        try {
-            const quizData: CreateQuizData = {
-                title: newQuiz.title.trim(),
-                description: newQuiz.description.trim(),
-                questions: quizQuestions,
-                timeLimit: newQuiz.timeLimit,
-                passingScore: newQuiz.passingScore
-            };
-
-            const quizId = await RoomService.createQuiz(roomId, quizData, user.id);
-            if (quizId) {
-                const newQuizItem: RoomQuiz = {
-                    id: quizId,
-                    room_id: roomId,
-                    title: quizData.title,
-                    description: quizData.description,
-                    questions: quizData.questions,
-                    time_limit: quizData.timeLimit,
-                    passing_score: quizData.passingScore,
-                    is_active: true,
-                    created_by: user.id,
-                    created_at: new Date().toISOString(),
-                    updated_at: new Date().toISOString()
-                };
-
-                setQuizzes([...quizzes, newQuizItem]);
-                setNewQuiz({ title: '', description: '', timeLimit: 15, passingScore: 70 });
-                setQuizQuestions([]);
-                setShowCreateQuiz(false);
-
-                toast({
-                    title: "Quiz Created",
-                    description: `${newQuiz.title} has been created successfully.`
-                });
-            }
-        } catch (error) {
-            console.error('Error creating quiz:', error);
-            toast({
-                title: "Error",
-                description: "Failed to create quiz. Please try again.",
-                variant: "destructive"
-            });
-        }
-    };
-
-    const addQuestion = () => {
-        setQuizQuestions([...quizQuestions, {
-            question: '',
-            options: ['', '', '', ''],
-            correctAnswer: 0
-        }]);
-    };
-
-    const updateQuestion = (index: number, field: keyof QuizQuestion, value: any) => {
-        const newQuestions = [...quizQuestions];
-        if (field === 'options') {
-            newQuestions[index].options = value;
-        } else {
-            (newQuestions[index] as any)[field] = value;
-        }
-        setQuizQuestions(newQuestions);
-    };
-
-    const removeQuestion = (index: number) => {
-        setQuizQuestions(quizQuestions.filter((_, i) => i !== index));
-    };
-
     const isRoomOwner = members.find(m => m.user_id === user?.id)?.role === 'owner';
 
     if (loading) {
@@ -567,138 +538,26 @@ const RoomDetail = () => {
                                         </Button>
                                     ))}
                                     {isRoomOwner && (
-                                        <Dialog open={showCreateQuiz} onOpenChange={setShowCreateQuiz}>
-                                            <DialogTrigger asChild>
-                                                <Button className="w-full">
+                                        <>
+                                            {!showCreateQuiz ? (
+                                                <Button 
+                                                    className="w-full" 
+                                                    onClick={() => setShowCreateQuiz(true)}
+                                                >
                                                     <Plus className="h-4 w-4 mr-2" />
                                                     Create Quiz
                                                 </Button>
-                                            </DialogTrigger>
-                                            <DialogContent className="max-w-2xl max-h-[80vh] overflow-y-auto">
-                                                <DialogHeader>
-                                                    <DialogTitle>Create New Quiz</DialogTitle>
-                                                    <DialogDescription>
-                                                        Create a quiz for room members to test their knowledge.
-                                                    </DialogDescription>
-                                                </DialogHeader>
-
-                                                <div className="grid gap-4 py-4">
-                                                    <div className="grid gap-2">
-                                                        <Label htmlFor="quiz-title">Quiz Title</Label>
-                                                        <Input
-                                                            id="quiz-title"
-                                                            value={newQuiz.title}
-                                                            onChange={(e) => setNewQuiz({ ...newQuiz, title: e.target.value })}
-                                                            placeholder="E.g., Newton's Laws Quiz"
+                                            ) : (
+                                                <div className="fixed inset-0 z-50 bg-background/80 backdrop-blur-sm flex items-center justify-center p-4">
+                                                    <div className="w-full max-w-4xl max-h-[90vh] overflow-y-auto">
+                                                        <RoomQuizCreator
+                                                            onQuizCreate={handleRoomQuizCreate}
+                                                            onCancel={() => setShowCreateQuiz(false)}
                                                         />
-                                                    </div>
-
-                                                    <div className="grid gap-2">
-                                                        <Label htmlFor="quiz-description">Description</Label>
-                                                        <Textarea
-                                                            id="quiz-description"
-                                                            value={newQuiz.description}
-                                                            onChange={(e) => setNewQuiz({ ...newQuiz, description: e.target.value })}
-                                                            placeholder="Describe what this quiz covers"
-                                                            rows={2}
-                                                        />
-                                                    </div>
-
-                                                    <div className="grid gap-2">
-                                                        <Label htmlFor="quiz-time">Time Limit (minutes)</Label>
-                                                        <Input
-                                                            id="quiz-time"
-                                                            type="number"
-                                                            value={newQuiz.timeLimit}
-                                                            onChange={(e) => setNewQuiz({ ...newQuiz, timeLimit: parseInt(e.target.value) })}
-                                                            min="1"
-                                                            max="60"
-                                                        />
-                                                    </div>
-
-                                                    <div className="grid gap-2">
-                                                        <Label htmlFor="quiz-passing">Passing Score (%)</Label>
-                                                        <Input
-                                                            id="quiz-passing"
-                                                            type="number"
-                                                            value={newQuiz.passingScore}
-                                                            onChange={(e) => setNewQuiz({ ...newQuiz, passingScore: parseInt(e.target.value) })}
-                                                            min="1"
-                                                            max="100"
-                                                        />
-                                                    </div>
-
-                                                    <div className="border-t pt-4">
-                                                        <div className="flex items-center justify-between mb-4">
-                                                            <Label>Questions</Label>
-                                                            <Button type="button" variant="outline" size="sm" onClick={addQuestion}>
-                                                                <Plus className="h-4 w-4 mr-2" />
-                                                                Add Question
-                                                            </Button>
-                                                        </div>
-
-                                                        <div className="space-y-4">
-                                                            {quizQuestions.map((question, qIndex) => (
-                                                                <Card key={qIndex} className="p-4">
-                                                                    <div className="flex items-center justify-between mb-3">
-                                                                        <Label>Question {qIndex + 1}</Label>
-                                                                        <Button
-                                                                            type="button"
-                                                                            variant="ghost"
-                                                                            size="sm"
-                                                                            onClick={() => removeQuestion(qIndex)}
-                                                                        >
-                                                                            <XCircle className="h-4 w-4" />
-                                                                        </Button>
-                                                                    </div>
-
-                                                                    <div className="grid gap-3">
-                                                                        <Input
-                                                                            placeholder="Enter your question"
-                                                                            value={question.question}
-                                                                            onChange={(e) => updateQuestion(qIndex, 'question', e.target.value)}
-                                                                        />
-
-                                                                        <div className="grid gap-2">
-                                                                            <Label>Options:</Label>
-                                                                            {question.options.map((option, oIndex) => (
-                                                                                <div key={oIndex} className="flex items-center gap-2">
-                                                                                    <RadioGroup
-                                                                                        value={question.correctAnswer.toString()}
-                                                                                        onValueChange={(value) => updateQuestion(qIndex, 'correctAnswer', parseInt(value))}
-                                                                                    >
-                                                                                        <div className="flex items-center space-x-2">
-                                                                                            <RadioGroupItem value={oIndex.toString()} id={`q${qIndex}-o${oIndex}`} />
-                                                                                            <Label htmlFor={`q${qIndex}-o${oIndex}`}>Correct Answer</Label>
-                                                                                        </div>
-                                                                                    </RadioGroup>
-                                                                                    <Input
-                                                                                        placeholder={`Option ${oIndex + 1}`}
-                                                                                        value={option}
-                                                                                        onChange={(e) => {
-                                                                                            const newOptions = [...question.options];
-                                                                                            newOptions[oIndex] = e.target.value;
-                                                                                            updateQuestion(qIndex, 'options', newOptions);
-                                                                                        }}
-                                                                                        className="flex-1"
-                                                                                    />
-                                                                                </div>
-                                                                            ))}
-                                                                        </div>
-                                                                    </div>
-                                                                </Card>
-                                                            ))}
-                                                        </div>
                                                     </div>
                                                 </div>
-
-                                                <DialogFooter>
-                                                    <Button onClick={createQuiz} disabled={quizQuestions.length === 0}>
-                                                        Create Quiz
-                                                    </Button>
-                                                </DialogFooter>
-                                            </DialogContent>
-                                        </Dialog>
+                                            )}
+                                        </>
                                     )}
                                 </CardContent>
                             </Card>
