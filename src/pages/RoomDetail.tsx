@@ -31,6 +31,9 @@ import {
     Circle
 } from 'lucide-react';
 import ImageUpload from '@/components/chat/ImageUpload';
+import { useRoomRealtime } from '@/hooks/use-room-realtime';
+import { useTypingIndicator } from '@/hooks/use-typing-indicator';
+import { useQuizRealtime } from '@/hooks/use-quiz-realtime';
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from '@/context/AuthContext';
 import { useQuizContext } from '@/context/QuizContext';
@@ -64,6 +67,20 @@ const RoomDetail = () => {
     const [messages, setMessages] = useState<RoomMessage[]>([]);
     const [activeTab, setActiveTab] = useState('chat');
     const [loading, setLoading] = useState(true);
+    
+    // Real-time features
+    const { 
+        messages: realtimeMessages, 
+        setMessages: setRealtimeMessages, 
+        onlineUsers, 
+        typingUsers, 
+        broadcastTyping 
+    } = useRoomRealtime(roomId || '');
+    
+    const { handleTyping, stopTyping } = useTypingIndicator(broadcastTyping);
+    
+    // Real-time quiz features
+    const { liveAttempts, leaderboard, setLiveAttempts } = useQuizRealtime(roomId || '');
 
     // Quiz states
     const [quizzes, setQuizzes] = useState<RoomQuiz[]>([]);
@@ -184,6 +201,7 @@ const RoomDetail = () => {
             setMembers(details.members);
             setQuizzes(details.quizzes);
             setMessages(details.messages);
+            setRealtimeMessages(details.messages);
 
             // Load user's quiz attempts for this room
             const attempts = await RoomService.getUserQuizAttempts(user.id);
@@ -195,6 +213,7 @@ const RoomDetail = () => {
             // Load all quiz attempts for shared results
             const allAttempts = await RoomService.getRoomQuizAttempts(roomId);
             setAllQuizAttempts(allAttempts);
+            setLiveAttempts(allAttempts);
         } catch (error) {
             console.error('Error loading room details:', error);
             toast({
@@ -223,8 +242,9 @@ const RoomDetail = () => {
                     image_url: imageUrl || null,
                     created_at: new Date().toISOString()
                 };
-                setMessages([...messages, newMessage]);
+                // Don't update local state here - realtime will handle it
                 setMessage('');
+                stopTyping(); // Stop typing when message is sent
             }
         } catch (error) {
             console.error('Error sending message:', error);
@@ -238,6 +258,15 @@ const RoomDetail = () => {
 
     const handleImageUpload = (imageUrl: string) => {
         handleSendMessage(imageUrl);
+    };
+    
+    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setMessage(e.target.value);
+        if (e.target.value.trim()) {
+            handleTyping();
+        } else {
+            stopTyping();
+        }
     };
 
     const copyRoomCode = () => {
@@ -452,20 +481,26 @@ const RoomDetail = () => {
                 {/* Chat Tab */}
                 <TabsContent value="chat" className="mt-6">
                     <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
-                        {/* Chat Area */}
+                {/* Chat Area */}
                         <div className="lg:col-span-3">
                             <Card className="h-[600px] flex flex-col">
                                 <CardHeader className="border-b">
                                     <CardTitle className="flex items-center gap-2">
                                         <MessageSquare className="h-5 w-5" />
                                         Chat
+                                        <div className="flex items-center gap-2 ml-auto text-sm text-muted-foreground">
+                                            <div className="flex items-center gap-1">
+                                                <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+                                                {onlineUsers.length} online
+                                            </div>
+                                        </div>
                                     </CardTitle>
                                 </CardHeader>
 
                                 <CardContent className="flex-1 flex flex-col p-0">
                                     {/* Messages */}
                                     <div className="flex-1 overflow-y-auto p-4 space-y-4">
-                                        {messages.map((msg) => (
+                                        {realtimeMessages.map((msg) => (
                                             <div key={msg.id} className={`flex gap-3 ${msg.message_type === 'system' ? 'justify-center' : ''}`}>
                                                 {msg.message_type === 'system' ? (
                                                     <div className="text-center">
@@ -511,6 +546,25 @@ const RoomDetail = () => {
                                                 )}
                                             </div>
                                         ))}
+                                        
+                                        {/* Typing Indicators */}
+                                        {typingUsers.length > 0 && (
+                                            <div className="flex gap-3 items-center text-muted-foreground text-sm">
+                                                <div className="flex items-center gap-2">
+                                                    <div className="flex gap-1">
+                                                        <div className="w-2 h-2 bg-muted-foreground rounded-full animate-bounce"></div>
+                                                        <div className="w-2 h-2 bg-muted-foreground rounded-full animate-bounce" style={{animationDelay: '0.1s'}}></div>
+                                                        <div className="w-2 h-2 bg-muted-foreground rounded-full animate-bounce" style={{animationDelay: '0.2s'}}></div>
+                                                    </div>
+                                                    <span>
+                                                        {typingUsers.length === 1 
+                                                            ? `${typingUsers[0].full_name} is typing...`
+                                                            : `${typingUsers.length} people are typing...`
+                                                        }
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        )}
                                     </div>
 
                                      {/* Message Input */}
@@ -523,8 +577,12 @@ const RoomDetail = () => {
                                              <Input
                                                  placeholder="Type your message..."
                                                  value={message}
-                                                 onChange={(e) => setMessage(e.target.value)}
-                                                 onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()}
+                                                 onChange={handleInputChange}
+                                                 onKeyPress={(e) => {
+                                                     if (e.key === 'Enter') {
+                                                         handleSendMessage();
+                                                     }
+                                                 }}
                                                  className="flex-1"
                                              />
                                              <Button onClick={() => handleSendMessage()}>
@@ -536,49 +594,46 @@ const RoomDetail = () => {
                             </Card>
                         </div>
 
-                        {/* Quick Actions Sidebar */}
+                        {/* Online Members */}
                         <div className="lg:col-span-1">
                             <Card>
                                 <CardHeader>
                                     <CardTitle className="flex items-center gap-2">
-                                        <Trophy className="h-5 w-5" />
-                                        Quick Actions
+                                        <Users className="h-5 w-5" />
+                                        Members ({members.length})
                                     </CardTitle>
                                 </CardHeader>
-                                <CardContent className="space-y-3">
-                                    {quizzes.map((quiz) => (
-                                        <Button
-                                            key={quiz.id}
-                                            variant="outline"
-                                            className="w-full justify-start"
-                                            onClick={() => startQuiz(quiz)}
-                                        >
-                                            <FileText className="h-4 w-4 mr-2" />
-                                            {quiz.title}
-                                        </Button>
-                                    ))}
-                                    {isRoomOwner && (
-                                        <>
-                                            {!showCreateQuiz ? (
-                                                <Button 
-                                                    className="w-full" 
-                                                    onClick={() => setShowCreateQuiz(true)}
-                                                >
-                                                    <Plus className="h-4 w-4 mr-2" />
-                                                    Create Quiz
-                                                </Button>
-                                            ) : (
-                                                <div className="fixed inset-0 z-50 bg-background/80 backdrop-blur-sm flex items-center justify-center p-4">
-                                                    <div className="w-full max-w-4xl max-h-[90vh] overflow-y-auto">
-                                                        <RoomQuizCreator
-                                                            onQuizCreate={handleRoomQuizCreate}
-                                                            onCancel={() => setShowCreateQuiz(false)}
-                                                        />
-                                                    </div>
+                                <CardContent className="space-y-2">
+                                    {members.map((member) => {
+                                        const isOnline = onlineUsers.some(u => u.user_id === member.user_id) || member.user_id === user?.id;
+                                        return (
+                                            <div key={member.id} className="flex items-center gap-3 p-2 rounded-lg hover:bg-muted/50">
+                                                <Avatar className="h-8 w-8 relative">
+                                                    <AvatarFallback>
+                                                        {member.profile?.full_name?.[0]?.toUpperCase() || 'U'}
+                                                    </AvatarFallback>
+                                                    {isOnline && (
+                                                        <div className="absolute -bottom-1 -right-1 w-3 h-3 bg-green-500 border-2 border-background rounded-full"></div>
+                                                    )}
+                                                </Avatar>
+                                                <div className="flex-1 min-w-0">
+                                                    <p className="text-sm font-medium truncate">
+                                                        {member.user_id === user?.id ? 'You' : (member.profile?.full_name || 'Unknown User')}
+                                                    </p>
+                                                    <p className="text-xs text-muted-foreground">
+                                                        {member.role === 'owner' ? 'Owner' : 'Member'}
+                                                        {isOnline && ' • Online'}
+                                                    </p>
                                                 </div>
-                                            )}
-                                        </>
-                                    )}
+                                                <Badge
+                                                    variant={isOnline ? 'default' : 'secondary'}
+                                                    className={isOnline ? 'bg-green-500' : ''}
+                                                >
+                                                    {isOnline ? 'Online' : 'Offline'}
+                                                </Badge>
+                                            </div>
+                                        );
+                                    })}
                                 </CardContent>
                             </Card>
                         </div>
@@ -651,76 +706,138 @@ const RoomDetail = () => {
 
                 {/* Results Tab */}
                 <TabsContent value="results" className="mt-6">
-                    <div className="grid gap-4">
-                        <div className="flex items-center justify-between mb-4">
-                            <h3 className="text-lg font-semibold">Quiz Results for All Members</h3>
-                            <Badge variant="outline">{allQuizAttempts.length} attempts</Badge>
-                        </div>
-
-                        {allQuizAttempts.map((attempt) => {
-                            const quiz = quizzes.find(q => q.id === attempt.quiz_id);
-                            const isCurrentUser = attempt.user_id === user.id;
-                            return (
-                                <Card key={attempt.id} className={`hover:shadow-md transition-shadow ${isCurrentUser ? 'ring-2 ring-stemPurple/20' : ''}`}>
-                                    <CardContent className="p-6">
-                                        <div className="flex items-center justify-between">
-                                            <div className="flex items-center gap-4">
-                                                <Avatar className="h-12 w-12">
-                                                    <AvatarFallback className={isCurrentUser ? 'bg-stemPurple/20 text-stemPurple' : ''}>
-                                                        {isCurrentUser
-                                                            ? 'Y'
-                                                            : (attempt.profile?.full_name?.charAt(0) || 'U')
-                                                        }
+                    <div className="grid gap-6">
+                        {/* Live Leaderboard */}
+                        <Card>
+                            <CardHeader>
+                                <CardTitle className="flex items-center gap-2">
+                                    <Trophy className="h-5 w-5" />
+                                    Live Leaderboard
+                                    <Badge variant="outline" className="animate-pulse">LIVE</Badge>
+                                </CardTitle>
+                            </CardHeader>
+                            <CardContent>
+                                {leaderboard.length > 0 ? (
+                                    <div className="space-y-3">
+                                        {leaderboard.map((user, index) => (
+                                            <div key={user.user_id} className="flex items-center gap-3 p-3 rounded-lg border">
+                                                <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold ${
+                                                    index === 0 ? 'bg-yellow-500 text-white' :
+                                                    index === 1 ? 'bg-gray-400 text-white' :
+                                                    index === 2 ? 'bg-amber-600 text-white' :
+                                                    'bg-muted text-muted-foreground'
+                                                }`}>
+                                                    {index + 1}
+                                                </div>
+                                                <Avatar className="h-8 w-8">
+                                                    <AvatarFallback>
+                                                        {user.full_name?.[0]?.toUpperCase() || 'U'}
                                                     </AvatarFallback>
                                                 </Avatar>
-                                                <div>
-                                                    <h3 className="font-semibold flex items-center gap-2">
-                                                        {isCurrentUser ? 'You' : (attempt.profile?.full_name || 'Unknown User')}
-                                                        {isCurrentUser && <Badge variant="outline" className="text-xs">Me</Badge>}
-                                                    </h3>
+                                                <div className="flex-1">
+                                                    <p className="font-medium">{user.full_name}</p>
                                                     <p className="text-sm text-muted-foreground">
-                                                        {quiz?.title || 'Unknown Quiz'}
+                                                        {user.attempts_count} quiz{user.attempts_count !== 1 ? 'es' : ''} completed
                                                     </p>
                                                 </div>
+                                                <div className="text-right">
+                                                    <div className="text-lg font-bold text-primary">
+                                                        {Math.round(user.avg_percentage)}%
+                                                    </div>
+                                                    <div className="text-xs text-muted-foreground">
+                                                        Average Score
+                                                    </div>
+                                                </div>
                                             </div>
+                                        ))}
+                                    </div>
+                                ) : (
+                                    <div className="text-center py-8 text-muted-foreground">
+                                        <Trophy className="h-12 w-12 mx-auto mb-4 opacity-50" />
+                                        <p>No scores yet!</p>
+                                        <p className="text-sm">Complete quizzes to appear on the leaderboard.</p>
+                                    </div>
+                                )}
+                            </CardContent>
+                        </Card>
+                        
+                        {/* Detailed Results */}
+                        <Card>
+                            <CardHeader>
+                                <div className="flex items-center justify-between mb-4">
+                                    <CardTitle>All Quiz Results</CardTitle>
+                                    <Badge variant="outline">{liveAttempts.length} attempts</Badge>
+                                </div>
+                            </CardHeader>
+                            <CardContent>
+                                <div className="space-y-4">
+                                    {liveAttempts.map((attempt) => {
+                                        const quiz = quizzes.find(q => q.id === attempt.quiz_id);
+                                        const isCurrentUser = attempt.user_id === user?.id;
+                                        return (
+                                            <Card key={attempt.id} className={`hover:shadow-md transition-shadow ${isCurrentUser ? 'ring-2 ring-stemPurple/20' : ''}`}>
+                                                <CardContent className="p-6">
+                                                    <div className="flex items-center justify-between">
+                                                        <div className="flex items-center gap-4">
+                                                            <Avatar className="h-12 w-12">
+                                                                <AvatarFallback className={isCurrentUser ? 'bg-stemPurple/20 text-stemPurple' : ''}>
+                                                                    {isCurrentUser
+                                                                        ? 'Y'
+                                                                        : (attempt.profile?.full_name?.charAt(0) || 'U')
+                                                                    }
+                                                                </AvatarFallback>
+                                                            </Avatar>
+                                                            <div>
+                                                                <h3 className="font-semibold flex items-center gap-2">
+                                                                    {isCurrentUser ? 'You' : (attempt.profile?.full_name || 'Unknown User')}
+                                                                    {isCurrentUser && <Badge variant="outline" className="text-xs">Me</Badge>}
+                                                                </h3>
+                                                                <p className="text-sm text-muted-foreground">
+                                                                    {quiz?.title || 'Unknown Quiz'}
+                                                                </p>
+                                                            </div>
+                                                        </div>
 
-                                            <div className="text-right">
-                                                <div className={`text-2xl font-bold ${attempt.percentage >= (quiz?.passing_score || 70)
-                                                    ? 'text-green-600'
-                                                    : 'text-red-600'
-                                                    }`}>
-                                                    {attempt.percentage}%
-                                                </div>
-                                                <div className="text-sm text-muted-foreground">
-                                                    {attempt.score}/{attempt.total_questions} correct
-                                                </div>
-                                                <div className="text-xs text-muted-foreground">
-                                                    {attempt.completed_at ? new Date(attempt.completed_at).toLocaleDateString() : 'Unknown'}
-                                                </div>
-                                                <div className="flex items-center justify-end gap-1 mt-1">
-                                                    {attempt.percentage >= (quiz?.passing_score || 70) ? (
-                                                        <CheckCircle className="h-4 w-4 text-green-600" />
-                                                    ) : (
-                                                        <XCircle className="h-4 w-4 text-red-600" />
-                                                    )}
-                                                    <span className="text-xs">
-                                                        {attempt.percentage >= (quiz?.passing_score || 70) ? 'Passed' : 'Failed'}
-                                                    </span>
-                                                </div>
-                                            </div>
+                                                        <div className="text-right">
+                                                            <div className={`text-2xl font-bold ${attempt.percentage >= (quiz?.passing_score || 70)
+                                                                ? 'text-green-600'
+                                                                : 'text-red-600'
+                                                                }`}>
+                                                                {attempt.percentage}%
+                                                            </div>
+                                                            <div className="text-sm text-muted-foreground">
+                                                                {attempt.score}/{attempt.total_questions} correct
+                                                            </div>
+                                                            <div className="text-xs text-muted-foreground">
+                                                                {attempt.completed_at ? new Date(attempt.completed_at).toLocaleDateString() : 'Unknown'}
+                                                            </div>
+                                                            <div className="flex items-center justify-end gap-1 mt-1">
+                                                                {attempt.percentage >= (quiz?.passing_score || 70) ? (
+                                                                    <CheckCircle className="h-4 w-4 text-green-600" />
+                                                                ) : (
+                                                                    <XCircle className="h-4 w-4 text-red-600" />
+                                                                )}
+                                                                <span className="text-xs">
+                                                                    {attempt.percentage >= (quiz?.passing_score || 70) ? 'Passed' : 'Failed'}
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </CardContent>
+                                            </Card>
+                                        );
+                                    })}
+
+                                    {liveAttempts.length === 0 && (
+                                        <div className="text-center py-8 text-muted-foreground">
+                                            <BarChart3 className="h-12 w-12 mx-auto mb-4 opacity-50" />
+                                            <p>No quiz results yet.</p>
+                                            <p className="text-sm">Members need to take quizzes to see results here.</p>
                                         </div>
-                                    </CardContent>
-                                </Card>
-                            );
-                        })}
-
-                        {allQuizAttempts.length === 0 && (
-                            <div className="text-center py-8 text-muted-foreground">
-                                <BarChart3 className="h-12 w-12 mx-auto mb-4 opacity-50" />
-                                <p>No quiz results yet.</p>
-                                <p className="text-sm">Members need to take quizzes to see results here.</p>
-                            </div>
-                        )}
+                                    )}
+                                </div>
+                            </CardContent>
+                        </Card>
                     </div>
                 </TabsContent>
 
@@ -735,44 +852,50 @@ const RoomDetail = () => {
                         </CardHeader>
                         <CardContent>
                             <div className="space-y-3">
-                                {members.map((member) => (
-                                    <div key={member.id} className="flex items-center gap-3">
-                                        <Avatar className="h-8 w-8">
-                                            <AvatarFallback>
-                                                {member.user_id === user.id
-                                                    ? 'Y'
-                                                    : (member.profile?.full_name?.charAt(0) || 'U')
-                                                }
-                                            </AvatarFallback>
-                                        </Avatar>
-                                        <div className="flex-1 min-w-0">
-                                            <div className="flex items-center gap-2">
-                                                <span className="font-medium text-sm truncate">
+                                {members.map((member) => {
+                                    const isOnline = onlineUsers.some(u => u.user_id === member.user_id) || member.user_id === user?.id;
+                                    return (
+                                        <div key={member.id} className="flex items-center gap-3">
+                                            <Avatar className="h-8 w-8 relative">
+                                                <AvatarFallback>
                                                     {member.user_id === user.id
-                                                        ? 'You'
-                                                        : (member.profile?.full_name || 'Unknown User')
+                                                        ? 'Y'
+                                                        : (member.profile?.full_name?.charAt(0) || 'U')
                                                     }
-                                                </span>
-                                                {member.role === 'owner' && (
-                                                    <Badge variant="outline" className="text-xs">
-                                                        Owner
-                                                    </Badge>
+                                                </AvatarFallback>
+                                                {isOnline && (
+                                                    <div className="absolute -bottom-1 -right-1 w-3 h-3 bg-green-500 border-2 border-background rounded-full"></div>
                                                 )}
-                                            </div>
-                                            <div className="flex items-center gap-1">
-                                                <Circle className={`w-2 h-2 fill-current ${member.is_online ? 'text-green-500' : 'text-gray-400'}`} />
-                                                <span className="text-xs text-muted-foreground">
-                                                    {member.is_online ? 'Online' : 'Offline'}
-                                                    {!member.is_online && member.last_seen && (
-                                                        <span className="ml-1">
-                                                            · Last seen {new Date(member.last_seen).toLocaleDateString()}
-                                                        </span>
+                                            </Avatar>
+                                            <div className="flex-1 min-w-0">
+                                                <div className="flex items-center gap-2">
+                                                    <span className="font-medium text-sm truncate">
+                                                        {member.user_id === user.id
+                                                            ? 'You'
+                                                            : (member.profile?.full_name || 'Unknown User')
+                                                        }
+                                                    </span>
+                                                    {member.role === 'owner' && (
+                                                        <Badge variant="outline" className="text-xs">
+                                                            Owner
+                                                        </Badge>
                                                     )}
-                                                </span>
+                                                </div>
+                                                <div className="flex items-center gap-1">
+                                                    <Circle className={`w-2 h-2 fill-current ${isOnline ? 'text-green-500' : 'text-gray-400'}`} />
+                                                    <span className="text-xs text-muted-foreground">
+                                                        {isOnline ? 'Online' : 'Offline'}
+                                                        {!isOnline && member.last_seen && (
+                                                            <span className="ml-1">
+                                                                · Last seen {new Date(member.last_seen).toLocaleDateString()}
+                                                            </span>
+                                                        )}
+                                                    </span>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                ))}
+                                    );
+                                })}
                             </div>
                         </CardContent>
                     </Card>
