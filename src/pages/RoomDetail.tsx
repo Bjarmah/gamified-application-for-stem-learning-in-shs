@@ -30,6 +30,7 @@ import {
     Trash2,
     Circle
 } from 'lucide-react';
+import ImageUpload from '@/components/chat/ImageUpload';
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from '@/context/AuthContext';
 import { useQuizContext } from '@/context/QuizContext';
@@ -206,19 +207,20 @@ const RoomDetail = () => {
         }
     };
 
-    const handleSendMessage = async () => {
-        if (!message.trim() || !roomId || !user) return;
+    const handleSendMessage = async (imageUrl?: string) => {
+        if ((!message.trim() && !imageUrl) || !roomId || !user) return;
 
         try {
-            const messageId = await RoomService.sendMessage(roomId, user.id, message.trim());
+            const messageId = await RoomService.sendMessage(roomId, user.id, message.trim() || '', 'message', imageUrl);
             if (messageId) {
                 // Add message to local state
                 const newMessage: RoomMessage = {
                     id: messageId,
                     room_id: roomId,
                     user_id: user.id,
-                    content: message.trim(),
+                    content: message.trim() || '',
                     message_type: 'message',
+                    image_url: imageUrl || null,
                     created_at: new Date().toISOString()
                 };
                 setMessages([...messages, newMessage]);
@@ -232,6 +234,10 @@ const RoomDetail = () => {
                 variant: "destructive"
             });
         }
+    };
+
+    const handleImageUpload = (imageUrl: string) => {
+        handleSendMessage(imageUrl);
     };
 
     const copyRoomCode = () => {
@@ -478,18 +484,28 @@ const RoomDetail = () => {
                                                             </AvatarFallback>
                                                         </Avatar>
                                                         <div className="flex-1">
-                                                            <div className="flex items-center gap-2 mb-1">
-                                                                <span className="font-medium text-sm">
-                                                                    {msg.user_id === user.id
-                                                                        ? 'You'
-                                                                        : (msg.profile?.full_name || 'Unknown User')
-                                                                    }
-                                                                </span>
-                                                                <span className="text-xs text-muted-foreground">
-                                                                    {msg.created_at ? new Date(msg.created_at).toLocaleTimeString() : ''}
-                                                                </span>
-                                                            </div>
-                                                            <p className="text-sm">{msg.content}</p>
+                                                             <div className="flex items-center gap-2 mb-1">
+                                                                 <span className="font-medium text-sm">
+                                                                     {msg.user_id === user.id
+                                                                         ? 'You'
+                                                                         : (msg.profile?.full_name || 'Unknown User')
+                                                                     }
+                                                                 </span>
+                                                                 <span className="text-xs text-muted-foreground">
+                                                                     {msg.created_at ? new Date(msg.created_at).toLocaleTimeString() : ''}
+                                                                 </span>
+                                                             </div>
+                                                             {msg.content && <p className="text-sm mb-2">{msg.content}</p>}
+                                                             {msg.image_url && (
+                                                                 <div className="mt-2">
+                                                                     <img 
+                                                                         src={msg.image_url} 
+                                                                         alt="Shared image"
+                                                                         className="max-w-sm max-h-64 rounded-lg border cursor-pointer hover:opacity-90 transition-opacity"
+                                                                         onClick={() => window.open(msg.image_url, '_blank')}
+                                                                     />
+                                                                 </div>
+                                                             )}
                                                         </div>
                                                     </>
                                                 )}
@@ -497,21 +513,25 @@ const RoomDetail = () => {
                                         ))}
                                     </div>
 
-                                    {/* Message Input */}
-                                    <div className="border-t p-4">
-                                        <div className="flex gap-2">
-                                            <Input
-                                                placeholder="Type your message..."
-                                                value={message}
-                                                onChange={(e) => setMessage(e.target.value)}
-                                                onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()}
-                                                className="flex-1"
-                                            />
-                                            <Button onClick={handleSendMessage}>
-                                                <Send className="h-4 w-4" />
-                                            </Button>
-                                        </div>
-                                    </div>
+                                     {/* Message Input */}
+                                     <div className="border-t p-4">
+                                         <div className="flex gap-2">
+                                             <ImageUpload
+                                                 onImageUpload={handleImageUpload}
+                                                 disabled={loading}
+                                             />
+                                             <Input
+                                                 placeholder="Type your message..."
+                                                 value={message}
+                                                 onChange={(e) => setMessage(e.target.value)}
+                                                 onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()}
+                                                 className="flex-1"
+                                             />
+                                             <Button onClick={() => handleSendMessage()}>
+                                                 <Send className="h-4 w-4" />
+                                             </Button>
+                                         </div>
+                                     </div>
                                 </CardContent>
                             </Card>
                         </div>

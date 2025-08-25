@@ -454,7 +454,7 @@ export class RoomService {
   }
 
   // Send a message to a room
-  static async sendMessage(roomId: string, userId: string, content: string, messageType: 'message' | 'system' = 'message'): Promise<string | null> {
+  static async sendMessage(roomId: string, userId: string, content: string, messageType: 'message' | 'system' = 'message', imageUrl?: string): Promise<string | null> {
     try {
       const { data, error } = await supabase
         .from('room_messages')
@@ -462,7 +462,8 @@ export class RoomService {
           room_id: roomId,
           user_id: userId,
           content,
-          message_type: messageType
+          message_type: messageType,
+          image_url: imageUrl
         })
         .select('id')
         .single();
