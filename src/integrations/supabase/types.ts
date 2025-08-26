@@ -230,6 +230,42 @@ export type Database = {
           },
         ]
       }
+      notifications: {
+        Row: {
+          created_at: string
+          data: Json | null
+          expires_at: string | null
+          id: string
+          message: string
+          read: boolean
+          title: string
+          type: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          data?: Json | null
+          expires_at?: string | null
+          id?: string
+          message: string
+          read?: boolean
+          title: string
+          type?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          data?: Json | null
+          expires_at?: string | null
+          id?: string
+          message?: string
+          read?: boolean
+          title?: string
+          type?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           avatar_url: string | null
@@ -828,6 +864,27 @@ export type Database = {
       join_room_by_code: {
         Args: { room_code_input: string; user_id_input: string }
         Returns: boolean
+      }
+      notify_room_members: {
+        Args: {
+          exclude_user_id: string
+          notification_data?: Json
+          notification_message: string
+          notification_title: string
+          notification_type?: string
+          room_id_param: string
+        }
+        Returns: number
+      }
+      send_notification: {
+        Args: {
+          notification_data?: Json
+          notification_message: string
+          notification_title: string
+          notification_type?: string
+          target_user_id: string
+        }
+        Returns: string
       }
       start_quiz_session: {
         Args: { quiz_id_param: string }

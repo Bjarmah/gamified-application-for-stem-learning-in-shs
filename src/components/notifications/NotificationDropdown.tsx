@@ -1,120 +1,136 @@
-
 import React from 'react';
+import { Bell, MessageSquare, Users, Trophy } from 'lucide-react';
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import { Bell, Check, X, Flame, Trophy, BookOpen, Target } from 'lucide-react';
-import { useNotifications } from '@/context/NotificationContext';
-import { formatDistanceToNow } from 'date-fns';
+import { Badge } from "@/components/ui/badge";
+import { useNotifications } from '@/hooks/use-notifications';
+import { useNavigate } from 'react-router-dom';
 
-const NotificationDropdown = () => {
-  const { notifications, unreadCount, markAsRead, markAllAsRead, removeNotification } = useNotifications();
+export const NotificationDropdown = () => {
+  const { notifications, markAsRead, markAllAsRead, deleteNotification } = useNotifications();
+  const unreadNotifications = notifications.filter(notification => !notification.read);
+  const navigate = useNavigate();
 
-  const getNotificationIcon = (type: string) => {
-    switch (type) {
-      case 'achievement': return <Trophy className="h-4 w-4 text-stemYellow" />;
-      case 'streak': return <Flame className="h-4 w-4 text-stemOrange" />;
-      case 'content': return <BookOpen className="h-4 w-4 text-stemPurple" />;
-      case 'reminder': return <Target className="h-4 w-4 text-stemGreen" />;
-      default: return <Bell className="h-4 w-4" />;
+  const handleNotificationClick = (notification: any) => {
+    markAsRead(notification.id);
+    
+    // Navigate based on notification type
+    if (notification.type === 'room_message' && notification.data?.room_id) {
+      navigate(`/rooms/${notification.data.room_id}`);
+    } else if (notification.type === 'room_join' && notification.data?.room_id) {
+      navigate(`/rooms/${notification.data.room_id}`);
+    } else if (notification.type === 'quiz_complete' && notification.data?.room_id) {
+      navigate(`/rooms/${notification.data.room_id}`);
     }
   };
 
   return (
-    <Popover>
-      <PopoverTrigger asChild>
-        <Button variant="ghost" size="icon" className="relative">
-          <Bell className="h-5 w-5" />
-          {unreadCount > 0 && (
-            <Badge className="absolute -top-1 -right-1 h-5 w-5 flex items-center justify-center p-0 text-xs bg-stemOrange">
-              {unreadCount > 9 ? '9+' : unreadCount}
-            </Badge>
+    <div className="w-80">
+      <div className="p-4 border-b">
+        <div className="flex items-center justify-between">
+          <h3 className="font-semibold">Notifications</h3>
+          {unreadNotifications.length > 0 && (
+            <Button 
+              variant="ghost" 
+              size="sm" 
+              onClick={markAllAsRead}
+              className="text-sm"
+            >
+              Mark all read
+            </Button>
           )}
-        </Button>
-      </PopoverTrigger>
-      <PopoverContent className="w-80 p-0" align="end">
-        <Card className="border-0 shadow-none">
-          <CardHeader className="pb-3">
-            <div className="flex items-center justify-between">
-              <CardTitle className="text-lg">Notifications</CardTitle>
-              {unreadCount > 0 && (
-                <Button 
-                  variant="ghost" 
-                  size="sm" 
-                  onClick={markAllAsRead}
-                  className="text-xs"
-                >
-                  Mark all read
-                </Button>
-              )}
-            </div>
-          </CardHeader>
-          <CardContent className="p-0">
-            <ScrollArea className="h-80">
-              {notifications.length === 0 ? (
-                <div className="p-6 text-center text-muted-foreground">
-                  <Bell className="h-12 w-12 mx-auto mb-3 opacity-50" />
-                  <p>No notifications yet</p>
-                </div>
-              ) : (
-                <div className="space-y-1">
-                  {notifications.map((notification) => (
-                    <div
-                      key={notification.id}
-                      className={`flex items-start space-x-3 p-3 hover:bg-accent transition-colors ${
-                        !notification.isRead ? 'bg-accent/50' : ''
-                      }`}
-                    >
-                      <div className="flex-shrink-0 mt-1">
-                        {getNotificationIcon(notification.type)}
-                      </div>
-                      <div className="flex-1 space-y-1">
-                        <div className="flex items-start justify-between">
-                          <div>
-                            <p className={`text-sm font-medium ${!notification.isRead ? 'text-foreground' : 'text-muted-foreground'}`}>
-                              {notification.title}
-                            </p>
-                            <p className="text-xs text-muted-foreground">
-                              {notification.message}
-                            </p>
-                            <p className="text-xs text-muted-foreground mt-1">
-                              {formatDistanceToNow(new Date(notification.timestamp), { addSuffix: true })}
-                            </p>
-                          </div>
-                          <div className="flex items-center space-x-1">
-                            {!notification.isRead && (
-                              <Button
-                                variant="ghost"
-                                size="sm"
-                                onClick={() => markAsRead(notification.id)}
-                                className="h-6 w-6 p-0"
-                              >
-                                <Check className="h-3 w-3" />
-                              </Button>
-                            )}
-                            <Button
-                              variant="ghost"
-                              size="sm"
-                              onClick={() => removeNotification(notification.id)}
-                              className="h-6 w-6 p-0"
-                            >
-                              <X className="h-3 w-3" />
-                            </Button>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              )}
-            </ScrollArea>
-          </CardContent>
-        </Card>
-      </PopoverContent>
-    </Popover>
+        </div>
+      </div>
+      <ScrollArea className="h-96">
+        {notifications.length === 0 ? (
+          <div className="p-4 text-center text-muted-foreground">
+            <Bell className="mx-auto h-8 w-8 mb-2 opacity-50" />
+            <p>No notifications yet</p>
+          </div>
+        ) : (
+          <div className="p-2">
+            {notifications.map((notification) => (
+              <NotificationItem
+                key={notification.id}
+                notification={notification}
+                onClick={() => handleNotificationClick(notification)}
+                onDelete={() => deleteNotification(notification.id)}
+              />
+            ))}
+          </div>
+        )}
+      </ScrollArea>
+    </div>
   );
 };
 
-export default NotificationDropdown;
+const NotificationItem = ({ 
+  notification, 
+  onClick, 
+  onDelete 
+}: { 
+  notification: any;
+  onClick: () => void;
+  onDelete: () => void;
+}) => {
+  const getNotificationIcon = (type: string) => {
+    switch (type) {
+      case 'room_join':
+        return <Users className="h-4 w-4 text-blue-500" />;
+      case 'room_message':
+        return <MessageSquare className="h-4 w-4 text-green-500" />;
+      case 'quiz_complete':
+        return <Trophy className="h-4 w-4 text-yellow-500" />;
+      case 'success':
+        return <span className="text-green-500">✅</span>;
+      case 'warning':
+        return <span className="text-yellow-500">⚠️</span>;
+      case 'error':
+        return <span className="text-red-500">❌</span>;
+      default:
+        return <Bell className="h-4 w-4 text-primary" />;
+    }
+  };
+
+  const formatTimeAgo = (timestamp: string) => {
+    const now = new Date();
+    const time = new Date(timestamp);
+    const diffInSeconds = Math.floor((now.getTime() - time.getTime()) / 1000);
+    
+    if (diffInSeconds < 60) return 'Just now';
+    if (diffInSeconds < 3600) return `${Math.floor(diffInSeconds / 60)}m ago`;
+    if (diffInSeconds < 86400) return `${Math.floor(diffInSeconds / 3600)}h ago`;
+    return `${Math.floor(diffInSeconds / 86400)}d ago`;
+  };
+
+  return (
+    <div
+      className={`p-3 rounded-lg cursor-pointer transition-colors mb-2 group ${
+        notification.read 
+          ? 'bg-muted/50 hover:bg-muted' 
+          : 'bg-primary/10 hover:bg-primary/20 border border-primary/20'
+      }`}
+      onClick={onClick}
+    >
+      <div className="flex items-start space-x-3">
+        <div className="mt-0.5">{getNotificationIcon(notification.type)}</div>
+        <div className="flex-1 min-w-0">
+          <div className="flex items-center justify-between">
+            <p className="font-medium text-sm truncate">{notification.title}</p>
+            <span className="text-xs text-muted-foreground ml-2">
+              {formatTimeAgo(notification.created_at)}
+            </span>
+          </div>
+          <p className="text-sm text-muted-foreground mt-1">{notification.message}</p>
+          {!notification.read && (
+            <Badge variant="secondary" className="mt-2 text-xs">
+              New
+            </Badge>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export { NotificationDropdown as default };

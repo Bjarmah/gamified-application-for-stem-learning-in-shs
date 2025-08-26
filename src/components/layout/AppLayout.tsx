@@ -18,7 +18,8 @@ import {
   BarChart3
 } from "lucide-react";
 import SearchButton from "./SearchButton";
-import NotificationDropdown from "@/components/notifications/NotificationDropdown";
+import { NotificationBell } from "@/components/notifications/NotificationBell";
+import { NotificationToast } from "@/components/notifications/NotificationToast";
 import ThemeToggle from "@/components/theme/ThemeToggle";
 import OfflineBanner from "@/components/offline/OfflineBanner";
 import { useQuizContext } from "@/context/QuizContext";
@@ -46,6 +47,7 @@ const AppLayout = () => {
 
   return (
     <div className="min-h-screen bg-background">
+      <NotificationToast />
       <OfflineBanner />
 
       {/* Quiz Active Warning */}
@@ -82,7 +84,7 @@ const AppLayout = () => {
               <SearchButton />
             </div>
             <div className={isQuizActive ? 'opacity-50 pointer-events-none' : ''}>
-              <NotificationDropdown />
+              <NotificationBell />
             </div>
             <ThemeToggle />
             <Button 
