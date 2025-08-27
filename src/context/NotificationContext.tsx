@@ -22,16 +22,7 @@ interface NotificationContextType {
 const NotificationContext = createContext<NotificationContextType | undefined>(undefined);
 
 export function NotificationProvider({ children }: { children: ReactNode }) {
-  const [notifications, setNotifications] = useState<Notification[]>([
-    {
-      id: '1',
-      type: 'streak',
-      title: 'Streak reminder',
-      message: 'Don\'t forget to complete your daily learning goal!',
-      timestamp: new Date().toISOString(),
-      isRead: false
-    }
-  ]);
+  const [notifications, setNotifications] = useState<Notification[]>([]);
 
   const addNotification = (notification: Omit<Notification, 'id' | 'timestamp' | 'isRead'>) => {
     const newNotification: Notification = {
