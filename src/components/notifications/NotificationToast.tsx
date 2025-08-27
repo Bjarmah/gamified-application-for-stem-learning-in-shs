@@ -1,10 +1,10 @@
 import React, { useEffect } from 'react';
 import { toast } from 'sonner';
 import { Bell, MessageSquare, Users, Trophy } from 'lucide-react';
-import { useNotifications } from '@/hooks/use-notifications';
+import { useOptimizedNotifications } from '@/hooks/use-optimized-notifications';
 
 export const NotificationToast = () => {
-  const { notifications } = useNotifications();
+  const { notifications } = useOptimizedNotifications();
 
   useEffect(() => {
     // Show toast for the most recent notification if it's unread

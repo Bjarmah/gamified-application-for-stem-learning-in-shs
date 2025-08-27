@@ -7,11 +7,11 @@ import {
   DropdownMenuContent,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { useNotifications } from '@/hooks/use-notifications';
+import { useOptimizedNotifications } from '@/hooks/use-optimized-notifications';
 import { NotificationDropdown } from "./NotificationDropdown";
 
 export const NotificationBell = () => {
-  const { unreadCount } = useNotifications();
+  const { unreadCount } = useOptimizedNotifications();
 
   return (
     <DropdownMenu>

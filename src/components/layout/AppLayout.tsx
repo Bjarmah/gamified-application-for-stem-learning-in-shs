@@ -129,7 +129,28 @@ const AppLayout = () => {
 
       {/* Main Content */}
       <main className="container mx-auto px-4 py-6">
-        <Outlet />
+        <div className="flex gap-6">
+          <div className="flex-1">
+            <Outlet />
+          </div>
+          
+          {/* Connection Monitor Sidebar - Only in development */}
+          {process.env.NODE_ENV === 'development' && (
+            <aside className="w-64 hidden lg:block">
+              <div className="sticky top-20">
+                <div className="p-4 bg-card rounded-lg border">
+                  <div className="flex items-center gap-2 mb-3">
+                    <span className="text-sm font-medium">Connection Monitor</span>
+                    <Badge variant="outline" className="text-xs">DEV</Badge>
+                  </div>
+                  <div className="space-y-2 text-xs text-muted-foreground">
+                    <div>Monitor realtime connections to optimize performance</div>
+                  </div>
+                </div>
+              </div>
+            </aside>
+          )}
+        </div>
       </main>
     </div>
   );

@@ -3,11 +3,11 @@ import { Bell, MessageSquare, Users, Trophy } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Badge } from "@/components/ui/badge";
-import { useNotifications } from '@/hooks/use-notifications';
+import { useOptimizedNotifications } from '@/hooks/use-optimized-notifications';
 import { useNavigate } from 'react-router-dom';
 
 export const NotificationDropdown = () => {
-  const { notifications, markAsRead, markAllAsRead, deleteNotification } = useNotifications();
+  const { notifications, unreadCount, markAsRead, markAllAsRead, deleteNotification } = useOptimizedNotifications();
   const unreadNotifications = notifications.filter(notification => !notification.read);
   const navigate = useNavigate();
 
