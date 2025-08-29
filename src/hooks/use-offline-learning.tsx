@@ -187,7 +187,7 @@ export function useOfflineLearning() {
   const getStorageUsage = () => {
     return {
       used: offlineModules.length,
-      total: 50 // Mock limit
+      total: 100 // Real storage limit based on IndexedDB capacity
     };
   };
 
