@@ -36,6 +36,7 @@ import { useTypingIndicator } from '@/hooks/use-typing-indicator';
 import { useQuizRealtime } from '@/hooks/use-quiz-realtime';
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from '@/context/AuthContext';
+import { useGamificationRewards } from '@/hooks/use-gamification-rewards';
 import { useQuizContext } from '@/context/QuizContext';
 import { RoomService, CreateQuizData } from '@/services/roomService';
 import { Database } from '@/integrations/supabase/types';
@@ -60,6 +61,7 @@ const RoomDetail = () => {
     const navigate = useNavigate();
     const { toast } = useToast();
     const { user } = useAuth();
+    const { rewardQuizCompletion, rewardRoomJoin, rewardMessageSent } = useGamificationRewards();
     const { setIsQuizActive, setQuizTitle } = useQuizContext();
     const [message, setMessage] = useState('');
     const [room, setRoom] = useState<Room | null>(null);
@@ -381,6 +383,7 @@ const RoomDetail = () => {
         }, 0);
 
         const percentage = Math.round((score / questions.length) * 100);
+        const timeSpent = quizStartTime ? Math.floor((Date.now() - quizStartTime.getTime()) / 1000) : 0;
 
         try {
             const attemptId = await RoomService.submitQuizAttempt(
@@ -407,6 +410,9 @@ const RoomDetail = () => {
                 setQuizAttempts([...quizAttempts, newAttempt]);
                 setAllQuizAttempts([...allQuizAttempts, { ...newAttempt, profile: user.email ? { full_name: user.email } : undefined }]);
                 setShowQuizResults(true);
+
+                // Reward quiz completion with new system
+                await rewardQuizCompletion(currentQuiz.id, percentage, timeSpent);
 
                 // Deactivate quiz mode
                 setIsQuizActive(false);

@@ -5,6 +5,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/context/AuthContext";
 import { useQuizContext } from "@/context/QuizContext";
 import { useGamification } from "@/hooks/use-gamification";
+import { useGamificationRewards } from "@/hooks/use-gamification-rewards";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -41,6 +42,8 @@ const Quiz: React.FC = () => {
   const qc = useQueryClient();
   const { setIsQuizActive, setQuizTitle, setCurrentModuleId, markModuleCompleted } = useQuizContext();
   const { awardXP, updateStreak, updateModulesCompleted, updateQuizzesCompleted, checkAchievements, checkBadges } = useGamification();
+  const { rewardQuizCompletion } = useGamificationRewards();
+  const [startTime, setStartTime] = useState<number | null>(null);
 
   useEffect(() => {
     document.title = "Quiz • STEM Learner";
@@ -153,6 +156,7 @@ const Quiz: React.FC = () => {
     setQuizStarted(true);
     setIsQuizActive(true);
     setQuizTitle(quiz?.title);
+    setStartTime(Date.now()); // Track quiz start time
     tabMonitoring.requestFullscreen();
   };
 
@@ -283,16 +287,12 @@ const Quiz: React.FC = () => {
       qc.invalidateQueries({ queryKey: ["user-progress"] });
       toast({ title: "Quiz submitted", description: "Your attempt has been saved." });
 
-      // Award XP based on correct answers (1 XP per correct answer)
+      // Calculate quiz completion time
+      const timeSpent = Math.floor((Date.now() - (startTime || Date.now())) / 1000);
       const scorePct = total ? Math.round((correct / total) * 100) : 0;
-      const xpAmount = correct; // 1 XP per correct answer
 
-      // Award XP and update streak
-      awardXP(xpAmount, `Quiz completed: ${quiz?.title} (${correct}/${total} correct)`, data.id, 'quiz');
-      updateStreak();
-
-      // Update quizzes completed count
-      await updateQuizzesCompleted();
+      // Use new gamification rewards system
+      await rewardQuizCompletion(quiz?.id || '', scorePct, timeSpent);
 
       // Trigger confetti on quiz completion
       confetti({
