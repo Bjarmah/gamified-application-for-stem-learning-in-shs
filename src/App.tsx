@@ -8,6 +8,7 @@ import { ThemeProvider } from "@/context/ThemeContext";
 import { QuizProvider } from "@/context/QuizContext";
 import { OfflineProvider } from "@/context/OfflineContext";
 import { NotificationProvider } from "@/context/NotificationContext";
+import { RewardToast } from "@/components/gamification/RewardToast";
 import AppLayout from "@/components/layout/AppLayout";
 import Index from "./pages/Index";
 import Dashboard from "./pages/Dashboard";

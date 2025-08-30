@@ -71,19 +71,20 @@ const Dashboard: React.FC = () => {
     <div className="min-h-screen bg-background p-6">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold text-foreground mb-2">
-            Hi {profile?.full_name?.split(' ')[0] || user?.email?.split('@')[0] || 'there'}! 👋
+        <div className="mb-8 animate-fade-in-up">
+          <h1 className="text-3xl font-bold text-foreground mb-2 animate-slide-in-left">
+            Hi {profile?.full_name?.split(' ')[0] || user?.email?.split('@')[0] || 'there'}! 
+            <span className="animate-wiggle inline-block">👋</span>
           </h1>
-          <p className="text-muted-foreground">Track your progress and discover new learning opportunities</p>
+          <p className="text-muted-foreground animate-slide-in-right">Track your progress and discover new learning opportunities</p>
         </div>
 
         {/* Gamification Stats */}
         {!gamificationLoading && gamificationData && (
-          <div className="mb-8">
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <div className="mb-8 animate-fade-in-up">
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 stagger-animation">
               {/* Level & XP Progress */}
-              <div className="lg:col-span-2">
+              <div className="lg:col-span-2 animate-slide-in-left" style={{"--stagger-delay": 1} as React.CSSProperties}>
                 <XPBar
                   currentXP={gamificationData.total_xp}
                   totalXP={gamificationData.total_xp}
@@ -93,10 +94,10 @@ const Dashboard: React.FC = () => {
               </div>
 
               {/* Daily Streak */}
-              <Card>
+              <Card className="interactive-card animate-slide-in-right" style={{"--stagger-delay": 2} as React.CSSProperties}>
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                   <CardTitle className="text-sm font-medium">Daily Streak</CardTitle>
-                  <Flame className="h-4 w-4 text-stemOrange" />
+                  <Flame className="h-4 w-4 text-stemOrange animate-float" />
                 </CardHeader>
                 <CardContent>
                   <div className="text-2xl font-bold flex items-center gap-2">
@@ -114,53 +115,53 @@ const Dashboard: React.FC = () => {
         )}
 
         {/* Stats Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-          <Card>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8 stagger-animation">
+          <Card className="interactive-card animate-scale-in" style={{"--stagger-delay": 1} as React.CSSProperties}>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">Total Modules</CardTitle>
-              <BookOpen className="h-4 w-4 text-muted-foreground" />
+              <BookOpen className="h-4 w-4 text-muted-foreground animate-bounce-light" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">{stats?.totalModules || 0}</div>
+              <div className="text-2xl font-bold animate-slide-in-left">{stats?.totalModules || 0}</div>
               <p className="text-xs text-muted-foreground">
                 Available for learning
               </p>
             </CardContent>
           </Card>
 
-          <Card>
+          <Card className="interactive-card animate-scale-in" style={{"--stagger-delay": 2} as React.CSSProperties}>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">Subjects</CardTitle>
-              <Target className="h-4 w-4 text-muted-foreground" />
+              <Target className="h-4 w-4 text-muted-foreground animate-float" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">{stats?.subjects?.length || 0}</div>
+              <div className="text-2xl font-bold animate-slide-in-left">{stats?.subjects?.length || 0}</div>
               <p className="text-xs text-muted-foreground">
                 STEM disciplines
               </p>
             </CardContent>
           </Card>
 
-          <Card>
+          <Card className="interactive-card animate-scale-in" style={{"--stagger-delay": 3} as React.CSSProperties}>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">Total Content</CardTitle>
-              <BarChart3 className="h-4 w-4 text-muted-foreground" />
+              <BarChart3 className="h-4 w-4 text-muted-foreground animate-pulse-light" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">{stats?.totalContent || 0}</div>
+              <div className="text-2xl font-bold animate-slide-in-left">{stats?.totalContent || 0}</div>
               <p className="text-xs text-muted-foreground">
                 Learning resources
               </p>
             </CardContent>
           </Card>
 
-          <Card>
+          <Card className="interactive-card animate-scale-in" style={{"--stagger-delay": 4} as React.CSSProperties}>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">Available Tags</CardTitle>
-              <Star className="h-4 w-4 text-muted-foreground" />
+              <Star className="h-4 w-4 text-muted-foreground animate-wiggle" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">{stats?.tags?.length || 0}</div>
+              <div className="text-2xl font-bold animate-slide-in-left">{stats?.tags?.length || 0}</div>
               <p className="text-xs text-muted-foreground">
                 Topics to explore
               </p>
@@ -169,42 +170,43 @@ const Dashboard: React.FC = () => {
         </div>
 
         {/* Featured Modules Section */}
-        <div className="mb-8">
+        <div className="mb-8 animate-fade-in-up">
           <div className="flex items-center justify-between mb-6">
-            <h2 className="text-xl font-semibold">Featured Learning Modules</h2>
+            <h2 className="text-xl font-semibold animate-slide-in-left">Featured Learning Modules</h2>
             <Button
-              variant="outline"
+              variant="fun"
               onClick={() => navigate('/subjects')}
-              className="flex items-center gap-2"
+              className="flex items-center gap-2 interactive-button animate-slide-in-right"
             >
-              <BookOpen className="h-4 w-4" />
+              <BookOpen className="h-4 w-4 transition-transform duration-200 group-hover:scale-110" />
               View All Subjects
             </Button>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {featuredModules.map((subject: any) => (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 stagger-animation">
+            {featuredModules.map((subject: any, index: number) => (
               <Card
                 key={subject.subject}
-                className="cursor-pointer hover:shadow-lg transition-shadow"
+                className="interactive-card cursor-pointer animate-scale-in group"
+                style={{"--stagger-delay": index + 1} as React.CSSProperties}
                 onClick={() => navigate(`/subjects/${subject.subject.toLowerCase()}`)}
               >
                 <CardHeader>
                   <div className="flex items-center justify-between">
-                    <CardTitle className="text-lg">{subject.subject}</CardTitle>
-                    <Badge variant="outline">{subject.count} modules</Badge>
+                    <CardTitle className="text-lg group-hover:text-primary transition-colors duration-200">{subject.subject}</CardTitle>
+                    <Badge variant="outline" className="group-hover:scale-110 transition-transform duration-200 hover-glow">{subject.count} modules</Badge>
                   </div>
-                  <CardDescription>
+                  <CardDescription className="group-hover:text-primary transition-colors duration-200">
                     Explore {subject.subject.toLowerCase()} concepts and applications
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
                   <div className="space-y-3">
                     <div className="flex items-center justify-between text-sm">
-                      <span className="text-muted-foreground">Available modules:</span>
-                      <span className="font-medium">{subject.count}</span>
+                      <span className="text-muted-foreground group-hover:text-primary transition-colors duration-200">Available modules:</span>
+                      <span className="font-medium animate-bounce-light">{subject.count}</span>
                     </div>
-                    <Progress value={(subject.count / Math.max(...stats.subjectBreakdown.map((s: any) => s.count))) * 100} className="w-full" />
+                    <Progress value={(subject.count / Math.max(...stats.subjectBreakdown.map((s: any) => s.count))) * 100} className="w-full progress-bar-animated" />
                   </div>
                 </CardContent>
               </Card>
@@ -213,11 +215,11 @@ const Dashboard: React.FC = () => {
         </div>
 
         {/* Quick Actions */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <Card>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 stagger-animation">
+          <Card className="interactive-card animate-slide-in-left" style={{"--stagger-delay": 1} as React.CSSProperties}>
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
-                <Search className="h-5 w-5 text-primary" />
+                <Search className="h-5 w-5 text-primary animate-pulse-light" />
                 Discover Content
               </CardTitle>
               <CardDescription>
@@ -227,18 +229,18 @@ const Dashboard: React.FC = () => {
             <CardContent>
               <Button
                 onClick={() => navigate('/search')}
-                className="w-full"
-                variant="outline"
+                className="w-full interactive-button"
+                variant="bounce"
               >
                 Start Searching
               </Button>
             </CardContent>
           </Card>
 
-          <Card>
+          <Card className="interactive-card animate-slide-in-right" style={{"--stagger-delay": 2} as React.CSSProperties}>
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
-                <Trophy className="h-5 w-5 text-secondary" />
+                <Trophy className="h-5 w-5 text-secondary animate-float" />
                 Track Progress
               </CardTitle>
               <CardDescription>
@@ -248,8 +250,8 @@ const Dashboard: React.FC = () => {
             <CardContent>
               <Button
                 onClick={() => navigate('/achievements')}
-                className="w-full"
-                variant="outline"
+                className="w-full interactive-button"
+                variant="fun"
               >
                 View Achievements
               </Button>

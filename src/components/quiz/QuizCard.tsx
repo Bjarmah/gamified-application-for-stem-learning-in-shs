@@ -46,11 +46,11 @@ const QuizCard = ({
   };
 
   return (
-    <Card className="card-stem">
+    <Card className="card-stem interactive-card animate-fade-in-up group cursor-pointer">
       <CardHeader className="pb-2">
         <div className="flex justify-between items-start">
-          <CardTitle className="text-lg">{title}</CardTitle>
-          <Badge className={getDifficultyColor()}>
+          <CardTitle className="text-lg group-hover:text-primary transition-colors duration-200">{title}</CardTitle>
+          <Badge className={`${getDifficultyColor()} group-hover:scale-110 transition-transform duration-200 hover-glow`}>
             {difficulty}
           </Badge>
         </div>
@@ -58,23 +58,23 @@ const QuizCard = ({
       <CardContent className="space-y-3">
         <p className="text-sm text-muted-foreground line-clamp-2">{description}</p>
         <div className="flex justify-between text-sm">
-          <div className="text-muted-foreground">{questionsCount} questions</div>
-          <div className="flex items-center text-muted-foreground">
-            <Clock className="h-4 w-4 mr-1" /> {timeLimit}
+          <div className="text-muted-foreground group-hover:text-primary transition-colors duration-200">{questionsCount} questions</div>
+          <div className="flex items-center text-muted-foreground group-hover:text-primary transition-colors duration-200">
+            <Clock className="h-4 w-4 mr-1 group-hover:animate-wiggle" /> {timeLimit}
           </div>
         </div>
         
         {isCompleted && score !== undefined && (
-          <div className="bg-muted rounded-lg p-3">
+          <div className="bg-muted rounded-lg p-3 animate-scale-in">
             <div className="flex justify-between items-center">
               <div className="flex items-center">
-                <Trophy className="h-4 w-4 text-stemYellow mr-2" />
+                <Trophy className="h-4 w-4 text-stemYellow mr-2 animate-float" />
                 <span className="text-sm font-medium">Your score</span>
               </div>
-              <div className="text-sm font-bold">{score}%</div>
+              <div className="text-sm font-bold animate-bounce-light">{score}%</div>
             </div>
             {points && (
-              <div className="text-xs text-muted-foreground mt-1">
+              <div className="text-xs text-muted-foreground mt-1 animate-slide-in-left">
                 You earned {points} points
               </div>
             )}
@@ -84,7 +84,7 @@ const QuizCard = ({
       <CardFooter>
         <Button 
           onClick={() => navigate(`/quizzes/${id}`)} 
-          className={`w-full ${isCompleted ? 'bg-white border border-input hover:bg-muted text-foreground' : 'btn-stem'}`}
+          className={`w-full interactive-button ${isCompleted ? 'bg-white border border-input hover:bg-muted text-foreground' : 'btn-stem'}`}
         >
           {isCompleted ? 'Review Quiz' : 'Take Quiz'}
         </Button>
