@@ -296,13 +296,14 @@ class GamificationService {
   }
 
   // Quick XP reward methods for common actions
-  async rewardQuizCompletion(userId: string, quizId: string, score: number, timeSpent: number): Promise<GamificationReward | null> {
-    let xpAmount = 50; // Base XP for completing quiz
-    
-    if (score >= 90) xpAmount += 30; // Perfect score bonus
-    else if (score >= 80) xpAmount += 20; // Good score bonus
-    else if (score >= 70) xpAmount += 10; // Passing score bonus
+  async rewardCorrectAnswer(userId: string, quizId: string, questionIndex: number): Promise<GamificationReward | null> {
+    const xpAmount = 10; // Base XP for each correct answer
+    return await this.awardXP(userId, xpAmount, `Correct answer (Q${questionIndex + 1})`, quizId, 'question');
+  }
 
+  async rewardQuizCompletion(userId: string, quizId: string, score: number, timeSpent: number): Promise<GamificationReward | null> {
+    let xpAmount = 20; // Reduced base XP for completing quiz (since we award per question)
+    
     // Time bonus (faster completion = more XP)
     if (timeSpent < 300) xpAmount += 15; // Under 5 minutes
     else if (timeSpent < 600) xpAmount += 10; // Under 10 minutes

@@ -40,6 +40,15 @@ export function useGamificationRewards() {
     }
   };
 
+  const rewardCorrectAnswer = async (quizId: string, questionIndex: number) => {
+    if (!user?.id) return;
+    
+    const reward = await gamificationService.rewardCorrectAnswer(user.id, quizId, questionIndex);
+    if (reward) {
+      showRewardToast(reward);
+    }
+  };
+
   const rewardQuizCompletion = async (quizId: string, score: number, timeSpent: number) => {
     if (!user?.id) return;
     
@@ -111,10 +120,11 @@ export function useGamificationRewards() {
   }, [user?.id]);
 
   return {
+    rewardCorrectAnswer,
     rewardQuizCompletion,
     rewardModuleCompletion,
     rewardDailyLogin,
     rewardRoomJoin,
-    rewardMessageSent,
+    rewardMessageSent
   };
 }

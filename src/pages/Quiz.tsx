@@ -42,7 +42,7 @@ const Quiz: React.FC = () => {
   const qc = useQueryClient();
   const { setIsQuizActive, setQuizTitle, setCurrentModuleId, markModuleCompleted } = useQuizContext();
   const { awardXP, updateStreak, updateModulesCompleted, updateQuizzesCompleted, checkAchievements, checkBadges } = useGamification();
-  const { rewardQuizCompletion } = useGamificationRewards();
+  const { rewardCorrectAnswer, rewardQuizCompletion } = useGamificationRewards();
   const [startTime, setStartTime] = useState<number | null>(null);
 
   useEffect(() => {
@@ -246,7 +246,7 @@ const Quiz: React.FC = () => {
     } as QuizQuestionType;
   }, [quiz, index, total]);
 
-  const recordAnswer = (isCorrect: boolean) => {
+  const recordAnswer = async (isCorrect: boolean) => {
     if (!quiz || !quiz.questions) return;
 
     // Handle nested questions structure for recording answers
@@ -264,7 +264,12 @@ const Quiz: React.FC = () => {
       correctOption: q.correctOption,
       isCorrect,
     }]));
-    if (isCorrect) setCorrect((c) => c + 1);
+    
+    if (isCorrect) {
+      setCorrect((c) => c + 1);
+      // Award XP for correct answer
+      await rewardCorrectAnswer(quiz.id, index);
+    }
   };
 
   const onNext = () => {
