@@ -129,6 +129,38 @@
     @apply rounded-lg border-input bg-background px-4 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2;
   }
 
+  /* Mobile-First Touch Optimizations */
+  .touch-friendly {
+    @apply min-h-[44px] min-w-[44px] p-3 text-base;
+  }
+
+  .mobile-card {
+    @apply p-4 md:p-6 rounded-lg md:rounded-xl;
+  }
+
+  .mobile-button {
+    @apply py-3 px-4 text-base font-medium rounded-lg active:scale-95 transition-transform duration-150;
+  }
+
+  .mobile-nav-item {
+    @apply flex flex-col items-center space-y-1 p-2 min-h-[60px] min-w-[60px] rounded-lg transition-all duration-200;
+  }
+
+  .mobile-grid {
+    @apply grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6;
+  }
+
+  /* Swipe indicators */
+  .swipe-hint {
+    @apply relative;
+  }
+
+  .swipe-hint::after {
+    content: '';
+    @apply absolute -right-2 top-1/2 transform -translate-y-1/2 w-1 h-8 bg-gradient-to-b from-transparent via-stemPurple to-transparent rounded-full opacity-30;
+    animation: pulse 2s infinite;
+  }
+
   /* Subject page specific styles */
   .subject-card {
     @apply bg-white dark:bg-card rounded-xl shadow-md hover:shadow-lg transition-all duration-200 overflow-hidden border border-slate-200 dark:border-slate-700;
@@ -254,5 +286,16 @@
 
   .stagger-animation > * {
     animation-delay: calc(var(--stagger-delay, 0) * 100ms);
+  }
+
+  /* Mobile-specific animations */
+  @media (max-width: 768px) {
+    .interactive-card {
+      @apply hover:scale-100 active:scale-95;
+    }
+    
+    .interactive-button {
+      @apply hover:scale-100 active:scale-95;
+    }
   }
 }

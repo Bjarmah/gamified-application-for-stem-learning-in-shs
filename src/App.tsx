@@ -9,6 +9,7 @@ import { QuizProvider } from "@/context/QuizContext";
 import { OfflineProvider } from "@/context/OfflineContext";
 import { NotificationProvider } from "@/context/NotificationContext";
 import { RewardToast } from "@/components/gamification/RewardToast";
+import { PWAInstallPrompt } from "@/components/mobile";
 import AppLayout from "@/components/layout/AppLayout";
 import Index from "./pages/Index";
 import Dashboard from "./pages/Dashboard";
@@ -55,6 +56,7 @@ function App() {
                 <TooltipProvider>
                   <Toaster />
                   <Sonner />
+                  <PWAInstallPrompt />
                   <BrowserRouter>
                     <Routes>
                       <Route path="/" element={<Index />} />
