@@ -297,7 +297,7 @@ class GamificationService {
 
   // Quick XP reward methods for common actions
   async rewardCorrectAnswer(userId: string, quizId: string, questionIndex: number): Promise<GamificationReward | null> {
-    const xpAmount = 10; // Base XP for each correct answer
+    const xpAmount = 1; // 1 XP per correct answer (30 questions = 30 XP max)
     return await this.awardXP(userId, xpAmount, `Correct answer (Q${questionIndex + 1})`, quizId, 'question');
   }
 
