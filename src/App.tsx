@@ -10,6 +10,7 @@ import { OfflineProvider } from "@/context/OfflineContext";
 import { NotificationProvider } from "@/context/NotificationContext";
 import { RewardToast } from "@/components/gamification/RewardToast";
 import { PWAInstallPrompt } from "@/components/mobile";
+import SessionTimeoutWrapper from "./components/auth/SessionTimeoutWrapper";
 import AppLayout from "@/components/layout/AppLayout";
 import Index from "./pages/Index";
 import Dashboard from "./pages/Dashboard";
@@ -50,7 +51,8 @@ function App() {
     <QueryClientProvider client={queryClient}>
       <ThemeProvider>
         <AuthProvider>
-          <QuizProvider>
+          <SessionTimeoutWrapper>
+            <QuizProvider>
             <OfflineProvider>
               <NotificationProvider>
                 <TooltipProvider>
@@ -91,6 +93,7 @@ function App() {
               </NotificationProvider>
             </OfflineProvider>
           </QuizProvider>
+          </SessionTimeoutWrapper>
         </AuthProvider>
       </ThemeProvider>
     </QueryClientProvider>
