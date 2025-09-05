@@ -31,21 +31,25 @@ export const useLearningAnalytics = () => {
 
     const fetchAnalytics = async () => {
       try {
-        // Fetch quiz attempts for performance analysis
+        // Fetch quiz attempts with related quiz and module data
         const { data: quizAttempts, error } = await supabase
           .from('quiz_attempts')
           .select(`
             score,
             total_questions,
-            created_at,
-            quiz:quizzes(
+            completed_at,
+            quizzes!inner(
               title,
-              subject,
-              module_name
+              modules!inner(
+                title,
+                subjects!inner(
+                  name
+                )
+              )
             )
           `)
           .eq('user_id', user.id)
-          .order('created_at', { ascending: false });
+          .order('completed_at', { ascending: false });
 
         if (error) throw error;
 
@@ -57,7 +61,7 @@ export const useLearningAnalytics = () => {
         }>();
 
         quizAttempts?.forEach((attempt) => {
-          const subject = attempt.quiz?.subject || 'Unknown';
+          const subject = attempt.quizzes?.modules?.subjects?.name || 'Unknown';
           const percentage = (attempt.score / attempt.total_questions) * 100;
           
           if (!subjectStats.has(subject)) {
@@ -71,8 +75,8 @@ export const useLearningAnalytics = () => {
           const stats = subjectStats.get(subject)!;
           stats.scores.push(percentage);
           stats.quizzes.push(attempt);
-          if (attempt.quiz?.module_name) {
-            stats.modules.add(attempt.quiz.module_name);
+          if (attempt.quizzes?.modules?.title) {
+            stats.modules.add(attempt.quizzes.modules.title);
           }
         });
 
@@ -95,8 +99,8 @@ export const useLearningAnalytics = () => {
           // Identify weak and strong areas (simplified)
           const modulePerformance = new Map<string, number[]>();
           stats.quizzes.forEach(quiz => {
-            if (quiz.quiz?.module_name) {
-              const module = quiz.quiz.module_name;
+            if (quiz.quizzes?.modules?.title) {
+              const module = quiz.quizzes.modules.title;
               const percentage = (quiz.score / quiz.total_questions) * 100;
               if (!modulePerformance.has(module)) {
                 modulePerformance.set(module, []);

@@ -25,6 +25,13 @@ import { useAuth } from "@/context/AuthContext";
 import XPBar from "@/components/gamification/XPBar";
 import LevelBadge from "@/components/gamification/LevelBadge";
 import { FloatingAIChatbot } from "@/components/ai-chatbot";
+import {
+  PersonalizedDashboard,
+  StudyInsightsCard,
+  WeakAreasCard,
+  StudyGoalsCard,
+  LearningPathCard
+} from "@/components/dashboard";
 
 const Dashboard: React.FC = () => {
   const navigate = useNavigate();
@@ -113,6 +120,28 @@ const Dashboard: React.FC = () => {
             </div>
           </div>
         )}
+
+        {/* Personalized Learning Dashboard */}
+        <div className="mb-8 animate-fade-in-up">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
+            {/* Main Performance Overview */}
+            <div className="lg:col-span-2">
+              <PersonalizedDashboard />
+            </div>
+            
+            {/* Side Panel with Insights */}
+            <div className="space-y-6">
+              <StudyInsightsCard />
+              <WeakAreasCard />
+            </div>
+          </div>
+          
+          {/* Goals and Learning Path */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <StudyGoalsCard />
+            <LearningPathCard />
+          </div>
+        </div>
 
         {/* Stats Cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8 stagger-animation">
