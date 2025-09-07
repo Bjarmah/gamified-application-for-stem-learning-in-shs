@@ -10,7 +10,7 @@ import { OfflineProvider } from "@/context/OfflineContext";
 import { NotificationProvider } from "@/context/NotificationContext";
 import { RewardToast } from "@/components/gamification/RewardToast";
 import { PWAInstallPrompt } from "@/components/mobile";
-import MobileNavigation from "./components/mobile/MobileNavigation";
+import { MobileTabNavigation } from "./components/mobile";
 import SessionTimeoutWrapper from "./components/auth/SessionTimeoutWrapper";
 import AppLayout from "@/components/layout/AppLayout";
 import Index from "./pages/Index";
@@ -88,8 +88,8 @@ function App() {
                         <Route path="admin/subjects" element={<AdminSubjects />} />
                       </Route>
                       <Route path="*" element={<NotFound />} />
-                    </Routes>
-                    <MobileNavigation />
+        </Routes>
+        <MobileTabNavigation />
                   </BrowserRouter>
                 </TooltipProvider>
               </NotificationProvider>

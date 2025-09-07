@@ -1,6 +1,11 @@
 export { MobileCard } from './MobileCard';
 export { MobileButton } from './MobileButton';
+export { MobileGestureWrapper } from './MobileGestureWrapper';
+export { MobileDashboardCard } from './MobileDashboardCard';
+export { MobilePullToRefresh } from './MobilePullToRefresh';
 export { PWAInstallPrompt } from './PWAInstallPrompt';
 export { default as MobileNavigation } from './MobileNavigation';
+export { default as MobileTabNavigation } from './MobileTabNavigation';
 export { default as MobileHeader } from './MobileHeader';
+export { default as MobileQuickActions } from './MobileQuickActions';
 export { default as SwipeableCard } from './SwipeableCard';

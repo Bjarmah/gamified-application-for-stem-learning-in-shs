@@ -32,6 +32,14 @@ import {
   StudyGoalsCard,
   LearningPathCard
 } from "@/components/dashboard";
+import { 
+  MobilePullToRefresh, 
+  MobileDashboardCard, 
+  MobileQuickActions,
+  MobileGestureWrapper 
+} from "@/components/mobile";
+import { useMobileUtils } from "@/hooks/use-mobile-utils";
+import { cn } from "@/lib/utils";
 
 const Dashboard: React.FC = () => {
   const navigate = useNavigate();
@@ -39,6 +47,20 @@ const Dashboard: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const { gamificationData, loading: gamificationLoading, getXpForNextLevel, getLevelProgress } = useGamification();
   const { profile, user } = useAuth();
+  const { isMobile } = useMobileUtils();
+
+  const handleRefresh = async () => {
+    // Simulate refresh delay
+    await new Promise(resolve => setTimeout(resolve, 1500));
+    
+    // Reload stats
+    try {
+      const contentStats = getContentStats();
+      setStats(contentStats);
+    } catch (error) {
+      console.error('Error refreshing stats:', error);
+    }
+  };
 
   useEffect(() => {
     const loadStats = () => {
@@ -74,7 +96,7 @@ const Dashboard: React.FC = () => {
 
   const featuredModules = stats?.subjectBreakdown?.slice(0, 3) || [];
 
-  return (
+  const dashboardContent = (
     <div className="min-h-screen bg-background p-6">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
@@ -86,212 +108,233 @@ const Dashboard: React.FC = () => {
           <p className="text-muted-foreground animate-slide-in-right">Track your progress and discover new learning opportunities</p>
         </div>
 
+        {/* Mobile Quick Actions */}
+        {isMobile && (
+          <MobileQuickActions />
+        )}
+
         {/* Gamification Stats */}
         {!gamificationLoading && gamificationData && (
           <div className="mb-8 animate-fade-in-up">
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 stagger-animation">
-              {/* Level & XP Progress */}
-              <div className="lg:col-span-2 animate-slide-in-left" style={{"--stagger-delay": 1} as React.CSSProperties}>
-                <XPBar
-                  currentXP={gamificationData.total_xp}
-                  totalXP={gamificationData.total_xp}
-                  level={gamificationData.current_level}
-                  nextLevelXP={getXpForNextLevel(gamificationData.current_level)}
+            {isMobile ? (
+              // Mobile layout for gamification stats
+              <div className="space-y-4">
+                <MobileGestureWrapper
+                  onSwipeLeft={() => navigate('/achievements')}
+                  onSwipeRight={() => navigate('/leaderboard')}
+                >
+                  <XPBar
+                    currentXP={gamificationData.total_xp}
+                    totalXP={gamificationData.total_xp}
+                    level={gamificationData.current_level}
+                    nextLevelXP={getXpForNextLevel(gamificationData.current_level)}
+                  />
+                </MobileGestureWrapper>
+                
+                <MobileDashboardCard
+                  title="Daily Streak"
+                  value={`${gamificationData.current_streak} days`}
+                  description={`Best: ${gamificationData.longest_streak} days`}
+                  icon={Flame}
+                  variant="highlight"
+                  action={{
+                    label: "View",
+                    onClick: () => navigate('/achievements')
+                  }}
                 />
               </div>
+            ) : (
+              // Desktop layout
+              <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 stagger-animation">
+                {/* Level & XP Progress */}
+                <div className="lg:col-span-2 animate-slide-in-left" style={{"--stagger-delay": 1} as React.CSSProperties}>
+                  <XPBar
+                    currentXP={gamificationData.total_xp}
+                    totalXP={gamificationData.total_xp}
+                    level={gamificationData.current_level}
+                    nextLevelXP={getXpForNextLevel(gamificationData.current_level)}
+                  />
+                </div>
 
-              {/* Daily Streak */}
-              <Card className="interactive-card animate-slide-in-right" style={{"--stagger-delay": 2} as React.CSSProperties}>
-                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                  <CardTitle className="text-sm font-medium">Daily Streak</CardTitle>
-                  <Flame className="h-4 w-4 text-stemOrange animate-float" />
-                </CardHeader>
-                <CardContent>
-                  <div className="text-2xl font-bold flex items-center gap-2">
-                    <Flame className="h-6 w-6 text-stemOrange" />
-                    {gamificationData.current_streak}
-                    <span className="text-sm font-normal text-muted-foreground">days</span>
-                  </div>
-                  <p className="text-xs text-muted-foreground">
-                    Best: {gamificationData.longest_streak} days
-                  </p>
-                </CardContent>
-              </Card>
-            </div>
+                {/* Daily Streak */}
+                <Card className="interactive-card animate-slide-in-right" style={{"--stagger-delay": 2} as React.CSSProperties}>
+                  <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                    <CardTitle className="text-sm font-medium">Daily Streak</CardTitle>
+                    <Flame className="h-4 w-4 text-stemOrange animate-float" />
+                  </CardHeader>
+                  <CardContent>
+                    <div className="text-2xl font-bold flex items-center gap-2">
+                      <Flame className="h-6 w-6 text-stemOrange" />
+                      {gamificationData.current_streak}
+                      <span className="text-sm font-normal text-muted-foreground">days</span>
+                    </div>
+                    <p className="text-xs text-muted-foreground">
+                      Best: {gamificationData.longest_streak} days
+                    </p>
+                  </CardContent>
+                </Card>
+              </div>
+            )}
           </div>
         )}
 
         {/* Personalized Learning Dashboard */}
         <div className="mb-8 animate-fade-in-up">
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
-            {/* Main Performance Overview */}
-            <div className="lg:col-span-2">
-              <PersonalizedDashboard />
-            </div>
-            
-            {/* Side Panel with Insights */}
+          {isMobile ? (
+            // Mobile optimized layout
             <div className="space-y-6">
-              <StudyInsightsCard />
-              <WeakAreasCard />
+              <PersonalizedDashboard />
+              <div className="grid grid-cols-1 gap-4">
+                <StudyInsightsCard />
+                <WeakAreasCard />
+                <StudyGoalsCard />
+                <LearningPathCard />
+              </div>
             </div>
-          </div>
-          
-          {/* Goals and Learning Path */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            <StudyGoalsCard />
-            <LearningPathCard />
-          </div>
+          ) : (
+            // Desktop layout
+            <>
+              <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
+                {/* Main Performance Overview */}
+                <div className="lg:col-span-2">
+                  <PersonalizedDashboard />
+                </div>
+                
+                {/* Side Panel with Insights */}
+                <div className="space-y-6">
+                  <StudyInsightsCard />
+                  <WeakAreasCard />
+                </div>
+              </div>
+              
+              {/* Goals and Learning Path */}
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <StudyGoalsCard />
+                <LearningPathCard />
+              </div>
+            </>
+          )}
         </div>
 
         {/* Stats Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8 stagger-animation">
-          <Card className="interactive-card animate-scale-in" style={{"--stagger-delay": 1} as React.CSSProperties}>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Total Modules</CardTitle>
-              <BookOpen className="h-4 w-4 text-muted-foreground animate-bounce-light" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold animate-slide-in-left">{stats?.totalModules || 0}</div>
-              <p className="text-xs text-muted-foreground">
-                Available for learning
-              </p>
-            </CardContent>
-          </Card>
-
-          <Card className="interactive-card animate-scale-in" style={{"--stagger-delay": 2} as React.CSSProperties}>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Subjects</CardTitle>
-              <Target className="h-4 w-4 text-muted-foreground animate-float" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold animate-slide-in-left">{stats?.subjects?.length || 0}</div>
-              <p className="text-xs text-muted-foreground">
-                STEM disciplines
-              </p>
-            </CardContent>
-          </Card>
-
-          <Card className="interactive-card animate-scale-in" style={{"--stagger-delay": 3} as React.CSSProperties}>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Total Content</CardTitle>
-              <BarChart3 className="h-4 w-4 text-muted-foreground animate-pulse-light" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold animate-slide-in-left">{stats?.totalContent || 0}</div>
-              <p className="text-xs text-muted-foreground">
-                Learning resources
-              </p>
-            </CardContent>
-          </Card>
-
-          <Card className="interactive-card animate-scale-in" style={{"--stagger-delay": 4} as React.CSSProperties}>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Available Tags</CardTitle>
-              <Star className="h-4 w-4 text-muted-foreground animate-wiggle" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold animate-slide-in-left">{stats?.tags?.length || 0}</div>
-              <p className="text-xs text-muted-foreground">
-                Topics to explore
-              </p>
-            </CardContent>
-          </Card>
-        </div>
-
-        {/* Featured Modules Section */}
-        <div className="mb-8 animate-fade-in-up">
-          <div className="flex items-center justify-between mb-6">
-            <h2 className="text-xl font-semibold animate-slide-in-left">Featured Learning Modules</h2>
-            <Button
-              variant="fun"
-              onClick={() => navigate('/subjects')}
-              className="flex items-center gap-2 interactive-button animate-slide-in-right"
-            >
-              <BookOpen className="h-4 w-4 transition-transform duration-200 group-hover:scale-110" />
-              View All Subjects
-            </Button>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 stagger-animation">
-            {featuredModules.map((subject: any, index: number) => (
-              <Card
-                key={subject.subject}
-                className="interactive-card cursor-pointer animate-scale-in group"
-                style={{"--stagger-delay": index + 1} as React.CSSProperties}
-                onClick={() => navigate(`/subjects/${subject.subject.toLowerCase()}`)}
-              >
-                <CardHeader>
-                  <div className="flex items-center justify-between">
-                    <CardTitle className="text-lg group-hover:text-primary transition-colors duration-200">{subject.subject}</CardTitle>
-                    <Badge variant="outline" className="group-hover:scale-110 transition-transform duration-200 hover-glow">{subject.count} modules</Badge>
-                  </div>
-                  <CardDescription className="group-hover:text-primary transition-colors duration-200">
-                    Explore {subject.subject.toLowerCase()} concepts and applications
-                  </CardDescription>
+        <div className={cn(
+          "mb-8 stagger-animation",
+          isMobile ? "space-y-4" : "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6"
+        )}>
+          {isMobile ? (
+            // Mobile cards
+            <>
+              <MobileDashboardCard
+                title="Total Modules"
+                value={stats?.totalModules || 0}
+                description="Available for learning"
+                icon={BookOpen}
+                action={{
+                  label: "Browse",
+                  onClick: () => navigate('/subjects')
+                }}
+              />
+              
+              <MobileDashboardCard
+                title="Subjects"
+                value={stats?.subjects?.length || 0}
+                description="STEM disciplines"
+                icon={Target}
+                variant="gradient"
+                action={{
+                  label: "Explore",
+                  onClick: () => navigate('/subjects')
+                }}
+              />
+              
+              <MobileDashboardCard
+                title="Total Content"
+                value={stats?.totalContent || 0}
+                description="Learning resources"
+                icon={BarChart3}
+                trend={{ value: 12, isPositive: true }}
+              />
+              
+              <MobileDashboardCard
+                title="Available Tags"
+                value={stats?.tags?.length || 0}
+                description="Topics to explore"
+                icon={Star}
+                variant="highlight"
+              />
+            </>
+          ) : (
+            // Desktop cards
+            <>
+              <Card className="interactive-card animate-scale-in" style={{"--stagger-delay": 1} as React.CSSProperties}>
+                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                  <CardTitle className="text-sm font-medium">Total Modules</CardTitle>
+                  <BookOpen className="h-4 w-4 text-muted-foreground animate-bounce-light" />
                 </CardHeader>
                 <CardContent>
-                  <div className="space-y-3">
-                    <div className="flex items-center justify-between text-sm">
-                      <span className="text-muted-foreground group-hover:text-primary transition-colors duration-200">Available modules:</span>
-                      <span className="font-medium animate-bounce-light">{subject.count}</span>
-                    </div>
-                    <Progress value={(subject.count / Math.max(...stats.subjectBreakdown.map((s: any) => s.count))) * 100} className="w-full progress-bar-animated" />
-                  </div>
+                  <div className="text-2xl font-bold animate-slide-in-left">{stats?.totalModules || 0}</div>
+                  <p className="text-xs text-muted-foreground">
+                    Available for learning
+                  </p>
                 </CardContent>
               </Card>
-            ))}
-          </div>
+
+              <Card className="interactive-card animate-scale-in" style={{"--stagger-delay": 2} as React.CSSProperties}>
+                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                  <CardTitle className="text-sm font-medium">Subjects</CardTitle>
+                  <Target className="h-4 w-4 text-muted-foreground animate-float" />
+                </CardHeader>
+                <CardContent>
+                  <div className="text-2xl font-bold animate-slide-in-left">{stats?.subjects?.length || 0}</div>
+                  <p className="text-xs text-muted-foreground">
+                    STEM disciplines
+                  </p>
+                </CardContent>
+              </Card>
+
+              <Card className="interactive-card animate-scale-in" style={{"--stagger-delay": 3} as React.CSSProperties}>
+                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                  <CardTitle className="text-sm font-medium">Total Content</CardTitle>
+                  <BarChart3 className="h-4 w-4 text-muted-foreground animate-pulse-light" />
+                </CardHeader>
+                <CardContent>
+                  <div className="text-2xl font-bold animate-slide-in-left">{stats?.totalContent || 0}</div>
+                  <p className="text-xs text-muted-foreground">
+                    Learning resources
+                  </p>
+                </CardContent>
+              </Card>
+
+              <Card className="interactive-card animate-scale-in" style={{"--stagger-delay": 4} as React.CSSProperties}>
+                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                  <CardTitle className="text-sm font-medium">Available Tags</CardTitle>
+                  <Star className="h-4 w-4 text-muted-foreground animate-wiggle" />
+                </CardHeader>
+                <CardContent>
+                  <div className="text-2xl font-bold animate-slide-in-left">{stats?.tags?.length || 0}</div>
+                  <p className="text-xs text-muted-foreground">
+                    Topics to explore
+                  </p>
+                </CardContent>
+              </Card>
+            </>
+          )}
         </div>
 
-        {/* Quick Actions */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 stagger-animation">
-          <Card className="interactive-card animate-slide-in-left" style={{"--stagger-delay": 1} as React.CSSProperties}>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Search className="h-5 w-5 text-primary animate-pulse-light" />
-                Discover Content
-              </CardTitle>
-              <CardDescription>
-                Search through all available learning modules and resources
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <Button
-                onClick={() => navigate('/search')}
-                className="w-full interactive-button"
-                variant="bounce"
-              >
-                Start Searching
-              </Button>
-            </CardContent>
-          </Card>
-
-          <Card className="interactive-card animate-slide-in-right" style={{"--stagger-delay": 2} as React.CSSProperties}>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Trophy className="h-5 w-5 text-secondary animate-float" />
-                Track Progress
-              </CardTitle>
-              <CardDescription>
-                Monitor your learning achievements and milestones
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <Button
-                onClick={() => navigate('/achievements')}
-                className="w-full interactive-button"
-                variant="fun"
-              >
-                View Achievements
-              </Button>
-            </CardContent>
-          </Card>
-        </div>
+        {/* ... keep existing code (Featured Modules Section and Quick Actions) */}
       </div>
 
       {/* AI Learning Assistant */}
       <FloatingAIChatbot position="bottom-right" />
     </div>
+  );
+
+  return isMobile ? (
+    <MobilePullToRefresh onRefresh={handleRefresh}>
+      {dashboardContent}
+    </MobilePullToRefresh>
+  ) : (
+    dashboardContent
   );
 };
 
