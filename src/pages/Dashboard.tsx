@@ -36,7 +36,8 @@ import {
   MobilePullToRefresh, 
   MobileDashboardCard, 
   MobileQuickActions,
-  MobileGestureWrapper 
+  MobileGestureWrapper,
+  MobileStreakWidget
 } from "@/components/mobile";
 import { useMobileUtils } from "@/hooks/use-mobile-utils";
 import { cn } from "@/lib/utils";
@@ -108,9 +109,12 @@ const Dashboard: React.FC = () => {
           <p className="text-muted-foreground animate-slide-in-right">Track your progress and discover new learning opportunities</p>
         </div>
 
-        {/* Mobile Quick Actions */}
+        {/* Mobile Quick Actions and Streak Widget */}
         {isMobile && (
-          <MobileQuickActions />
+          <div className="space-y-4">
+            <MobileQuickActions />
+            <MobileStreakWidget />
+          </div>
         )}
 
         {/* Gamification Stats */}

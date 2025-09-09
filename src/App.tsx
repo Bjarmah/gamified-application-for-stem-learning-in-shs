@@ -36,6 +36,7 @@ import NotFound from "./pages/NotFound";
 import Leaderboard from "./pages/Leaderboard";
 import Analytics from "./pages/Analytics";
 import ProtectedRoute from "./components/auth/ProtectedRoute";
+import { useMobileStreakNotifications } from "@/hooks/use-mobile-streak-notifications";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -56,6 +57,7 @@ function App() {
             <QuizProvider>
             <OfflineProvider>
               <NotificationProvider>
+                <MobileEnhancementsProvider />
                 <TooltipProvider>
                   <Toaster />
                   <Sonner />
@@ -100,6 +102,12 @@ function App() {
       </ThemeProvider>
     </QueryClientProvider>
   );
+}
+
+// Mobile enhancements provider component
+function MobileEnhancementsProvider() {
+  useMobileStreakNotifications();
+  return null;
 }
 
 export default App;

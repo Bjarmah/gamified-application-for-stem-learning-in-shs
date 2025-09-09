@@ -14,7 +14,10 @@ import QuizQuestion, { QuizQuestionType } from "@/components/quiz/QuizQuestion";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useToast } from "@/hooks/use-toast";
 import { useTabMonitoring } from "@/hooks/use-tab-monitoring";
-import { Clock, Trophy, ArrowLeft, Eye, EyeOff, AlertTriangle, Maximize, Check } from "lucide-react";
+import { Clock, Trophy, ArrowLeft, Eye, EyeOff, AlertTriangle, Maximize, Check, ChevronLeft, ChevronRight } from "lucide-react";
+import { MobileCard, MobileButton, MobileGestureWrapper } from "@/components/mobile";
+import { useMobileUtils } from "@/hooks/use-mobile-utils";
+import { cn } from "@/lib/utils";
 
 import confetti from 'canvas-confetti';
 
@@ -43,6 +46,7 @@ const Quiz: React.FC = () => {
   const { setIsQuizActive, setQuizTitle, setCurrentModuleId, markModuleCompleted } = useQuizContext();
   const { awardXP, updateStreak, updateModulesCompleted, updateQuizzesCompleted, checkAchievements, checkBadges } = useGamification();
   const { rewardCorrectAnswer, rewardQuizCompletion } = useGamificationRewards();
+  const { isMobile, vibrate } = useMobileUtils();
   const [startTime, setStartTime] = useState<number | null>(null);
 
   useEffect(() => {
@@ -369,13 +373,22 @@ const Quiz: React.FC = () => {
   }
 
   return (
-    <main className="space-y-6 pb-8">
-      <header className="flex items-center justify-between">
-        <div>
-          <h1 className="text-2xl font-bold tracking-tight">{quiz.title}</h1>
+    <main className={cn("space-y-6 pb-8", isMobile && "pb-20")}>
+      <header className={cn(
+        "flex items-center justify-between",
+        isMobile && "flex-col space-y-4 items-start"
+      )}>
+        <div className={cn(isMobile && "w-full")}>
+          <h1 className={cn(
+            "text-2xl font-bold tracking-tight",
+            isMobile && "text-xl"
+          )}>{quiz.title}</h1>
           <p className="text-muted-foreground">{quiz.description}</p>
         </div>
-        <div className="flex items-center gap-2">
+        <div className={cn(
+          "flex items-center gap-2",
+          isMobile && "w-full justify-between"
+        )}>
           <Badge variant="outline" className="flex items-center gap-1">
             <Clock className="h-3 w-3" /> {secondsToMMSS(secondsLeft)}
           </Badge>
@@ -409,55 +422,108 @@ const Quiz: React.FC = () => {
 
       {/* Quiz Start Screen */}
       {!quizStarted && user && total > 0 && (
-        <Card className="card-stem max-w-2xl mx-auto">
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <AlertTriangle className="h-5 w-5 text-stemYellow" />
-              Quiz Security Notice
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            <div className="space-y-3 text-sm">
-              <div className="flex items-start gap-3">
-                <Eye className="h-4 w-4 mt-0.5 text-primary" />
-                <div>
-                  <p className="font-medium">Tab monitoring is active</p>
-                  <p className="text-muted-foreground">Switching tabs or windows will be detected and logged</p>
+        isMobile ? (
+          <MobileCard className="max-w-2xl mx-auto">
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2 text-lg">
+                <AlertTriangle className="h-5 w-5 text-stemYellow" />
+                Quiz Security Notice
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div className="space-y-4 text-sm">
+                <div className="flex items-start gap-3 p-3 bg-muted/50 rounded-lg">
+                  <Eye className="h-4 w-4 mt-0.5 text-primary" />
+                  <div>
+                    <p className="font-medium">Tab monitoring is active</p>
+                    <p className="text-muted-foreground">Keep this tab active during the quiz</p>
+                  </div>
+                </div>
+                <div className="flex items-start gap-3 p-3 bg-destructive/10 rounded-lg">
+                  <AlertTriangle className="h-4 w-4 mt-0.5 text-destructive" />
+                  <div>
+                    <p className="font-medium">3 warning system</p>
+                    <p className="text-muted-foreground">Quiz auto-submits after 3 tab switches</p>
+                  </div>
+                </div>
+                <div className="flex items-start gap-3 p-3 bg-primary/10 rounded-lg">
+                  <Trophy className="h-4 w-4 mt-0.5 text-stemGreen" />
+                  <div>
+                    <p className="font-medium">Passing score: 70%</p>
+                    <p className="text-muted-foreground">Complete the module and earn XP</p>
+                  </div>
                 </div>
               </div>
-              <div className="flex items-start gap-3">
-                <AlertTriangle className="h-4 w-4 mt-0.5 text-destructive" />
-                <div>
-                  <p className="font-medium">3 warning system</p>
-                  <p className="text-muted-foreground">After 3 tab switches, your quiz will be automatically submitted</p>
+              <div className="flex flex-col gap-3 pt-2">
+                <MobileButton
+                  onClick={startQuiz}
+                  className="w-full btn-stem"
+                  hapticFeedback={true}
+                >
+                  I Understand - Start Quiz
+                </MobileButton>
+                <MobileButton
+                  variant="outline"
+                  onClick={() => navigate(-1)}
+                  className="w-full"
+                >
+                  <ArrowLeft className="h-4 w-4 mr-2" />
+                  Cancel
+                </MobileButton>
+              </div>
+            </CardContent>
+          </MobileCard>
+        ) : (
+          <Card className="card-stem max-w-2xl mx-auto">
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <AlertTriangle className="h-5 w-5 text-stemYellow" />
+                Quiz Security Notice
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div className="space-y-3 text-sm">
+                <div className="flex items-start gap-3">
+                  <Eye className="h-4 w-4 mt-0.5 text-primary" />
+                  <div>
+                    <p className="font-medium">Tab monitoring is active</p>
+                    <p className="text-muted-foreground">Switching tabs or windows will be detected and logged</p>
+                  </div>
+                </div>
+                <div className="flex items-start gap-3">
+                  <AlertTriangle className="h-4 w-4 mt-0.5 text-destructive" />
+                  <div>
+                    <p className="font-medium">3 warning system</p>
+                    <p className="text-muted-foreground">After 3 tab switches, your quiz will be automatically submitted</p>
+                  </div>
+                </div>
+                <div className="flex items-start gap-3">
+                  <Maximize className="h-4 w-4 mt-0.5 text-primary" />
+                  <div>
+                    <p className="font-medium">Fullscreen recommended</p>
+                    <p className="text-muted-foreground">We'll suggest fullscreen mode for the best quiz experience</p>
+                  </div>
+                </div>
+                <div className="flex items-start gap-3">
+                  <Trophy className="h-4 w-4 mt-0.5 text-stemGreen" />
+                  <div>
+                    <p className="font-medium">Passing score: 70%</p>
+                    <p className="text-muted-foreground">Score 70% or higher to complete this module and earn XP</p>
+                  </div>
                 </div>
               </div>
-              <div className="flex items-start gap-3">
-                <Maximize className="h-4 w-4 mt-0.5 text-primary" />
-                <div>
-                  <p className="font-medium">Fullscreen recommended</p>
-                  <p className="text-muted-foreground">We'll suggest fullscreen mode for the best quiz experience</p>
-                </div>
+              <div className="flex gap-2 pt-2">
+                <Button variant="outline" onClick={() => navigate(-1)}>
+                  <ArrowLeft className="h-4 w-4 mr-2" />
+                  Cancel
+                </Button>
+                <Button onClick={startQuiz} className="btn-stem">
+                  I Understand - Start Quiz
+                </Button>
               </div>
-              <div className="flex items-start gap-3">
-                <Trophy className="h-4 w-4 mt-0.5 text-stemGreen" />
-                <div>
-                  <p className="font-medium">Passing score: 70%</p>
-                  <p className="text-muted-foreground">Score 70% or higher to complete this module and earn XP</p>
-                </div>
-              </div>
-            </div>
-            <div className="flex gap-2 pt-2">
-              <Button variant="outline" onClick={() => navigate(-1)}>
-                <ArrowLeft className="h-4 w-4 mr-2" />
-                Cancel
-              </Button>
-              <Button onClick={startQuiz} className="btn-stem">
-                I Understand - Start Quiz
-              </Button>
-            </div>
-          </CardContent>
-        </Card>
+            </CardContent>
+          </Card>
+        )
       )}
 
       {!user && (
@@ -473,14 +539,92 @@ const Quiz: React.FC = () => {
       )}
 
       {quizStarted && !finished && currentQuestion && !tabMonitoring.isBlocked && (
-        <QuizQuestion
-          key={`question-${index}`}
-          question={currentQuestion}
-          questionNumber={index + 1}
-          totalQuestions={total}
-          onAnswer={recordAnswer}
-          onNext={onNext}
-        />
+        isMobile ? (
+          <MobileGestureWrapper
+            onSwipeLeft={() => {
+              if (index + 1 < total) {
+                setIndex(index + 1);
+                vibrate(25);
+              }
+            }}
+            onSwipeRight={() => {
+              if (index > 0) {
+                setIndex(index - 1);
+                vibrate(25);
+              }
+            }}
+          >
+            <div className="space-y-4">
+              {/* Mobile Progress Bar */}
+              <div className="bg-muted rounded-full h-2">
+                <div
+                  className="h-2 bg-primary rounded-full transition-all duration-300"
+                  style={{ width: `${((index + 1) / total) * 100}%` }}
+                />
+              </div>
+              
+              {/* Mobile Navigation */}
+              <div className="flex justify-between items-center">
+                <MobileButton
+                  variant="outline"
+                  size="sm"
+                  onClick={() => {
+                    if (index > 0) {
+                      setIndex(index - 1);
+                      vibrate(25);
+                    }
+                  }}
+                  disabled={index === 0}
+                >
+                  <ChevronLeft className="h-4 w-4" />
+                </MobileButton>
+                
+                <Badge variant="secondary" className="px-3 py-1">
+                  {index + 1} of {total}
+                </Badge>
+                
+                <MobileButton
+                  variant="outline"
+                  size="sm"
+                  onClick={() => {
+                    if (index + 1 < total) {
+                      setIndex(index + 1);
+                      vibrate(25);
+                    }
+                  }}
+                  disabled={index + 1 >= total}
+                >
+                  <ChevronRight className="h-4 w-4" />
+                </MobileButton>
+              </div>
+              
+              <QuizQuestion
+                key={`question-${index}`}
+                question={currentQuestion}
+                questionNumber={index + 1}
+                totalQuestions={total}
+                onAnswer={(isCorrect) => {
+                  recordAnswer(isCorrect);
+                  if (isCorrect) {
+                    vibrate([50, 50, 100]); // Success pattern
+                  } else {
+                    vibrate(200); // Error vibration
+                  }
+                }}
+                onNext={onNext}
+              />
+            </div>
+          </MobileGestureWrapper>
+        ) : (
+          <QuizQuestion
+            key={`question-${index}`}
+            question={currentQuestion}
+            questionNumber={index + 1}
+            totalQuestions={total}
+            onAnswer={recordAnswer}
+            onNext={onNext}
+          />
+        )
       )}
 
       {quizStarted && !finished && !currentQuestion && total === 0 && (
