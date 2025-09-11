@@ -14,6 +14,8 @@ import { LearningInsightsCard } from '@/components/analytics/LearningInsightsCar
 import { SmartStudyScheduler } from '@/components/analytics/SmartStudyScheduler';
 import { PredictiveInsightsCard } from '@/components/analytics/PredictiveInsightsCard';
 import { KnowledgeGapAnalyzer } from '@/components/analytics/KnowledgeGapAnalyzer';
+import { LearningPatternsCard } from '@/components/analytics/LearningPatternsCard';
+import { ComprehensiveInsightsCard } from '@/components/analytics/ComprehensiveInsightsCard';
 import { useUserAnalytics } from '@/hooks/use-analytics';
 
 const Analytics: React.FC = () => {
@@ -186,6 +188,11 @@ const Analytics: React.FC = () => {
             <TabsContent value="personal">
               {/* AI-Powered Insights Section */}
               <div className="space-y-6">
+                <div className="grid gap-6 md:grid-cols-2">
+                  <ComprehensiveInsightsCard />
+                  <LearningPatternsCard />
+                </div>
+                
                 <div className="grid gap-6 md:grid-cols-2">
                   <PredictiveInsightsCard />
                   <KnowledgeGapAnalyzer />
