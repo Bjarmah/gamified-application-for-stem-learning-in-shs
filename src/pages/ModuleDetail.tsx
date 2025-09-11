@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
-import { ArrowLeft, Clock, CheckCircle, ListChecks, BookOpen, Play } from "lucide-react";
+import { ArrowLeft, Clock, CheckCircle, ListChecks, BookOpen, Play, ChevronLeft, ChevronRight } from "lucide-react";
 import { formatDifficulty, getDifficultyColor } from "@/lib/utils";
 import { findBiologyModuleByTitle } from "@/content/biology";
 import { findChemistryModuleByTitle, findChemistryModuleByTitleWithImages } from "@/content/chemistry";
@@ -17,13 +17,39 @@ import { findMathematicsModuleByTitle } from "@/content/mathematics";
 import { findPhysicsModuleByTitle } from "@/content/physics";
 import { AIChatbot } from "@/components/ai-chatbot";
 import { FloatingAIChatbot } from "@/components/ai-chatbot";
+import { MobileGestureWrapper } from "@/components/mobile/MobileGestureWrapper";
+import { useMobileUtils } from "@/hooks/use-mobile-utils";
 
 const ModuleDetail: React.FC = () => {
   const { moduleId, subjectId } = useParams<{ moduleId: string; subjectId: string }>();
   const navigate = useNavigate();
+  const { isMobile, vibrate } = useMobileUtils();
 
   const { data: module, isLoading: moduleLoading, error } = useModule(moduleId || "");
   const { data: modules, isLoading: modulesLoading } = useModules(subjectId);
+
+  useEffect(() => {
+    if (module?.title) document.title = `${module.title} • STEM Learner`;
+  }, [module?.title]);
+
+  // Find current module index for gesture navigation
+  const currentModuleIndex = modules?.findIndex(m => m.id === moduleId) || 0;
+  const canNavigatePrevious = currentModuleIndex > 0;
+  const canNavigateNext = currentModuleIndex < (modules?.length || 0) - 1;
+
+  const handleSwipeLeft = () => {
+    if (!isMobile || !canNavigateNext || !modules) return;
+    vibrate(25);
+    const nextModule = modules[currentModuleIndex + 1];
+    navigate(`/subjects/${subjectId}/${nextModule.id}`);
+  };
+
+  const handleSwipeRight = () => {
+    if (!isMobile || !canNavigatePrevious || !modules) return;
+    vibrate(25);
+    const previousModule = modules[currentModuleIndex - 1];
+    navigate(`/subjects/${subjectId}/${previousModule.id}`);
+  };
 
   useEffect(() => {
     if (module?.title) document.title = `${module.title} • STEM Learner`;
@@ -128,8 +154,35 @@ const ModuleDetail: React.FC = () => {
       .replace(/\n\n/g, '<br/><br/>');
 
   return (
-    <div className="space-y-6 pb-8">
-      <div className="flex items-center gap-4">
+    <MobileGestureWrapper
+      onSwipeLeft={handleSwipeLeft}
+      onSwipeRight={handleSwipeRight}
+      preventScroll={false}
+    >
+      <div className="space-y-6 pb-8">
+        {/* Mobile navigation indicators */}
+        {isMobile && (
+          <div className="flex items-center justify-between text-xs text-muted-foreground mb-4">
+            <div className="flex items-center gap-1">
+              {canNavigatePrevious && (
+                <>
+                  <ChevronLeft className="h-3 w-3" />
+                  <span>Swipe right for previous</span>
+                </>
+              )}
+            </div>
+            <div className="flex items-center gap-1">
+              {canNavigateNext && (
+                <>
+                  <span>Swipe left for next</span>
+                  <ChevronRight className="h-3 w-3" />
+                </>
+              )}
+            </div>
+          </div>
+        )}
+        
+        <div className="flex items-center gap-4">
         <Button variant="ghost" onClick={() => navigate(-1)}>
           <ArrowLeft className="h-4 w-4 mr-2" />
           Back
@@ -357,7 +410,8 @@ const ModuleDetail: React.FC = () => {
         position="bottom-right"
         className="hidden lg:block" // Show on larger screens for better learning experience
       />
-    </div>
+      </div>
+    </MobileGestureWrapper>
   );
 };
 

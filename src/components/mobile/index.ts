@@ -10,3 +10,4 @@ export { default as MobileHeader } from './MobileHeader';
 export { default as MobileQuickActions } from './MobileQuickActions';
 export { default as SwipeableCard } from './SwipeableCard';
 export { MobileStreakWidget } from './MobileStreakWidget';
+export { MobileNavigationHints } from './MobileNavigationHints';
