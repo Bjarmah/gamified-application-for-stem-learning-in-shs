@@ -11,3 +11,5 @@ export { default as MobileQuickActions } from './MobileQuickActions';
 export { default as SwipeableCard } from './SwipeableCard';
 export { MobileStreakWidget } from './MobileStreakWidget';
 export { MobileNavigationHints } from './MobileNavigationHints';
+export { MobileAIInsights } from './MobileAIInsights';
+export { MobileInsightsWidget } from './MobileInsightsWidget';

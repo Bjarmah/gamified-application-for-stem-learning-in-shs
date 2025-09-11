@@ -38,7 +38,8 @@ import {
   MobileDashboardCard, 
   MobileQuickActions,
   MobileGestureWrapper,
-  MobileStreakWidget
+  MobileStreakWidget,
+  MobileInsightsWidget
 } from "@/components/mobile";
 import { useMobileUtils } from "@/hooks/use-mobile-utils";
 import { cn } from "@/lib/utils";
@@ -190,7 +191,7 @@ const Dashboard: React.FC = () => {
             <div className="space-y-6">
               <PersonalizedDashboard />
               <div className="grid grid-cols-1 gap-4">
-                <AIInsightsPreview />
+                <MobileInsightsWidget />
                 <StudyInsightsCard />
                 <WeakAreasCard />
                 <StudyGoalsCard />
