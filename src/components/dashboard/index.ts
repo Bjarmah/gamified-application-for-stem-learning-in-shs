@@ -8,3 +8,5 @@ export { default as RecommendedCard } from './RecommendedCard';
 export { default as StreakCard } from './StreakCard';
 export { default as LeaderboardCard } from './LeaderboardCard';
 export { default as VirtualLabCard } from './VirtualLabCard';
+export { AIInsightsPreview } from './AIInsightsPreview';
+export { QuickInsightsWidget } from './QuickInsightsWidget';

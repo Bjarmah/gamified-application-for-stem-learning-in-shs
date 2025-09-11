@@ -32,6 +32,7 @@ import {
   StudyGoalsCard,
   LearningPathCard
 } from "@/components/dashboard";
+import { AIInsightsPreview } from "@/components/dashboard/AIInsightsPreview";
 import { 
   MobilePullToRefresh, 
   MobileDashboardCard, 
@@ -189,6 +190,7 @@ const Dashboard: React.FC = () => {
             <div className="space-y-6">
               <PersonalizedDashboard />
               <div className="grid grid-cols-1 gap-4">
+                <AIInsightsPreview />
                 <StudyInsightsCard />
                 <WeakAreasCard />
                 <StudyGoalsCard />
@@ -206,6 +208,7 @@ const Dashboard: React.FC = () => {
                 
                 {/* Side Panel with Insights */}
                 <div className="space-y-6">
+                  <AIInsightsPreview />
                   <StudyInsightsCard />
                   <WeakAreasCard />
                 </div>
