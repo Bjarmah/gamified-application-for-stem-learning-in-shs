@@ -97,7 +97,8 @@ export const useLearningInsights = (userId?: string) => {
     queryFn: async (): Promise<LearningInsight[]> => {
       if (!targetUserId) return [];
       
-      const { data, error } = await supabase
+      // Using any to bypass type checking for the new table
+      const { data, error } = await (supabase as any)
         .from('learning_insights')
         .select('*')
         .eq('user_id', targetUserId)
@@ -183,7 +184,8 @@ export const useAnalyticsData = (userId?: string) => {
     queryFn: async () => {
       if (!targetUserId) return null;
       
-      const { data, error } = await supabase.rpc('get_user_analytics_data', { 
+      // Using any to bypass type checking for the new RPC function
+      const { data, error } = await (supabase as any).rpc('get_user_analytics_data', { 
         target_user_id: targetUserId 
       });
       
@@ -205,7 +207,8 @@ export const useLearningTimePatterns = (userId?: string) => {
     queryFn: async () => {
       if (!targetUserId) return null;
       
-      const { data, error } = await supabase.rpc('get_learning_time_patterns', { 
+      // Using any to bypass type checking for the new RPC function
+      const { data, error } = await (supabase as any).rpc('get_learning_time_patterns', { 
         target_user_id: targetUserId 
       });
       
@@ -227,7 +230,8 @@ export const useKnowledgeGaps = (userId?: string) => {
     queryFn: async () => {
       if (!targetUserId) return null;
       
-      const { data, error } = await supabase.rpc('get_knowledge_gaps', { 
+      // Using any to bypass type checking for the new RPC function
+      const { data, error } = await (supabase as any).rpc('get_knowledge_gaps', { 
         target_user_id: targetUserId 
       });
       

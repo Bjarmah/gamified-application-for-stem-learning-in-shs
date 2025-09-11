@@ -5,11 +5,13 @@ import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { 
   BarChart3, Users, TrendingUp, Activity, 
-  BookOpen, Award, Clock, Target
+  BookOpen, Award, Clock, Target, Brain, Calendar
 } from 'lucide-react';
 import { useAuth } from '@/context/AuthContext';
 import AnalyticsDashboard from '@/components/analytics/AnalyticsDashboard';
 import UserAnalyticsCard from '@/components/analytics/UserAnalyticsCard';
+import { LearningInsightsCard } from '@/components/analytics/LearningInsightsCard';
+import { SmartStudyScheduler } from '@/components/analytics/SmartStudyScheduler';
 import { useUserAnalytics } from '@/hooks/use-analytics';
 
 const Analytics: React.FC = () => {
@@ -53,6 +55,8 @@ const Analytics: React.FC = () => {
         <Tabs defaultValue="overview" className="space-y-4">
           <TabsList>
             <TabsTrigger value="overview">Overview</TabsTrigger>
+            <TabsTrigger value="insights">AI Insights</TabsTrigger>
+            <TabsTrigger value="scheduler">Study Planner</TabsTrigger>
             <TabsTrigger value="students">Student Analytics</TabsTrigger>
             <TabsTrigger value="content">Content Performance</TabsTrigger>
             <TabsTrigger value="realtime">Real-time Monitor</TabsTrigger>
@@ -60,6 +64,14 @@ const Analytics: React.FC = () => {
 
           <TabsContent value="overview">
             <AnalyticsDashboard />
+          </TabsContent>
+
+          <TabsContent value="insights" className="space-y-6">
+            <LearningInsightsCard />
+          </TabsContent>
+
+          <TabsContent value="scheduler" className="space-y-6">
+            <SmartStudyScheduler />
           </TabsContent>
 
           <TabsContent value="students" className="space-y-6">
@@ -153,57 +165,79 @@ const Analytics: React.FC = () => {
             </div>
           )}
 
-          {/* Personalized Insights */}
-          <Card>
-            <CardHeader>
-              <CardTitle>Your Learning Insights</CardTitle>
-              <CardDescription>
-                Personalized recommendations based on your progress
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-4">
-                {userAnalytics && userAnalytics.progressTrend === 'increasing' && (
-                  <div className="flex items-start space-x-3 p-4 bg-green-50 rounded-lg">
-                    <TrendingUp className="h-5 w-5 text-green-600 mt-0.5" />
-                    <div>
-                      <h4 className="font-medium text-green-900">Great Progress!</h4>
-                      <p className="text-sm text-green-700">
-                        You're on fire! Your learning activity has increased significantly. 
-                        Keep up the momentum!
-                      </p>
-                    </div>
-                  </div>
-                )}
-                
-                {userAnalytics && userAnalytics.streak >= 7 && (
-                  <div className="flex items-start space-x-3 p-4 bg-orange-50 rounded-lg">
-                    <Award className="h-5 w-5 text-orange-600 mt-0.5" />
-                    <div>
-                      <h4 className="font-medium text-orange-900">Streak Master!</h4>
-                      <p className="text-sm text-orange-700">
-                        Amazing! You've maintained a {userAnalytics.streak}-day learning streak. 
-                        You're building excellent study habits.
-                      </p>
-                    </div>
-                  </div>
-                )}
+          {/* Tabbed Interface for Students */}
+          <Tabs defaultValue="insights" className="space-y-6">
+            <TabsList className="grid w-full grid-cols-3">
+              <TabsTrigger value="insights">AI Insights</TabsTrigger>
+              <TabsTrigger value="scheduler">Study Planner</TabsTrigger>
+              <TabsTrigger value="personal">Personal Stats</TabsTrigger>
+            </TabsList>
 
-                {userAnalytics && userAnalytics.averageScore >= 85 && (
-                  <div className="flex items-start space-x-3 p-4 bg-blue-50 rounded-lg">
-                    <BookOpen className="h-5 w-5 text-blue-600 mt-0.5" />
-                    <div>
-                      <h4 className="font-medium text-blue-900">High Achiever!</h4>
-                      <p className="text-sm text-blue-700">
-                        Excellent performance! Your average score of {userAnalytics.averageScore.toFixed(1)}% 
-                        puts you among the top performers.
-                      </p>
-                    </div>
+            <TabsContent value="insights">
+              <LearningInsightsCard userId={user?.id} />
+            </TabsContent>
+
+            <TabsContent value="scheduler">
+              <SmartStudyScheduler userId={user?.id} />
+            </TabsContent>
+
+            <TabsContent value="personal">
+              {/* Personalized Insights */}
+              <Card>
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <Brain className="h-5 w-5 text-purple-500" />
+                    Your Learning Insights
+                  </CardTitle>
+                  <CardDescription>
+                    Personalized recommendations based on your progress
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-4">
+                    {userAnalytics && userAnalytics.progressTrend === 'increasing' && (
+                      <div className="flex items-start space-x-3 p-4 bg-green-50 rounded-lg">
+                        <TrendingUp className="h-5 w-5 text-green-600 mt-0.5" />
+                        <div>
+                          <h4 className="font-medium text-green-900">Great Progress!</h4>
+                          <p className="text-sm text-green-700">
+                            You're on fire! Your learning activity has increased significantly. 
+                            Keep up the momentum!
+                          </p>
+                        </div>
+                      </div>
+                    )}
+                    
+                    {userAnalytics && userAnalytics.streak >= 7 && (
+                      <div className="flex items-start space-x-3 p-4 bg-orange-50 rounded-lg">
+                        <Award className="h-5 w-5 text-orange-600 mt-0.5" />
+                        <div>
+                          <h4 className="font-medium text-orange-900">Streak Master!</h4>
+                          <p className="text-sm text-orange-700">
+                            Amazing! You've maintained a {userAnalytics.streak}-day learning streak. 
+                            You're building excellent study habits.
+                          </p>
+                        </div>
+                      </div>
+                    )}
+
+                    {userAnalytics && userAnalytics.averageScore >= 85 && (
+                      <div className="flex items-start space-x-3 p-4 bg-blue-50 rounded-lg">
+                        <BookOpen className="h-5 w-5 text-blue-600 mt-0.5" />
+                        <div>
+                          <h4 className="font-medium text-blue-900">High Achiever!</h4>
+                          <p className="text-sm text-blue-700">
+                            Excellent performance! Your average score of {userAnalytics.averageScore.toFixed(1)}% 
+                            puts you among the top performers.
+                          </p>
+                        </div>
+                      </div>
+                    )}
                   </div>
-                )}
-              </div>
-            </CardContent>
-          </Card>
+                </CardContent>
+              </Card>
+            </TabsContent>
+          </Tabs>
 
           {/* Upgrade Notice for Students */}
           <Card className="border-dashed">

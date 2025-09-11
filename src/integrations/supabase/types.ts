@@ -139,6 +139,36 @@ export type Database = {
           },
         ]
       }
+      learning_insights: {
+        Row: {
+          analysis_type: string
+          created_at: string
+          generated_at: string
+          id: string
+          insights: Json
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          analysis_type: string
+          created_at?: string
+          generated_at?: string
+          id?: string
+          insights?: Json
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          analysis_type?: string
+          created_at?: string
+          generated_at?: string
+          id?: string
+          insights?: Json
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       messages: {
         Row: {
           content: string | null
