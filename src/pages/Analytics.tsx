@@ -17,6 +17,8 @@ import { KnowledgeGapAnalyzer } from '@/components/analytics/KnowledgeGapAnalyze
 import { LearningPatternsCard } from '@/components/analytics/LearningPatternsCard';
 import { ComprehensiveInsightsCard } from '@/components/analytics/ComprehensiveInsightsCard';
 import { AIInsightsRealtimeUpdater } from '@/components/analytics/AIInsightsRealtimeUpdater';
+import { AutomatedStudyPlanner } from '@/components/study-planner/AutomatedStudyPlanner';
+import { AIInsightsNotificationCenter } from '@/components/notifications/AIInsightsNotificationCenter';
 import { useUserAnalytics } from '@/hooks/use-analytics';
 
 const Analytics: React.FC = () => {
@@ -72,13 +74,14 @@ const Analytics: React.FC = () => {
             <AnalyticsDashboard />
           </TabsContent>
 
-          <TabsContent value="insights" className="space-y-6">
-            <LearningInsightsCard />
-          </TabsContent>
+            <TabsContent value="insights" className="space-y-6">
+              <AIInsightsNotificationCenter />
+              <LearningInsightsCard />
+            </TabsContent>
 
-          <TabsContent value="scheduler" className="space-y-6">
-            <SmartStudyScheduler />
-          </TabsContent>
+            <TabsContent value="scheduler" className="space-y-6">
+              <AutomatedStudyPlanner />
+            </TabsContent>
 
           <TabsContent value="students" className="space-y-6">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -184,7 +187,7 @@ const Analytics: React.FC = () => {
             </TabsContent>
 
             <TabsContent value="scheduler">
-              <SmartStudyScheduler userId={user?.id} />
+              <AutomatedStudyPlanner />
             </TabsContent>
 
             <TabsContent value="personal">

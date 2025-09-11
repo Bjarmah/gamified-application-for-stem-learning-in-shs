@@ -41,6 +41,8 @@ import {
   MobileStreakWidget,
   MobileInsightsWidget
 } from "@/components/mobile";
+import { AIInsightsOnboarding } from '@/components/onboarding/AIInsightsOnboarding';
+import { useOnboarding } from '@/hooks/use-onboarding';
 import { useMobileUtils } from "@/hooks/use-mobile-utils";
 import { cn } from "@/lib/utils";
 
@@ -51,6 +53,7 @@ const Dashboard: React.FC = () => {
   const { gamificationData, loading: gamificationLoading, getXpForNextLevel, getLevelProgress } = useGamification();
   const { profile, user } = useAuth();
   const { isMobile } = useMobileUtils();
+  const { shouldShowAIInsightsOnboarding, markAIInsightsOnboardingCompleted } = useOnboarding();
 
   const handleRefresh = async () => {
     // Simulate refresh delay
