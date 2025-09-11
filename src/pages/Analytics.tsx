@@ -18,6 +18,8 @@ import { LearningPatternsCard } from '@/components/analytics/LearningPatternsCar
 import { ComprehensiveInsightsCard } from '@/components/analytics/ComprehensiveInsightsCard';
 import { AIInsightsRealtimeUpdater } from '@/components/analytics/AIInsightsRealtimeUpdater';
 import { AutomatedStudyPlanner } from '@/components/study-planner/AutomatedStudyPlanner';
+import { PersonalizedTutor } from '@/components/ai-tutor/PersonalizedTutor';
+import { AdaptiveLearningEngine } from '@/components/adaptive-learning/AdaptiveLearningEngine';
 import { AIInsightsNotificationCenter } from '@/components/notifications/AIInsightsNotificationCenter';
 import { useUserAnalytics } from '@/hooks/use-analytics';
 
@@ -64,6 +66,8 @@ const Analytics: React.FC = () => {
           <TabsList>
             <TabsTrigger value="overview">Overview</TabsTrigger>
             <TabsTrigger value="insights">AI Insights</TabsTrigger>
+            <TabsTrigger value="tutor">Personal Tutor</TabsTrigger>
+            <TabsTrigger value="adaptive">Adaptive Learning</TabsTrigger>
             <TabsTrigger value="scheduler">Study Planner</TabsTrigger>
             <TabsTrigger value="students">Student Analytics</TabsTrigger>
             <TabsTrigger value="content">Content Performance</TabsTrigger>
@@ -77,6 +81,14 @@ const Analytics: React.FC = () => {
             <TabsContent value="insights" className="space-y-6">
               <AIInsightsNotificationCenter />
               <LearningInsightsCard />
+            </TabsContent>
+
+            <TabsContent value="tutor" className="space-y-6">
+              <PersonalizedTutor onStartChat={(prompt) => console.log('Start chat:', prompt)} />
+            </TabsContent>
+
+            <TabsContent value="adaptive" className="space-y-6">
+              <AdaptiveLearningEngine />
             </TabsContent>
 
             <TabsContent value="scheduler" className="space-y-6">
@@ -176,18 +188,27 @@ const Analytics: React.FC = () => {
 
           {/* Tabbed Interface for Students */}
           <Tabs defaultValue="insights" className="space-y-6">
-            <TabsList className="grid w-full grid-cols-3">
+            <TabsList className="grid w-full grid-cols-4">
               <TabsTrigger value="insights">AI Insights</TabsTrigger>
+              <TabsTrigger value="tutor">Personal Tutor</TabsTrigger>
+              <TabsTrigger value="adaptive">Adaptive Learning</TabsTrigger>
               <TabsTrigger value="scheduler">Study Planner</TabsTrigger>
-              <TabsTrigger value="personal">Personal Stats</TabsTrigger>
             </TabsList>
 
-            <TabsContent value="insights">
-              <LearningInsightsCard userId={user?.id} />
+            <TabsContent value="tutor">
+              <PersonalizedTutor onStartChat={(prompt) => console.log('Start chat:', prompt)} />
+            </TabsContent>
+
+            <TabsContent value="adaptive">
+              <AdaptiveLearningEngine />
             </TabsContent>
 
             <TabsContent value="scheduler">
               <AutomatedStudyPlanner />
+            </TabsContent>
+
+            <TabsContent value="insights">
+              <LearningInsightsCard userId={user?.id} />
             </TabsContent>
 
             <TabsContent value="personal">
