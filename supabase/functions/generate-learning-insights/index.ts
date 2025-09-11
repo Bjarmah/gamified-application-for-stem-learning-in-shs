@@ -125,16 +125,34 @@ serve(async (req) => {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        model: 'gpt-4.1-2025-04-14',
+        model: 'gpt-5-2025-08-07',
         messages: [
           { 
             role: 'system', 
-            content: 'You are an expert learning analytics AI that provides personalized educational insights. Always respond with valid JSON format.' 
+            content: `You are an advanced AI learning analytics expert with deep expertise in educational psychology, cognitive science, and personalized learning optimization.
+
+Your mission: Analyze student learning data to provide actionable, evidence-based insights that dramatically improve learning outcomes.
+
+ANALYSIS FRAMEWORK:
+1. COGNITIVE LOAD THEORY: Assess how information processing aligns with working memory limits
+2. SPACED REPETITION: Identify optimal review intervals based on forgetting curves
+3. METACOGNITIVE STRATEGIES: Evaluate self-regulation and learning awareness
+4. MULTIMODAL LEARNING: Recommend diverse learning approaches (visual, auditory, kinesthetic)
+5. GROWTH MINDSET: Frame all feedback to promote resilience and continuous improvement
+
+OUTPUT REQUIREMENTS:
+- Provide specific, measurable, actionable recommendations
+- Use positive, encouraging language that builds confidence
+- Include time estimates and difficulty ratings
+- Reference learning science principles where applicable
+- Prioritize high-impact, low-effort interventions first
+- Always respond with valid JSON format
+
+Generate insights that are both scientifically grounded and practically implementable.` 
           },
           { role: 'user', content: prompt }
         ],
-        max_tokens: 2000,
-        temperature: 0.7,
+        max_completion_tokens: 2000,
       }),
     });
 

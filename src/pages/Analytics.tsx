@@ -12,6 +12,8 @@ import AnalyticsDashboard from '@/components/analytics/AnalyticsDashboard';
 import UserAnalyticsCard from '@/components/analytics/UserAnalyticsCard';
 import { LearningInsightsCard } from '@/components/analytics/LearningInsightsCard';
 import { SmartStudyScheduler } from '@/components/analytics/SmartStudyScheduler';
+import { PredictiveInsightsCard } from '@/components/analytics/PredictiveInsightsCard';
+import { KnowledgeGapAnalyzer } from '@/components/analytics/KnowledgeGapAnalyzer';
 import { useUserAnalytics } from '@/hooks/use-analytics';
 
 const Analytics: React.FC = () => {
@@ -182,8 +184,15 @@ const Analytics: React.FC = () => {
             </TabsContent>
 
             <TabsContent value="personal">
-              {/* Personalized Insights */}
-              <Card>
+              {/* AI-Powered Insights Section */}
+              <div className="space-y-6">
+                <div className="grid gap-6 md:grid-cols-2">
+                  <PredictiveInsightsCard />
+                  <KnowledgeGapAnalyzer />
+                </div>
+                
+                {/* Personalized Insights */}
+                <Card>
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2">
                     <Brain className="h-5 w-5 text-purple-500" />
@@ -236,6 +245,7 @@ const Analytics: React.FC = () => {
                   </div>
                 </CardContent>
               </Card>
+              </div>
             </TabsContent>
           </Tabs>
 
