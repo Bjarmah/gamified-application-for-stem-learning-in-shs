@@ -123,6 +123,13 @@ export const useLearningInsights = (userId?: string) => {
 
     setIsGenerating(true);
     
+    // Show generation progress notification
+    toast({
+      title: "🤖 Generating AI Insights...",
+      description: `Analyzing your ${analysisType.replace('_', ' ')} data. This may take a few moments.`,
+      duration: 3000,
+    });
+    
     try {
       const { data, error } = await supabase.functions.invoke('generate-learning-insights', {
         body: {
@@ -141,17 +148,19 @@ export const useLearningInsights = (userId?: string) => {
       await refetch();
 
       toast({
-        title: "Insights Generated",
+        title: "✅ Analysis Complete!",
         description: "Your learning insights have been updated with AI analysis.",
+        duration: 5000,
       });
 
       return data.insights;
     } catch (error: any) {
       console.error('Error generating insights:', error);
       toast({
-        title: "Error generating insights",
+        title: "❌ Error generating insights",
         description: error.message || "Failed to generate learning insights",
         variant: "destructive",
+        duration: 6000,
       });
       return null;
     } finally {

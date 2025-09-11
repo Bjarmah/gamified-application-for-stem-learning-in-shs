@@ -879,8 +879,20 @@ export type Database = {
         Args: Record<PropertyKey, never>
         Returns: string
       }
+      get_knowledge_gaps: {
+        Args: { target_user_id: string }
+        Returns: Json
+      }
+      get_learning_time_patterns: {
+        Args: { target_user_id: string }
+        Returns: Json
+      }
       get_quiz_questions: {
         Args: { quiz_id_param: string }
+        Returns: Json
+      }
+      get_user_analytics_data: {
+        Args: { target_user_id: string }
         Returns: Json
       }
       initialize_user_gamification: {

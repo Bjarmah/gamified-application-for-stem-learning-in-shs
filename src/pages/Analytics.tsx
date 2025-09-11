@@ -16,6 +16,7 @@ import { PredictiveInsightsCard } from '@/components/analytics/PredictiveInsight
 import { KnowledgeGapAnalyzer } from '@/components/analytics/KnowledgeGapAnalyzer';
 import { LearningPatternsCard } from '@/components/analytics/LearningPatternsCard';
 import { ComprehensiveInsightsCard } from '@/components/analytics/ComprehensiveInsightsCard';
+import { AIInsightsRealtimeUpdater } from '@/components/analytics/AIInsightsRealtimeUpdater';
 import { useUserAnalytics } from '@/hooks/use-analytics';
 
 const Analytics: React.FC = () => {
@@ -45,6 +46,7 @@ const Analytics: React.FC = () => {
               <Activity className="h-3 w-3" />
               <span>Live Data</span>
             </Badge>
+            <AIInsightsRealtimeUpdater showConnectionStatus={true} />
             {hasFullAccess && (
               <Badge variant="secondary">
                 {profile?.role === 'admin' ? 'Admin' : 'Teacher'} Access
