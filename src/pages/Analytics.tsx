@@ -108,7 +108,11 @@ const Analytics: React.FC = () => {
           </TabsContent>
 
           <TabsContent value="content" className="space-y-6">
-            <IntelligentContentRecommendations />
+            <div className="grid gap-6">
+              <IntelligentContentRecommendations />
+              <AdaptiveQuizEngine />
+              <AutomatedContentGenerator />
+            </div>
           </TabsContent>
 
           <TabsContent value="realtime" className="space-y-6">
@@ -186,8 +190,12 @@ const Analytics: React.FC = () => {
               <TabsTrigger value="scheduler">Study Planner</TabsTrigger>
             </TabsList>
 
-            <TabsContent value="content">
-              <IntelligentContentRecommendations />
+            <TabsContent value="content" className="space-y-6">
+              <div className="grid gap-6">
+                <IntelligentContentRecommendations />
+                <AdaptiveQuizEngine />
+                <AutomatedContentGenerator />
+              </div>
             </TabsContent>
 
             <TabsContent value="tutor">
