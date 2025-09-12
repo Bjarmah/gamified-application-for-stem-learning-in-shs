@@ -1,157 +1,229 @@
-import React from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
-import { Brain, TrendingUp, Target, Clock, Zap } from 'lucide-react';
-import { useLearningInsights } from '@/hooks/use-learning-insights';
+import React, { useState } from 'react';
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { Progress } from "@/components/ui/progress";
+import { 
+  Brain, Target, TrendingUp, Clock, Zap, 
+  ChevronRight, Star, BookOpen, Trophy
+} from 'lucide-react';
 import { useAuth } from '@/context/AuthContext';
-import { useNavigate } from 'react-router-dom';
+import { useUserAnalytics } from '@/hooks/use-analytics';
+import { useLearningInsights } from '@/hooks/use-learning-insights';
 
 interface MobileAIInsightsProps {
   className?: string;
+  onActionClick?: (action: string) => void;
 }
 
-export const MobileAIInsights = ({ className }: MobileAIInsightsProps) => {
+export const MobileAIInsights: React.FC<MobileAIInsightsProps> = ({ 
+  className = "",
+  onActionClick 
+}) => {
   const { user } = useAuth();
-  const navigate = useNavigate();
-  const { getLatestInsight, generateInsights, isGenerating } = useLearningInsights(user?.id);
+  const { data: analytics } = useUserAnalytics();
+  const { getLatestInsight } = useLearningInsights(user?.id);
+  
+  const [activeInsight, setActiveInsight] = useState<'performance' | 'recommendations' | 'progress'>('performance');
 
-  const comprehensiveInsight = getLatestInsight('comprehensive_insights');
-  const predictiveInsight = getLatestInsight('predictive_insights');
-  const learningPatterns = getLatestInsight('learning_patterns');
-
-  const handleGenerateInsights = async () => {
-    await generateInsights('comprehensive_insights');
+  const performanceData = {
+    score: analytics?.averageScore || 0,
+    streak: analytics?.streak || 0,
+    trend: analytics?.progressTrend || 'stable',
+    completedModules: analytics?.quizzesCompleted || 0
   };
 
-  const handleViewAnalytics = () => {
-    navigate('/analytics');
+  const recommendations = [
+    {
+      id: '1',
+      title: 'Focus on Chemistry Bonding',
+      description: 'Based on recent quiz performance',
+      priority: 'high',
+      action: 'Study Now'
+    },
+    {
+      id: '2', 
+      title: 'Review Physics Motion',
+      description: 'Strengthen foundation concepts',
+      priority: 'medium',
+      action: 'Practice'
+    },
+    {
+      id: '3',
+      title: 'Complete Biology Module',
+      description: 'You\'re 80% through!',
+      priority: 'low',
+      action: 'Continue'
+    }
+  ];
+
+  const progressInsights = [
+    {
+      subject: 'Chemistry',
+      progress: 75,
+      nextMilestone: 'Acids & Bases Quiz',
+      timeEstimate: '15 min'
+    },
+    {
+      subject: 'Physics', 
+      progress: 60,
+      nextMilestone: 'Motion Lab',
+      timeEstimate: '20 min'
+    },
+    {
+      subject: 'Biology',
+      progress: 85,
+      nextMilestone: 'Cell Structure Review',
+      timeEstimate: '10 min'
+    }
+  ];
+
+  const renderInsightContent = () => {
+    switch (activeInsight) {
+      case 'performance':
+        return (
+          <div className="space-y-4">
+            <div className="grid grid-cols-2 gap-3">
+              <div className="bg-muted/30 rounded-lg p-3 text-center">
+                <div className="text-lg font-bold text-primary">{performanceData.score.toFixed(0)}%</div>
+                <div className="text-xs text-muted-foreground">Avg Score</div>
+              </div>
+              <div className="bg-muted/30 rounded-lg p-3 text-center">
+                <div className="text-lg font-bold text-primary">{performanceData.streak}</div>
+                <div className="text-xs text-muted-foreground">Day Streak</div>
+              </div>
+            </div>
+            
+            <div className="flex items-center justify-between p-3 bg-muted/20 rounded-lg">
+              <div className="flex items-center gap-2">
+                <TrendingUp className={`h-4 w-4 ${
+                  performanceData.trend === 'increasing' ? 'text-green-500' :
+                  performanceData.trend === 'decreasing' ? 'text-red-500' : 'text-primary'
+                }`} />
+                <span className="text-sm font-medium capitalize">{performanceData.trend}</span>
+              </div>
+              <Badge variant="secondary" className="text-xs">
+                {performanceData.completedModules} Modules
+              </Badge>
+            </div>
+          </div>
+        );
+
+      case 'recommendations':
+        return (
+          <div className="space-y-3">
+            {recommendations.map((rec) => (
+              <div key={rec.id} className="p-3 bg-muted/20 rounded-lg">
+                <div className="flex items-start justify-between mb-2">
+                  <div className="flex-1">
+                    <h4 className="text-sm font-medium mb-1">{rec.title}</h4>
+                    <p className="text-xs text-muted-foreground">{rec.description}</p>
+                  </div>
+                  <Badge 
+                    variant={rec.priority === 'high' ? 'destructive' : rec.priority === 'medium' ? 'default' : 'secondary'}
+                    className="text-xs"
+                  >
+                    {rec.priority}
+                  </Badge>
+                </div>
+                <Button 
+                  size="sm" 
+                  className="w-full h-7 text-xs"
+                  onClick={() => onActionClick?.(rec.action)}
+                >
+                  {rec.action}
+                  <ChevronRight className="h-3 w-3 ml-1" />
+                </Button>
+              </div>
+            ))}
+          </div>
+        );
+
+      case 'progress':
+        return (
+          <div className="space-y-3">
+            {progressInsights.map((item, index) => (
+              <div key={index} className="p-3 bg-muted/20 rounded-lg">
+                <div className="flex items-center justify-between mb-2">
+                  <span className="text-sm font-medium">{item.subject}</span>
+                  <span className="text-xs text-muted-foreground">{item.timeEstimate}</span>
+                </div>
+                <Progress value={item.progress} className="h-2 mb-2" />
+                <div className="flex items-center justify-between">
+                  <span className="text-xs text-muted-foreground">Next: {item.nextMilestone}</span>
+                  <span className="text-xs text-primary font-medium">{item.progress}%</span>
+                </div>
+              </div>
+            ))}
+          </div>
+        );
+    }
   };
-
-  if (!comprehensiveInsight && !isGenerating) {
-    return (
-      <Card className={`${className} border-primary/20 bg-gradient-to-br from-primary/5 to-secondary/5`}>
-        <CardContent className="p-4">
-          <div className="flex items-center gap-3 mb-3">
-            <div className="p-2 rounded-full bg-primary/10">
-              <Brain className="h-5 w-5 text-primary" />
-            </div>
-            <div>
-              <h3 className="font-semibold text-sm">AI Learning Insights</h3>
-              <p className="text-xs text-muted-foreground">Get personalized recommendations</p>
-            </div>
-          </div>
-          
-          <Button 
-            onClick={handleGenerateInsights}
-            className="w-full h-8 text-xs"
-            size="sm"
-          >
-            <Zap className="h-3 w-3 mr-1" />
-            Generate My Insights
-          </Button>
-        </CardContent>
-      </Card>
-    );
-  }
-
-  if (isGenerating) {
-    return (
-      <Card className={`${className} border-primary/20 bg-gradient-to-br from-primary/5 to-secondary/5`}>
-        <CardContent className="p-4">
-          <div className="flex items-center gap-3 mb-3">
-            <div className="p-2 rounded-full bg-primary/10">
-              <Brain className="h-5 w-5 text-primary animate-pulse" />
-            </div>
-            <div>
-              <h3 className="font-semibold text-sm">Analyzing Your Learning...</h3>
-              <p className="text-xs text-muted-foreground">This may take a moment</p>
-            </div>
-          </div>
-          <div className="w-full bg-secondary/20 rounded-full h-1">
-            <div className="bg-primary h-1 rounded-full animate-pulse w-2/3"></div>
-          </div>
-        </CardContent>
-      </Card>
-    );
-  }
-
-  const insights = comprehensiveInsight?.insights;
-  const predictions = predictiveInsight?.insights;
-  const patterns = learningPatterns?.insights;
 
   return (
-    <Card 
-      className={`${className} border-primary/20 bg-gradient-to-br from-primary/5 to-secondary/5 cursor-pointer hover:shadow-md transition-shadow`}
-      onClick={handleViewAnalytics}
-    >
-      <CardHeader className="pb-2">
+    <Card className={`${className} border-primary/20 bg-gradient-to-br from-primary/5 to-secondary/5`}>
+      <CardHeader className="pb-3">
         <CardTitle className="flex items-center justify-between text-sm">
           <div className="flex items-center gap-2">
             <Brain className="h-4 w-4 text-primary" />
-            AI Insights
+            AI Learning Insights
           </div>
-          <Badge variant="secondary" className="text-xs">
-            AI Powered
+          <Badge variant="secondary" className="text-xs flex items-center gap-1">
+            <Zap className="h-2 w-2" />
+            Live
           </Badge>
         </CardTitle>
       </CardHeader>
       
-      <CardContent className="p-4 pt-0 space-y-3">
-        {/* Performance Overview */}
-        {insights?.overall_performance && (
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              <TrendingUp className="h-3 w-3 text-green-500" />
-              <span className="text-xs font-medium">Performance</span>
-            </div>
-            <span className="text-xs font-semibold text-primary">
-              {Math.round(insights.overall_performance)}%
-            </span>
-          </div>
-        )}
-
-        {/* Prediction Score */}
-        {predictions?.predicted_performance && (
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              <Target className="h-3 w-3 text-blue-500" />
-              <span className="text-xs font-medium">Predicted</span>
-            </div>
-            <span className="text-xs font-semibold text-blue-600">
-              {Math.round(predictions.predicted_performance)}%
-            </span>
-          </div>
-        )}
-
-        {/* Best Learning Time */}
-        {patterns?.best_learning_times?.[0] && (
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              <Clock className="h-3 w-3 text-orange-500" />
-              <span className="text-xs font-medium">Best Time</span>
-            </div>
-            <span className="text-xs font-semibold text-orange-600">
-              {patterns.best_learning_times[0]}
-            </span>
-          </div>
-        )}
-
-        {/* Key Strength */}
-        {insights?.strengths?.[0] && (
-          <div className="bg-green-50 dark:bg-green-900/20 p-2 rounded text-xs">
-            <span className="font-medium text-green-700 dark:text-green-400">Strength: </span>
-            <span className="text-green-600 dark:text-green-300">{insights.strengths[0]}</span>
-          </div>
-        )}
-
-        {/* Quick Action */}
-        <div className="pt-1">
-          <div className="text-xs text-muted-foreground mb-1">Next Action:</div>
-          <div className="text-xs font-medium text-primary">
-            {insights?.recommended_actions?.[0] || "Continue your learning journey"}
-          </div>
+      <CardContent className="pt-0">
+        {/* Tab Navigation */}
+        <div className="flex bg-muted/20 rounded-lg p-1 mb-4">
+          <button
+            onClick={() => setActiveInsight('performance')}
+            className={`flex-1 flex items-center justify-center gap-1 py-2 px-3 rounded-md text-xs font-medium transition-colors ${
+              activeInsight === 'performance' 
+                ? 'bg-background text-foreground shadow-sm' 
+                : 'text-muted-foreground hover:text-foreground'
+            }`}
+          >
+            <Star className="h-3 w-3" />
+            Performance
+          </button>
+          <button
+            onClick={() => setActiveInsight('recommendations')}
+            className={`flex-1 flex items-center justify-center gap-1 py-2 px-3 rounded-md text-xs font-medium transition-colors ${
+              activeInsight === 'recommendations' 
+                ? 'bg-background text-foreground shadow-sm' 
+                : 'text-muted-foreground hover:text-foreground'
+            }`}
+          >
+            <Target className="h-3 w-3" />
+            Tips
+          </button>
+          <button
+            onClick={() => setActiveInsight('progress')}
+            className={`flex-1 flex items-center justify-center gap-1 py-2 px-3 rounded-md text-xs font-medium transition-colors ${
+              activeInsight === 'progress' 
+                ? 'bg-background text-foreground shadow-sm' 
+                : 'text-muted-foreground hover:text-foreground'
+            }`}
+          >
+            <Trophy className="h-3 w-3" />
+            Progress
+          </button>
         </div>
+
+        {/* Content */}
+        {renderInsightContent()}
+
+        {/* Quick Action Button */}
+        <Button 
+          className="w-full mt-4 h-8 text-xs"
+          onClick={() => onActionClick?.('generate-insights')}
+        >
+          <Brain className="h-3 w-3 mr-1" />
+          Generate New Insights
+        </Button>
       </CardContent>
     </Card>
   );
