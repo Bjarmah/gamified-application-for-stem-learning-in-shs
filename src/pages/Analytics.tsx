@@ -20,10 +20,12 @@ import { AIInsightsRealtimeUpdater } from '@/components/analytics/AIInsightsReal
 import { AutomatedStudyPlanner } from '@/components/study-planner/AutomatedStudyPlanner';
 import { PersonalizedTutor } from '@/components/ai-tutor/PersonalizedTutor';
 import { AdaptiveLearningEngine } from '@/components/adaptive-learning/AdaptiveLearningEngine';
+import { AdaptiveQuizEngine } from '@/components/adaptive-learning/AdaptiveQuizEngine';
 import { AIInsightsNotificationCenter } from '@/components/notifications/AIInsightsNotificationCenter';
 import { AIInsightsIntegration } from '@/components/ai-chatbot/AIInsightsIntegration';
 import { useUserAnalytics } from '@/hooks/use-analytics';
 import { IntelligentContentRecommendations } from '@/components/ai-content/IntelligentContentRecommendations';
+import { AutomatedContentGenerator } from '@/components/ai-content/AutomatedContentGenerator';
 
 const Analytics: React.FC = () => {
   const { user, profile } = useAuth();
