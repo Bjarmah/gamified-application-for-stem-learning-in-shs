@@ -21,6 +21,7 @@ import { AutomatedStudyPlanner } from '@/components/study-planner/AutomatedStudy
 import { PersonalizedTutor } from '@/components/ai-tutor/PersonalizedTutor';
 import { AdaptiveLearningEngine } from '@/components/adaptive-learning/AdaptiveLearningEngine';
 import { AIInsightsNotificationCenter } from '@/components/notifications/AIInsightsNotificationCenter';
+import { AIInsightsIntegration } from '@/components/ai-chatbot/AIInsightsIntegration';
 import { useUserAnalytics } from '@/hooks/use-analytics';
 
 const Analytics: React.FC = () => {
@@ -46,6 +47,7 @@ const Analytics: React.FC = () => {
             </p>
           </div>
           <div className="flex items-center space-x-2">
+            <AIInsightsRealtimeUpdater showConnectionStatus={true} />
             <Badge variant="outline" className="flex items-center space-x-1">
               <Activity className="h-3 w-3" />
               <span>Live Data</span>
@@ -208,7 +210,10 @@ const Analytics: React.FC = () => {
             </TabsContent>
 
             <TabsContent value="insights">
-              <LearningInsightsCard userId={user?.id} />
+              <div className="space-y-6">
+                <LearningInsightsCard userId={user?.id} />
+                <AIInsightsIntegration />
+              </div>
             </TabsContent>
 
             <TabsContent value="personal">

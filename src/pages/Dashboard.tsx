@@ -43,6 +43,8 @@ import {
   MobileStreakWidget,
   MobileInsightsWidget
 } from "@/components/mobile";
+import { MobileAIInsights } from '@/components/mobile/MobileAIInsights';
+import { AIInsightsRealtimeUpdater } from '@/components/analytics/AIInsightsRealtimeUpdater';
 import { AIInsightsOnboarding } from '@/components/onboarding/AIInsightsOnboarding';
 import { useOnboarding } from '@/hooks/use-onboarding';
 import { useMobileUtils } from "@/hooks/use-mobile-utils";
@@ -116,11 +118,17 @@ const Dashboard: React.FC = () => {
           <p className="text-muted-foreground animate-slide-in-right">Track your progress and discover new learning opportunities</p>
         </div>
 
+        {/* Real-time AI Status */}
+        <div className="flex justify-end mb-4">
+          <AIInsightsRealtimeUpdater />
+        </div>
+
         {/* Mobile Quick Actions and Streak Widget */}
         {isMobile && (
           <div className="space-y-4">
             <MobileQuickActions />
             <MobileStreakWidget />
+            <MobileAIInsights className="mb-4" />
           </div>
         )}
 
