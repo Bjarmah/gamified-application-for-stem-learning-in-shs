@@ -46,6 +46,9 @@ import {
 import { MobileAIInsights } from '@/components/mobile/MobileAIInsights';
 import { AIInsightsRealtimeUpdater } from '@/components/analytics/AIInsightsRealtimeUpdater';
 import { AIInsightsOnboarding } from '@/components/onboarding/AIInsightsOnboarding';
+import { AIRealtimeCoach } from '@/components/ai-tutor/AIRealtimeCoach';
+import { PersonalizedTutor } from '@/components/ai-tutor/PersonalizedTutor';
+import { SmartNotificationSystem } from '@/components/notifications/SmartNotificationSystem';
 import { useOnboarding } from '@/hooks/use-onboarding';
 import { useMobileUtils } from "@/hooks/use-mobile-utils";
 import { cn } from "@/lib/utils";
@@ -137,6 +140,7 @@ const Dashboard: React.FC = () => {
             <MobileQuickActions />
             <MobileStreakWidget />
             <MobileAIInsights className="mb-4" />
+            <AIRealtimeCoach />
           </div>
         )}
 
@@ -352,6 +356,18 @@ const Dashboard: React.FC = () => {
 
         {/* ... keep existing code (Featured Modules Section and Quick Actions) */}
       </div>
+
+      {/* AI Components Section */}
+      {!isMobile && (
+        <div className="mt-8 space-y-6">
+          <h2 className="text-xl font-semibold text-foreground">AI Learning Assistant</h2>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <AIRealtimeCoach />
+            <SmartNotificationSystem />
+          </div>
+          <PersonalizedTutor onStartChat={(prompt) => console.log('AI Tutor:', prompt)} />
+        </div>
+      )}
 
       {/* AI Learning Assistant */}
       <FloatingAIChatbot position="bottom-right" />
