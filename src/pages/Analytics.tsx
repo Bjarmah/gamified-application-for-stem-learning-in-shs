@@ -23,6 +23,7 @@ import { AdaptiveLearningEngine } from '@/components/adaptive-learning/AdaptiveL
 import { AIInsightsNotificationCenter } from '@/components/notifications/AIInsightsNotificationCenter';
 import { AIInsightsIntegration } from '@/components/ai-chatbot/AIInsightsIntegration';
 import { useUserAnalytics } from '@/hooks/use-analytics';
+import { IntelligentContentRecommendations } from '@/components/ai-content/IntelligentContentRecommendations';
 
 const Analytics: React.FC = () => {
   const { user, profile } = useAuth();
@@ -72,7 +73,7 @@ const Analytics: React.FC = () => {
             <TabsTrigger value="adaptive">Adaptive Learning</TabsTrigger>
             <TabsTrigger value="scheduler">Study Planner</TabsTrigger>
             <TabsTrigger value="students">Student Analytics</TabsTrigger>
-            <TabsTrigger value="content">Content Performance</TabsTrigger>
+            <TabsTrigger value="content">Content AI</TabsTrigger>
             <TabsTrigger value="realtime">Real-time Monitor</TabsTrigger>
           </TabsList>
 
@@ -107,20 +108,7 @@ const Analytics: React.FC = () => {
           </TabsContent>
 
           <TabsContent value="content" className="space-y-6">
-            <Card>
-              <CardHeader>
-                <CardTitle>Content Performance Analysis</CardTitle>
-                <CardDescription>
-                  Detailed insights into module and quiz performance
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="text-center py-12 text-muted-foreground">
-                  <BookOpen className="h-12 w-12 mx-auto mb-4" />
-                  <p>Content performance analytics coming soon</p>
-                </div>
-              </CardContent>
-            </Card>
+            <IntelligentContentRecommendations />
           </TabsContent>
 
           <TabsContent value="realtime" className="space-y-6">
@@ -190,12 +178,17 @@ const Analytics: React.FC = () => {
 
           {/* Tabbed Interface for Students */}
           <Tabs defaultValue="insights" className="space-y-6">
-            <TabsList className="grid w-full grid-cols-4">
+            <TabsList className="grid w-full grid-cols-5">
               <TabsTrigger value="insights">AI Insights</TabsTrigger>
+              <TabsTrigger value="content">Smart Content</TabsTrigger>
               <TabsTrigger value="tutor">Personal Tutor</TabsTrigger>
               <TabsTrigger value="adaptive">Adaptive Learning</TabsTrigger>
               <TabsTrigger value="scheduler">Study Planner</TabsTrigger>
             </TabsList>
+
+            <TabsContent value="content">
+              <IntelligentContentRecommendations />
+            </TabsContent>
 
             <TabsContent value="tutor">
               <PersonalizedTutor onStartChat={(prompt) => console.log('Start chat:', prompt)} />
