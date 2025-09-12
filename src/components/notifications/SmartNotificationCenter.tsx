@@ -166,14 +166,14 @@ export const SmartNotificationCenter: React.FC<SmartNotificationCenterProps> = (
                       </Button>
                     </div>
                     
-                    {notification.actionable && (
+                    {notification.isActionable && (
                       <Button
                         size="sm"
                         variant="outline"
                         className="mt-2 text-xs h-6"
                         onClick={() => handleNotificationAction(notification)}
                       >
-                        {notification.actionText}
+                        Take Action
                       </Button>
                     )}
                   </div>
@@ -264,8 +264,8 @@ export const SmartNotificationCenter: React.FC<SmartNotificationCenterProps> = (
                   {filteredNotifications.map((notification, index) => (
                     <div key={notification.id}>
                       <div className={`p-4 border rounded-lg transition-all ${
-                        notification.read ? 'opacity-70 bg-muted/30' : 'bg-accent/20'
-                      } ${notification.priority === 'urgent' ? 'border-red-200 bg-red-50' : ''}`}>
+                        notification.isRead ? 'opacity-70 bg-muted/30' : 'bg-accent/20'
+                      } ${notification.priority === 'high' ? 'border-red-200 bg-red-50' : ''}`}>
                         
                         {/* Header */}
                         <div className="flex items-start justify-between mb-2">
@@ -279,7 +279,7 @@ export const SmartNotificationCenter: React.FC<SmartNotificationCenterProps> = (
                           
                           <div className="flex items-center gap-1">
                             <span className="text-xs text-muted-foreground">
-                              {notification.timestamp.toLocaleTimeString()}
+                              {notification.createdAt.toLocaleTimeString()}
                             </span>
                             <Button
                               variant="ghost"
@@ -302,20 +302,20 @@ export const SmartNotificationCenter: React.FC<SmartNotificationCenterProps> = (
                           <div className="flex items-center gap-2">
                             <Badge 
                               variant="outline" 
-                              className={`text-xs ${getCategoryBadgeColor(notification.category)}`}
+                              className="text-xs"
                             >
-                              {notification.category.replace('_', ' ')}
+                              {notification.type.replace('_', ' ')}
                             </Badge>
                             
-                            {notification.triggerCondition && (
+                            {notification.data && (
                               <span className="text-xs text-muted-foreground">
-                                • {notification.triggerCondition}
+                                • AI Generated
                               </span>
                             )}
                           </div>
                           
                           <div className="flex items-center gap-2">
-                            {notification.actionable && (
+                            {notification.isActionable && (
                               <Button
                                 size="sm"
                                 variant="outline"
@@ -323,11 +323,11 @@ export const SmartNotificationCenter: React.FC<SmartNotificationCenterProps> = (
                                 className="text-xs"
                               >
                                 <Play className="h-3 w-3 mr-1" />
-                                {notification.actionText}
+                                Take Action
                               </Button>
                             )}
                             
-                            {!notification.read && (
+                            {!notification.isRead && (
                               <Button
                                 size="sm"
                                 variant="ghost"
