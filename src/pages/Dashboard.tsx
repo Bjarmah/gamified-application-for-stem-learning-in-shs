@@ -33,6 +33,8 @@ import {
   LearningPathCard
 } from "@/components/dashboard";
 import { AIInsightsPreview } from "@/components/dashboard/AIInsightsPreview";
+import { ComprehensiveInsightsCard } from "@/components/analytics/ComprehensiveInsightsCard";
+import { SmartStudyScheduler } from "@/components/analytics/SmartStudyScheduler";
 import { 
   MobilePullToRefresh, 
   MobileDashboardCard, 
@@ -203,27 +205,27 @@ const Dashboard: React.FC = () => {
             </div>
           ) : (
             // Desktop layout
-            <>
-              <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
-                {/* Main Performance Overview */}
-                <div className="lg:col-span-2">
-                  <PersonalizedDashboard />
+              <>
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
+                  {/* Main Performance Overview */}
+                  <div className="lg:col-span-2">
+                    <PersonalizedDashboard />
+                  </div>
+                  
+                  {/* Side Panel with Insights */}
+                  <div className="space-y-6">
+                    <AIInsightsPreview />
+                    <ComprehensiveInsightsCard />
+                    <SmartStudyScheduler />
+                  </div>
                 </div>
                 
-                {/* Side Panel with Insights */}
-                <div className="space-y-6">
-                  <AIInsightsPreview />
-                  <StudyInsightsCard />
-                  <WeakAreasCard />
+                {/* Goals and Learning Path */}
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                  <StudyGoalsCard />
+                  <LearningPathCard />
                 </div>
-              </div>
-              
-              {/* Goals and Learning Path */}
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                <StudyGoalsCard />
-                <LearningPathCard />
-              </div>
-            </>
+              </>
           )}
         </div>
 

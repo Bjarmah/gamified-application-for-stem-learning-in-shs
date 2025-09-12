@@ -1,10 +1,9 @@
-import { useState } from 'react';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import React, { useState, useEffect } from 'react';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
-import { Skeleton } from '@/components/ui/skeleton';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Separator } from '@/components/ui/separator';
 import {
   Calendar,
   Clock,
@@ -13,87 +12,194 @@ import {
   Zap,
   CheckCircle,
   AlertCircle,
-  TrendingUp
+  TrendingUp,
+  Bell,
+  BookOpen,
+  Star
 } from 'lucide-react';
-import { useLearningInsights, useLearningTimePatterns, useAnalyticsData } from '@/hooks/use-learning-insights';
-import { format, addDays, startOfWeek, addWeeks } from 'date-fns';
+import { useLearningInsights } from '@/hooks/use-learning-insights';
+import { useToast } from '@/hooks/use-toast';
+import { format, addDays, startOfWeek, isToday, isTomorrow } from 'date-fns';
+
+interface ScheduleItem {
+  id: string;
+  time: string;
+  duration: number;
+  subject: string;
+  topic: string;
+  type: 'review' | 'new_material' | 'practice' | 'assessment';
+  priority: 'high' | 'medium' | 'low';
+  aiOptimized: boolean;
+  estimatedDifficulty: number;
+  prerequisitesMet: boolean;
+}
 
 interface SmartStudySchedulerProps {
-  userId?: string;
   className?: string;
 }
 
-export const SmartStudyScheduler = ({ userId, className }: SmartStudySchedulerProps) => {
-  const [selectedView, setSelectedView] = useState<'daily' | 'weekly' | 'monthly'>('weekly');
-  const [scheduleGenerated, setScheduleGenerated] = useState(false);
-  
-  const { 
-    generateInsights, 
-    getLatestInsight, 
-    isGenerating 
-  } = useLearningInsights(userId);
-  
-  const { data: timePatterns, isLoading: patternsLoading } = useLearningTimePatterns(userId);
-  const { data: analyticsData, isLoading: analyticsLoading } = useAnalyticsData(userId);
+export const SmartStudyScheduler = ({ className }: SmartStudySchedulerProps) => {
+  const { getLatestInsight, generateInsights, isGenerating } = useLearningInsights();
+  const { toast } = useToast();
+  const [schedule, setSchedule] = useState<ScheduleItem[]>([]);
+  const [selectedDay, setSelectedDay] = useState(0); // 0 = today, 1 = tomorrow, etc.
 
-  const patternInsights = getLatestInsight('learning_patterns')?.insights;
-  const comprehensiveInsights = getLatestInsight('comprehensive_insights')?.insights;
+  const comprehensiveData = getLatestInsight('comprehensive_insights')?.insights;
+  const gapsData = getLatestInsight('knowledge_gaps')?.insights;
+  const patternsData = getLatestInsight('learning_patterns')?.insights;
+  const predictiveData = getLatestInsight('predictive_insights')?.insights;
 
-  const generateSmartSchedule = async () => {
-    await generateInsights('learning_patterns');
-    await generateInsights('comprehensive_insights');
-    setScheduleGenerated(true);
+  useEffect(() => {
+    if (patternsData && gapsData && comprehensiveData) {
+      generateOptimalSchedule();
+    }
+  }, [patternsData, gapsData, comprehensiveData, selectedDay]);
+
+  const generateOptimalSchedule = () => {
+    const scheduleItems: ScheduleItem[] = [];
+    const targetDate = addDays(new Date(), selectedDay);
+
+    // Use learning patterns to determine optimal study times
+    const peakTimes = patternsData?.peakTimes || ['09:00 AM', '02:00 PM', '07:00 PM'];
+    const avgSessionLength = patternsData?.productivity?.avgSessionLength || 30;
+
+    // Priority 1: Address critical knowledge gaps
+    if (gapsData?.criticalGaps && gapsData.criticalGaps.length > 0) {
+      gapsData.criticalGaps.slice(0, 2).forEach((gap: any, index: number) => {
+        if (index < peakTimes.length) {
+          scheduleItems.push({
+            id: `gap-${gap.subject}-${gap.topic}`,
+            time: peakTimes[index],
+            duration: Math.max(avgSessionLength, 25),
+            subject: gap.subject,
+            topic: gap.topic,
+            type: gap.severity === 'high' ? 'review' : 'practice',
+            priority: gap.severity as 'high' | 'medium' | 'low',
+            aiOptimized: true,
+            estimatedDifficulty: 100 - gap.score,
+            prerequisitesMet: true
+          });
+        }
+      });
+    }
+
+    // Priority 2: Strengthen weak areas from comprehensive analysis
+    if (comprehensiveData?.improvements && comprehensiveData.improvements.length > 0) {
+      comprehensiveData.improvements.slice(0, 2).forEach((improvement: string, index: number) => {
+        const timeSlot = peakTimes[scheduleItems.length % peakTimes.length];
+        scheduleItems.push({
+          id: `improvement-${improvement}`,
+          time: timeSlot,
+          duration: avgSessionLength,
+          subject: 'Multi-subject',
+          topic: improvement,
+          type: 'new_material',
+          priority: 'medium',
+          aiOptimized: true,
+          estimatedDifficulty: 60,
+          prerequisitesMet: true
+        });
+      });
+    }
+
+    // Priority 3: Reinforce strengths for confidence building
+    if (comprehensiveData?.strengths && comprehensiveData.strengths.length > 0) {
+      const strength = comprehensiveData.strengths[0];
+      scheduleItems.push({
+        id: `strength-${strength}`,
+        time: peakTimes[(scheduleItems.length) % peakTimes.length],
+        duration: Math.min(avgSessionLength, 20),
+        subject: 'Strengths',
+        topic: strength,
+        type: 'review',
+        priority: 'low',
+        aiOptimized: true,
+        estimatedDifficulty: 30,
+        prerequisitesMet: true
+      });
+    }
+
+    // Priority 4: Follow personalized study plan
+    if (comprehensiveData?.studyPlan?.daily && comprehensiveData.studyPlan.daily.length > 0) {
+      comprehensiveData.studyPlan.daily.forEach((goal: string, index: number) => {
+        if (scheduleItems.length < 5) { // Limit total items
+          scheduleItems.push({
+            id: `daily-${goal}`,
+            time: peakTimes[(scheduleItems.length) % peakTimes.length],
+            duration: 20,
+            subject: 'Study Plan',
+            topic: goal,
+            type: 'practice',
+            priority: 'medium',
+            aiOptimized: true,
+            estimatedDifficulty: 50,
+            prerequisitesMet: true
+          });
+        }
+      });
+    }
+
+    // Sort by priority and time
+    scheduleItems.sort((a, b) => {
+      const priorityOrder = { high: 3, medium: 2, low: 1 };
+      return priorityOrder[b.priority] - priorityOrder[a.priority];
+    });
+
+    setSchedule(scheduleItems);
   };
 
-  const getOptimalStudyTimes = () => {
-    if (!patternInsights?.peakTimes) return [];
-    return patternInsights.peakTimes.slice(0, 3);
+  const getDayName = (dayOffset: number) => {
+    const date = addDays(new Date(), dayOffset);
+    if (isToday(date)) return 'Today';
+    if (isTomorrow(date)) return 'Tomorrow';
+    return format(date, 'EEEE');
   };
 
-  const getStudyPlan = (period: 'daily' | 'weekly' | 'monthly') => {
-    if (!comprehensiveInsights?.studyPlan) return [];
-    return comprehensiveInsights.studyPlan[period] || [];
+  const getDateString = (dayOffset: number) => {
+    return format(addDays(new Date(), dayOffset), 'MMM dd');
   };
 
-  const getDifficultyColor = (difficulty: string) => {
-    switch (difficulty.toLowerCase()) {
-      case 'high': return 'text-red-500';
-      case 'medium': return 'text-yellow-500';
-      case 'low': return 'text-green-500';
-      default: return 'text-gray-500';
+  const getPriorityColor = (priority: string) => {
+    switch (priority) {
+      case 'high': return 'text-red-600 bg-red-50 border-red-200';
+      case 'medium': return 'text-orange-600 bg-orange-50 border-orange-200';
+      case 'low': return 'text-green-600 bg-green-50 border-green-200';
+      default: return 'text-gray-600 bg-gray-50 border-gray-200';
     }
   };
 
-  const generateWeeklySchedule = () => {
-    const weekStart = startOfWeek(new Date());
-    const weekDays = Array.from({ length: 7 }, (_, i) => addDays(weekStart, i));
-    const optimalTimes = getOptimalStudyTimes();
-    const dailyPlan = getStudyPlan('daily');
-
-    return weekDays.map((day, index) => ({
-      date: day,
-      dayName: format(day, 'EEEE'),
-      sessions: optimalTimes.map((time, timeIndex) => ({
-        time,
-        subject: dailyPlan[timeIndex % dailyPlan.length] || 'Study Session',
-        duration: patternInsights?.productivity?.avgSessionLength || 45,
-        difficulty: ['high', 'medium', 'low'][timeIndex % 3],
-        completed: false
-      }))
-    }));
+  const getTypeIcon = (type: string) => {
+    switch (type) {
+      case 'review': return <TrendingUp className="h-4 w-4" />;
+      case 'new_material': return <BookOpen className="h-4 w-4" />;
+      case 'practice': return <Target className="h-4 w-4" />;
+      case 'assessment': return <CheckCircle className="h-4 w-4" />;
+      default: return <Brain className="h-4 w-4" />;
+    }
   };
 
-  if (patternsLoading || analyticsLoading) {
+  const totalStudyTime = schedule.reduce((total, item) => total + item.duration, 0);
+  const highPriorityItems = schedule.filter(item => item.priority === 'high').length;
+
+  if (!patternsData && !gapsData) {
     return (
       <Card className={className}>
         <CardHeader>
-          <Skeleton className="h-6 w-48" />
-          <Skeleton className="h-4 w-64" />
+          <CardTitle className="flex items-center gap-2">
+            <Calendar className="h-5 w-5 text-blue-500" />
+            Smart Study Scheduler
+          </CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="space-y-4">
-            <Skeleton className="h-32 w-full" />
-            <Skeleton className="h-24 w-full" />
+          <div className="text-center py-6">
+            <Calendar className="h-12 w-12 mx-auto mb-4 text-muted-foreground" />
+            <p className="text-sm text-muted-foreground mb-4">
+              Generate AI insights to create your personalized study schedule
+            </p>
+            <Button onClick={() => generateInsights('learning_patterns')}>
+              <Brain className="h-4 w-4 mr-2" />
+              Create Schedule
+            </Button>
           </div>
         </CardContent>
       </Card>
@@ -103,217 +209,176 @@ export const SmartStudyScheduler = ({ userId, className }: SmartStudySchedulerPr
   return (
     <Card className={className}>
       <CardHeader>
-        <div className="flex items-center justify-between">
-          <div>
-            <CardTitle className="flex items-center gap-2">
-              <Calendar className="h-5 w-5 text-primary" />
-              Smart Study Scheduler
-            </CardTitle>
-            <CardDescription>
-              AI-optimized study schedule based on your learning patterns
-            </CardDescription>
+        <CardTitle className="flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <Calendar className="h-5 w-5 text-blue-500" />
+            Smart Study Scheduler
           </div>
-          {!scheduleGenerated && (
-            <Button 
-              onClick={generateSmartSchedule}
-              disabled={isGenerating}
-            >
-              {isGenerating ? 'Generating...' : 'Generate Schedule'}
-            </Button>
-          )}
-        </div>
+          <Badge variant="default" className="bg-blue-500">
+            <Zap className="h-3 w-3 mr-1" />
+            AI Optimized
+          </Badge>
+        </CardTitle>
       </CardHeader>
-      <CardContent>
-        {!scheduleGenerated ? (
-          <div className="text-center py-8">
-            <Brain className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
-            <p className="text-muted-foreground mb-4">
-              Generate your personalized study schedule based on your learning patterns
-            </p>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6 text-sm">
-              <div className="p-4 rounded-lg border">
-                <Clock className="h-6 w-6 text-blue-500 mx-auto mb-2" />
-                <div className="font-medium">Peak Times</div>
-                <div className="text-muted-foreground">Optimal study hours</div>
+      
+      <CardContent className="space-y-4">
+        {/* Day Selector */}
+        <div className="flex gap-2 overflow-x-auto pb-2">
+          {[0, 1, 2, 3, 4, 5, 6].map((dayOffset) => (
+            <Button
+              key={dayOffset}
+              variant={selectedDay === dayOffset ? 'default' : 'outline'}
+              size="sm"
+              onClick={() => setSelectedDay(dayOffset)}
+              className="flex-shrink-0"
+            >
+              <div className="text-center">
+                <div className="font-medium">{getDayName(dayOffset)}</div>
+                <div className="text-xs opacity-75">{getDateString(dayOffset)}</div>
               </div>
-              <div className="p-4 rounded-lg border">
-                <Target className="h-6 w-6 text-green-500 mx-auto mb-2" />
-                <div className="font-medium">Subject Focus</div>
-                <div className="text-muted-foreground">Priority subjects</div>
-              </div>
-              <div className="p-4 rounded-lg border">
-                <Zap className="h-6 w-6 text-yellow-500 mx-auto mb-2" />
-                <div className="font-medium">Energy Levels</div>
-                <div className="text-muted-foreground">Difficulty matching</div>
-              </div>
-            </div>
-          </div>
-        ) : (
-          <div className="space-y-6">
-            {/* Quick Stats */}
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-              <div className="p-4 rounded-lg border">
-                <div className="flex items-center gap-2 mb-2">
-                  <Clock className="h-4 w-4 text-blue-500" />
-                  <span className="text-sm font-medium">Peak Times</span>
-                </div>
-                <div className="text-lg font-bold">
-                  {getOptimalStudyTimes().length}
-                </div>
-                <div className="text-xs text-muted-foreground">
-                  identified
+            </Button>
+          ))}
+        </div>
+
+        {schedule.length > 0 && (
+          <>
+            {/* Study Overview */}
+            <div className="p-3 bg-blue-50 rounded-lg border border-blue-200">
+              <div className="flex items-center justify-between mb-2">
+                <span className="text-sm font-medium">Daily Study Plan</span>
+                <div className="flex items-center gap-4 text-xs text-muted-foreground">
+                  <span>{totalStudyTime} min total</span>
+                  <span>{schedule.length} sessions</span>
                 </div>
               </div>
               
-              <div className="p-4 rounded-lg border">
+              {highPriorityItems > 0 && (
                 <div className="flex items-center gap-2 mb-2">
-                  <Target className="h-4 w-4 text-green-500" />
-                  <span className="text-sm font-medium">Daily Goals</span>
+                  <AlertCircle className="h-4 w-4 text-red-500" />
+                  <span className="text-sm text-red-700">
+                    {highPriorityItems} high-priority session{highPriorityItems > 1 ? 's' : ''}
+                  </span>
                 </div>
-                <div className="text-lg font-bold">
-                  {getStudyPlan('daily').length}
-                </div>
-                <div className="text-xs text-muted-foreground">
-                  activities
-                </div>
-              </div>
-              
-              <div className="p-4 rounded-lg border">
-                <div className="flex items-center gap-2 mb-2">
-                  <TrendingUp className="h-4 w-4 text-purple-500" />
-                  <span className="text-sm font-medium">Consistency</span>
-                </div>
-                <div className="text-lg font-bold">
-                  {patternInsights?.consistency?.score || 0}/10
-                </div>
-                <div className="text-xs text-muted-foreground">
-                  score
-                </div>
-              </div>
-              
-              <div className="p-4 rounded-lg border">
-                <div className="flex items-center gap-2 mb-2">
-                  <Zap className="h-4 w-4 text-yellow-500" />
-                  <span className="text-sm font-medium">Avg Session</span>
-                </div>
-                <div className="text-lg font-bold">
-                  {patternInsights?.productivity?.avgSessionLength || 45}m
-                </div>
-                <div className="text-xs text-muted-foreground">
-                  duration
-                </div>
+              )}
+
+              <div className="text-xs text-blue-700">
+                Schedule optimized based on your learning patterns and current gaps
               </div>
             </div>
 
-            {/* Schedule Views */}
-            <Tabs value={selectedView} onValueChange={(value) => setSelectedView(value as any)}>
-              <TabsList className="grid w-full grid-cols-3">
-                <TabsTrigger value="daily">Daily</TabsTrigger>
-                <TabsTrigger value="weekly">Weekly</TabsTrigger>
-                <TabsTrigger value="monthly">Monthly</TabsTrigger>
-              </TabsList>
-
-              <TabsContent value="daily">
-                <div className="space-y-4">
-                  <h4 className="font-medium">Today's Optimized Schedule</h4>
-                  {getOptimalStudyTimes().map((time, index) => {
-                    const dailyPlan = getStudyPlan('daily');
-                    const subject = dailyPlan[index % dailyPlan.length] || 'Study Session';
-                    const duration = patternInsights?.productivity?.avgSessionLength || 45;
-                    
-                    return (
-                      <div key={index} className="p-4 rounded-lg border">
-                        <div className="flex items-center justify-between mb-2">
-                          <div className="flex items-center gap-3">
-                            <Clock className="h-4 w-4 text-blue-500" />
-                            <span className="font-medium">{time}</span>
-                            <Badge variant="outline">{duration}m</Badge>
-                          </div>
-                          <Button size="sm" variant="outline">
-                            <CheckCircle className="h-4 w-4" />
-                          </Button>
+            {/* Study Sessions */}
+            <div className="space-y-3">
+              {schedule.map((item, index) => (
+                <div
+                  key={item.id}
+                  className={`p-4 rounded-lg border transition-all hover:shadow-sm ${getPriorityColor(item.priority)}`}
+                >
+                  <div className="flex items-start justify-between mb-3">
+                    <div className="flex items-center gap-3">
+                      <div className="flex flex-col items-center">
+                        <Clock className="h-4 w-4 mb-1" />
+                        <span className="text-xs font-medium">{item.time}</span>
+                      </div>
+                      
+                      <div>
+                        <div className="flex items-center gap-2 mb-1">
+                          {getTypeIcon(item.type)}
+                          <span className="font-medium">{item.topic}</span>
                         </div>
                         <div className="text-sm text-muted-foreground">
-                          {subject}
+                          {item.subject} • {item.duration} minutes
                         </div>
                       </div>
-                    );
-                  })}
-                </div>
-              </TabsContent>
+                    </div>
 
-              <TabsContent value="weekly">
-                <div className="space-y-4">
-                  <h4 className="font-medium">This Week's Schedule</h4>
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                    {generateWeeklySchedule().map((day, dayIndex) => (
-                      <div key={dayIndex} className="p-4 rounded-lg border">
-                        <div className="font-medium mb-3">
-                          {day.dayName}
-                          <div className="text-xs text-muted-foreground">
-                            {format(day.date, 'MMM d')}
-                          </div>
-                        </div>
-                        <div className="space-y-2">
-                          {day.sessions.slice(0, 2).map((session, sessionIndex) => (
-                            <div key={sessionIndex} className="text-sm p-2 rounded bg-muted/50">
-                              <div className="flex items-center justify-between">
-                                <span>{session.time}</span>
-                                <Badge 
-                                  variant="outline" 
-                                  className={getDifficultyColor(session.difficulty)}
-                                >
-                                  {session.difficulty}
-                                </Badge>
-                              </div>
-                              <div className="text-xs text-muted-foreground mt-1">
-                                {session.subject}
-                              </div>
-                            </div>
-                          ))}
-                        </div>
-                      </div>
-                    ))}
+                    <div className="flex items-center gap-2">
+                      {item.aiOptimized && (
+                        <Badge variant="outline" className="text-xs">
+                          <Brain className="h-3 w-3 mr-1" />
+                          AI
+                        </Badge>
+                      )}
+                      
+                      <Badge
+                        variant={item.priority === 'high' ? 'destructive' : 
+                                item.priority === 'medium' ? 'secondary' : 'outline'}
+                        className="text-xs"
+                      >
+                        {item.priority}
+                      </Badge>
+                    </div>
+                  </div>
+
+                  <div className="space-y-2">
+                    <div className="flex items-center justify-between text-xs">
+                      <span>Estimated Difficulty</span>
+                      <span className="font-medium">{item.estimatedDifficulty}%</span>
+                    </div>
+                    <Progress 
+                      value={item.estimatedDifficulty} 
+                      className="h-1"
+                    />
+                  </div>
+
+                  <div className="flex items-center justify-between mt-3">
+                    <span className="text-xs capitalize font-medium">
+                      {item.type.replace('_', ' ')}
+                    </span>
+                    
+                    <div className="flex items-center gap-2">
+                      {item.prerequisitesMet ? (
+                        <CheckCircle className="h-4 w-4 text-green-500" />
+                      ) : (
+                        <AlertCircle className="h-4 w-4 text-orange-500" />
+                      )}
+                      <Button variant="outline" size="sm" className="h-6 px-2 text-xs">
+                        Start Session
+                      </Button>
+                    </div>
                   </div>
                 </div>
-              </TabsContent>
+              ))}
+            </div>
 
-              <TabsContent value="monthly">
-                <div className="space-y-4">
-                  <h4 className="font-medium">Monthly Learning Goals</h4>
-                  <div className="space-y-3">
-                    {getStudyPlan('monthly').map((goal, index) => (
-                      <div key={index} className="p-4 rounded-lg border">
-                        <div className="flex items-center justify-between mb-2">
-                          <div className="font-medium">{goal}</div>
-                          <Badge variant="secondary">
-                            Week {Math.floor(index / 7) + 1}
-                          </Badge>
-                        </div>
-                        <Progress value={Math.random() * 100} className="h-2" />
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </TabsContent>
-            </Tabs>
+            <Separator />
 
-            {/* Recommendations */}
-            <div className="p-4 rounded-lg bg-muted/50">
-              <h4 className="font-medium mb-2 flex items-center gap-2">
-                <Brain className="h-4 w-4 text-purple-500" />
-                AI Recommendations
+            {/* Smart Recommendations */}
+            <div className="space-y-3">
+              <h4 className="text-sm font-medium flex items-center gap-2">
+                <Zap className="h-4 w-4 text-yellow-500" />
+                AI Study Tips for {getDayName(selectedDay)}
               </h4>
+              
               <div className="space-y-2">
-                {patternInsights?.recommendations?.slice(0, 3).map((rec, index) => (
-                  <div key={index} className="text-sm flex items-start gap-2">
-                    <AlertCircle className="h-4 w-4 text-yellow-500 mt-0.5 flex-shrink-0" />
-                    {rec}
+                {patternsData?.recommendations?.slice(0, 2).map((tip: string, index: number) => (
+                  <div key={index} className="flex items-start gap-2 p-3 bg-yellow-50 rounded-lg border border-yellow-200">
+                    <Star className="h-4 w-4 text-yellow-500 flex-shrink-0 mt-0.5" />
+                    <span className="text-sm">{tip}</span>
                   </div>
                 ))}
+                
+                <div className="flex items-start gap-2 p-3 bg-purple-50 rounded-lg border border-purple-200">
+                  <Brain className="h-4 w-4 text-purple-500 flex-shrink-0 mt-0.5" />
+                  <span className="text-sm">
+                    Based on your patterns, you're most productive during {patternsData?.peakTimes?.[0] || '9:00 AM'}. 
+                    Schedule your most challenging topics during this time.
+                  </span>
+                </div>
               </div>
             </div>
-          </div>
+
+            {/* Schedule Actions */}
+            <div className="flex gap-2">
+              <Button variant="outline" className="flex-1" size="sm">
+                <Bell className="h-4 w-4 mr-2" />
+                Set Reminders
+              </Button>
+              <Button variant="outline" className="flex-1" size="sm">
+                <Calendar className="h-4 w-4 mr-2" />
+                Export Schedule
+              </Button>
+            </div>
+          </>
         )}
       </CardContent>
     </Card>
