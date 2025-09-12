@@ -108,6 +108,14 @@ const Dashboard: React.FC = () => {
 
   const dashboardContent = (
     <div className="min-h-screen bg-background p-6">
+      {/* AI Insights Onboarding */}
+      {shouldShowAIInsightsOnboarding() && (
+        <AIInsightsOnboarding 
+          onComplete={markAIInsightsOnboardingCompleted}
+          onSkip={markAIInsightsOnboardingCompleted}
+        />
+      )}
+      
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="mb-8 animate-fade-in-up">
