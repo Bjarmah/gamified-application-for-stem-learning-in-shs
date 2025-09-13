@@ -15,6 +15,7 @@ import { MobileAIInsights } from '@/components/mobile/MobileAIInsights';
 import { useAuth } from '@/context/AuthContext';
 import { useUserAnalytics } from '@/hooks/use-analytics';
 import { useLearningInsights } from '@/hooks/use-learning-insights';
+import { useAIService } from '@/hooks/use-ai-service';
 import { useToast } from '@/hooks/use-toast';
 
 interface AIInsightsHubProps {
@@ -30,6 +31,7 @@ export const AIInsightsHub: React.FC<AIInsightsHubProps> = ({
   const { data: analytics } = useUserAnalytics();
   const { toast } = useToast();
   const { getLatestInsight, generateInsights, isGenerating } = useLearningInsights(user?.id);
+  const { generateLearningInsights, isLoading: aiLoading } = useAIService();
   
   const [activeTab, setActiveTab] = useState('overview');
   const [aiActivity, setAiActivity] = useState({
@@ -63,12 +65,15 @@ export const AIInsightsHub: React.FC<AIInsightsHubProps> = ({
 
   const handleGenerateComprehensiveInsights = async () => {
     try {
-      await generateInsights('comprehensive_insights');
-      toast({
-        title: "AI Analysis Complete",
-        description: "Your personalized learning insights are ready!",
-        duration: 4000,
-      });
+      const aiResponse = await generateLearningInsights(analytics, 'comprehensive analysis');
+      
+      if (aiResponse) {
+        toast({
+          title: "AI Analysis Complete",
+          description: "Your personalized learning insights are ready!",
+          duration: 4000,
+        });
+      }
     } catch (error) {
       toast({
         title: "Generation Failed",
@@ -113,7 +118,7 @@ export const AIInsightsHub: React.FC<AIInsightsHubProps> = ({
               <Zap className="h-3 w-3" />
               AI Powered
             </Badge>
-            {isGenerating && (
+            {isGenerating || aiLoading && (
               <Badge variant="outline" className="flex items-center gap-1">
                 <div className="w-2 h-2 bg-primary rounded-full animate-pulse" />
                 Analyzing
@@ -180,11 +185,11 @@ export const AIInsightsHub: React.FC<AIInsightsHubProps> = ({
                 <div className="space-y-2">
                   <Button 
                     onClick={handleGenerateComprehensiveInsights}
-                    disabled={isGenerating}
+                    disabled={isGenerating || aiLoading}
                     className="w-full h-8 text-xs"
                     size="sm"
                   >
-                    {isGenerating ? (
+                    {isGenerating || aiLoading ? (
                       <>
                         <div className="w-3 h-3 border-2 border-white border-t-transparent rounded-full animate-spin mr-2" />
                         Analyzing...

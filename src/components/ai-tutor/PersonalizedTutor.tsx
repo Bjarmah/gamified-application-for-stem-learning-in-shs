@@ -7,10 +7,11 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { 
   Brain, Send, MessageSquare, BookOpen, Target, 
-  Zap, Clock, TrendingUp, Lightbulb, Bot
+  Zap, Clock, TrendingUp, Lightbulb, Bot, Loader2
 } from 'lucide-react';
 import { useAuth } from '@/context/AuthContext';
 import { useUserAnalytics } from '@/hooks/use-analytics';
+import { useAIService } from '@/hooks/use-ai-service';
 
 interface Message {
   id: string;
@@ -28,6 +29,7 @@ interface PersonalizedTutorProps {
 export const PersonalizedTutor: React.FC<PersonalizedTutorProps> = ({ onStartChat }) => {
   const { user } = useAuth();
   const { data: analytics } = useUserAnalytics();
+  const { generatePersonalizedTutoring, isLoading } = useAIService();
   const [messages, setMessages] = useState<Message[]>([]);
   const [inputValue, setInputValue] = useState('');
   const [isTyping, setIsTyping] = useState(false);
@@ -89,8 +91,8 @@ export const PersonalizedTutor: React.FC<PersonalizedTutorProps> = ({ onStartCha
     };
   };
 
-  const handleSendMessage = () => {
-    if (!inputValue.trim()) return;
+  const handleSendMessage = async () => {
+    if (!inputValue.trim() || isLoading) return;
 
     const userMessage: Message = {
       id: Date.now().toString(),
@@ -100,17 +102,58 @@ export const PersonalizedTutor: React.FC<PersonalizedTutorProps> = ({ onStartCha
     };
 
     setMessages(prev => [...prev, userMessage]);
+    const messageContent = inputValue;
     setInputValue('');
     setIsTyping(true);
 
-    // Simulate AI thinking time
-    setTimeout(() => {
-      const tutorResponse = generateTutorResponse(inputValue);
-      setMessages(prev => [...prev, tutorResponse]);
-      setIsTyping(false);
-    }, 1500);
+    onStartChat?.(`${messageContent}`);
 
-    onStartChat?.(inputValue);
+    try {
+      const context = {
+        userAnalytics: analytics,
+        currentModule: 'STEM Learning',
+        weakAreas: analytics?.progressTrend === 'decreasing' ? ['review previous topics'] : undefined,
+      };
+
+      const aiResponse = await generatePersonalizedTutoring(messageContent, context);
+      
+      if (aiResponse) {
+        const tutorResponse: Message = {
+          id: (Date.now() + 1).toString(),
+          type: 'tutor',
+          content: aiResponse.response,
+          timestamp: new Date(),
+          suggestions: ["Tell me more", "Create practice quiz", "Show study plan", "Different topic"],
+          resources: [
+            { title: "Interactive Lab", type: "lab" },
+            { title: "Practice Questions", type: "quiz" },
+            { title: "Study Materials", type: "content" }
+          ]
+        };
+        
+        setMessages(prev => [...prev, tutorResponse]);
+      } else {
+        // Fallback response
+        const fallbackResponse: Message = {
+          id: (Date.now() + 1).toString(),
+          type: 'tutor',
+          content: "I'm having trouble connecting right now. Please try again in a moment.",
+          timestamp: new Date()
+        };
+        setMessages(prev => [...prev, fallbackResponse]);
+      }
+    } catch (error) {
+      console.error('AI tutor error:', error);
+      const errorResponse: Message = {
+        id: (Date.now() + 1).toString(),
+        type: 'tutor',
+        content: "I'm experiencing some technical difficulties. Please try again later.",
+        timestamp: new Date()
+      };
+      setMessages(prev => [...prev, errorResponse]);
+    } finally {
+      setIsTyping(false);
+    }
   };
 
   const handleSuggestionClick = (suggestion: string) => {
@@ -257,15 +300,19 @@ export const PersonalizedTutor: React.FC<PersonalizedTutorProps> = ({ onStartCha
             value={inputValue}
             onChange={(e) => setInputValue(e.target.value)}
             placeholder="Ask me anything about your studies..."
-            onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()}
+            onKeyPress={(e) => e.key === 'Enter' && !isLoading && handleSendMessage()}
             className="flex-1"
           />
           <Button 
             onClick={handleSendMessage} 
-            disabled={!inputValue.trim() || isTyping}
+            disabled={!inputValue.trim() || isLoading || isTyping}
             size="icon"
           >
-            <Send className="h-4 w-4" />
+            {isLoading || isTyping ? (
+              <Loader2 className="h-4 w-4 animate-spin" />
+            ) : (
+              <Send className="h-4 w-4" />
+            )}
           </Button>
         </div>
       </CardContent>
