@@ -7,11 +7,12 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { useSubject } from "@/hooks/use-subjects";
 import { useModules } from "@/hooks/use-modules";
 import { useAuth } from "@/context/AuthContext";
+import { AIModuleGenerator } from "@/components/ai-content/AIModuleGenerator";
 import { supabase } from "@/integrations/supabase/client";
 import { useQuery } from "@tanstack/react-query";
 import { FloatingAIChatbot } from "@/components/ai-chatbot";
 
-import { ArrowLeft, Clock, CheckCircle, PlayCircle, BookOpen, Trophy, Target } from "lucide-react";
+import { ArrowLeft, Clock, CheckCircle, PlayCircle, BookOpen, Trophy, Target, Brain, Sparkles } from "lucide-react";
 
 const SubjectDetail: React.FC = () => {
   const params = useParams<{ subjectId: string }>();
@@ -305,14 +306,29 @@ const SubjectDetail: React.FC = () => {
             </CardHeader>
             <CardContent>
               <div className="space-y-4">
+                {/* AI Module Generator */}
+                <AIModuleGenerator 
+                  subjectId={subjectId!}
+                  subjectName={subject.name}
+                  onModuleGenerated={() => {
+                    // Refresh modules when new one is generated
+                    window.location.reload();
+                  }}
+                />
+                
                 {modules?.map((module, idx) => {
                   const moduleQuiz = quizzes?.find((q) => q.module_id === module.id);
                   const isCompleted = userProgress?.modules?.some(p => p.module_id === module.id && p.completed) || false;
+                  const isAIGenerated = module.gamification?.isAIGenerated;
 
                   return (
                     <div
                       key={module.id}
-                      className="flex items-center gap-4 p-4 border border-stemPurple/30 dark:border-stemPurple/40 rounded-lg hover:bg-stemPurple/5 dark:hover:bg-stemPurple/10 transition-colors"
+                      className={`flex items-center gap-4 p-4 border rounded-lg hover:bg-stemPurple/5 dark:hover:bg-stemPurple/10 transition-colors ${
+                        isAIGenerated 
+                          ? 'border-primary/40 bg-gradient-to-r from-primary/5 to-secondary/5' 
+                          : 'border-stemPurple/30 dark:border-stemPurple/40'
+                      }`}
                     >
                       {/* Step number */}
                       <div className="flex-shrink-0">
@@ -320,7 +336,7 @@ const SubjectDetail: React.FC = () => {
                           ? "bg-stemPurple border-stemPurple text-white dark:bg-stemPurple-light dark:border-stemPurple-light dark:text-stemPurple-dark"
                           : "border-stemPurple/40 text-stemPurple dark:border-stemPurple/50 dark:text-stemPurple-light"
                           }`}>
-                          {isCompleted ? <CheckCircle className="h-4 w-4" /> : idx + 1}
+                          {isCompleted ? <CheckCircle className="h-4 w-4" /> : (isAIGenerated ? <Brain className="h-4 w-4" /> : idx + 1)}
                         </div>
                       </div>
 
@@ -330,6 +346,12 @@ const SubjectDetail: React.FC = () => {
                           <div className="space-y-1">
                             <div className="flex items-center gap-2">
                               <h3 className="font-medium text-sm text-stemPurple dark:text-stemPurple-light">{module.title}</h3>
+                              {isAIGenerated && (
+                                <Badge variant="outline" className="text-xs bg-primary/20 text-primary border-primary/30">
+                                  <Sparkles className="h-3 w-3 mr-1" />
+                                  AI Generated
+                                </Badge>
+                              )}
                               {isCompleted && (
                                 <Badge variant="outline" className="text-xs bg-stemPurple/25 text-stemPurple border-stemPurple/30 dark:bg-stemPurple/35 dark:text-stemPurple-light dark:border-stemPurple/40">
                                   <CheckCircle className="h-3 w-3 mr-1" />
@@ -354,6 +376,11 @@ const SubjectDetail: React.FC = () => {
                                   Quiz Available
                                 </Badge>
                               )}
+                              {isAIGenerated && module.gamification?.rating && (
+                                <Badge variant="outline" className="text-xs bg-yellow-100 text-yellow-800 border-yellow-300">
+                                  ⭐ {module.gamification.rating}/5
+                                </Badge>
+                              )}
                             </div>
                           </div>
 
@@ -362,9 +389,12 @@ const SubjectDetail: React.FC = () => {
                             <Button
                               size="sm"
                               onClick={() => navigate(`/subjects/${subjectId}/${module.id}`)}
-                              className="bg-stemPurple hover:bg-stemPurple-dark text-white border-stemPurple hover:border-stemPurple-dark dark:bg-stemPurple-light dark:hover:bg-stemPurple dark:border-stemPurple-light dark:hover:border-stemPurple"
+                              className={isAIGenerated 
+                                ? "bg-primary hover:bg-primary/90 text-primary-foreground"
+                                : "bg-stemPurple hover:bg-stemPurple-dark text-white border-stemPurple hover:border-stemPurple-dark dark:bg-stemPurple-light dark:hover:bg-stemPurple dark:border-stemPurple-light dark:hover:border-stemPurple"
+                              }
                             >
-                              <PlayCircle className="h-3 w-3 mr-1" />
+                              {isAIGenerated ? <Brain className="h-3 w-3 mr-1" /> : <PlayCircle className="h-3 w-3 mr-1" />}
                               {isCompleted ? "Review" : "Start"}
                             </Button>
                             {moduleQuiz && (
@@ -388,10 +418,10 @@ const SubjectDetail: React.FC = () => {
 
               {(!modules || modules.length === 0) && (
                 <div className="text-center py-8">
-                  <BookOpen className="h-12 w-12 mx-auto text-muted-foreground mb-4" />
-                  <p className="text-muted-foreground">No modules available yet.</p>
+                  <Brain className="h-12 w-12 mx-auto text-primary mb-4" />
+                  <p className="text-muted-foreground">Generate your first AI-powered learning module!</p>
                   <p className="text-sm text-muted-foreground mt-1">
-                    New learning content will be added soon.
+                    Use the generator above to create personalized content instantly.
                   </p>
                 </div>
               )}
