@@ -71,7 +71,7 @@ Return ONLY valid JSON (no markdown code blocks, no backticks) matching this exa
   "estimatedTime": 45,
   "prerequisites": ["prerequisite1", "prerequisite2"],
   "tags": ["tag1", "tag2", "tag3"]
-}
+}`;
 
 serve(async (req) => {
   console.log('Generate adaptive content function called');
