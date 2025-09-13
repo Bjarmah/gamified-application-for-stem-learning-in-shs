@@ -35,7 +35,7 @@ export const AIInsightsPreview = ({ className }: AIInsightsPreviewProps) => {
   const patternInsights = getLatestInsight('learning_patterns')?.insights;
   
   const hasAnyInsights = cachedInsights.length > 0;
-  const lastGenerated = cachedInsights[0]?.generated_at;
+  const lastGenerated = cachedInsights[0]?.generatedAt;
 
   const handleViewFullAnalytics = () => {
     navigate('/analytics');

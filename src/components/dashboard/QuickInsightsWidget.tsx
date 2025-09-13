@@ -34,7 +34,7 @@ export const QuickInsightsWidget = ({ className }: QuickInsightsWidgetProps) => 
   const patternInsights = getLatestInsight('learning_patterns')?.insights;
   
   const hasRecentInsights = cachedInsights.some(insight => 
-    new Date(insight.generated_at).getTime() > Date.now() - (24 * 60 * 60 * 1000) // 24 hours
+    new Date(insight.generatedAt).getTime() > Date.now() - (24 * 60 * 60 * 1000) // 24 hours
   );
 
   const handleGenerateInsights = async () => {

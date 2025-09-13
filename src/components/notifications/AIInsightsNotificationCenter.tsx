@@ -67,7 +67,7 @@ export const AIInsightsNotificationCenter = ({ className }: AIInsightsNotificati
     // Check for outdated insights (older than 7 days)
     const oneWeekAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);
     const hasRecentInsights = cachedInsights?.some(insight => 
-      new Date(insight.generated_at) > oneWeekAgo
+      new Date(insight.generatedAt) > oneWeekAgo
     );
 
     if (cachedInsights?.length > 0 && !hasRecentInsights) {

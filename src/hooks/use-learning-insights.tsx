@@ -50,8 +50,8 @@ export interface KnowledgeGapInsights {
     estimatedTime: string;
   }>;
   recommendations?: string[];
-  practiceStrategies?: string[];
-  prerequisites?: string[];
+  practiceStrategies?: Record<string, string[]>;
+  prerequisites?: Record<string, string[]>;
 }
 
 export interface ComprehensiveInsights {
@@ -178,8 +178,14 @@ export const useLearningInsights = (userId?: string) => {
               { step: 1, topic: 'Ionic Bonds', subject: 'Chemistry', estimatedTime: '30 min' }
             ],
             recommendations: response.split('\n').filter(line => line.trim()).slice(0, 3),
-            practiceStrategies: ['Daily practice', 'Visual aids', 'Group study'],
-            prerequisites: ['Basic concepts', 'Previous modules']
+            practiceStrategies: {
+              'Chemistry': ['Daily practice problems', 'Visual molecular models', 'Concept mapping'],
+              'Physics': ['Lab experiments', 'Problem-solving sessions', 'Real-world applications']
+            },
+            prerequisites: {
+              'Advanced Chemistry': ['Basic atomic theory', 'Chemical equations', 'Periodic table knowledge'],
+              'Organic Chemistry': ['Chemical bonding', 'Molecular geometry', 'Electron configuration']
+            }
           };
         
         case 'comprehensive_insights':
