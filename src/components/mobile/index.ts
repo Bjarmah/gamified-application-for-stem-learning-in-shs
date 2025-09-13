@@ -13,3 +13,4 @@ export { MobileStreakWidget } from './MobileStreakWidget';
 export { MobileNavigationHints } from './MobileNavigationHints';
 export { MobileAIInsights } from './MobileAIInsights';
 export { MobileInsightsWidget } from './MobileInsightsWidget';
+export { MobileAIGenerator } from './MobileAIGenerator';

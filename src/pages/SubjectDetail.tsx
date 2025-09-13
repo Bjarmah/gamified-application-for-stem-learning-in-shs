@@ -8,6 +8,8 @@ import { useSubject } from "@/hooks/use-subjects";
 import { useModules } from "@/hooks/use-modules";
 import { useAuth } from "@/context/AuthContext";
 import { AIModuleGenerator } from "@/components/ai-content/AIModuleGenerator";
+import { MobileAIGenerator } from "@/components/mobile";
+import { useMobileUtils } from "@/hooks/use-mobile-utils";
 import { supabase } from "@/integrations/supabase/client";
 import { useQuery } from "@tanstack/react-query";
 import { FloatingAIChatbot } from "@/components/ai-chatbot";
@@ -19,6 +21,7 @@ const SubjectDetail: React.FC = () => {
   const navigate = useNavigate();
   const subjectId = params?.subjectId;
   const { user } = useAuth();
+  const { isMobile } = useMobileUtils();
 
   const { data: subject, isLoading: subjectLoading } = useSubject(subjectId || "");
   const { data: modules, isLoading: modulesLoading } = useModules(subjectId);
@@ -309,15 +312,19 @@ const SubjectDetail: React.FC = () => {
             </CardHeader>
             <CardContent>
               <div className="space-y-4">
-                {/* AI Module Generator */}
-                <AIModuleGenerator 
-                  subjectId={subjectId!}
-                  subjectName={subject.name}
-                  onModuleGenerated={() => {
-                    // Refresh modules when new one is generated
-                    window.location.reload();
-                  }}
-                />
+                {/* AI Module Generator - Mobile optimized */}
+                {isMobile ? (
+                  <MobileAIGenerator 
+                    subjectId={subjectId!}
+                    onModuleGenerated={() => window.location.reload()}
+                  />
+                ) : (
+                  <AIModuleGenerator 
+                    subjectId={subjectId!}
+                    subjectName={subject.name}
+                    onModuleGenerated={() => window.location.reload()}
+                  />
+                )}
                 
                 {modules?.map((module, idx) => {
                   const moduleQuiz = quizzes?.find((q) => q.module_id === module.id);

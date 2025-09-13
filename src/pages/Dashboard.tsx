@@ -30,7 +30,8 @@ import {
   StudyInsightsCard,
   WeakAreasCard,
   StudyGoalsCard,
-  LearningPathCard
+  LearningPathCard,
+  AIModulesPreview
 } from "@/components/dashboard";
 import { AIInsightsPreview } from "@/components/dashboard/AIInsightsPreview";
 import { ComprehensiveInsightsCard } from "@/components/analytics/ComprehensiveInsightsCard";

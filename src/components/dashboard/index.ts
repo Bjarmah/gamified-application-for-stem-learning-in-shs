@@ -10,3 +10,4 @@ export { default as LeaderboardCard } from './LeaderboardCard';
 export { default as VirtualLabCard } from './VirtualLabCard';
 export { AIInsightsPreview } from './AIInsightsPreview';
 export { QuickInsightsWidget } from './QuickInsightsWidget';
+export { AIModulesPreview } from './AIModulesPreview';
