@@ -1,195 +1,244 @@
-import React, { useState } from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { Textarea } from '@/components/ui/textarea';
-import { Brain, MessageSquare, Lightbulb, TrendingUp, Loader2 } from 'lucide-react';
-import { useLearningInsights } from '@/hooks/use-learning-insights';
+import React, { useState, useEffect } from 'react';
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { 
+  Brain, MessageSquare, TrendingUp, Target, 
+  Clock, Zap, RefreshCw, ChevronRight
+} from 'lucide-react';
 import { useAuth } from '@/context/AuthContext';
+import { useUserAnalytics } from '@/hooks/use-analytics';
+import { useAIService } from '@/hooks/use-ai-service';
+import { useLearningInsights } from '@/hooks/use-learning-insights';
 import { useToast } from '@/hooks/use-toast';
-import { supabase } from '@/integrations/supabase/client';
 
 interface AIInsightsIntegrationProps {
   className?: string;
-  onInsightGenerated?: (insight: any) => void;
+  onChatRequest?: (message: string) => void;
 }
 
-export const AIInsightsIntegration = ({ 
-  className, 
-  onInsightGenerated 
-}: AIInsightsIntegrationProps) => {
+export const AIInsightsIntegration: React.FC<AIInsightsIntegrationProps> = ({
+  className = "",
+  onChatRequest
+}) => {
   const { user } = useAuth();
+  const { data: analytics } = useUserAnalytics();
+  const { generateLearningInsights, generatePersonalizedTutoring, isLoading } = useAIService();
+  const { getLatestInsight, generateInsights, isGenerating } = useLearningInsights(user?.id);
   const { toast } = useToast();
-  const { getLatestInsight } = useLearningInsights(user?.id);
-  const [query, setQuery] = useState('');
-  const [isProcessing, setIsProcessing] = useState(false);
-  const [chatResponse, setChatResponse] = useState<string | null>(null);
 
-  const comprehensiveInsight = getLatestInsight('comprehensive_insights');
-  const predictiveInsight = getLatestInsight('predictive_insights');
-  const learningPatterns = getLatestInsight('learning_patterns');
+  const [activeTab, setActiveTab] = useState('chat');
+  const [chatSuggestions, setChatSuggestions] = useState<string[]>([]);
+  const [quickInsights, setQuickInsights] = useState<any>(null);
 
-  const handleAskAI = async () => {
-    if (!query.trim() || !user?.id) return;
+  // Generate chat suggestions based on user performance
+  useEffect(() => {
+    if (analytics) {
+      const suggestions = [];
+      
+      if (analytics.averageScore < 70) {
+        suggestions.push("How can I improve my quiz scores?");
+      }
+      
+      if (analytics.streak > 0) {
+        suggestions.push(`How can I maintain my ${analytics.streak}-day streak?`);
+      }
+      
+      suggestions.push("What should I study next?");
+      suggestions.push("Create a study plan for me");
+      
+      setChatSuggestions(suggestions.slice(0, 4));
+    }
+  }, [analytics]);
 
-    setIsProcessing(true);
-    setChatResponse(null);
+  // Generate quick insights
+  const handleGenerateQuickInsights = async () => {
+    if (!analytics) return;
 
     try {
-      // Prepare context from existing insights
-      const context = {
-        comprehensive: comprehensiveInsight?.insights,
-        predictive: predictiveInsight?.insights,
-        patterns: learningPatterns?.insights,
-        userQuery: query
-      };
-
-      // Call AI function with context
-      const { data, error } = await supabase.functions.invoke('ai-insights-chat', {
-        body: {
-          userId: user.id,
-          context,
-          query: query.trim()
-        }
-      });
-
-      if (error) throw error;
-
-      setChatResponse(data.response);
+      const response = await generateLearningInsights(analytics, 'quick insights summary');
       
-      // If the AI generated new insights, trigger callback
-      if (data.newInsights && onInsightGenerated) {
-        onInsightGenerated(data.newInsights);
+      if (response?.response) {
+        setQuickInsights({
+          score: analytics.averageScore || 0,
+          trend: analytics.progressTrend || 'stable',
+          recommendations: response.response.split('\n').slice(0, 3),
+          nextAction: analytics.averageScore < 70 ? 'Focus on weak areas' : 'Continue current pace'
+        });
+        
+        toast({
+          title: "Insights Generated",
+          description: "Your personalized learning insights are ready!",
+        });
       }
-
-      toast({
-        title: "AI Response Generated",
-        description: "Your personalized learning advice is ready.",
-      });
-
     } catch (error) {
-      console.error('AI chat error:', error);
-      toast({
-        title: "Error",
-        description: "Failed to get AI response. Please try again.",
-        variant: "destructive"
-      });
-    } finally {
-      setIsProcessing(false);
+      console.error('Error generating quick insights:', error);
     }
   };
 
-  const suggestedQuestions = [
-    "How can I improve my weakest subjects?",
-    "What's the best study schedule for me?",
-    "Why am I struggling with certain topics?",
-    "What are my learning strengths?",
-    "How can I maintain my study momentum?"
-  ];
+  const handleChatSuggestion = async (suggestion: string) => {
+    if (onChatRequest) {
+      onChatRequest(suggestion);
+    } else {
+      // Generate response directly
+      try {
+        const response = await generatePersonalizedTutoring(suggestion, {
+          userAnalytics: analytics,
+          currentModule: 'insights_integration'
+        });
+        
+        if (response?.response) {
+          toast({
+            title: "AI Response Ready",
+            description: "Check your AI tutor for the personalized response!",
+          });
+        }
+      } catch (error) {
+        console.error('Error handling chat suggestion:', error);
+      }
+    }
+  };
 
   return (
-    <Card className={className}>
-      <CardHeader>
-        <CardTitle className="flex items-center gap-2 text-lg">
-          <Brain className="h-5 w-5 text-primary" />
-          AI Learning Coach
-          <Badge variant="secondary" className="text-xs">
-            Powered by Insights
+    <Card className={`${className} border-primary/20 bg-gradient-to-br from-primary/5 to-secondary/5`}>
+      <CardHeader className="pb-3">
+        <CardTitle className="flex items-center justify-between text-sm">
+          <div className="flex items-center gap-2">
+            <Brain className="h-4 w-4 text-primary" />
+            AI Learning Assistant
+          </div>
+          <Badge variant="secondary" className="text-xs flex items-center gap-1">
+            <Zap className="h-2 w-2" />
+            Smart
           </Badge>
         </CardTitle>
       </CardHeader>
-      
-      <CardContent className="space-y-4">
-        {/* Quick Insights Summary */}
-        {comprehensiveInsight && (
-          <div className="bg-primary/5 p-3 rounded-lg space-y-2">
-            <h4 className="font-medium flex items-center gap-2 text-sm">
-              <TrendingUp className="h-4 w-4 text-green-500" />
-              Latest Insights
-            </h4>
-            <div className="grid grid-cols-2 gap-2 text-xs">
-              <div>
-                <span className="text-muted-foreground">Performance:</span>
-                <span className="ml-1 font-semibold">
-                  {Math.round(comprehensiveInsight.insights?.overall_performance || 0)}%
-                </span>
-              </div>
-              <div>
-                <span className="text-muted-foreground">Predicted:</span>
-                <span className="ml-1 font-semibold">
-                  {Math.round(predictiveInsight?.insights?.predicted_performance || 0)}%
-                </span>
-              </div>
-            </div>
-            {comprehensiveInsight.insights?.key_insights && (
-              <p className="text-xs text-muted-foreground">
-                {comprehensiveInsight.insights.key_insights}
+
+      <CardContent className="pt-0">
+        <Tabs value={activeTab} onValueChange={setActiveTab}>
+          <TabsList className="grid w-full grid-cols-3">
+            <TabsTrigger value="chat" className="text-xs">
+              <MessageSquare className="h-3 w-3 mr-1" />
+              Chat
+            </TabsTrigger>
+            <TabsTrigger value="insights" className="text-xs">
+              <TrendingUp className="h-3 w-3 mr-1" />
+              Insights
+            </TabsTrigger>
+            <TabsTrigger value="goals" className="text-xs">
+              <Target className="h-3 w-3 mr-1" />
+              Goals
+            </TabsTrigger>
+          </TabsList>
+
+          <TabsContent value="chat" className="mt-4">
+            <div className="space-y-3">
+              <p className="text-xs text-muted-foreground mb-3">
+                Ask me anything or try these suggestions:
               </p>
-            )}
-          </div>
-        )}
-
-        {/* Chat Input */}
-        <div className="space-y-3">
-          <Textarea
-            placeholder="Ask your AI learning coach anything about your progress, study habits, or recommendations..."
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-            className="min-h-[80px] resize-none"
-          />
-          
-          <Button 
-            onClick={handleAskAI}
-            disabled={!query.trim() || isProcessing}
-            className="w-full"
-          >
-            {isProcessing ? (
-              <>
-                <Loader2 className="h-4 w-4 mr-2 animate-spin" />
-                Analyzing...
-              </>
-            ) : (
-              <>
-                <MessageSquare className="h-4 w-4 mr-2" />
-                Ask AI Coach
-              </>
-            )}
-          </Button>
-        </div>
-
-        {/* Suggested Questions */}
-        <div className="space-y-2">
-          <h5 className="text-sm font-medium flex items-center gap-2">
-            <Lightbulb className="h-4 w-4 text-yellow-500" />
-            Suggested Questions
-          </h5>
-          <div className="flex flex-wrap gap-2">
-            {suggestedQuestions.slice(0, 3).map((question, index) => (
-              <Button
-                key={index}
-                variant="outline"
-                size="sm"
-                className="text-xs h-8"
-                onClick={() => setQuery(question)}
-              >
-                {question}
-              </Button>
-            ))}
-          </div>
-        </div>
-
-        {/* AI Response */}
-        {chatResponse && (
-          <div className="bg-secondary/20 p-3 rounded-lg">
-            <h5 className="font-medium text-sm mb-2 flex items-center gap-2">
-              <Brain className="h-4 w-4 text-primary" />
-              AI Coach Response
-            </h5>
-            <div className="text-sm text-muted-foreground whitespace-pre-wrap">
-              {chatResponse}
+              
+              <div className="space-y-2">
+                {chatSuggestions.map((suggestion, index) => (
+                  <Button
+                    key={index}
+                    variant="outline"
+                    size="sm"
+                    className="w-full justify-between text-xs h-8"
+                    onClick={() => handleChatSuggestion(suggestion)}
+                    disabled={isLoading}
+                  >
+                    <span className="truncate">{suggestion}</span>
+                    <ChevronRight className="h-3 w-3 ml-2 flex-shrink-0" />
+                  </Button>
+                ))}
+              </div>
             </div>
-          </div>
-        )}
+          </TabsContent>
+
+          <TabsContent value="insights" className="mt-4">
+            <div className="space-y-4">
+              {quickInsights ? (
+                <>
+                  <div className="grid grid-cols-2 gap-3">
+                    <div className="p-3 bg-muted/30 rounded-lg text-center">
+                      <div className="text-lg font-bold text-primary">
+                        {quickInsights.score.toFixed(0)}%
+                      </div>
+                      <div className="text-xs text-muted-foreground">Performance</div>
+                    </div>
+                    <div className="p-3 bg-muted/30 rounded-lg text-center">
+                      <div className="text-sm font-bold text-primary capitalize">
+                        {quickInsights.trend}
+                      </div>
+                      <div className="text-xs text-muted-foreground">Trend</div>
+                    </div>
+                  </div>
+
+                  <div className="space-y-2">
+                    <h4 className="text-sm font-medium">Next Steps:</h4>
+                    <div className="p-3 bg-muted/20 rounded-lg text-xs">
+                      {quickInsights.nextAction}
+                    </div>
+                  </div>
+                </>
+              ) : (
+                <div className="text-center py-6">
+                  <Brain className="h-8 w-8 text-muted-foreground mx-auto mb-3" />
+                  <p className="text-xs text-muted-foreground mb-3">
+                    Generate personalized insights about your learning
+                  </p>
+                  <Button 
+                    size="sm" 
+                    onClick={handleGenerateQuickInsights}
+                    disabled={isLoading || isGenerating}
+                    className="text-xs"
+                  >
+                    {isLoading || isGenerating ? (
+                      <RefreshCw className="h-3 w-3 mr-1 animate-spin" />
+                    ) : (
+                      <Brain className="h-3 w-3 mr-1" />
+                    )}
+                    Generate Insights
+                  </Button>
+                </div>
+              )}
+            </div>
+          </TabsContent>
+
+          <TabsContent value="goals" className="mt-4">
+            <div className="space-y-3">
+              <div className="p-3 bg-muted/20 rounded-lg">
+                <div className="flex items-center justify-between mb-2">
+                  <span className="text-sm font-medium">Daily Goal</span>
+                  <Badge variant="outline" className="text-xs">Today</Badge>
+                </div>
+                <div className="text-xs text-muted-foreground">
+                  Complete 1 quiz with 80%+ score
+                </div>
+              </div>
+
+              <div className="p-3 bg-muted/20 rounded-lg">
+                <div className="flex items-center justify-between mb-2">
+                  <span className="text-sm font-medium">Weekly Goal</span>
+                  <Badge variant="outline" className="text-xs">This Week</Badge>
+                </div>
+                <div className="text-xs text-muted-foreground">
+                  Maintain {analytics?.streak || 0}+ day study streak
+                </div>
+              </div>
+
+              <Button 
+                size="sm" 
+                className="w-full text-xs"
+                onClick={() => handleChatSuggestion("Help me set personalized learning goals")}
+              >
+                <Target className="h-3 w-3 mr-1" />
+                Set Custom Goals
+              </Button>
+            </div>
+          </TabsContent>
+        </Tabs>
       </CardContent>
     </Card>
   );

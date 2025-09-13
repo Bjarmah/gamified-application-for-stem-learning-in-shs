@@ -3,6 +3,8 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { MessageCircle, X, Minimize2, Send, Bot, User } from 'lucide-react';
+import { useAIService } from '@/hooks/use-ai-service';
+import { useToast } from '@/hooks/use-toast';
 
 interface AIChatbotProps {
     position?: 'bottom-right' | 'bottom-left' | 'top-right' | 'top-left';
@@ -35,6 +37,8 @@ const AIChatbot: React.FC<AIChatbotProps> = ({
     ]);
     const [inputText, setInputText] = useState('');
     const [isTyping, setIsTyping] = useState(false);
+    const { generatePersonalizedTutoring, isLoading } = useAIService();
+    const { toast } = useToast();
 
     const getPositionClasses = () => {
         switch (position) {
@@ -50,7 +54,7 @@ const AIChatbot: React.FC<AIChatbotProps> = ({
     };
 
     const handleSendMessage = async () => {
-        if (!inputText.trim()) return;
+        if (!inputText.trim() || isLoading) return;
 
         const userMessage: Message = {
             id: Date.now().toString(),
@@ -59,24 +63,50 @@ const AIChatbot: React.FC<AIChatbotProps> = ({
             timestamp: new Date()
         };
 
+        const userInput = inputText.trim();
         setMessages(prev => [...prev, userMessage]);
         setInputText('');
         setIsTyping(true);
 
-        // Simulate AI response
-        setTimeout(() => {
+        try {
+            // Use real AI service
+            const response = await generatePersonalizedTutoring(
+                userInput, 
+                { 
+                    currentModule: 'chatbot_session',
+                    preferences: { responseStyle: 'conversational', difficulty: 'adaptive' }
+                }
+            );
+
             const aiResponse: Message = {
                 id: (Date.now() + 1).toString(),
-                text: generateAIResponse(inputText.trim()),
+                text: response?.response || generateFallbackResponse(userInput),
                 isUser: false,
                 timestamp: new Date()
             };
+            
             setMessages(prev => [...prev, aiResponse]);
+        } catch (error) {
+            console.error('AI chatbot error:', error);
+            const errorResponse: Message = {
+                id: (Date.now() + 1).toString(),
+                text: "I apologize, but I'm having trouble processing your request right now. Please try again in a moment.",
+                isUser: false,
+                timestamp: new Date()
+            };
+            setMessages(prev => [...prev, errorResponse]);
+            
+            toast({
+                title: "Connection Issue",
+                description: "Unable to connect to AI service. Using fallback responses.",
+                variant: "destructive"
+            });
+        } finally {
             setIsTyping(false);
-        }, 1000);
+        }
     };
 
-    const generateAIResponse = (userInput: string): string => {
+    const generateFallbackResponse = (userInput: string): string => {
         const input = userInput.toLowerCase();
 
         if (input.includes('help') || input.includes('assist')) {
@@ -219,9 +249,9 @@ const AIChatbot: React.FC<AIChatbotProps> = ({
                             />
                             <Button
                                 onClick={handleSendMessage}
-                                disabled={!inputText.trim() || isTyping}
+                                disabled={!inputText.trim() || isTyping || isLoading}
                                 size="sm"
-                                className="bg-stemPurple hover:bg-stemPurple-dark text-white"
+                                className="bg-primary hover:bg-primary/90 text-primary-foreground"
                             >
                                 <Send className="h-4 w-4" />
                             </Button>
