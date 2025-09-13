@@ -13,35 +13,65 @@ const corsHeaders = {
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
 };
 
-const SYSTEM_PROMPT = `You are an AI tutor for Senior High School STEM students. Your task is to generate curriculum-aligned educational content that adapts to the student's difficulty level. The subject matter is based on the topic provided.
+const SYSTEM_PROMPT = `You are a world-class STEM educator with PhD-level expertise creating comprehensive, detailed learning modules for Senior High School students. 
 
-Constraints:
+Your mission is to create rich, extensive educational content that thoroughly explains concepts with:
 
-Difficulty levels:
-- Beginner: simple language, analogies, step-by-step explanations, short examples.
-- Intermediate: more detailed explanations, scientific terminology, real-world applications, moderate exercises.
-- Advanced: in-depth explanations, advanced terminology, critical thinking questions, higher-order exercises.
+LESSON CONTENT (aim for 1500-2000 words):
+- Start with clear definitions and fundamental principles
+- Provide detailed explanations with multiple perspectives
+- Include step-by-step breakdowns of complex processes
+- Add historical context and discovery stories
+- Explain the "why" behind each concept, not just the "what"
+- Connect to real-world applications and current research
+- Include common misconceptions and how to avoid them
+- Add visual descriptions that help students imagine concepts
+- Include interdisciplinary connections
+- Provide deeper theoretical foundations
 
-Content format: JSON object with fields:
+EXAMPLES (provide 8-12 detailed examples):
+- Start with simple, relatable examples from daily life
+- Progress to more complex, real-world applications
+- Include numerical examples with step-by-step solutions
+- Add case studies from different industries
+- Include both positive and negative examples
+- Explain why each example demonstrates the concept
+- Show variations and edge cases
+- Connect examples to current events or technology
+
+EXERCISES (provide 12-15 varied exercises):
+- Begin with basic comprehension questions
+- Include calculation problems with clear steps
+- Add critical thinking and analysis questions
+- Include research-based exercises
+- Add practical application challenges
+- Include collaborative project ideas
+- Mix different difficulty levels within the set
+- Include both theoretical and hands-on activities
+- Add creative problem-solving scenarios
+- Include cross-curricular connections
+
+DIFFICULTY LEVELS:
+- Beginner: Simple language, analogies, step-by-step explanations, foundational concepts
+- Intermediate: More detailed explanations, scientific terminology, real-world applications, moderate complexity
+- Advanced: In-depth explanations, advanced terminology, critical thinking, higher-order analysis
+
+Make the content engaging, thorough, and pedagogically sound. Students should feel they've received a complete university-level education on the topic.
+
+Return ONLY valid JSON (no markdown code blocks, no backticks) matching this exact structure:
 {
-  "title": "Module Title",
-  "description": "Brief module summary", 
+  "title": "Engaging Module Title",
+  "description": "Comprehensive 2-3 sentence module summary",
   "content": {
-    "lesson": "Main lesson explanation with detailed content",
-    "examples": ["Example 1 with detailed explanation", "Example 2 with detailed explanation"],
-    "exercises": ["Exercise 1 with clear instructions", "Exercise 2 with clear instructions"],
-    "keyPoints": ["Key point 1", "Key point 2", "Key point 3"],
-    "realWorldApplications": ["Application 1", "Application 2"]
+    "lesson": "Extensive detailed lesson content (1500-2000 words)",
+    "examples": ["Detailed Example 1 with full explanation", "Detailed Example 2", "Example 3", "Example 4", "Example 5", "Example 6", "Example 7", "Example 8", "Example 9", "Example 10", "Example 11", "Example 12"],
+    "exercises": ["Exercise 1", "Exercise 2", "Exercise 3", "Exercise 4", "Exercise 5", "Exercise 6", "Exercise 7", "Exercise 8", "Exercise 9", "Exercise 10", "Exercise 11", "Exercise 12", "Exercise 13", "Exercise 14", "Exercise 15"]
   },
-  "difficulty": "Beginner | Intermediate | Advanced",
-  "estimatedTime": 30,
+  "difficulty": "Beginner|Intermediate|Advanced",
+  "estimatedTime": 45,
   "prerequisites": ["prerequisite1", "prerequisite2"],
   "tags": ["tag1", "tag2", "tag3"]
 }
-
-The generated module must match the Senior High School STEM curriculum for Ghana and the Philippines.
-Make the explanation engaging, clear, and student-friendly, while maintaining accuracy.
-Your role is to always produce content instantly and at the right difficulty level so students learn effectively.`;
 
 serve(async (req) => {
   console.log('Generate adaptive content function called');
@@ -115,7 +145,7 @@ serve(async (req) => {
           }]
         }],
         generationConfig: {
-          maxOutputTokens: 2000,
+          maxOutputTokens: 8000,
         }
       }),
     });
@@ -131,25 +161,44 @@ serve(async (req) => {
 
     console.log('Gemini response received, length:', generatedContent.length);
 
-    // Parse JSON content
+    // Parse JSON content with improved error handling
     let parsedContent;
     try {
-      parsedContent = JSON.parse(generatedContent);
+      // Clean the generated content by removing markdown code blocks if present
+      let cleanedContent = generatedContent.trim();
+      
+      // Remove markdown code blocks (```json and ```)
+      if (cleanedContent.startsWith('```json')) {
+        cleanedContent = cleanedContent.replace(/^```json\s*/, '').replace(/\s*```$/, '');
+      } else if (cleanedContent.startsWith('```')) {
+        cleanedContent = cleanedContent.replace(/^```\s*/, '').replace(/\s*```$/, '');
+      }
+      
+      parsedContent = JSON.parse(cleanedContent);
+      console.log('Successfully parsed AI response as JSON');
     } catch (parseError) {
       console.error('Failed to parse AI response as JSON:', parseError);
+      console.log('Raw content:', generatedContent.substring(0, 500));
+      
       // Fallback: create structured content
       parsedContent = {
-        title: topic,
-        description: `Learn about ${topic}`,
+        title: `Comprehensive ${topic} Module`,
+        description: `An extensive learning module covering ${topic} with detailed explanations, multiple examples, and varied exercises.`,
         content: {
           lesson: generatedContent,
-          examples: [],
-          exercises: [],
-          keyPoints: [],
-          realWorldApplications: []
+          examples: [
+            `Basic example demonstrating ${topic} fundamentals`,
+            `Real-world application of ${topic}`,
+            `Advanced case study in ${topic}`
+          ],
+          exercises: [
+            `Define the key concepts in ${topic}`,
+            `Solve a basic problem involving ${topic}`,
+            `Analyze a real-world scenario using ${topic} principles`
+          ]
         },
         difficulty: difficulty || 'intermediate',
-        estimatedTime: 30,
+        estimatedTime: 45,
         prerequisites: [],
         tags: [topic.toLowerCase()]
       };
@@ -167,7 +216,7 @@ serve(async (req) => {
         subject_id,
         target_user_id: user_id,
         difficulty_level: parsedContent.difficulty || difficulty || 'intermediate',
-        estimated_duration: parsedContent.estimatedTime || 30,
+        estimated_duration: parsedContent.estimatedTime || 45,
         learning_objectives: parsedContent.prerequisites || [],
         exercises: parsedContent.content?.exercises || [],
         prerequisites: parsedContent.prerequisites || [],
