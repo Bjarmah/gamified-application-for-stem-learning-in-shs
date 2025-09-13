@@ -104,10 +104,12 @@ export const useAIContentMetrics = () => {
 
         // Calculate total time spent (rough estimate based on module durations)
         const totalTimeSpentOnAI = progress.reduce((total, p) => {
-          const module = modules.find((m: any) => m && m.id === p.module_id);
-          if (!module) return total + (p.time_spent || 1800); // 30 mins default
+          const module = modules.find((m: any) => m && typeof m === 'object' && m.id === p.module_id);
+          if (!module || typeof module !== 'object') {
+            return total + (p.time_spent || 1800); // 30 mins default
+          }
           
-          const duration = module.estimated_duration || 30;
+          const duration = (module as any).estimated_duration || 30;
           return total + (p.time_spent || (duration * 60));
         }, 0);
 
