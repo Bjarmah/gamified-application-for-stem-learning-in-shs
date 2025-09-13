@@ -9,6 +9,7 @@ import {
 } from 'lucide-react';
 import { useAuth } from '@/context/AuthContext';
 import { useUserAnalytics } from '@/hooks/use-analytics';
+import { useAIService } from '@/hooks/use-ai-service';
 import { useToast } from '@/hooks/use-toast';
 
 interface AICoachingSession {
@@ -24,6 +25,7 @@ interface AICoachingSession {
 export const AIRealtimeCoach: React.FC = () => {
   const { user } = useAuth();
   const { data: analytics } = useUserAnalytics();
+  const { generateCoachingAdvice, isLoading } = useAIService();
   const { toast } = useToast();
   
   const [isActive, setIsActive] = useState(false);

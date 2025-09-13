@@ -12,6 +12,7 @@ import { PersonalizedTutor } from '@/components/ai-tutor/PersonalizedTutor';
 import { AIRealtimeCoach } from '@/components/ai-tutor/AIRealtimeCoach';
 import { SmartNotificationSystem } from '@/components/notifications/SmartNotificationSystem';
 import { MobileAIInsights } from '@/components/mobile/MobileAIInsights';
+import { AINotificationCenter } from './AINotificationCenter';
 import { useAuth } from '@/context/AuthContext';
 import { useUserAnalytics } from '@/hooks/use-analytics';
 import { useLearningInsights } from '@/hooks/use-learning-insights';
@@ -176,53 +177,7 @@ export const AIInsightsHub: React.FC<AIInsightsHubProps> = ({
           <TabsContent value="overview" className="space-y-4 mt-6">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <MobileAIInsights />
-              
-              <Card className="p-4">
-                <h3 className="font-semibold mb-3 flex items-center gap-2">
-                  <TrendingUp className="h-4 w-4 text-green-500" />
-                  Quick Actions
-                </h3>
-                <div className="space-y-2">
-                  <Button 
-                    onClick={handleGenerateComprehensiveInsights}
-                    disabled={isGenerating || aiLoading}
-                    className="w-full h-8 text-xs"
-                    size="sm"
-                  >
-                    {isGenerating || aiLoading ? (
-                      <>
-                        <div className="w-3 h-3 border-2 border-white border-t-transparent rounded-full animate-spin mr-2" />
-                        Analyzing...
-                      </>
-                    ) : (
-                      <>
-                        <Brain className="h-3 w-3 mr-1" />
-                        Generate New Insights
-                      </>
-                    )}
-                  </Button>
-                  
-                  <Button 
-                    variant="outline" 
-                    className="w-full h-8 text-xs"
-                    size="sm"
-                    onClick={() => setActiveTab('tutor')}
-                  >
-                    <MessageSquare className="h-3 w-3 mr-1" />
-                    Start AI Tutoring
-                  </Button>
-                  
-                  <Button 
-                    variant="outline" 
-                    className="w-full h-8 text-xs"
-                    size="sm"
-                    onClick={() => setActiveTab('coach')}
-                  >
-                    <Clock className="h-3 w-3 mr-1" />
-                    Begin Study Session
-                  </Button>
-                </div>
-              </Card>
+              <AINotificationCenter />
             </div>
           </TabsContent>
 
