@@ -2,7 +2,7 @@ import "https://deno.land/x/xhr@0.1.0/mod.ts";
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.54.0';
 
-const openAIApiKey = Deno.env.get('OPENAI_API_KEY');
+const geminiApiKey = Deno.env.get('GEMINI_API_KEY');
 const supabaseUrl = Deno.env.get('SUPABASE_URL')!;
 const supabaseServiceKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
 
@@ -61,8 +61,8 @@ serve(async (req) => {
 
     console.log('Request data:', { topic, subject_id, user_id, difficulty });
 
-    if (!openAIApiKey) {
-      throw new Error('OpenAI API key not configured');
+    if (!geminiApiKey) {
+      throw new Error('Gemini API key not configured');
     }
 
     if (!topic || !subject_id || !user_id) {
@@ -101,34 +101,35 @@ serve(async (req) => {
     
     Please provide detailed, curriculum-aligned content that matches the specified difficulty level.`;
 
-    console.log('Calling OpenAI with prompt:', prompt.substring(0, 200) + '...');
+    console.log('Calling Gemini with prompt:', prompt.substring(0, 200) + '...');
 
-    const response = await fetch('https://api.openai.com/v1/chat/completions', {
+    const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${geminiApiKey}`, {
       method: 'POST',
       headers: {
-        'Authorization': `Bearer ${openAIApiKey}`,
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        model: 'gpt-4.1-2025-04-14',
-        messages: [
-          { role: 'system', content: SYSTEM_PROMPT },
-          { role: 'user', content: prompt }
-        ],
-        max_completion_tokens: 2000,
+        contents: [{
+          parts: [{
+            text: `${SYSTEM_PROMPT}\n\n${prompt}`
+          }]
+        }],
+        generationConfig: {
+          maxOutputTokens: 2000,
+        }
       }),
     });
 
     if (!response.ok) {
       const errorText = await response.text();
-      console.error('OpenAI API error:', errorText);
-      throw new Error(`OpenAI API error: ${response.status} ${errorText}`);
+      console.error('Gemini API error:', errorText);
+      throw new Error(`Gemini API error: ${response.status} ${errorText}`);
     }
 
     const aiResponse = await response.json();
-    const generatedContent = aiResponse.choices[0].message.content;
+    const generatedContent = aiResponse.candidates[0].content.parts[0].text;
 
-    console.log('OpenAI response received, length:', generatedContent.length);
+    console.log('Gemini response received, length:', generatedContent.length);
 
     // Parse JSON content
     let parsedContent;
@@ -171,7 +172,7 @@ serve(async (req) => {
         exercises: parsedContent.content?.exercises || [],
         prerequisites: parsedContent.prerequisites || [],
         generation_prompt: prompt,
-        ai_model_used: 'gpt-4.1-2025-04-14',
+        ai_model_used: 'gemini-1.5-flash',
         user_analytics_snapshot: context || {}
       })
       .select()
