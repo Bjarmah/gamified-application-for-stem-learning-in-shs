@@ -216,6 +216,7 @@ const Dashboard: React.FC = () => {
             // Mobile optimized layout
             <div className="space-y-6">
               <PersonalizedDashboard />
+              <AIModulesPreview />
               <div className="grid grid-cols-1 gap-4">
                 <MobileInsightsWidget />
                 <StudyInsightsCard />
@@ -236,6 +237,7 @@ const Dashboard: React.FC = () => {
                   {/* Side Panel with Insights */}
                   <div className="space-y-6">
                     <AIInsightsPreview />
+                    <AIModulesPreview />
                     <ComprehensiveInsightsCard />
                     <SmartStudyScheduler />
                   </div>

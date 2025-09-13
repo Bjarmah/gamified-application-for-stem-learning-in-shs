@@ -26,6 +26,8 @@ import { AIInsightsIntegration } from '@/components/ai-chatbot/AIInsightsIntegra
 import { useUserAnalytics } from '@/hooks/use-analytics';
 import { IntelligentContentRecommendations } from '@/components/ai-content/IntelligentContentRecommendations';
 import { AutomatedContentGenerator } from '@/components/ai-content/AutomatedContentGenerator';
+import { AIContentAnalytics } from '@/components/analytics/AIContentAnalytics';
+import { AIContentInsights } from '@/components/analytics/AIContentInsights';
 
 const Analytics: React.FC = () => {
   const { user, profile } = useAuth();
@@ -111,6 +113,8 @@ const Analytics: React.FC = () => {
 
           <TabsContent value="content" className="space-y-6">
             <div className="grid gap-6">
+              <AIContentAnalytics />
+              <AIContentInsights />
               <IntelligentContentRecommendations />
               <AdaptiveQuizEngine />
               <AutomatedContentGenerator />
@@ -184,9 +188,10 @@ const Analytics: React.FC = () => {
 
           {/* Tabbed Interface for Students */}
           <Tabs defaultValue="insights" className="space-y-6">
-            <TabsList className="grid w-full grid-cols-5">
+            <TabsList className="grid w-full grid-cols-6">
               <TabsTrigger value="insights">AI Insights</TabsTrigger>
               <TabsTrigger value="content">Smart Content</TabsTrigger>
+              <TabsTrigger value="ai-analytics">AI Analytics</TabsTrigger>
               <TabsTrigger value="tutor">Personal Tutor</TabsTrigger>
               <TabsTrigger value="adaptive">Adaptive Learning</TabsTrigger>
               <TabsTrigger value="scheduler">Study Planner</TabsTrigger>
@@ -197,6 +202,13 @@ const Analytics: React.FC = () => {
                 <IntelligentContentRecommendations />
                 <AdaptiveQuizEngine />
                 <AutomatedContentGenerator />
+              </div>
+            </TabsContent>
+
+            <TabsContent value="ai-analytics" className="space-y-6">
+              <div className="grid gap-6">
+                <AIContentAnalytics />
+                <AIContentInsights />
               </div>
             </TabsContent>
 
