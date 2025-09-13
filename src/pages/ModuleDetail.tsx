@@ -2,13 +2,18 @@
 import React, { useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useModule, useModules } from "@/hooks/use-modules";
+import { useAuth } from "@/context/AuthContext";
+import { AIModuleViewer } from "@/components/ai-content/AIModuleViewer";
+import { useAIModuleProgress } from "@/hooks/use-ai-progress";
+import { useSubject } from "@/hooks/use-subjects";
+import { AIQuizGenerator } from "@/components/ai-content/AIQuizGenerator";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
-import { ArrowLeft, Clock, CheckCircle, ListChecks, BookOpen, Play, ChevronLeft, ChevronRight } from "lucide-react";
+import { ArrowLeft, Clock, CheckCircle, ListChecks, BookOpen, Play, ChevronLeft, ChevronRight, ArrowRight } from "lucide-react";
 import { formatDifficulty, getDifficultyColor } from "@/lib/utils";
 import { findBiologyModuleByTitle } from "@/content/biology";
 import { findChemistryModuleByTitle, findChemistryModuleByTitleWithImages } from "@/content/chemistry";
@@ -27,6 +32,8 @@ const ModuleDetail: React.FC = () => {
 
   const { data: module, isLoading: moduleLoading, error } = useModule(moduleId || "");
   const { data: modules, isLoading: modulesLoading } = useModules(subjectId);
+  const { data: subject } = useSubject(subjectId || "");
+  const { data: aiProgress } = useAIModuleProgress(moduleId);
 
   useEffect(() => {
     if (module?.title) document.title = `${module.title} • STEM Learner`;
@@ -128,6 +135,78 @@ const ModuleDetail: React.FC = () => {
   };
 
   // Find structured module content based on subject
+  // Check if this is an AI-generated module
+  const isAIModule = module?.gamification?.isAIGenerated;
+
+  if (isAIModule) {
+    // Render AI Module with special viewer
+    return (
+      <MobileGestureWrapper onSwipeLeft={handleSwipeLeft} onSwipeRight={handleSwipeRight}>
+        <div className="space-y-6 pb-8">
+          {/* Header */}
+          <div className="flex items-center gap-4">
+            <Button variant="ghost" onClick={() => navigate(`/subjects/${subjectId}`)}>
+              <ArrowLeft className="h-4 w-4 mr-2" />
+              Back to {subject?.name || 'Subject'}
+            </Button>
+          </div>
+
+          {/* AI Module Viewer */}
+          <AIModuleViewer 
+            module={{
+              id: module.id,
+              title: module.title,
+              description: module.description,
+              content: module.content,
+              difficulty_level: module.level,
+              estimated_duration: module.estimatedTime,
+              rating: module.gamification?.rating,
+              educator_approved: module.gamification?.educator_approved
+            }}
+            userProgress={aiProgress?.progress_percentage || 0}
+          />
+
+          {/* AI Quiz Generator */}
+          {!quiz && (
+            <AIQuizGenerator
+              moduleId={module.id}
+              moduleTitle={module.title}
+              subjectId={subjectId!}
+              onQuizGenerated={(newQuiz) => {
+                // Refresh the page to show the new quiz
+                window.location.reload();
+              }}
+            />
+          )}
+
+          {/* Navigation */}
+          <div className="flex items-center justify-between pt-6">
+            <Button 
+              variant="outline" 
+              onClick={() => navigate(`/subjects/${subjectId}`)}
+            >
+              <ArrowLeft className="h-4 w-4 mr-2" />
+              Back to Modules
+            </Button>
+            
+            {quiz && (
+              <Button onClick={() => navigate(`/quiz/${quiz.id}`)}>
+                Start Quiz
+                <ArrowRight className="h-4 w-4 ml-2" />
+              </Button>
+            )}
+          </div>
+
+          {/* AI Chatbot for larger screens */}
+          <div className="hidden lg:block">
+            <FloatingAIChatbot />
+          </div>
+        </div>
+      </MobileGestureWrapper>
+    );
+  }
+
+  // Render traditional module (existing code continues below)
   const getStructuredModule = () => {
     if (!module?.title) return null;
 
