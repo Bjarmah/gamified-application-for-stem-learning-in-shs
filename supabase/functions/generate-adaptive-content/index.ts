@@ -126,8 +126,8 @@ serve(async (req) => {
     Target difficulty level: ${difficulty || 'intermediate'}
     
     Context: The student is studying ${topic} as part of their Senior High School STEM education. 
-    ${context?.currentPerformance ? `Current performance: ${context.currentPerformance}` : ''}
-    ${context?.weakAreas ? `Areas needing focus: ${context.weakAreas.join(', ')}` : ''}
+    ${context?.currentPerformance ? 'Current performance: ' + context.currentPerformance : ''}
+    ${context?.weakAreas ? 'Areas needing focus: ' + context.weakAreas.join(', ') : ''}
     
     Please provide detailed, curriculum-aligned content that matches the specified difficulty level.`;
 
