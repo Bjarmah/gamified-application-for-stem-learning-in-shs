@@ -54,14 +54,44 @@ export const AIModuleViewer: React.FC<AIModuleViewerProps> = ({ module }) => {
   const description = module.description;
   const difficulty = (module as any).difficulty || (module as any).difficulty_level || 'Intermediate';
   
-  // Parse content if it's a string, otherwise use as-is
-  const parsedContent = typeof module.content === 'string' 
-    ? JSON.parse(module.content) 
-    : module.content;
+  // Safe JSON parsing with error handling
+  let parsedContent;
+  try {
+    parsedContent = typeof module.content === 'string' 
+      ? JSON.parse(module.content) 
+      : module.content;
+  } catch (error) {
+    console.warn('Failed to parse module content as JSON:', error);
+    // If parsing fails, treat the content as plain text
+    parsedContent = {
+      lesson: typeof module.content === 'string' ? module.content : '',
+      examples: [],
+      exercises: []
+    };
+  }
   
-  const lesson = parsedContent?.lesson || parsedContent?.content?.lesson || '';
-  const examples = parsedContent?.examples || parsedContent?.content?.examples || [];
-  const exercises = parsedContent?.exercises || parsedContent?.content?.exercises || [];
+  // Extract content with multiple fallback paths
+  const lesson = parsedContent?.lesson || 
+                 parsedContent?.content?.lesson || 
+                 parsedContent?.mainContent ||
+                 parsedContent?.text || 
+                 '';
+                 
+  const examples = parsedContent?.examples || 
+                   parsedContent?.content?.examples || 
+                   parsedContent?.realWorldApplications ||
+                   [];
+                   
+  const exercises = parsedContent?.exercises || 
+                    parsedContent?.content?.exercises || 
+                    parsedContent?.practiceQuestions ||
+                    parsedContent?.assessmentQuestions ||
+                    [];
+
+  // Handle different content structures
+  const keyConcepts = parsedContent?.keyConcepts || parsedContent?.keyPoints || [];
+  const learningObjectives = parsedContent?.learningObjectives || [];
+  const realWorldApplications = parsedContent?.realWorldApplications || [];
 
   return (
     <div className="max-w-4xl mx-auto p-6 space-y-8">
@@ -87,6 +117,44 @@ export const AIModuleViewer: React.FC<AIModuleViewerProps> = ({ module }) => {
       {/* Main Content Card */}
       <Card className="overflow-hidden">
         <CardContent className="p-8 space-y-8">
+          
+          {/* Learning Objectives */}
+          {learningObjectives.length > 0 && (
+            <section className="space-y-4">
+              <h2 className="text-2xl font-semibold text-foreground border-b border-border pb-2">
+                Learning Objectives
+              </h2>
+              <ul className="space-y-3">
+                {learningObjectives.map((objective: string, index: number) => (
+                  <li key={index} className="flex items-start gap-3">
+                    <div className="w-2 h-2 bg-primary rounded-full mt-2 flex-shrink-0" />
+                    <span className="text-base text-foreground leading-relaxed">
+                      {objective}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            </section>
+          )}
+
+          {/* Key Concepts */}
+          {keyConcepts.length > 0 && (
+            <section className="space-y-4">
+              <h2 className="text-2xl font-semibold text-foreground border-b border-border pb-2">
+                Key Concepts
+              </h2>
+              <ul className="space-y-3">
+                {keyConcepts.map((concept: string, index: number) => (
+                  <li key={index} className="flex items-start gap-3">
+                    <div className="w-2 h-2 bg-primary rounded-full mt-2 flex-shrink-0" />
+                    <span className="text-base text-foreground leading-relaxed">
+                      {concept}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            </section>
+          )}
           
           {/* Lesson Content - Normal paragraph with spacing */}
           {lesson && (
@@ -114,6 +182,25 @@ export const AIModuleViewer: React.FC<AIModuleViewerProps> = ({ module }) => {
                     <div className="w-2 h-2 bg-primary rounded-full mt-2 flex-shrink-0" />
                     <span className="text-base text-foreground leading-relaxed">
                       {example}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            </section>
+          )}
+
+          {/* Real World Applications */}
+          {realWorldApplications.length > 0 && (
+            <section className="space-y-4">
+              <h2 className="text-2xl font-semibold text-foreground border-b border-border pb-2">
+                Real World Applications
+              </h2>
+              <ul className="space-y-3">
+                {realWorldApplications.map((application: string, index: number) => (
+                  <li key={index} className="flex items-start gap-3">
+                    <div className="w-2 h-2 bg-primary rounded-full mt-2 flex-shrink-0" />
+                    <span className="text-base text-foreground leading-relaxed">
+                      {application}
                     </span>
                   </li>
                 ))}
