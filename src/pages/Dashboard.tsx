@@ -13,7 +13,8 @@ import {
   BarChart3,
   Search,
   Flame,
-  Zap
+  Zap,
+  Brain
 } from 'lucide-react';
 import { getContentStats } from "@/content";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -135,15 +136,25 @@ const Dashboard: React.FC = () => {
           <AIInsightsRealtimeUpdater />
         </div>
 
-        {/* Mobile Quick Actions and Streak Widget */}
-        {isMobile && (
-          <div className="space-y-4">
-            <MobileQuickActions />
-            <MobileStreakWidget />
-            <MobileAIInsights className="mb-4" />
-            <AIRealtimeCoach />
-          </div>
-        )}
+      {/* Mobile Quick Actions and Streak Widget */}
+      {isMobile && (
+        <div className="space-y-4">
+          <MobileQuickActions />
+          <MobileStreakWidget />
+          <MobileAIInsights className="mb-4" />
+          <Card className="bg-gradient-to-r from-purple-50 to-blue-50 border-purple-200">
+            <CardHeader className="pb-2">
+              <CardTitle className="text-base flex items-center gap-2">
+                <Brain className="h-4 w-4 text-purple-500" />
+                AI Learning Coach
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <AIRealtimeCoach />
+            </CardContent>
+          </Card>
+        </div>
+      )}
 
         {/* Gamification Stats */}
         {!gamificationLoading && gamificationData && (
@@ -360,17 +371,31 @@ const Dashboard: React.FC = () => {
         {/* ... keep existing code (Featured Modules Section and Quick Actions) */}
       </div>
 
-      {/* AI Components Section */}
-      {!isMobile && (
-        <div className="mt-8 space-y-6">
-          <h2 className="text-xl font-semibold text-foreground">AI Learning Assistant</h2>
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      {/* AI Components Section - Always visible */}
+      <div className="mt-8 space-y-6">
+        <h2 className="text-xl font-semibold text-foreground flex items-center gap-2">
+          <Brain className="h-5 w-5 text-purple-500" />
+          AI Learning Assistant
+        </h2>
+        
+        {isMobile ? (
+          // Mobile AI Layout
+          <div className="space-y-4">
             <AIRealtimeCoach />
+            <PersonalizedTutor onStartChat={(prompt) => console.log('AI Tutor:', prompt)} />
             <SmartNotificationSystem />
           </div>
-          <PersonalizedTutor onStartChat={(prompt) => console.log('AI Tutor:', prompt)} />
-        </div>
-      )}
+        ) : (
+          // Desktop AI Layout
+          <>
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              <AIRealtimeCoach />
+              <SmartNotificationSystem />
+            </div>
+            <PersonalizedTutor onStartChat={(prompt) => console.log('AI Tutor:', prompt)} />
+          </>
+        )}
+      </div>
 
       {/* AI Learning Assistant */}
       <FloatingAIChatbot position="bottom-right" />

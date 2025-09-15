@@ -24,7 +24,7 @@ interface AICoachingSession {
 
 export const AIRealtimeCoach: React.FC = () => {
   const { user } = useAuth();
-  const { data: analytics } = useUserAnalytics();
+  const { data: analytics } = useUserAnalytics(); 
   const { generateCoachingAdvice, isLoading } = useAIService();
   const { toast } = useToast();
   
