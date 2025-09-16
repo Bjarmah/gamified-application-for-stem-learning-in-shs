@@ -28,7 +28,9 @@ import {
     BarChart3,
     Clock,
     Trash2,
-    Circle
+    Circle,
+    Sparkles,
+    BookOpen
 } from 'lucide-react';
 import ImageUpload from '@/components/chat/ImageUpload';
 import { useRoomRealtime } from '@/hooks/use-room-realtime';
@@ -378,11 +380,30 @@ const RoomDetail = () => {
         if (!currentQuiz || !user) return;
 
         const questions = currentQuiz.questions as unknown as QuizQuestion[];
-        const score = userAnswers.reduce((acc, answer, index) => {
-            return acc + (answer === questions[index].correctAnswer ? 1 : 0);
-        }, 0);
+        
+        // Calculate score for AI-generated questions (which have _correctAnswer)
+        let score = 0;
+        let gradedQuestions = 0;
+        
+        userAnswers.forEach((answer, index) => {
+            const question = questions[index] as any;
+            // Check if this is an AI-generated question with auto-grading capability
+            if (question._correctAnswer !== undefined) {
+                gradedQuestions++;
+                if (answer === question._correctAnswer) {
+                    score++;
+                }
+            } else if (question.correctAnswer !== undefined) {
+                // Fallback for legacy format
+                gradedQuestions++;
+                if (answer === question.correctAnswer) {
+                    score++;
+                }
+            }
+        });
 
-        const percentage = Math.round((score / questions.length) * 100);
+        // Only calculate percentage if we have gradable questions
+        const percentage = gradedQuestions > 0 ? Math.round((score / gradedQuestions) * 100) : 0;
         const timeSpent = quizStartTime ? Math.floor((Date.now() - quizStartTime.getTime()) / 1000) : 0;
 
         try {
@@ -390,7 +411,7 @@ const RoomDetail = () => {
                 currentQuiz.id,
                 user.id,
                 score,
-                questions.length,
+                gradedQuestions, // Use graded questions count instead of total
                 percentage,
                 userAnswers
             );
@@ -401,7 +422,7 @@ const RoomDetail = () => {
                     quiz_id: currentQuiz.id,
                     user_id: user.id,
                     score,
-                    total_questions: questions.length,
+                    total_questions: gradedQuestions,
                     percentage,
                     answers: userAnswers,
                     completed_at: new Date().toISOString()
@@ -411,8 +432,10 @@ const RoomDetail = () => {
                 setAllQuizAttempts([...allQuizAttempts, { ...newAttempt, profile: user.email ? { full_name: user.email } : undefined }]);
                 setShowQuizResults(true);
 
-                // Reward quiz completion with new system
-                await rewardQuizCompletion(currentQuiz.id, percentage, timeSpent);
+                // Only reward if we have auto-gradable questions
+                if (gradedQuestions > 0) {
+                    await rewardQuizCompletion(currentQuiz.id, percentage, timeSpent);
+                }
 
                 // Deactivate quiz mode
                 setIsQuizActive(false);
@@ -656,7 +679,7 @@ const RoomDetail = () => {
                                     <CardContent className="p-6">
                                         <div className="flex items-start justify-between">
                                             <div className="flex-1">
-                                                <div className="flex items-center gap-3 mb-2">
+                                                <div className="flex items-center gap-3 mb-2 flex-wrap">
                                                     <h3 className="text-lg font-semibold">{quiz.title}</h3>
                                                     <Badge variant="outline" className="flex items-center gap-1">
                                                         <FileText className="h-3 w-3" />
@@ -668,6 +691,29 @@ const RoomDetail = () => {
                                                             {quiz.time_limit} min
                                                         </Badge>
                                                     )}
+                                                    
+                                                    {/* Auto-grading indicator */}
+                                                    {(() => {
+                                                        const gradedQuestions = questions.filter((q: any) => 
+                                                            q._correctAnswer !== undefined || q.correctAnswer !== undefined
+                                                        ).length;
+                                                        
+                                                        if (gradedQuestions > 0) {
+                                                            return (
+                                                                <Badge variant="secondary" className="flex items-center gap-1 bg-green-50 text-green-700 border-green-200 dark:bg-green-950/30 dark:text-green-300 dark:border-green-800">
+                                                                    <Sparkles className="h-3 w-3" />
+                                                                    {gradedQuestions === questions.length ? 'Auto-graded' : `${gradedQuestions}/${questions.length} graded`}
+                                                                </Badge>
+                                                            );
+                                                        } else {
+                                                            return (
+                                                                <Badge variant="outline" className="flex items-center gap-1 text-gray-600 dark:text-gray-400">
+                                                                    <BookOpen className="h-3 w-3" />
+                                                                    Practice only
+                                                                </Badge>
+                                                            );
+                                                        }
+                                                    })()}
                                                 </div>
 
                                                 <p className="text-muted-foreground mb-3">{quiz.description}</p>
@@ -977,12 +1023,51 @@ const RoomDetail = () => {
                                         <h3 className="text-2xl font-bold">
                                             Quiz Complete!
                                         </h3>
-                                        <p className="text-lg">
-                                            You scored {quizAttempts[quizAttempts.length - 1]?.score} out of {(currentQuiz.questions as unknown as QuizQuestion[]).length}
-                                        </p>
-                                        <p className="text-2xl font-bold text-stemPurple">
-                                            {quizAttempts[quizAttempts.length - 1]?.percentage}%
-                                        </p>
+                                        
+                                        {/* Check if quiz was auto-graded */}
+                                        {(() => {
+                                            const questions = currentQuiz.questions as unknown as QuizQuestion[];
+                                            const gradedQuestions = questions.filter((q: any) => 
+                                                q._correctAnswer !== undefined || q.correctAnswer !== undefined
+                                            ).length;
+                                            const totalQuestions = questions.length;
+                                            
+                                            if (gradedQuestions > 0) {
+                                                return (
+                                                    <>
+                                                        <p className="text-lg">
+                                                            You scored {quizAttempts[quizAttempts.length - 1]?.score} out of {gradedQuestions} auto-graded questions
+                                                        </p>
+                                                        <p className="text-2xl font-bold text-stemPurple">
+                                                            {quizAttempts[quizAttempts.length - 1]?.percentage}%
+                                                        </p>
+                                                        {gradedQuestions < totalQuestions && (
+                                                            <div className="bg-blue-50 dark:bg-blue-950/30 p-3 rounded-lg">
+                                                                <p className="text-sm text-blue-800 dark:text-blue-200">
+                                                                    ✨ {gradedQuestions} AI-generated questions were auto-graded. 
+                                                                    {totalQuestions - gradedQuestions} manual questions were for practice only.
+                                                                </p>
+                                                            </div>
+                                                        )}
+                                                    </>
+                                                );
+                                            } else {
+                                                return (
+                                                    <>
+                                                        <p className="text-lg">
+                                                            Practice completed! {totalQuestions} questions answered.
+                                                        </p>
+                                                        <div className="bg-gray-50 dark:bg-gray-950/30 p-3 rounded-lg">
+                                                            <p className="text-sm text-gray-800 dark:text-gray-200">
+                                                                📚 This quiz contains manually created questions and cannot be auto-graded. 
+                                                                Great practice though!
+                                                            </p>
+                                                        </div>
+                                                    </>
+                                                );
+                                            }
+                                        })()}
+                                        
                                         <div className="flex gap-2 justify-center">
                                             <Button onClick={() => setActiveTab('results')}>
                                                 View All Results

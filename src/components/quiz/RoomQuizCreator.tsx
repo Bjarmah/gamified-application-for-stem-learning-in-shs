@@ -5,14 +5,17 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Plus, Trash2, Save, BookOpen, Upload, AlertCircle } from 'lucide-react';
+import { Plus, Trash2, Save, BookOpen, Upload, AlertCircle, Sparkles } from 'lucide-react';
 import { useToast } from "@/hooks/use-toast";
 import FileUploadOCR from './FileUploadOCR';
+import AIQuizGenerator from './AIQuizGenerator';
 
 interface RoomQuizQuestion {
   id: string;
   question: string;
   options: string[];
+  _correctAnswer?: number; // Hidden field for auto-grading
+  _explanation?: string; // Hidden field for explanations
 }
 
 interface RoomQuiz {
@@ -83,6 +86,22 @@ const RoomQuizCreator: React.FC<RoomQuizCreatorProps> = ({ onQuizCreate, onCance
       id: q.id,
       question: q.question,
       options: q.options
+    }));
+    
+    setQuiz(prev => ({
+      ...prev,
+      questions: [...prev.questions, ...roomQuestions]
+    }));
+  };
+
+  const handleAIQuestionsGenerated = (aiQuestions: any[]) => {
+    // Convert AI questions to room quiz format, preserving hidden grading info
+    const roomQuestions: RoomQuizQuestion[] = aiQuestions.map(q => ({
+      id: q.id,
+      question: q.question,
+      options: q.options,
+      _correctAnswer: q._correctAnswer,
+      _explanation: q._explanation
     }));
     
     setQuiz(prev => ({
@@ -179,14 +198,58 @@ const RoomQuizCreator: React.FC<RoomQuizCreatorProps> = ({ onQuizCreate, onCance
           </div>
 
           {/* Question Creation */}
-          <Tabs defaultValue="manual" className="w-full">
-            <TabsList className="grid w-full grid-cols-2">
+          <Tabs defaultValue="ai" className="w-full">
+            <TabsList className="grid w-full grid-cols-3">
+              <TabsTrigger value="ai">
+                <Sparkles className="mr-2 h-4 w-4" />
+                AI Generator
+              </TabsTrigger>
               <TabsTrigger value="manual">Manual Creation</TabsTrigger>
               <TabsTrigger value="upload">
                 <Upload className="mr-2 h-4 w-4" />
                 Upload Images
               </TabsTrigger>
             </TabsList>
+            
+            <TabsContent value="ai" className="mt-6">
+              <AIQuizGenerator onQuestionsGenerated={handleAIQuestionsGenerated} />
+              
+              {quiz.questions.length > 0 && (
+                <div className="mt-6">
+                  <h3 className="text-lg font-semibold mb-4">
+                    Quiz Questions ({quiz.questions.length})
+                  </h3>
+                  <div className="space-y-4 max-h-96 overflow-y-auto">
+                    {quiz.questions.map((question, questionIndex) => (
+                      <Card key={question.id} className="p-4">
+                        <div className="space-y-2">
+                          <div className="flex justify-between items-start">
+                            <Badge variant="outline">Question {questionIndex + 1}</Badge>
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              onClick={() => removeQuestion(question.id)}
+                            >
+                              <Trash2 className="h-4 w-4 text-destructive" />
+                            </Button>
+                          </div>
+                          <div className="space-y-2">
+                            <p className="font-medium">{question.question}</p>
+                            <div className="grid grid-cols-2 gap-2">
+                              {question.options.map((option, idx) => (
+                                <div key={idx} className="p-2 text-sm rounded bg-muted">
+                                  {String.fromCharCode(65 + idx)}. {option}
+                                </div>
+                              ))}
+                            </div>
+                          </div>
+                        </div>
+                      </Card>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </TabsContent>
             
             <TabsContent value="manual" className="space-y-6 mt-6">
               <div className="space-y-4">

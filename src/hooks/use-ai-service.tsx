@@ -4,7 +4,7 @@ import { useAuth } from '@/context/AuthContext';
 import { useToast } from '@/hooks/use-toast';
 
 interface AIServiceRequest {
-  type: 'personalized_tutoring' | 'insights_generation' | 'coaching_session' | 'content_analysis';
+  type: 'personalized_tutoring' | 'insights_generation' | 'coaching_session' | 'content_analysis' | 'quiz_generation';
   prompt: string;
   context?: {
     userAnalytics?: any;
@@ -12,6 +12,8 @@ interface AIServiceRequest {
     currentModule?: string;
     weakAreas?: string[];
     preferences?: any;
+    questionCount?: number;
+    difficulty?: string;
   };
   model?: string;
 }

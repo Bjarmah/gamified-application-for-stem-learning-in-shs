@@ -9,7 +9,7 @@ const corsHeaders = {
 };
 
 interface AIRequest {
-  type: 'personalized_tutoring' | 'insights_generation' | 'coaching_session' | 'content_analysis';
+  type: 'personalized_tutoring' | 'insights_generation' | 'coaching_session' | 'content_analysis' | 'quiz_generation';
   prompt: string;
   context?: {
     userAnalytics?: any;
@@ -17,6 +17,8 @@ interface AIRequest {
     currentModule?: string;
     weakAreas?: string[];
     preferences?: any;
+    questionCount?: number;
+    difficulty?: string;
   };
   model?: string;
 }
@@ -70,7 +72,32 @@ const getSystemPrompt = (type: string, context?: any) => {
     - Highlight potential difficulty areas
     - Recommend supplementary topics
     
-    Provide structured, educational analysis suitable for high school students.`
+    Provide structured, educational analysis suitable for high school students.`,
+
+    quiz_generation: `You are an expert quiz generator specializing in STEM subjects for high school students.
+    Create multiple-choice questions based on the given subject/topic.
+    
+    CRITICAL REQUIREMENTS:
+    - Generate EXACTLY the requested number of questions
+    - Each question must have exactly 4 answer options (A, B, C, D)
+    - Include one correct answer and three plausible distractors
+    - Questions should be appropriate for high school level
+    - Cover different aspects and difficulty levels of the topic
+    - Make questions clear, concise, and unambiguous
+    
+    FORMAT YOUR RESPONSE AS VALID JSON:
+    {
+      "questions": [
+        {
+          "question": "Question text here",
+          "options": ["Option A", "Option B", "Option C", "Option D"],
+          "correctAnswer": 0,
+          "explanation": "Brief explanation of the correct answer"
+        }
+      ]
+    }
+    
+    Ensure the JSON is properly formatted and can be parsed.`
   };
 
   let systemPrompt = basePrompts[type as keyof typeof basePrompts] || basePrompts.personalized_tutoring;
@@ -123,6 +150,9 @@ serve(async (req) => {
         break;
       case 'content_analysis':
         maxTokens = 1000;
+        break;
+      case 'quiz_generation':
+        maxTokens = 2000; // More tokens needed for JSON quiz format
         break;
       default:
         maxTokens = 800;
