@@ -8,6 +8,8 @@ import { useNavigate } from 'react-router-dom';
 import ChemistryLab from '@/components/lab/ChemistryLab';
 import PhysicsLab from '@/components/lab/PhysicsLab';
 import MathLab from '@/components/lab/MathLab';
+import AdvancedChemistryLab from '@/components/lab/AdvancedChemistryLab';
+import AdvancedPhysicsLab from '@/components/lab/AdvancedPhysicsLab';
 import PHGameWrapper from '@/components/lab/PHGameWrapper';
 import ProjectileMotionWrapper from '@/components/lab/ProjectileMotionWrapper';
 import CellStructureWrapper from '@/components/lab/CellStructureWrapper';
@@ -36,6 +38,38 @@ const VirtualLab = () => {
         ariaLabel: 'Start molecular structure viewer experiment'
       },
       {
+        id: 'molecular-dynamics',
+        title: 'Advanced Molecular Dynamics',
+        description: 'Real-time molecular motion simulation with temperature and pressure controls',
+        difficulty: 'Advanced',
+        duration: '30 minutes',
+        ariaLabel: 'Start advanced molecular dynamics simulation'
+      },
+      {
+        id: 'reaction-kinetics',
+        title: 'Reaction Kinetics Simulator',
+        description: 'Explore reaction rates, catalysts, and energy diagrams',
+        difficulty: 'Advanced',
+        duration: '25 minutes',
+        ariaLabel: 'Start reaction kinetics simulation'
+      },
+      {
+        id: 'advanced-titration',
+        title: 'Interactive Titration Analysis',
+        description: 'Advanced titration with pH curves and indicator changes',
+        difficulty: 'Intermediate',
+        duration: '20 minutes',
+        ariaLabel: 'Start advanced titration analysis'
+      },
+      {
+        id: 'crystallization',
+        title: 'Crystal Growth Simulation',
+        description: 'Watch crystals form and grow in supersaturated solutions',
+        difficulty: 'Intermediate',
+        duration: '15 minutes',
+        ariaLabel: 'Start crystallization simulation'
+      },
+      {
         id: 'ph-indicator',
         title: 'pH Indicator Simulation',
         description: 'Test different solutions with virtual pH indicators',
@@ -62,28 +96,44 @@ const VirtualLab = () => {
     ],
     physics: [
       {
+        id: 'electromagnetic-field',
+        title: 'Electromagnetic Field Simulation',
+        description: 'Visualize electric and magnetic fields with interactive charged particles',
+        difficulty: 'Advanced',
+        duration: '30 minutes',
+        ariaLabel: 'Start electromagnetic field simulation'
+      },
+      {
+        id: 'wave-simulation',
+        title: 'Advanced Wave Properties',
+        description: 'Explore wave interference, frequency, and amplitude with multiple wave types',
+        difficulty: 'Advanced',
+        duration: '25 minutes',
+        ariaLabel: 'Start advanced wave simulation'
+      },
+      {
+        id: 'circuit-builder',
+        title: 'Interactive Circuit Builder',
+        description: 'Build and analyze electrical circuits with real-time calculations',
+        difficulty: 'Advanced',
+        duration: '35 minutes',
+        ariaLabel: 'Start interactive circuit builder'
+      },
+      {
+        id: 'pendulum-oscillation',
+        title: 'Pendulum Dynamics Simulator',
+        description: 'Analyze pendulum motion with variable parameters and damping',
+        difficulty: 'Intermediate',
+        duration: '20 minutes',
+        ariaLabel: 'Start pendulum dynamics simulation'
+      },
+      {
         id: 'projectile-motion',
         title: 'Projectile Motion Simulator',
         description: 'Simulate projectile motion by adjusting launch speed and angle',
         difficulty: 'Intermediate',
         duration: '20 minutes',
         ariaLabel: 'Start projectile motion simulation experiment'
-      },
-      {
-        id: 'wave-simulation',
-        title: 'Wave Properties Simulator',
-        description: 'Visualize wave behavior, frequency, and amplitude',
-        difficulty: 'Intermediate',
-        duration: '25 minutes',
-        ariaLabel: 'Start wave properties simulation experiment'
-      },
-      {
-        id: 'circuit-builder',
-        title: 'Circuit Builder',
-        description: 'Build and test electrical circuits virtually',
-        difficulty: 'Advanced',
-        duration: '30 minutes',
-        ariaLabel: 'Start circuit builder experiment'
       },
       {
         id: 'shm-simulator',
@@ -180,14 +230,38 @@ const VirtualLab = () => {
           </div>
 
           <main role="main" aria-label="Experiment content">
+            {subject === 'chemistry' && experimentId === 'molecular-dynamics' && (
+              <AdvancedChemistryLab experimentId={experimentId} />
+            )}
+            {subject === 'chemistry' && experimentId === 'reaction-kinetics' && (
+              <AdvancedChemistryLab experimentId={experimentId} />
+            )}
+            {subject === 'chemistry' && experimentId === 'advanced-titration' && (
+              <AdvancedChemistryLab experimentId={experimentId} />
+            )}
+            {subject === 'chemistry' && experimentId === 'crystallization' && (
+              <AdvancedChemistryLab experimentId={experimentId} />
+            )}
             {subject === 'chemistry' && experimentId === 'ph-scale-game' && (
               <PHGameWrapper experimentId={experimentId} />
             )}
             {subject === 'chemistry' && experimentId === 'gas-laws' && (
               <GasLawsWrapper experimentId={experimentId} />
             )}
-            {subject === 'chemistry' && experimentId !== 'ph-scale-game' && (
+            {subject === 'chemistry' && !['molecular-dynamics', 'reaction-kinetics', 'advanced-titration', 'crystallization', 'ph-scale-game', 'gas-laws'].includes(experimentId) && (
               <ChemistryLab experimentId={experimentId} />
+            )}
+            {subject === 'physics' && experimentId === 'electromagnetic-field' && (
+              <AdvancedPhysicsLab experimentId={experimentId} />
+            )}
+            {subject === 'physics' && experimentId === 'wave-simulation' && (
+              <AdvancedPhysicsLab experimentId={experimentId} />
+            )}
+            {subject === 'physics' && experimentId === 'circuit-builder' && (
+              <AdvancedPhysicsLab experimentId={experimentId} />
+            )}
+            {subject === 'physics' && experimentId === 'pendulum-oscillation' && (
+              <AdvancedPhysicsLab experimentId={experimentId} />
             )}
             {subject === 'physics' && experimentId === 'projectile-motion' && (
               <ProjectileMotionWrapper experimentId={experimentId} />
@@ -195,7 +269,7 @@ const VirtualLab = () => {
             {subject === 'physics' && experimentId === 'shm-simulator' && (
               <SHMWrapper experimentId={experimentId} />
             )}
-            {subject === 'physics' && experimentId !== 'projectile-motion' && (
+            {subject === 'physics' && !['electromagnetic-field', 'wave-simulation', 'circuit-builder', 'pendulum-oscillation', 'projectile-motion', 'shm-simulator'].includes(experimentId) && (
               <PhysicsLab experimentId={experimentId} />
             )}
             {subject === 'biology' && experimentId === 'cell-structure' && (
