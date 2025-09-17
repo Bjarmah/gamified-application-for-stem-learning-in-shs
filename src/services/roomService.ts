@@ -418,14 +418,32 @@ export class RoomService {
     }
   }
 
-  // Submit quiz attempt
+  // Submit quiz attempt with enhanced details
   static async submitQuizAttempt(
     quizId: string,
     userId: string,
     score: number,
     totalQuestions: number,
     percentage: number,
-    answers: number[]
+    answers: number[],
+    detailedResults?: {
+      timeSpent: number;
+      questionResults: {
+        questionId: string;
+        question: string;
+        options: string[];
+        userAnswer: number;
+        correctAnswer: number;
+        isCorrect: boolean;
+        explanation?: string;
+        timeSpent?: number;
+        difficulty?: 'easy' | 'medium' | 'hard';
+      }[];
+      performanceMetrics?: {
+        averageTimePerQuestion: number;
+        difficultyBreakdown: Record<string, { correct: number; total: number }>;
+      };
+    }
   ): Promise<string | null> {
     try {
       const { data, error } = await supabase
@@ -436,7 +454,9 @@ export class RoomService {
           score,
           total_questions: totalQuestions,
           percentage,
-          answers
+          answers,
+          time_spent: detailedResults?.timeSpent,
+          detailed_results: detailedResults ? JSON.stringify(detailedResults) : null
         })
         .select('id')
         .single();

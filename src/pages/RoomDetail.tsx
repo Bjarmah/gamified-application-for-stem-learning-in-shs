@@ -45,6 +45,7 @@ import { Database } from '@/integrations/supabase/types';
 import { supabase } from '@/integrations/supabase/client';
 import { FloatingAIChatbot } from '@/components/ai-chatbot';
 import RoomQuizCreator from '@/components/quiz/RoomQuizCreator';
+import EnhancedQuizResults from '@/components/quiz/EnhancedQuizResults';
 
 type Room = Database['public']['Tables']['rooms']['Row'];
 type RoomMember = Database['public']['Tables']['room_members']['Row'] & { profile?: { full_name?: string } };
@@ -98,6 +99,8 @@ const RoomDetail = () => {
 
     // Quiz creation states
     const [showCreateQuiz, setShowCreateQuiz] = useState(false);
+    const [showEnhancedResults, setShowEnhancedResults] = useState(false);
+    const [enhancedQuizResults, setEnhancedQuizResults] = useState<any>(null);
 
     // Room quiz creation with new component
     const handleRoomQuizCreate = async (roomQuiz: any) => {
@@ -407,13 +410,44 @@ const RoomDetail = () => {
         const timeSpent = quizStartTime ? Math.floor((Date.now() - quizStartTime.getTime()) / 1000) : 0;
 
         try {
+            // Generate detailed results for enhanced feedback
+            const detailedResults = {
+                timeSpent: timeSpent,
+                questionResults: questions.map((question, index) => ({
+                    questionId: `q_${index}`,
+                    question: question.question,
+                    options: question.options,
+                    userAnswer: userAnswers[index],
+                    correctAnswer: question.correctAnswer,
+                    isCorrect: userAnswers[index] === question.correctAnswer,
+                    explanation: (question as any).explanation || 'No explanation provided',
+                    timeSpent: Math.floor(timeSpent / questions.length), // Average time per question
+                    difficulty: (question as any).difficulty as 'easy' | 'medium' | 'hard' || 'medium'
+                })),
+                performanceMetrics: {
+                    averageTimePerQuestion: timeSpent / questions.length,
+                    difficultyBreakdown: questions.reduce((acc, question) => {
+                        const difficulty = (question as any).difficulty || 'medium';
+                        acc[difficulty] = acc[difficulty] || { correct: 0, total: 0 };
+                        acc[difficulty].total++;
+                        const userAnswer = userAnswers[questions.indexOf(question)];
+                        const correctAnswer = question.correctAnswer;
+                        if (userAnswer === correctAnswer) {
+                            acc[difficulty].correct++;
+                        }
+                        return acc;
+                    }, {} as Record<string, { correct: number; total: number }>)
+                }
+            };
+
             const attemptId = await RoomService.submitQuizAttempt(
                 currentQuiz.id,
                 user.id,
                 score,
                 gradedQuestions, // Use graded questions count instead of total
                 percentage,
-                userAnswers
+                userAnswers,
+                detailedResults
             );
 
             if (attemptId) {
@@ -430,7 +464,18 @@ const RoomDetail = () => {
 
                 setQuizAttempts([...quizAttempts, newAttempt]);
                 setAllQuizAttempts([...allQuizAttempts, { ...newAttempt, profile: user.email ? { full_name: user.email } : undefined }]);
-                setShowQuizResults(true);
+                
+                // Set enhanced results for detailed feedback
+                setEnhancedQuizResults({
+                    results: detailedResults.questionResults,
+                    totalScore: score,
+                    totalQuestions: gradedQuestions,
+                    percentage,
+                    timeSpent,
+                    passingScore: currentQuiz.passing_score || 70,
+                    subject: currentQuiz.title
+                });
+                setShowEnhancedResults(true);
 
                 // Only reward if we have auto-gradable questions
                 if (gradedQuestions > 0) {
@@ -1068,18 +1113,18 @@ const RoomDetail = () => {
                                             }
                                         })()}
                                         
-                                        <div className="flex gap-2 justify-center">
-                                            <Button onClick={() => setActiveTab('results')}>
-                                                View All Results
-                                            </Button>
-                                            <Button variant="outline" onClick={() => {
-                                                setCurrentQuiz(null);
-                                                setIsQuizActive(false);
-                                                setQuizTitle(undefined);
-                                            }}>
-                                                Back to Room
-                                            </Button>
-                                        </div>
+                                         <div className="flex gap-2 justify-center">
+                                             <Button onClick={() => setActiveTab('results')}>
+                                                 View All Results
+                                             </Button>
+                                             <Button variant="outline" onClick={() => {
+                                                 setCurrentQuiz(null);
+                                                 setIsQuizActive(false);
+                                                 setQuizTitle(undefined);
+                                             }}>
+                                                 Back to Room
+                                             </Button>
+                                         </div>
                                     </div>
                                 )}
                             </CardContent>
@@ -1087,6 +1132,30 @@ const RoomDetail = () => {
                     </div>
                 )}
             </Tabs>
+
+            {/* Enhanced Quiz Results Modal */}
+            {showEnhancedResults && enhancedQuizResults && (
+                <Dialog open={showEnhancedResults} onOpenChange={setShowEnhancedResults}>
+                    <DialogContent className="max-w-6xl max-h-[90vh] overflow-y-auto">
+                        <DialogHeader>
+                            <DialogTitle>Detailed Quiz Results</DialogTitle>
+                        </DialogHeader>
+                        <EnhancedQuizResults
+                            {...enhancedQuizResults}
+                            onRetake={() => {
+                                setShowEnhancedResults(false);
+                                if (currentQuiz) {
+                                    startQuiz(currentQuiz);
+                                }
+                            }}
+                            onContinue={() => {
+                                setShowEnhancedResults(false);
+                                setActiveTab('results');
+                            }}
+                        />
+                    </DialogContent>
+                </Dialog>
+            )}
 
             {/* AI Learning Assistant */}
             <FloatingAIChatbot position="bottom-right" />
