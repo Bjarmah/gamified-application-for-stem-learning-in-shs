@@ -33,9 +33,9 @@ const FunctionDetective: React.FC<FunctionDetectiveProps> = ({ onScoreUpdate, is
   const [timeLeft, setTimeLeft] = useState(60);
   const [isTimerActive, setIsTimerActive] = useState(false);
 
-  const functionTypes = [
+  const functionTypes: FunctionClue[] = [
     // Linear functions
-    { type: 'linear', equation: 'y = 2x + 1', points: [[-3, -5], [-1, -1], [0, 1], [2, 5], [4, 9]] as [number, number][], hint: 'This line rises steadily', difficulty: 1 },
+    { type: 'linear', equation: 'y = 2x + 1', points: [[-3, -5], [-1, -1], [0, 1], [2, 5], [4, 9]], hint: 'This line rises steadily', difficulty: 1 },
     { type: 'linear', equation: 'y = -x + 3', points: [[-2, 5], [0, 3], [1, 2], [3, 0], [5, -2]], hint: 'This line falls as x increases', difficulty: 1 },
     
     // Quadratic functions
