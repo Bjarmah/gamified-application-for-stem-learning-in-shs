@@ -1,6 +1,8 @@
 
 import React from 'react';
 import MotionRacing from './physics/MotionRacing';
+import CircuitBuilder from './physics/CircuitBuilder';
+import WaveLaboratory from './physics/WaveLaboratory';
 import { Card, CardContent } from '@/components/ui/card';
 import { Gamepad2 } from 'lucide-react';
 
@@ -16,29 +18,11 @@ const PhysicsGames: React.FC<PhysicsGameProps> = ({ gameType, onScoreUpdate, isA
   }
 
   if (gameType === 'circuit-builder') {
-    return (
-      <Card>
-        <CardContent className="text-center py-8">
-          <Gamepad2 className="h-12 w-12 mx-auto text-muted-foreground mb-4" />
-          <p className="text-muted-foreground">
-            Circuit Builder game is coming soon with enhanced electrical mechanics!
-          </p>
-        </CardContent>
-      </Card>
-    );
+    return <CircuitBuilder onScoreUpdate={onScoreUpdate} isActive={isActive} />;
   }
 
   if (gameType === 'wave-lab') {
-    return (
-      <Card>
-        <CardContent className="text-center py-8">
-          <Gamepad2 className="h-12 w-12 mx-auto text-muted-foreground mb-4" />
-          <p className="text-muted-foreground">
-            Wave Laboratory is coming soon with interactive wave experiments!
-          </p>
-        </CardContent>
-      </Card>
-    );
+    return <WaveLaboratory onScoreUpdate={onScoreUpdate} isActive={isActive} />;
   }
 
   return <div>Game loading...</div>;

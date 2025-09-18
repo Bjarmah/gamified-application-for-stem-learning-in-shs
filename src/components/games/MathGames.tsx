@@ -2,6 +2,7 @@
 import React from 'react';
 import AlgebraQuest from './math/AlgebraQuest';
 import GeometryWars from './math/GeometryWars';
+import FunctionDetective from './math/FunctionDetective';
 import { Card, CardContent } from '@/components/ui/card';
 import { Gamepad2 } from 'lucide-react';
 
@@ -21,16 +22,7 @@ const MathGames: React.FC<MathGameProps> = ({ gameType, onScoreUpdate, isActive 
   }
 
   if (gameType === 'function-graphing') {
-    return (
-      <Card>
-        <CardContent className="text-center py-8">
-          <Gamepad2 className="h-12 w-12 mx-auto text-muted-foreground mb-4" />
-          <p className="text-muted-foreground">
-            Function Detective game is coming soon with enhanced graphing mechanics!
-          </p>
-        </CardContent>
-      </Card>
-    );
+    return <FunctionDetective onScoreUpdate={onScoreUpdate} isActive={isActive} />;
   }
 
   return <div>Game loading...</div>;
