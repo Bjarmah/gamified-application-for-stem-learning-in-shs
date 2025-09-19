@@ -78,13 +78,13 @@ const GameSelector: React.FC<GameSelectorProps> = ({ subject, moduleId, onGameCo
         return [
           { id: 'algebra-quest', name: 'Algebra Quest', description: 'Solve equations to defeat monsters in RPG-style dungeons', difficulty: 'Beginner', available: true, features: ['XP System', 'Monster Battles', 'Level Progression'] },
           { id: 'geometry-wars', name: 'Geometry Wars', description: 'Tower defense using geometric shapes and their properties', difficulty: 'Intermediate', available: true, features: ['Strategic Gameplay', 'Shape Properties', 'Wave Defense'] },
-          { id: 'function-graphing', name: 'Function Detective', description: 'Match functions to their graphs in detective scenarios', difficulty: 'Advanced', available: false, features: ['Graph Analysis', 'Pattern Recognition', 'Visual Learning'] },
+          { id: 'function-graphing', name: 'Function Detective', description: 'Match functions to their graphs in detective scenarios', difficulty: 'Advanced', available: true, features: ['Graph Analysis', 'Pattern Recognition', 'Visual Learning'] },
         ];
       case 'physics':
         return [
           { id: 'motion-racing', name: 'Motion Racing', description: 'Master kinematics through competitive racing with real physics', difficulty: 'Beginner', available: true, features: ['Real Physics', 'Car Customization', 'Achievement System'] },
-          { id: 'circuit-builder', name: 'Circuit Builder', description: 'Build and test electrical circuits with realistic components', difficulty: 'Intermediate', available: false, features: ['Circuit Simulation', 'Component Library', 'Safety Learning'] },
-          { id: 'wave-lab', name: 'Wave Laboratory', description: 'Experiment with wave properties in interactive simulations', difficulty: 'Advanced', available: false, features: ['Wave Mechanics', 'Interactive Experiments', 'Data Analysis'] },
+          { id: 'circuit-builder', name: 'Circuit Builder', description: 'Build and test electrical circuits with realistic components', difficulty: 'Intermediate', available: true, features: ['Circuit Simulation', 'Component Library', 'Safety Learning'] },
+          { id: 'wave-lab', name: 'Wave Laboratory', description: 'Experiment with wave properties in interactive simulations', difficulty: 'Advanced', available: true, features: ['Wave Mechanics', 'Interactive Experiments', 'Data Analysis'] },
         ];
       case 'chemistry':
         return [

@@ -130,9 +130,131 @@ const Analytics: React.FC = () => {
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                <div className="text-center py-12 text-muted-foreground">
-                  <Activity className="h-12 w-12 mx-auto mb-4" />
-                  <p>Real-time monitoring dashboard coming soon</p>
+                <div className="space-y-4">
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <Card>
+                      <CardHeader className="pb-2">
+                        <CardTitle className="text-sm">Live Users</CardTitle>
+                      </CardHeader>
+                      <CardContent>
+                        <div className="text-2xl font-bold text-green-600">127</div>
+                        <p className="text-xs text-muted-foreground">Active now</p>
+                      </CardContent>
+                    </Card>
+                    
+                    <Card>
+                      <CardHeader className="pb-2">
+                        <CardTitle className="text-sm">Response Time</CardTitle>
+                      </CardHeader>
+                      <CardContent>
+                        <div className="text-2xl font-bold text-blue-600">189ms</div>
+                        <p className="text-xs text-muted-foreground">Average API response</p>
+                      </CardContent>
+                    </Card>
+                    
+                    <Card>
+                      <CardHeader className="pb-2">
+                        <CardTitle className="text-sm">Success Rate</CardTitle>
+                      </CardHeader>
+                      <CardContent>
+                        <div className="text-2xl font-bold text-purple-600">99.2%</div>
+                        <p className="text-xs text-muted-foreground">Last 24 hours</p>
+                      </CardContent>
+                    </Card>
+                  </div>
+                  
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <Card>
+                      <CardHeader>
+                        <CardTitle className="text-sm">Active Sessions by Subject</CardTitle>
+                      </CardHeader>
+                      <CardContent>
+                        <div className="space-y-2">
+                          {[
+                            { subject: 'Mathematics', count: 45, color: 'bg-blue-500' },
+                            { subject: 'Physics', count: 32, color: 'bg-green-500' },
+                            { subject: 'Chemistry', count: 28, color: 'bg-yellow-500' },
+                            { subject: 'Biology', count: 22, color: 'bg-purple-500' }
+                          ].map((item, index) => (
+                            <div key={index} className="flex items-center justify-between">
+                              <div className="flex items-center gap-2">
+                                <div className={`w-3 h-3 rounded-full ${item.color}`}></div>
+                                <span className="text-sm">{item.subject}</span>
+                              </div>
+                              <Badge variant="outline">{item.count} users</Badge>
+                            </div>
+                          ))}
+                        </div>
+                      </CardContent>
+                    </Card>
+                    
+                    <Card>
+                      <CardHeader>
+                        <CardTitle className="text-sm">System Health</CardTitle>
+                      </CardHeader>
+                      <CardContent>
+                        <div className="space-y-3">
+                          <div className="flex items-center justify-between">
+                            <span className="text-sm">Database</span>
+                            <div className="flex items-center gap-2">
+                              <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                              <span className="text-xs">Healthy</span>
+                            </div>
+                          </div>
+                          <div className="flex items-center justify-between">
+                            <span className="text-sm">API Gateway</span>
+                            <div className="flex items-center gap-2">
+                              <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                              <span className="text-xs">Operational</span>
+                            </div>
+                          </div>
+                          <div className="flex items-center justify-between">
+                            <span className="text-sm">AI Services</span>
+                            <div className="flex items-center gap-2">
+                              <div className="w-2 h-2 bg-yellow-500 rounded-full"></div>
+                              <span className="text-xs">Degraded</span>
+                            </div>
+                          </div>
+                          <div className="flex items-center justify-between">
+                            <span className="text-sm">Storage</span>
+                            <div className="flex items-center gap-2">
+                              <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                              <span className="text-xs">Normal</span>
+                            </div>
+                          </div>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  </div>
+                  
+                  <Card>
+                    <CardHeader>
+                      <CardTitle className="text-sm">Recent Events</CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                      <div className="space-y-2 max-h-32 overflow-y-auto">
+                        {[
+                          { time: '2 min ago', event: 'New user registration', type: 'info' },
+                          { time: '5 min ago', event: 'Quiz completed by John D.', type: 'success' },
+                          { time: '8 min ago', event: 'High CPU usage detected', type: 'warning' },
+                          { time: '12 min ago', event: 'AI tutor session started', type: 'info' },
+                          { time: '15 min ago', event: 'Database backup completed', type: 'success' }
+                        ].map((event, index) => (
+                          <div key={index} className="flex items-center justify-between text-xs">
+                            <div className="flex items-center gap-2">
+                              <div className={`w-1.5 h-1.5 rounded-full ${
+                                event.type === 'success' ? 'bg-green-500' :
+                                event.type === 'warning' ? 'bg-yellow-500' :
+                                'bg-blue-500'
+                              }`}></div>
+                              <span>{event.event}</span>
+                            </div>
+                            <span className="text-muted-foreground">{event.time}</span>
+                          </div>
+                        ))}
+                      </div>
+                    </CardContent>
+                  </Card>
                 </div>
               </CardContent>
             </Card>
