@@ -6,7 +6,7 @@ import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { GraduationCap, Trophy, BookOpen, Activity } from "lucide-react";
+import { GraduationCap, Trophy, BookOpen, Activity, Settings } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/context/AuthContext";
 import { useGamification } from "@/hooks/use-gamification";
@@ -112,11 +112,22 @@ const Profile = () => {
 
   return (
     <div className="space-y-6 pb-8">
-      <div>
-        <h1 className="text-2xl font-bold tracking-tight">My Profile</h1>
-        <p className="text-muted-foreground">
-          View and manage your account information.
-        </p>
+      <div className="flex items-center justify-between">
+        <div>
+          <h1 className="text-2xl font-bold tracking-tight">My Profile</h1>
+          <p className="text-muted-foreground">
+            View and manage your account information.
+          </p>
+        </div>
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={() => window.location.href = '/settings'}
+          className="flex items-center gap-2"
+        >
+          <Settings className="h-4 w-4" />
+          Settings
+        </Button>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">

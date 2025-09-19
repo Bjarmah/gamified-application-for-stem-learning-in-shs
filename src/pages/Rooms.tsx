@@ -7,6 +7,7 @@ import { Badge } from '@/components/ui/badge';
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Textarea } from '@/components/ui/textarea';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import {
     Search,
     Plus,
@@ -381,15 +382,23 @@ const Rooms = () => {
 
                             <div className="grid gap-2">
                                 <label htmlFor="room-subject" className="text-sm font-medium">
-                                    Subject (Coming Soon)
+                                    Subject
                                 </label>
-                                <Input
-                                    id="room-subject"
-                                    value={newRoom.subjectId}
-                                    onChange={(e) => setNewRoom({ ...newRoom, subjectId: e.target.value })}
-                                    placeholder="Subject selection will be available soon"
-                                    disabled={true}
-                                />
+                                <Select value={newRoom.subjectId} onValueChange={(value) => setNewRoom({ ...newRoom, subjectId: value })}>
+                                    <SelectTrigger>
+                                        <SelectValue placeholder="Select a subject" />
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                        <SelectItem value="a975b867-ad1f-436f-9943-ba3afdfb4f9d">Mathematics</SelectItem>
+                                        <SelectItem value="2acab074-82ed-43e5-99c1-c247237b8427">Physics</SelectItem>
+                                        <SelectItem value="a6092c65-1972-4d6c-9ce2-b36baf10eb96">Chemistry</SelectItem>
+                                        <SelectItem value="a042e2fb-4a76-45da-b68b-499e7143c6c8">Biology</SelectItem>
+                                        <SelectItem value="b8a6eb97-16cc-4eb8-bd5e-5290d46ed6b7">Elective ICT</SelectItem>
+                                    </SelectContent>
+                                </Select>
+                                <p className="text-xs text-muted-foreground">
+                                    Choose the main subject focus for this study room
+                                </p>
                             </div>
 
                             <div className="grid gap-2">

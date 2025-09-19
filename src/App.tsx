@@ -28,6 +28,7 @@ import VirtualLab from "./pages/VirtualLab";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import TeacherQuizzes from "./pages/TeacherQuizzes";
+import Settings from "./pages/Settings";
 import Quiz from "./pages/Quiz";
 import ModuleRedirect from "./pages/ModuleRedirect";
 import AdminDashboard from "./pages/AdminDashboard";
@@ -80,6 +81,7 @@ function App() {
                         <Route path="leaderboard" element={<Leaderboard />} />
                         <Route path="analytics" element={<Analytics />} />
                         <Route path="profile" element={<Profile />} />
+                        <Route path="settings" element={<Settings />} />
                         <Route path="virtual-lab" element={<VirtualLab />} />
                         <Route path="teacher/quizzes" element={<TeacherQuizzes />} />
                         <Route path="quizzes/:quizId" element={<Quiz />} />
