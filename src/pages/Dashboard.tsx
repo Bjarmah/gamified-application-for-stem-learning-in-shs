@@ -24,7 +24,7 @@ import { Progress } from "@/components/ui/progress";
 import { useGamification } from "@/hooks/use-gamification";
 import { useAuth } from "@/context/AuthContext";
 import XPBar from "@/components/gamification/XPBar";
-import LevelBadge from "@/components/gamification/LevelBadge";
+import { SmartStreakWidget, SmartReminderSystem, LearningAnalyticsDashboard } from "@/components/dashboard";
 import { FloatingAIChatbot } from "@/components/ai-chatbot";
 import {
   PersonalizedDashboard,
@@ -230,7 +230,17 @@ const Dashboard: React.FC = () => {
               <AIModulesPreview />
               <div className="grid grid-cols-1 gap-4">
                 <MobileInsightsWidget />
-                <StudyInsightsCard />
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-6">
+                  <StudyInsightsCard />
+                  <SmartReminderSystem
+                    studyStreak={gamificationData.current_streak}
+                    dailyGoalProgress={75} 
+                    upcomingDeadlines={[
+                      { title: 'Chemistry Quiz', date: new Date(Date.now() + 86400000 * 2), type: 'quiz' },
+                      { title: 'Physics Assignment', date: new Date(Date.now() + 86400000 * 5), type: 'assignment' }
+                    ]}
+                  />
+                </div>
                 <WeakAreasCard />
                 <StudyGoalsCard />
                 <LearningPathCard />
@@ -247,6 +257,14 @@ const Dashboard: React.FC = () => {
                   
                   {/* Side Panel with Insights */}
                   <div className="space-y-6">
+                    <SmartStreakWidget 
+                      currentStreak={gamificationData.current_streak}
+                      longestStreak={gamificationData.longest_streak}
+                      weeklyGoal={7}
+                      onStreakMilestone={(milestone) => {
+                        console.log(`Streak milestone reached: ${milestone}`);
+                      }}
+                    />
                     <AIInsightsPreview />
                     <AIModulesPreview />
                     <ComprehensiveInsightsCard />

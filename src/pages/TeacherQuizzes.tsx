@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import QuizCreator from "@/components/quiz/QuizCreator";
+import { FloatingAIChatbot } from "@/components/ai-chatbot";
 import { BookOpen, Plus, Edit, Trash2, Users, BarChart3 } from 'lucide-react';
 
 const TeacherQuizzes = () => {
@@ -171,6 +172,9 @@ const TeacherQuizzes = () => {
           </Card>
         </TabsContent>
       </Tabs>
+
+      {/* AI Teaching Assistant */}
+      <FloatingAIChatbot position="bottom-right" />
     </div>
   );
 };

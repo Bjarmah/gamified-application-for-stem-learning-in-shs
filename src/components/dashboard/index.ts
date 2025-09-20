@@ -11,3 +11,6 @@ export { default as VirtualLabCard } from './VirtualLabCard';
 export { AIInsightsPreview } from './AIInsightsPreview';
 export { QuickInsightsWidget } from './QuickInsightsWidget';
 export { AIModulesPreview } from './AIModulesPreview';
+export { default as SmartStreakWidget } from './SmartStreakWidget';
+export { default as SmartReminderSystem } from './SmartReminderSystem';
+export { default as LearningAnalyticsDashboard } from './LearningAnalyticsDashboard';
