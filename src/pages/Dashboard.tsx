@@ -24,7 +24,7 @@ import { Progress } from "@/components/ui/progress";
 import { useGamification } from "@/hooks/use-gamification";
 import { useAuth } from "@/context/AuthContext";
 import XPBar from "@/components/gamification/XPBar";
-import { SmartStreakWidget, SmartReminderSystem, LearningAnalyticsDashboard } from "@/components/dashboard";
+import { PersonalizedInsightCard, SmartStudyPlanWidget, SmartStreakWidget, SmartReminderSystem } from "@/components/dashboard";
 import { FloatingAIChatbot } from "@/components/ai-chatbot";
 import {
   PersonalizedDashboard,
@@ -230,17 +230,17 @@ const Dashboard: React.FC = () => {
               <AIModulesPreview />
               <div className="grid grid-cols-1 gap-4">
                 <MobileInsightsWidget />
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-6">
-                  <StudyInsightsCard />
-                  <SmartReminderSystem
-                    studyStreak={gamificationData.current_streak}
-                    dailyGoalProgress={75} 
-                    upcomingDeadlines={[
-                      { title: 'Chemistry Quiz', date: new Date(Date.now() + 86400000 * 2), type: 'quiz' },
-                      { title: 'Physics Assignment', date: new Date(Date.now() + 86400000 * 5), type: 'assignment' }
-                    ]}
-                  />
-                </div>
+                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-6">
+                    <StudyInsightsCard />
+                    <SmartReminderSystem
+                      studyStreak={gamificationData.current_streak}
+                      dailyGoalProgress={75} 
+                      upcomingDeadlines={[
+                        { title: 'Chemistry Quiz', date: new Date(Date.now() + 86400000 * 2), type: 'quiz' },
+                        { title: 'Physics Assignment', date: new Date(Date.now() + 86400000 * 5), type: 'assignment' }
+                      ]}
+                    />
+                  </div>
                 <WeakAreasCard />
                 <StudyGoalsCard />
                 <LearningPathCard />

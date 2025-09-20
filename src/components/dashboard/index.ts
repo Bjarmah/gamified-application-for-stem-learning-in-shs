@@ -13,4 +13,7 @@ export { QuickInsightsWidget } from './QuickInsightsWidget';
 export { AIModulesPreview } from './AIModulesPreview';
 export { default as SmartStreakWidget } from './SmartStreakWidget';
 export { default as SmartReminderSystem } from './SmartReminderSystem';
-export { default as LearningAnalyticsDashboard } from './LearningAnalyticsDashboard';
+export { default as PersonalizedInsightCard } from './PersonalizedInsightCard';
+export { default as SmartStudyPlanWidget } from './SmartStudyPlanWidget';
+export { default as LearningMotivationHub } from './LearningMotivationHub';
+export { default as RealTimeLearningCoach } from './RealTimeLearningCoach';

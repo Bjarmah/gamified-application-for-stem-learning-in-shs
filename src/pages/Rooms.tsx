@@ -382,29 +382,30 @@ const Rooms = () => {
 
                             <div className="grid gap-2">
                                 <label htmlFor="room-subject" className="text-sm font-medium">
-                                    Subject
+                                    Subject <span className="text-muted-foreground">(Optional)</span>
                                 </label>
-                                <Select value={newRoom.subjectId} onValueChange={(value) => setNewRoom({ ...newRoom, subjectId: value })}>
+                                <Select value={newRoom.subjectId || ""} onValueChange={(value) => setNewRoom({ ...newRoom, subjectId: value === "none" ? null : value })}>
                                     <SelectTrigger>
-                                        <SelectValue placeholder="Select a subject" />
+                                        <SelectValue placeholder="Select a subject (optional)" />
                                     </SelectTrigger>
                                     <SelectContent>
+                                        <SelectItem value="none">No specific subject</SelectItem>
                                         <SelectItem value="a975b867-ad1f-436f-9943-ba3afdfb4f9d">Mathematics</SelectItem>
                                         <SelectItem value="2acab074-82ed-43e5-99c1-c247237b8427">Physics</SelectItem>
                                         <SelectItem value="a6092c65-1972-4d6c-9ce2-b36baf10eb96">Chemistry</SelectItem>
                                         <SelectItem value="a042e2fb-4a76-45da-b68b-499e7143c6c8">Biology</SelectItem>
                                         <SelectItem value="b8a6eb97-16cc-4eb8-bd5e-5290d46ed6b7">Elective ICT</SelectItem>
-                                    </SelectContent>
-                                </Select>
-                                <p className="text-xs text-muted-foreground">
-                                    Choose the main subject focus for this study room
-                                </p>
-                            </div>
+                                     </SelectContent>
+                                 </Select>
+                                 <p className="text-xs text-muted-foreground">
+                                     Optionally choose the main subject focus for this study room
+                                 </p>
+                             </div>
 
-                            <div className="grid gap-2">
-                                <label htmlFor="room-description" className="text-sm font-medium">
-                                    Description
-                                </label>
+                             <div className="grid gap-2">
+                                 <label htmlFor="room-description" className="text-sm font-medium">
+                                     Description
+                                 </label>
                                 <Textarea
                                     id="room-description"
                                     value={newRoom.description}
