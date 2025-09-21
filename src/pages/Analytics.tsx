@@ -348,7 +348,7 @@ const Analytics: React.FC = () => {
 
             <TabsContent value="insights">
               <div className="space-y-6">
-                <LearningInsightsCard userId={user?.id} />
+                <LearningInsightsCard />
                 <AIInsightsIntegration />
               </div>
             </TabsContent>
@@ -356,13 +356,14 @@ const Analytics: React.FC = () => {
             <TabsContent value="personal">
               {/* AI-Powered Insights Section */}
               <div className="space-y-6">
-                <div className="grid gap-6 md:grid-cols-2">
-                  <ComprehensiveInsightsCard />
+                <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+                  <LearningInsightsCard />
                   <LearningPatternsCard />
+                  <PredictiveInsightsCard />
                 </div>
+                <ComprehensiveInsightsCard />
                 
                 <div className="grid gap-6 md:grid-cols-2">
-                  <PredictiveInsightsCard />
                   <KnowledgeGapAnalyzer />
                 </div>
                 
@@ -420,29 +421,29 @@ const Analytics: React.FC = () => {
                   </div>
                 </CardContent>
               </Card>
-              </div>
-            </TabsContent>
-          </Tabs>
+            </div>
+          </TabsContent>
+        </Tabs>
 
-          {/* Upgrade Notice for Students */}
-          <Card className="border-dashed">
-            <CardHeader>
-              <CardTitle className="flex items-center space-x-2">
-                <BarChart3 className="h-5 w-5" />
-                <span>Want More Analytics?</span>
-              </CardTitle>
-              <CardDescription>
-                Unlock detailed progress tracking and comparative analytics
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <Button variant="outline" disabled className="w-full">
-                Available to Teachers & Admins
-              </Button>
-            </CardContent>
-          </Card>
-        </div>
-      )}
+        {/* Upgrade Notice for Students */}
+        <Card className="border-dashed">
+          <CardHeader>
+            <CardTitle className="flex items-center space-x-2">
+              <BarChart3 className="h-5 w-5" />
+              <span>Want More Analytics?</span>
+            </CardTitle>
+            <CardDescription>
+              Unlock detailed progress tracking and comparative analytics
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <Button variant="outline" disabled className="w-full">
+              Available to Teachers & Admins
+            </Button>
+          </CardContent>
+        </Card>
+      </div>
+    )}
     </div>
   );
 };
