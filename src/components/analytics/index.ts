@@ -7,3 +7,4 @@ export { LearningPatternsCard } from './LearningPatternsCard';
 export { PredictiveInsightsCard } from './PredictiveInsightsCard';
 export { StudyScheduleOptimizer } from './StudyScheduleOptimizer';
 export { LearningEfficiencyAnalyzer } from './LearningEfficiencyAnalyzer';
+export { SmartInsightsWidget } from './SmartInsightsWidget';
