@@ -14,3 +14,5 @@ export { MobileNavigationHints } from './MobileNavigationHints';
 export { MobileAIInsights } from './MobileAIInsights';
 export { MobileInsightsWidget } from './MobileInsightsWidget';
 export { MobileAIGenerator } from './MobileAIGenerator';
+export { MobileLearningHub } from './MobileLearningHub';
+export { MobileProgressTracker } from './MobileProgressTracker';
