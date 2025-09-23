@@ -1,20 +1,11 @@
-# Welcome to your Lovable project
+# Welcome to STEM Stars
 
 ## Project info......
 
 This project is a gamified application for STEM learning in SHS. It is designed to help students learn the basics of science, technology, engineering, and math (STEM) in a fun and interactive way. The application is divided into three levels: Level 1, Level 2, and Level 3. Each level has a different set of activities that students can complete. The activities are designed to be fun and challenging, but also help students to understand the basics of STEM.
 
-**URL**: https://lovable.dev/projects/a2b32676-e3b3-4f9a-b6fe-3f303a0e8b5b
+I have added some AI features, im not fully done with them unfortunately
 
-## How can I edit this code??
-
-There are several ways of editing your application.
-
-**Use Lovable**
-
-Simply visit the [Lovable Project](https://lovable.dev/projects/a2b32676-e3b3-4f9a-b6fe-3f303a0e8b5b) and start prompting.
-
-Changes made via Lovable will be committed automatically to this repo.
 
 **Use your preferred IDE**
 
@@ -26,7 +17,7 @@ Follow these steps:
 
 ```sh
 # Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+git clone https://github.com/Bjarmah/gamified-application-for-stem-learning-in-shs/
 
 # Step 2: Navigate to the project directory.
 cd <YOUR_PROJECT_NAME>
@@ -43,6 +34,7 @@ npm run dev
 - Navigate to the desired file(s).
 - Click the "Edit" button (pencil icon) at the top right of the file view.
 - Make your changes and commit the changes.
+
 
 **Use GitHub Codespaces**
 
@@ -61,15 +53,3 @@ This project is built with:
 - React
 - shadcn-ui
 - Tailwind CSS
-
-## How can I deploy this project?
-
-Simply open [Lovable](https://lovable.dev/projects/a2b32676-e3b3-4f9a-b6fe-3f303a0e8b5b) and click on Share -> Publish.
-
-## Can I connect a custom domain to my Lovable project?
-
-Yes, you can!!
-
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
