@@ -17,3 +17,4 @@ export { default as PersonalizedInsightCard } from './PersonalizedInsightCard';
 export { default as SmartStudyPlanWidget } from './SmartStudyPlanWidget';
 export { default as LearningMotivationHub } from './LearningMotivationHub';
 export { default as RealTimeLearningCoach } from './RealTimeLearningCoach';
+export { default as LearningAnalyticsDashboard } from './LearningAnalyticsDashboard';
