@@ -10,3 +10,5 @@ export { LearningEfficiencyAnalyzer } from './LearningEfficiencyAnalyzer';
 export { SmartInsightsWidget } from './SmartInsightsWidget';
 export { default as LearningVelocityTracker } from './LearningVelocityTracker';
 export { default as AdaptiveLearningRecommendations } from './AdaptiveLearningRecommendations';
+export { AIContentAnalytics } from './AIContentAnalytics';
+export { AIContentInsights } from './AIContentInsights';
