@@ -12,3 +12,4 @@ export { default as LearningVelocityTracker } from './LearningVelocityTracker';
 export { default as AdaptiveLearningRecommendations } from './AdaptiveLearningRecommendations';
 export { AIContentAnalytics } from './AIContentAnalytics';
 export { AIContentInsights } from './AIContentInsights';
+export { AdvancedAnalyticsDashboard } from './AdvancedAnalyticsDashboard';

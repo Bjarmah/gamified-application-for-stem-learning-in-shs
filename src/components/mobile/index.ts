@@ -16,3 +16,4 @@ export { MobileInsightsWidget } from './MobileInsightsWidget';
 export { MobileAIGenerator } from './MobileAIGenerator';
 export { MobileLearningHub } from './MobileLearningHub';
 export { MobileProgressTracker } from './MobileProgressTracker';
+export { MobileAIIntegration } from './MobileAIIntegration';
