@@ -1,6 +1,10 @@
-import React from 'react';
-import { Card, CardContent } from "@/components/ui/card";
+import React, { useEffect } from 'react';
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Progress } from "@/components/ui/progress";
+import { Clock, CheckCircle, BookOpen } from "lucide-react";
+import { useAIModuleProgress, useUpdateAIModuleProgress } from "@/hooks/use-ai-progress";
 
 interface MinimalModuleContent {
   lesson: string;
@@ -33,6 +37,8 @@ interface ExistingModuleFormat {
 interface AIModuleViewerProps {
   module: MinimalModuleSchema | ExistingModuleFormat;
   userProgress?: number; // For backward compatibility
+  moduleId?: string; // Required for progress tracking
+  onComplete?: () => void; // Callback when module is completed
 }
 
 const getDifficultyBadgeVariant = (difficulty: string) => {
@@ -48,7 +54,16 @@ const getDifficultyBadgeVariant = (difficulty: string) => {
   }
 };
 
-export const AIModuleViewer: React.FC<AIModuleViewerProps> = ({ module }) => {
+export const AIModuleViewer: React.FC<AIModuleViewerProps> = ({ module, userProgress, moduleId, onComplete }) => {
+  // Progress tracking hooks
+  const aiModuleId = moduleId || (module as any).id;
+  const { data: progressData, isLoading: progressLoading } = useAIModuleProgress(aiModuleId);
+  const updateProgress = useUpdateAIModuleProgress();
+  
+  // Use progress from hook or fallback to prop
+  const currentProgress = progressData?.progress_percentage || userProgress || 0;
+  const isCompleted = progressData?.completed || false;
+  const timeSpent = progressData?.time_spent || 0;
   // Handle both new minimal schema and existing format
   const title = module.title;
   const description = module.description;
@@ -93,6 +108,56 @@ export const AIModuleViewer: React.FC<AIModuleViewerProps> = ({ module }) => {
   const learningObjectives = parsedContent?.learningObjectives || [];
   const realWorldApplications = parsedContent?.realWorldApplications || [];
 
+  // Progress tracking functions
+  const handleMarkAsCompleted = async () => {
+    if (!aiModuleId) return;
+    
+    try {
+      await updateProgress.mutateAsync({
+        aiModuleId,
+        progressPercentage: 100,
+        completed: true,
+        timeSpent: Math.floor(timeSpent / 60) + 30 // Add estimated 30 min reading time
+      });
+      onComplete?.();
+    } catch (error) {
+      console.error('Failed to mark module as completed:', error);
+    }
+  };
+
+  const handleUpdateProgress = async (percentage: number) => {
+    if (!aiModuleId) return;
+    
+    try {
+      await updateProgress.mutateAsync({
+        aiModuleId,
+        progressPercentage: percentage,
+        completed: percentage >= 100,
+        timeSpent: Math.floor(timeSpent / 60) + 10 // Add estimated reading time
+      });
+    } catch (error) {
+      console.error('Failed to update progress:', error);
+    }
+  };
+
+  // Auto-update progress when user scrolls through content
+  useEffect(() => {
+    if (!aiModuleId || isCompleted) return;
+
+    const handleScroll = () => {
+      const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+      const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
+      const scrollPercentage = Math.min((scrollTop / scrollHeight) * 100, 95); // Max 95% from scrolling
+
+      if (scrollPercentage > currentProgress && scrollPercentage > 20) {
+        handleUpdateProgress(Math.floor(scrollPercentage));
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [aiModuleId, currentProgress, isCompleted]);
+
   return (
     <div className="max-w-4xl mx-auto p-6 space-y-8">
       {/* Title - Large, bold, colorful, centered heading */}
@@ -113,6 +178,53 @@ export const AIModuleViewer: React.FC<AIModuleViewerProps> = ({ module }) => {
           </Badge>
         </div>
       </div>
+
+      {/* Progress Card */}
+      {aiModuleId && (
+        <Card className="bg-gradient-to-r from-primary/5 to-secondary/5 border-primary/20">
+          <CardHeader>
+            <CardTitle className="text-lg flex items-center gap-2">
+              <BookOpen className="h-5 w-5" />
+              Learning Progress
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div className="flex items-center justify-between text-sm text-muted-foreground">
+              <span>Progress</span>
+              <span>{Math.round(currentProgress)}%</span>
+            </div>
+            <Progress value={currentProgress} className="h-2" />
+            
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-4 text-sm text-muted-foreground">
+                {timeSpent > 0 && (
+                  <div className="flex items-center gap-1">
+                    <Clock className="h-4 w-4" />
+                    <span>{Math.floor(timeSpent / 60)} min</span>
+                  </div>
+                )}
+                {isCompleted && (
+                  <div className="flex items-center gap-1 text-green-600">
+                    <CheckCircle className="h-4 w-4" />
+                    <span>Completed</span>
+                  </div>
+                )}
+              </div>
+              
+              {!isCompleted && (
+                <Button
+                  onClick={handleMarkAsCompleted}
+                  disabled={updateProgress.isPending}
+                  size="sm"
+                  className="bg-primary hover:bg-primary/90"
+                >
+                  {updateProgress.isPending ? 'Saving...' : 'Mark Complete'}
+                </Button>
+              )}
+            </div>
+          </CardContent>
+        </Card>
+      )}
 
       {/* Main Content Card */}
       <Card className="overflow-hidden">

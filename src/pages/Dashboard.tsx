@@ -232,7 +232,6 @@ const Dashboard: React.FC = () => {
           {isMobile ? (
             // Mobile optimized layout
             <div className="space-y-6">
-              <QuizActivityHeatMap className="w-full" />
               <PersonalizedDashboard />
               <AIModulesPreview />
               <div className="grid grid-cols-1 gap-4">
