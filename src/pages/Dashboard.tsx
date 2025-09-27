@@ -32,7 +32,8 @@ import {
   WeakAreasCard,
   StudyGoalsCard,
   LearningPathCard,
-  AIModulesPreview
+  AIModulesPreview,
+  QuizActivityHeatMap
 } from "@/components/dashboard";
 import { AIInsightsPreview } from "@/components/dashboard/AIInsightsPreview";
 import { ComprehensiveInsightsCard } from "@/components/analytics/ComprehensiveInsightsCard";
@@ -221,11 +222,17 @@ const Dashboard: React.FC = () => {
           </div>
         )}
 
+        {/* Quiz Activity Heat Map */}
+        <div className="mb-8 animate-fade-in-up">
+          <QuizActivityHeatMap className="w-full" />
+        </div>
+
         {/* Personalized Learning Dashboard */}
         <div className="mb-8 animate-fade-in-up">
           {isMobile ? (
             // Mobile optimized layout
             <div className="space-y-6">
+              <QuizActivityHeatMap className="w-full" />
               <PersonalizedDashboard />
               <AIModulesPreview />
               <div className="grid grid-cols-1 gap-4">
