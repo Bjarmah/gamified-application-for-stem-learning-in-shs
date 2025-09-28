@@ -17,6 +17,8 @@ import { KnowledgeGapAnalyzer } from '@/components/analytics/KnowledgeGapAnalyze
 import { LearningPatternsCard } from '@/components/analytics/LearningPatternsCard';
 import { ComprehensiveInsightsCard } from '@/components/analytics/ComprehensiveInsightsCard';
 import { AIInsightsRealtimeUpdater } from '@/components/analytics/AIInsightsRealtimeUpdater';
+import { AdvancedAnalyticsDashboard } from '@/components/analytics/AdvancedAnalyticsDashboard';
+import { RealTimeInsightsWidget } from '@/components/analytics/RealTimeInsightsWidget';
 import { AutomatedStudyPlanner } from '@/components/study-planner/AutomatedStudyPlanner';
 import { PersonalizedTutor } from '@/components/ai-tutor/PersonalizedTutor';
 import { AdaptiveLearningEngine } from '@/components/adaptive-learning/AdaptiveLearningEngine';
@@ -72,6 +74,7 @@ const Analytics: React.FC = () => {
         <Tabs defaultValue="overview" className="space-y-4">
           <TabsList>
             <TabsTrigger value="overview">Overview</TabsTrigger>
+            <TabsTrigger value="advanced">Advanced</TabsTrigger>
             <TabsTrigger value="insights">AI Insights</TabsTrigger>
             <TabsTrigger value="tutor">Personal Tutor</TabsTrigger>
             <TabsTrigger value="adaptive">Adaptive Learning</TabsTrigger>
@@ -83,6 +86,10 @@ const Analytics: React.FC = () => {
 
           <TabsContent value="overview">
             <AnalyticsDashboard />
+          </TabsContent>
+
+          <TabsContent value="advanced">
+            <AdvancedAnalyticsDashboard />
           </TabsContent>
 
             <TabsContent value="insights" className="space-y-6">
@@ -122,6 +129,7 @@ const Analytics: React.FC = () => {
           </TabsContent>
 
           <TabsContent value="realtime" className="space-y-6">
+            <RealTimeInsightsWidget />
             <Card>
               <CardHeader>
                 <CardTitle>Real-time Activity Monitor</CardTitle>
@@ -308,16 +316,29 @@ const Analytics: React.FC = () => {
             </div>
           )}
 
-          {/* Tabbed Interface for Students */}
+          {/* Personal Analytics for Students */}
           <Tabs defaultValue="insights" className="space-y-6">
-            <TabsList className="grid w-full grid-cols-6">
+            <TabsList className="grid w-full grid-cols-7">
               <TabsTrigger value="insights">AI Insights</TabsTrigger>
+              <TabsTrigger value="advanced">Advanced</TabsTrigger>
               <TabsTrigger value="content">Smart Content</TabsTrigger>
               <TabsTrigger value="ai-analytics">AI Analytics</TabsTrigger>
               <TabsTrigger value="tutor">Personal Tutor</TabsTrigger>
               <TabsTrigger value="adaptive">Adaptive Learning</TabsTrigger>
               <TabsTrigger value="scheduler">Study Planner</TabsTrigger>
             </TabsList>
+
+            <TabsContent value="insights">
+              <div className="space-y-6">
+                <LearningInsightsCard />
+                <AIInsightsIntegration />
+                <RealTimeInsightsWidget />
+              </div>
+            </TabsContent>
+
+            <TabsContent value="advanced">
+              <AdvancedAnalyticsDashboard />
+            </TabsContent>
 
             <TabsContent value="content" className="space-y-6">
               <div className="grid gap-6">
