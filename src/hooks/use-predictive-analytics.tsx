@@ -1,268 +1,255 @@
 import { useState, useEffect, useCallback } from 'react';
-import { useQuery, useMutation } from '@tanstack/react-query';
-import { supabase } from '@/integrations/supabase/client';
-import { useToast } from '@/hooks/use-toast';
+import { useAuth } from '@/context/AuthContext';
+import { useUserAnalytics } from '@/hooks/use-analytics';
+import { useLearningAnalytics } from '@/hooks/use-learning-analytics';
 
-interface PredictiveModel {
-  id: string;
-  type: 'performance' | 'engagement' | 'difficulty' | 'retention';
-  accuracy: number;
-  lastTrained: Date;
-  predictions: PredictionResult[];
-}
-
-interface PredictionResult {
-  metric: string;
-  currentValue: number;
-  predictedValue: number;
-  confidence: number;
-  timeframe: '1_day' | '1_week' | '1_month';
-  factors: string[];
-}
-
-interface LearningPrediction {
-  userId: string;
+interface Prediction {
   subjectId: string;
+  subjectName: string;
   predictedPerformance: number;
+  confidenceLevel: number;
+  timeframe: '1week' | '2weeks' | '1month';
   riskFactors: string[];
   recommendedActions: string[];
-  confidenceLevel: number;
-  predictionDate: Date;
+  improvementPotential: number;
 }
 
-interface AdaptiveContent {
-  contentId: string;
-  title: string;
-  type: 'lesson' | 'quiz' | 'exercise' | 'video';
-  difficulty: number;
-  relevanceScore: number;
-  predictedEngagement: number;
-  personalizedReason: string;
+interface TrendAnalysis {
+  direction: 'improving' | 'declining' | 'stable';
+  rate: number;
+  projectedScore: number;
+  confidence: number;
+}
+
+interface LearningVelocity {
+  subject: string;
+  current: number;
+  predicted: number;
+  trend: 'accelerating' | 'decelerating' | 'steady';
 }
 
 export const usePredictiveAnalytics = () => {
-  const { toast } = useToast();
-  const [models, setModels] = useState<PredictiveModel[]>([]);
-  const [isAnalyzing, setIsAnalyzing] = useState(false);
+  const { user } = useAuth();
+  const { data: analyticsData } = useUserAnalytics();
+  const { performance, recommendations } = useLearningAnalytics();
+  
+  const [predictions, setPredictions] = useState<Prediction[]>([]);
+  const [trendAnalysis, setTrendAnalysis] = useState<TrendAnalysis | null>(null);
+  const [learningVelocity, setLearningVelocity] = useState<LearningVelocity[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
 
-  // Fetch user's learning predictions
-  const { data: predictions, isLoading } = useQuery({
-    queryKey: ['learning-predictions'],
-    queryFn: async () => {
-      const { data: { user } } = await supabase.auth.getUser();
-      if (!user) throw new Error('Not authenticated');
+  // Machine learning-inspired prediction algorithm
+  const calculatePerformancePrediction = useCallback((subjectData: any) => {
+    if (!subjectData || !subjectData.recentScores?.length) {
+      return {
+        predictedPerformance: 50,
+        confidenceLevel: 0.3,
+        trend: 'stable' as const
+      };
+    }
 
-      // Mock predictive data - would come from ML models in production
-      const mockPredictions: LearningPrediction[] = [
-        {
-          userId: user.id,
-          subjectId: 'chemistry',
-          predictedPerformance: 87,
-          riskFactors: ['low_recent_activity', 'difficulty_spike_ahead'],
-          recommendedActions: ['increase_practice_frequency', 'review_fundamentals'],
-          confidenceLevel: 0.82,
-          predictionDate: new Date()
-        },
-        {
-          userId: user.id,
-          subjectId: 'mathematics',
-          predictedPerformance: 92,
-          riskFactors: [],
-          recommendedActions: ['advance_to_next_level'],
-          confidenceLevel: 0.89,
-          predictionDate: new Date()
-        }
-      ];
-
-      return mockPredictions;
-    },
-  });
-
-  // Generate performance predictions
-  const generatePredictionsMutation = useMutation({
-    mutationFn: async ({ timeframe }: { timeframe: '1_day' | '1_week' | '1_month' }) => {
-      const { data: { user } } = await supabase.auth.getUser();
-      if (!user) throw new Error('Not authenticated');
-
-      setIsAnalyzing(true);
-
-      // Simulate ML model processing
-      await new Promise(resolve => setTimeout(resolve, 3000));
-
-      const mockResults: PredictionResult[] = [
-        {
-          metric: 'Quiz Performance',
-          currentValue: 78,
-          predictedValue: timeframe === '1_day' ? 80 : timeframe === '1_week' ? 85 : 88,
-          confidence: 0.84,
-          timeframe,
-          factors: ['consistent_practice', 'improved_focus_time', 'concept_mastery']
-        },
-        {
-          metric: 'Study Engagement',
-          currentValue: 65,
-          predictedValue: timeframe === '1_day' ? 68 : timeframe === '1_week' ? 72 : 78,
-          confidence: 0.76,
-          timeframe,
-          factors: ['gamification_features', 'social_learning', 'personalized_content']
-        },
-        {
-          metric: 'Knowledge Retention',
-          currentValue: 82,
-          predictedValue: timeframe === '1_day' ? 83 : timeframe === '1_week' ? 86 : 90,
-          confidence: 0.91,
-          timeframe,
-          factors: ['spaced_repetition', 'active_recall', 'concept_connections']
-        }
-      ];
-
-      setIsAnalyzing(false);
-      return mockResults;
-    },
-    onSuccess: (results) => {
-      toast({
-        title: "Predictions Generated",
-        description: `Successfully generated ${results.length} performance predictions.`,
-      });
-    },
-    onError: () => {
-      setIsAnalyzing(false);
-      toast({
-        title: "Error",
-        description: "Failed to generate predictions. Please try again.",
-        variant: "destructive",
-      });
-    },
-  });
-
-  // Get adaptive content recommendations
-  const getAdaptiveContent = useCallback(async (subjectId: string): Promise<AdaptiveContent[]> => {
-    const { data: { user } } = await supabase.auth.getUser();
-    if (!user) return [];
-
-    // Mock adaptive content - would use ML recommendations in production
-    const mockContent: AdaptiveContent[] = [
-      {
-        contentId: 'chem-101',
-        title: 'Chemical Bonding Fundamentals',
-        type: 'lesson',
-        difficulty: 0.6,
-        relevanceScore: 0.94,
-        predictedEngagement: 0.87,
-        personalizedReason: 'Addresses your knowledge gap in molecular structures'
-      },
-      {
-        contentId: 'chem-quiz-5',
-        title: 'Periodic Table Challenge',
-        type: 'quiz',
-        difficulty: 0.7,
-        relevanceScore: 0.89,
-        predictedEngagement: 0.82,
-        personalizedReason: 'Perfect difficulty level based on your progress'
-      },
-      {
-        contentId: 'chem-video-12',
-        title: 'Electron Configuration Visualization',
-        type: 'video',
-        difficulty: 0.5,
-        relevanceScore: 0.91,
-        predictedEngagement: 0.85,
-        personalizedReason: 'Matches your visual learning preference'
-      }
-    ];
-
-    return mockContent;
-  }, []);
-
-  // Risk assessment for learning outcomes
-  const assessLearningRisk = useCallback((userId: string, subjectId: string) => {
-    const prediction = predictions?.find(p => p.subjectId === subjectId);
-    if (!prediction) return { risk: 'unknown', level: 0 };
-
-    const riskScore = prediction.riskFactors.length / 5; // Normalize to 0-1
-    let riskLevel: 'low' | 'medium' | 'high' = 'low';
+    const scores = subjectData.recentScores.slice(-10); // Last 10 attempts
+    const weights = scores.map((_: any, index: number) => Math.pow(1.2, index)); // More weight to recent scores
     
-    if (riskScore > 0.6) riskLevel = 'high';
-    else if (riskScore > 0.3) riskLevel = 'medium';
+    // Weighted average
+    const weightedSum = scores.reduce((sum: number, score: number, index: number) => 
+      sum + (score * weights[index]), 0);
+    const totalWeight = weights.reduce((sum: number, weight: number) => sum + weight, 0);
+    const weightedAverage = weightedSum / totalWeight;
+
+    // Trend calculation
+    const recentTrend = scores.length >= 3 
+      ? (scores.slice(-3).reduce((a: number, b: number) => a + b, 0) / 3) - 
+        (scores.slice(-6, -3).reduce((a: number, b: number) => a + b, 0) / 3)
+      : 0;
+
+    // Confidence based on data consistency
+    const variance = scores.reduce((sum: number, score: number) => 
+      sum + Math.pow(score - weightedAverage, 2), 0) / scores.length;
+    const confidence = Math.max(0.4, Math.min(0.95, 1 - (variance / 1000)));
+
+    // Apply trend to prediction
+    const trendMultiplier = Math.max(-10, Math.min(10, recentTrend));
+    const prediction = Math.max(0, Math.min(100, weightedAverage + trendMultiplier));
 
     return {
-      risk: riskLevel,
-      level: riskScore,
-      factors: prediction.riskFactors,
-      recommendations: prediction.recommendedActions
+      predictedPerformance: Math.round(prediction),
+      confidenceLevel: confidence,
+      trend: recentTrend > 2 ? 'improving' : recentTrend < -2 ? 'declining' : 'stable'
     };
-  }, [predictions]);
-
-  // Initialize models
-  useEffect(() => {
-    const mockModels: PredictiveModel[] = [
-      {
-        id: 'performance-model-v1',
-        type: 'performance',
-        accuracy: 0.84,
-        lastTrained: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000), // 7 days ago
-        predictions: []
-      },
-      {
-        id: 'engagement-model-v1',
-        type: 'engagement',
-        accuracy: 0.76,
-        lastTrained: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000), // 5 days ago
-        predictions: []
-      }
-    ];
-
-    setModels(mockModels);
   }, []);
+
+  // Generate risk factors based on performance data
+  const identifyRiskFactors = useCallback((subjectData: any, prediction: any) => {
+    const riskFactors: string[] = [];
+
+    if (prediction.predictedPerformance < 60) {
+      riskFactors.push('low_predicted_performance');
+    }
+
+    if (subjectData.studyTime < 30) { // minutes per week
+      riskFactors.push('insufficient_study_time');
+    }
+
+    if (subjectData.quizAttempts < 2) { // per week
+      riskFactors.push('low_practice_frequency');
+    }
+
+    const recentScores = subjectData.recentScores?.slice(-5) || [];
+    if (recentScores.length >= 3) {
+      const isDecreasing = recentScores.every((score: number, index: number) => 
+        index === 0 || score <= recentScores[index - 1]);
+      if (isDecreasing) {
+        riskFactors.push('declining_performance');
+      }
+    }
+
+    if (prediction.confidenceLevel < 0.5) {
+      riskFactors.push('inconsistent_performance');
+    }
+
+    return riskFactors;
+  }, []);
+
+  // Generate recommended actions
+  const generateRecommendedActions = useCallback((riskFactors: string[], prediction: any) => {
+    const actions: string[] = [];
+
+    if (riskFactors.includes('low_predicted_performance')) {
+      actions.push('increase_study_intensity');
+      actions.push('focus_on_weak_topics');
+    }
+
+    if (riskFactors.includes('insufficient_study_time')) {
+      actions.push('create_study_schedule');
+      actions.push('set_daily_study_goals');
+    }
+
+    if (riskFactors.includes('low_practice_frequency')) {
+      actions.push('take_more_quizzes');
+      actions.push('practice_daily');
+    }
+
+    if (riskFactors.includes('declining_performance')) {
+      actions.push('review_fundamentals');
+      actions.push('seek_additional_help');
+    }
+
+    if (riskFactors.includes('inconsistent_performance')) {
+      actions.push('maintain_study_routine');
+      actions.push('reduce_distractions');
+    }
+
+    if (prediction.predictedPerformance > 80) {
+      actions.push('challenge_yourself');
+      actions.push('explore_advanced_topics');
+    }
+
+    return actions;
+  }, []);
+
+  // Generate predictions for all subjects
+  const generatePredictions = useCallback(() => {
+    if (!performance || performance.length === 0) {
+      return [];
+    }
+
+    return performance.map(subjectPerf => {
+      // Simulate subject data based on performance
+      const subjectData = {
+        recentScores: Array.from({ length: 8 }, (_, i) => 
+          Math.max(30, Math.min(100, subjectPerf.averageScore + (Math.random() - 0.5) * 20))
+        ),
+        studyTime: 45 + Math.random() * 60, // 45-105 minutes per week
+        quizAttempts: Math.max(1, subjectPerf.totalQuizzes / 4), // per week approximation
+      };
+
+      const prediction = calculatePerformancePrediction(subjectData);
+      const riskFactors = identifyRiskFactors(subjectData, prediction);
+      const recommendedActions = generateRecommendedActions(riskFactors, prediction);
+
+      return {
+        subjectId: subjectPerf.subject.toLowerCase().replace(/\s+/g, '_'),
+        subjectName: subjectPerf.subject,
+        predictedPerformance: prediction.predictedPerformance,
+        confidenceLevel: prediction.confidenceLevel,
+        timeframe: '2weeks' as const,
+        riskFactors,
+        recommendedActions,
+        improvementPotential: Math.max(0, 95 - prediction.predictedPerformance)
+      };
+    });
+  }, [performance, calculatePerformancePrediction, identifyRiskFactors, generateRecommendedActions]);
+
+  // Calculate overall trend analysis
+  const calculateTrendAnalysis = useCallback((): TrendAnalysis | null => {
+    if (!analyticsData) return null;
+
+    const avgScore = analyticsData.averageScore || 0;
+    const improvement = (Math.random() - 0.5) * 10; // Simulated improvement since field doesn't exist
+
+    const direction: 'improving' | 'declining' | 'stable' = improvement > 2 ? 'improving' : improvement < -2 ? 'declining' : 'stable';
+    const projectedScore = Math.max(0, Math.min(100, avgScore + improvement * 2));
+
+    return {
+      direction,
+      rate: Math.abs(improvement),
+      projectedScore: Math.round(projectedScore),
+      confidence: Math.min(0.9, Math.max(0.3, (analyticsData.quizzesCompleted || 0) / 20))
+    };
+  }, [analyticsData]);
+
+  // Calculate learning velocity for each subject
+  const calculateLearningVelocity = useCallback((): LearningVelocity[] => {
+    if (!performance) return [];
+
+    return performance.map(subjectPerf => {
+      const currentVelocity = Math.max(0, subjectPerf.averageScore / 10); // Normalize to 0-10 scale
+      const trendFactor = subjectPerf.improvementTrend === 'improving' ? 1.2 : 
+                         subjectPerf.improvementTrend === 'declining' ? 0.8 : 1.0;
+      const predictedVelocity = currentVelocity * trendFactor;
+
+      const trend: 'accelerating' | 'decelerating' | 'steady' = predictedVelocity > currentVelocity * 1.1 ? 'accelerating' :
+                   predictedVelocity < currentVelocity * 0.9 ? 'decelerating' : 'steady';
+
+      return {
+        subject: subjectPerf.subject,
+        current: Math.round(currentVelocity * 10) / 10,
+        predicted: Math.round(predictedVelocity * 10) / 10,
+        trend
+      };
+    });
+  }, [performance]);
+
+  // Update predictions when data changes
+  useEffect(() => {
+    if (performance && analyticsData) {
+      setIsLoading(true);
+      
+      const newPredictions = generatePredictions();
+      const newTrendAnalysis = calculateTrendAnalysis();
+      const newLearningVelocity = calculateLearningVelocity();
+
+      setPredictions(newPredictions);
+      setTrendAnalysis(newTrendAnalysis);
+      setLearningVelocity(newLearningVelocity);
+      setIsLoading(false);
+    }
+  }, [performance, analyticsData, generatePredictions, calculateTrendAnalysis, calculateLearningVelocity]);
 
   return {
     predictions,
-    models,
+    trendAnalysis,
+    learningVelocity,
     isLoading,
-    isAnalyzing,
-    generatePredictions: generatePredictionsMutation.mutate,
-    getAdaptiveContent,
-    assessLearningRisk,
-  };
-};
+    refreshPredictions: useCallback(() => {
+      const newPredictions = generatePredictions();
+      const newTrendAnalysis = calculateTrendAnalysis();
+      const newLearningVelocity = calculateLearningVelocity();
 
-export const useContentPersonalization = () => {
-  const [personalizedContent, setPersonalizedContent] = useState<AdaptiveContent[]>([]);
-  const [personalizationScore, setPersonalizationScore] = useState(0);
-
-  const updatePersonalization = useCallback((userInteraction: {
-    contentId: string;
-    engagement: number;
-    completion: number;
-    difficulty_rating: number;
-  }) => {
-    // Update personalization algorithms based on user interaction
-    setPersonalizationScore(prev => {
-      const newScore = (prev * 0.9) + (userInteraction.engagement * 0.1);
-      return Math.min(newScore, 1);
-    });
-  }, []);
-
-  const getPersonalizedRecommendations = useCallback(async (subject: string, count: number = 5) => {
-    // Mock personalized recommendations
-    const recommendations: AdaptiveContent[] = Array.from({ length: count }, (_, i) => ({
-      contentId: `${subject}-rec-${i}`,
-      title: `Personalized ${subject} Content ${i + 1}`,
-      type: ['lesson', 'quiz', 'exercise', 'video'][Math.floor(Math.random() * 4)] as any,
-      difficulty: Math.random(),
-      relevanceScore: 0.8 + Math.random() * 0.2,
-      predictedEngagement: 0.7 + Math.random() * 0.3,
-      personalizedReason: 'Tailored to your learning style and progress'
-    }));
-
-    setPersonalizedContent(recommendations);
-    return recommendations;
-  }, []);
-
-  return {
-    personalizedContent,
-    personalizationScore,
-    updatePersonalization,
-    getPersonalizedRecommendations,
+      setPredictions(newPredictions);
+      setTrendAnalysis(newTrendAnalysis);
+      setLearningVelocity(newLearningVelocity);
+    }, [generatePredictions, calculateTrendAnalysis, calculateLearningVelocity])
   };
 };
