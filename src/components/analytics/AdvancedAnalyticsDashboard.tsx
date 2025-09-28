@@ -434,9 +434,9 @@ export const AdvancedAnalyticsDashboard: React.FC = () => {
               <CardContent className="space-y-4">
                 {/* Mock peak hours data since cognitivePatterns is an array */}
                 {[
-                  { time: '9:00 AM', performance: 95 },
-                  { time: '2:00 PM', performance: 85 },
-                  { time: '7:00 PM', performance: 78 }
+                  { time: '9:00 AM', efficiency: 95, type: 'Peak Focus' },
+                  { time: '2:00 PM', efficiency: 85, type: 'Afternoon Study' },
+                  { time: '7:00 PM', efficiency: 78, type: 'Evening Review' }
                 ].map((hour, index) => (
                   <motion.div
                     key={hour.time}
