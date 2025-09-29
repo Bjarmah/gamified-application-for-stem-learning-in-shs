@@ -5,7 +5,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "@/context/AuthContext";
-import { ThemeProvider } from "@/context/ThemeContext";
+import { ThemeProvider } from "next-themes";
 import { QuizProvider } from "@/context/QuizContext";
 import { OfflineProvider } from "@/context/OfflineContext";
 import { NotificationProvider } from "@/context/NotificationContext";
@@ -53,7 +53,7 @@ const queryClient = new QueryClient({
 function App() {
   return (
     <QueryClientProvider client={queryClient}>
-      <ThemeProvider>
+      <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
         <AuthProvider>
           <SessionTimeoutWrapper>
             <QuizProvider>

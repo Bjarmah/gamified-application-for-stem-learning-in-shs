@@ -29,7 +29,7 @@ import {
   Globe,
   HelpCircle
 } from 'lucide-react';
-import { useTheme } from '@/context/ThemeContext';
+import { useTheme } from 'next-themes';
 import { useAuth } from '@/context/AuthContext';
 import { useToast } from '@/hooks/use-toast';
 import { useMobileUtils } from '@/hooks/use-mobile-utils';
