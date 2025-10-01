@@ -12,6 +12,7 @@ export interface QuizQuestionType {
   options: string[];
   correctOption: number;
   explanation?: string;
+  difficulty?: 'beginner' | 'intermediate' | 'advanced';
 }
 
 interface QuizQuestionProps {
