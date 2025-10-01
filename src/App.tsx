@@ -30,6 +30,7 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import TeacherQuizzes from "./pages/TeacherQuizzes";
 import ContentManagement from "./pages/ContentManagement";
+import StudyHub from "./pages/StudyHub";
 import Settings from "./pages/Settings";
 import Quiz from "./pages/Quiz";
 import ModuleRedirect from "./pages/ModuleRedirect";
@@ -87,6 +88,7 @@ function App() {
                         <Route path="virtual-lab" element={<VirtualLab />} />
                         <Route path="teacher/quizzes" element={<TeacherQuizzes />} />
                         <Route path="content-management" element={<ContentManagement />} />
+                        <Route path="study-hub" element={<StudyHub />} />
                         <Route path="quizzes/:quizId" element={<Quiz />} />
                         <Route path="modules/:moduleId" element={<ModuleRedirect />} />
 
