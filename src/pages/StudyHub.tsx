@@ -15,7 +15,7 @@ const StudyHub: React.FC = () => {
       </div>
 
       <Tabs defaultValue="assistant" className="w-full">
-        <TabsList className="grid w-full grid-cols-3">
+        <TabsList className="grid w-full grid-cols-2">
           <TabsTrigger value="assistant">
             <Brain className="h-4 w-4 mr-2" />
             AI Assistant
@@ -23,10 +23,6 @@ const StudyHub: React.FC = () => {
           <TabsTrigger value="gamification">
             <Trophy className="h-4 w-4 mr-2" />
             Challenges
-          </TabsTrigger>
-          <TabsTrigger value="goals">
-            <Target className="h-4 w-4 mr-2" />
-            Study Goals
           </TabsTrigger>
         </TabsList>
 
@@ -36,13 +32,6 @@ const StudyHub: React.FC = () => {
 
         <TabsContent value="gamification" className="mt-6">
           <AdvancedGamification />
-        </TabsContent>
-
-        <TabsContent value="goals" className="mt-6">
-          <div className="text-center py-12 text-muted-foreground">
-            <Target className="h-12 w-12 mx-auto mb-4" />
-            <p>Study goals feature coming soon!</p>
-          </div>
         </TabsContent>
       </Tabs>
     </div>

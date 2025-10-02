@@ -31,6 +31,7 @@ import Register from "./pages/Register";
 import TeacherQuizzes from "./pages/TeacherQuizzes";
 import ContentManagement from "./pages/ContentManagement";
 import StudyHub from "./pages/StudyHub";
+import Insights from "./pages/Insights";
 import Settings from "./pages/Settings";
 import Quiz from "./pages/Quiz";
 import ModuleRedirect from "./pages/ModuleRedirect";
@@ -89,6 +90,7 @@ function App() {
                         <Route path="teacher/quizzes" element={<TeacherQuizzes />} />
                         <Route path="content-management" element={<ContentManagement />} />
                         <Route path="study-hub" element={<StudyHub />} />
+                        <Route path="insights" element={<Insights />} />
                         <Route path="quizzes/:quizId" element={<Quiz />} />
                         <Route path="modules/:moduleId" element={<ModuleRedirect />} />
 

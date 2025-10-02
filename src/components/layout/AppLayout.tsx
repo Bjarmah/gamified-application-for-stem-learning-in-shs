@@ -18,7 +18,8 @@ import {
   BarChart3,
   Menu,
   X,
-  Brain
+  Brain,
+  TrendingUp
 } from "lucide-react";
 import { useState } from "react";
 import SearchButton from "./SearchButton";
@@ -51,6 +52,7 @@ const AppLayout = () => {
   // Secondary navigation items for mobile menu
   const secondaryNavItems = [
     { path: "/study-hub", label: "Study Hub", icon: Brain },
+    { path: "/insights", label: "Insights", icon: TrendingUp },
     { path: "/achievements", label: "Achievements", icon: Trophy },
     { path: "/leaderboard", label: "Leaderboard", icon: GraduationCap },
     { path: "/analytics", label: "Analytics", icon: BarChart3 },
