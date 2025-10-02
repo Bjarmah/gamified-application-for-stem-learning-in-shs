@@ -5,6 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useAuth } from "@/context/AuthContext";
 import { useNavigate } from "react-router-dom";
+import { TeacherAnalyticsDashboard } from '@/components/analytics/TeacherAnalyticsDashboard';
 import {
     BookOpen,
     Plus,
@@ -238,109 +239,7 @@ const AdminDashboard = () => {
                 </TabsContent>
 
                 <TabsContent value="analytics" className="space-y-6">
-                    <Card>
-                        <CardHeader>
-                            <CardTitle>Analytics Dashboard</CardTitle>
-                            <CardDescription>
-                                View detailed analytics and reports
-                            </CardDescription>
-                        </CardHeader>
-                        <CardContent>
-                            <div className="space-y-4">
-                                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-                                    <Card>
-                                        <CardHeader className="pb-2">
-                                            <CardTitle className="text-sm">Daily Active Users</CardTitle>
-                                        </CardHeader>
-                                        <CardContent>
-                                            <div className="text-2xl font-bold">456</div>
-                                            <p className="text-xs text-muted-foreground">+8% from yesterday</p>
-                                        </CardContent>
-                                    </Card>
-                                    <Card>
-                                        <CardHeader className="pb-2">
-                                            <CardTitle className="text-sm">Avg. Session Time</CardTitle>
-                                        </CardHeader>
-                                        <CardContent>
-                                            <div className="text-2xl font-bold">24m</div>
-                                            <p className="text-xs text-muted-foreground">+3m from last week</p>
-                                        </CardContent>
-                                    </Card>
-                                    <Card>
-                                        <CardHeader className="pb-2">
-                                            <CardTitle className="text-sm">Course Completions</CardTitle>
-                                        </CardHeader>
-                                        <CardContent>
-                                            <div className="text-2xl font-bold">89</div>
-                                            <p className="text-xs text-muted-foreground">This week</p>
-                                        </CardContent>
-                                    </Card>
-                                    <Card>
-                                        <CardHeader className="pb-2">
-                                            <CardTitle className="text-sm">Quiz Success Rate</CardTitle>
-                                        </CardHeader>
-                                        <CardContent>
-                                            <div className="text-2xl font-bold">73%</div>
-                                            <p className="text-xs text-muted-foreground">+5% improvement</p>
-                                        </CardContent>
-                                    </Card>
-                                </div>
-                                
-                                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                    <Card>
-                                        <CardHeader>
-                                            <CardTitle className="text-sm">Popular Subjects</CardTitle>
-                                        </CardHeader>
-                                        <CardContent>
-                                            <div className="space-y-2">
-                                                {[
-                                                    { subject: 'Mathematics', users: 342, percentage: 85 },
-                                                    { subject: 'Physics', users: 298, percentage: 72 },
-                                                    { subject: 'Chemistry', users: 256, percentage: 62 },
-                                                    { subject: 'Biology', users: 189, percentage: 45 }
-                                                ].map((item, index) => (
-                                                    <div key={index} className="flex items-center justify-between">
-                                                        <span className="text-sm">{item.subject}</span>
-                                                        <div className="flex items-center gap-2">
-                                                            <div className="w-16 bg-muted rounded-full h-2">
-                                                                <div 
-                                                                    className="bg-primary h-2 rounded-full" 
-                                                                    style={{ width: `${item.percentage}%` }}
-                                                                />
-                                                            </div>
-                                                            <span className="text-xs text-muted-foreground">{item.users}</span>
-                                                        </div>
-                                                    </div>
-                                                ))}
-                                            </div>
-                                        </CardContent>
-                                    </Card>
-                                    
-                                    <Card>
-                                        <CardHeader>
-                                            <CardTitle className="text-sm">Learning Progress</CardTitle>
-                                        </CardHeader>
-                                        <CardContent>
-                                            <div className="space-y-3">
-                                                <div className="flex justify-between">
-                                                    <span className="text-sm">Beginner</span>
-                                                    <span className="text-sm font-medium">45%</span>
-                                                </div>
-                                                <div className="flex justify-between">
-                                                    <span className="text-sm">Intermediate</span>
-                                                    <span className="text-sm font-medium">32%</span>
-                                                </div>
-                                                <div className="flex justify-between">
-                                                    <span className="text-sm">Advanced</span>
-                                                    <span className="text-sm font-medium">23%</span>
-                                                </div>
-                                            </div>
-                                        </CardContent>
-                                    </Card>
-                                </div>
-                            </div>
-                        </CardContent>
-                    </Card>
+                    <TeacherAnalyticsDashboard />
                 </TabsContent>
 
                 <TabsContent value="settings" className="space-y-6">

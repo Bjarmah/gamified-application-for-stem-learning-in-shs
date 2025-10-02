@@ -14,3 +14,4 @@ export { AIContentAnalytics } from './AIContentAnalytics';
 export { AIContentInsights } from './AIContentInsights';
 export { AdvancedAnalyticsDashboard } from './AdvancedAnalyticsDashboard';
 export { default as RealTimeInsightsWidget } from './RealTimeInsightsWidget';
+export { TeacherAnalyticsDashboard } from './TeacherAnalyticsDashboard';
