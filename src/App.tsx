@@ -12,6 +12,7 @@ import { NotificationProvider } from "@/context/NotificationContext";
 import { RewardToast } from "@/components/gamification/RewardToast";
 import { PWAInstallPrompt } from "@/components/mobile";
 import { MobileTabNavigation } from "./components/mobile";
+import { PerformanceMonitor } from "@/components/performance";
 import SessionTimeoutWrapper from "./components/auth/SessionTimeoutWrapper";
 import AppLayout from "@/components/layout/AppLayout";
 import Index from "./pages/Index";
@@ -108,6 +109,7 @@ function App() {
           </QuizProvider>
           </SessionTimeoutWrapper>
         </AuthProvider>
+        <PerformanceMonitor />
       </ThemeProvider>
     </QueryClientProvider>
   );
