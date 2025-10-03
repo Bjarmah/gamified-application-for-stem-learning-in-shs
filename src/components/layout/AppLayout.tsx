@@ -19,7 +19,8 @@ import {
   Menu,
   X,
   Brain,
-  TrendingUp
+  TrendingUp,
+  Sparkles
 } from "lucide-react";
 import { useState } from "react";
 import SearchButton from "./SearchButton";
@@ -53,6 +54,7 @@ const AppLayout = () => {
   const secondaryNavItems = [
     { path: "/study-hub", label: "Study Hub", icon: Brain },
     { path: "/insights", label: "Insights", icon: TrendingUp },
+    { path: "/ai-assistant", label: "AI Assistant", icon: Sparkles },
     { path: "/achievements", label: "Achievements", icon: Trophy },
     { path: "/leaderboard", label: "Leaderboard", icon: GraduationCap },
     { path: "/analytics", label: "Analytics", icon: BarChart3 },

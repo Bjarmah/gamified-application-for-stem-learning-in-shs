@@ -1,4 +1,5 @@
 export { AIInsightsNotificationCenter } from './AIInsightsNotificationCenter';
+export { AINotificationCenter } from './AINotificationCenter';
 export { NotificationBell } from './NotificationBell';
 export { default as NotificationItem } from './NotificationItem';
 export { NotificationToast } from './NotificationToast';
