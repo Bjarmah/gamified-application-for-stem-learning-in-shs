@@ -86,6 +86,98 @@ export type Database = {
         }
         Relationships: []
       }
+      ai_generated_modules: {
+        Row: {
+          ai_model_used: string | null
+          approved_at: string | null
+          approved_by: string | null
+          content: string
+          created_at: string
+          curriculum_alignment: string | null
+          description: string | null
+          difficulty_level: string
+          educator_approved: boolean | null
+          educator_notes: string | null
+          estimated_duration: number | null
+          exercises: Json | null
+          generated_by_ai: boolean
+          generation_prompt: string | null
+          id: string
+          is_active: boolean | null
+          learning_objectives: Json | null
+          prerequisites: Json | null
+          rating: number | null
+          subject_id: string | null
+          target_user_id: string | null
+          title: string
+          updated_at: string
+          usage_count: number | null
+          user_analytics_snapshot: Json | null
+        }
+        Insert: {
+          ai_model_used?: string | null
+          approved_at?: string | null
+          approved_by?: string | null
+          content: string
+          created_at?: string
+          curriculum_alignment?: string | null
+          description?: string | null
+          difficulty_level?: string
+          educator_approved?: boolean | null
+          educator_notes?: string | null
+          estimated_duration?: number | null
+          exercises?: Json | null
+          generated_by_ai?: boolean
+          generation_prompt?: string | null
+          id?: string
+          is_active?: boolean | null
+          learning_objectives?: Json | null
+          prerequisites?: Json | null
+          rating?: number | null
+          subject_id?: string | null
+          target_user_id?: string | null
+          title: string
+          updated_at?: string
+          usage_count?: number | null
+          user_analytics_snapshot?: Json | null
+        }
+        Update: {
+          ai_model_used?: string | null
+          approved_at?: string | null
+          approved_by?: string | null
+          content?: string
+          created_at?: string
+          curriculum_alignment?: string | null
+          description?: string | null
+          difficulty_level?: string
+          educator_approved?: boolean | null
+          educator_notes?: string | null
+          estimated_duration?: number | null
+          exercises?: Json | null
+          generated_by_ai?: boolean
+          generation_prompt?: string | null
+          id?: string
+          is_active?: boolean | null
+          learning_objectives?: Json | null
+          prerequisites?: Json | null
+          rating?: number | null
+          subject_id?: string | null
+          target_user_id?: string | null
+          title?: string
+          updated_at?: string
+          usage_count?: number | null
+          user_analytics_snapshot?: Json | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "ai_generated_modules_subject_id_fkey"
+            columns: ["subject_id"]
+            isOneToOne: false
+            referencedRelation: "subjects"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       badges: {
         Row: {
           category: string
@@ -132,6 +224,66 @@ export type Database = {
         Relationships: [
           {
             foreignKeyName: "badges_subject_id_fkey"
+            columns: ["subject_id"]
+            isOneToOne: false
+            referencedRelation: "subjects"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      content_generation_requests: {
+        Row: {
+          completed_at: string | null
+          created_at: string
+          difficulty_level: string
+          error_message: string | null
+          generated_module_id: string | null
+          generation_status: string | null
+          id: string
+          learning_context: Json | null
+          processing_time_ms: number | null
+          subject_id: string | null
+          topic: string
+          user_id: string
+        }
+        Insert: {
+          completed_at?: string | null
+          created_at?: string
+          difficulty_level: string
+          error_message?: string | null
+          generated_module_id?: string | null
+          generation_status?: string | null
+          id?: string
+          learning_context?: Json | null
+          processing_time_ms?: number | null
+          subject_id?: string | null
+          topic: string
+          user_id: string
+        }
+        Update: {
+          completed_at?: string | null
+          created_at?: string
+          difficulty_level?: string
+          error_message?: string | null
+          generated_module_id?: string | null
+          generation_status?: string | null
+          id?: string
+          learning_context?: Json | null
+          processing_time_ms?: number | null
+          subject_id?: string | null
+          topic?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "content_generation_requests_generated_module_id_fkey"
+            columns: ["generated_module_id"]
+            isOneToOne: false
+            referencedRelation: "ai_generated_modules"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "content_generation_requests_subject_id_fkey"
             columns: ["subject_id"]
             isOneToOne: false
             referencedRelation: "subjects"
@@ -856,10 +1008,7 @@ export type Database = {
         }
         Returns: Json
       }
-      calculate_level_from_xp: {
-        Args: { xp: number }
-        Returns: number
-      }
+      calculate_level_from_xp: { Args: { xp: number }; Returns: number }
       complete_quiz_session: {
         Args: { quiz_id_param: string }
         Returns: boolean
@@ -875,22 +1024,17 @@ export type Database = {
         }
         Returns: string
       }
-      generate_room_code: {
-        Args: Record<PropertyKey, never>
+      determine_content_difficulty: {
+        Args: { subject_name: string; target_user_id: string }
         Returns: string
       }
-      get_knowledge_gaps: {
-        Args: { target_user_id: string }
-        Returns: Json
-      }
+      generate_room_code: { Args: never; Returns: string }
+      get_knowledge_gaps: { Args: { target_user_id: string }; Returns: Json }
       get_learning_time_patterns: {
         Args: { target_user_id: string }
         Returns: Json
       }
-      get_quiz_questions: {
-        Args: { quiz_id_param: string }
-        Returns: Json
-      }
+      get_quiz_questions: { Args: { quiz_id_param: string }; Returns: Json }
       get_user_analytics_data: {
         Args: { target_user_id: string }
         Returns: Json
@@ -899,10 +1043,7 @@ export type Database = {
         Args: { user_uuid: string }
         Returns: undefined
       }
-      is_admin: {
-        Args: Record<PropertyKey, never>
-        Returns: boolean
-      }
+      is_admin: { Args: never; Returns: boolean }
       join_room_by_code: {
         Args: { room_code_input: string; user_id_input: string }
         Returns: boolean
@@ -928,10 +1069,7 @@ export type Database = {
         }
         Returns: string
       }
-      start_quiz_session: {
-        Args: { quiz_id_param: string }
-        Returns: string
-      }
+      start_quiz_session: { Args: { quiz_id_param: string }; Returns: string }
       validate_quiz_answers: {
         Args: { quiz_id_param: string; user_answers: Json }
         Returns: Json

@@ -1,19 +1,27 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useCallback, useMemo } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Badge } from '@/components/ui/badge';
+import { Avatar, AvatarFallback } from '@/components/ui/avatar';
+import { Send, Loader2, Sparkles, X } from 'lucide-react';
 import { useAIService } from '@/hooks/use-ai-service';
 import { useLearningAnalytics } from '@/hooks/use-learning-analytics';
-import { MessageSquare, Send, Loader2, Sparkles, X } from 'lucide-react';
-import { Avatar, AvatarFallback } from '@/components/ui/avatar';
+import { ChatMessage } from './ChatMessage';
 
 interface Message {
   role: 'user' | 'assistant';
   content: string;
   timestamp: Date;
 }
+
+const WELCOME_MESSAGES = {
+  general: "Hi! I'm your AI study assistant. Ask me anything about your learning!",
+  quiz: "I'm here to help you with this quiz. Need clarification on any questions?",
+  module: "Let me help you understand this module better. What would you like to know?",
+  study: "Ready to study? I can help you review and understand complex topics!"
+} as const;
 
 interface EnhancedAIChatbotProps {
   context?: 'general' | 'quiz' | 'module' | 'study';
@@ -33,21 +41,18 @@ export const EnhancedAIChatbot: React.FC<EnhancedAIChatbotProps> = ({
   const { generatePersonalizedTutoring, isLoading } = useAIService();
   const { performance, recommendations } = useLearningAnalytics();
 
-  useEffect(() => {
-    // Welcome message based on context
-    const welcomeMessages = {
-      general: "Hi! I'm your AI study assistant. Ask me anything about your learning!",
-      quiz: "I'm here to help you with this quiz. Need clarification on any questions?",
-      module: "Let me help you understand this module better. What would you like to know?",
-      study: "Ready to study? I can help you review and understand complex topics!"
-    };
+  const welcomeMessage = useMemo(
+    () => ({
+      role: 'assistant' as const,
+      content: WELCOME_MESSAGES[context],
+      timestamp: new Date(),
+    }),
+    [context]
+  );
 
-    setMessages([{
-      role: 'assistant',
-      content: welcomeMessages[context],
-      timestamp: new Date()
-    }]);
-  }, [context]);
+  useEffect(() => {
+    setMessages([welcomeMessage]);
+  }, [welcomeMessage]);
 
   useEffect(() => {
     if (scrollRef.current) {
@@ -55,7 +60,7 @@ export const EnhancedAIChatbot: React.FC<EnhancedAIChatbotProps> = ({
     }
   }, [messages, isTyping]);
 
-  const handleSend = async () => {
+  const handleSend = useCallback(async () => {
     if (!input.trim() || isLoading) return;
 
     const userMessage: Message = {
@@ -85,14 +90,14 @@ export const EnhancedAIChatbot: React.FC<EnhancedAIChatbotProps> = ({
     } finally {
       setIsTyping(false);
     }
-  };
+  }, [input, isLoading, generatePersonalizedTutoring, performance, recommendations, contextData, context]);
 
-  const handleKeyPress = (e: React.KeyboardEvent) => {
+  const handleKeyPress = useCallback((e: React.KeyboardEvent) => {
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault();
       handleSend();
     }
-  };
+  }, [handleSend]);
 
   return (
     <Card className="flex flex-col h-full">
@@ -116,40 +121,7 @@ export const EnhancedAIChatbot: React.FC<EnhancedAIChatbotProps> = ({
         <ScrollArea className="flex-1 pr-4" ref={scrollRef}>
           <div className="space-y-4">
             {messages.map((message, i) => (
-              <div
-                key={i}
-                className={`flex gap-3 ${
-                  message.role === 'user' ? 'justify-end' : 'justify-start'
-                }`}
-              >
-                {message.role === 'assistant' && (
-                  <Avatar className="h-8 w-8">
-                    <AvatarFallback className="bg-primary text-primary-foreground">
-                      AI
-                    </AvatarFallback>
-                  </Avatar>
-                )}
-                <div
-                  className={`rounded-lg px-4 py-2 max-w-[80%] ${
-                    message.role === 'user'
-                      ? 'bg-primary text-primary-foreground'
-                      : 'bg-muted'
-                  }`}
-                >
-                  <p className="text-sm whitespace-pre-wrap">{message.content}</p>
-                  <p className="text-xs opacity-70 mt-1">
-                    {message.timestamp.toLocaleTimeString([], {
-                      hour: '2-digit',
-                      minute: '2-digit'
-                    })}
-                  </p>
-                </div>
-                {message.role === 'user' && (
-                  <Avatar className="h-8 w-8">
-                    <AvatarFallback>You</AvatarFallback>
-                  </Avatar>
-                )}
-              </div>
+              <ChatMessage key={i} {...message} />
             ))}
             {isTyping && (
               <div className="flex gap-3 justify-start">
