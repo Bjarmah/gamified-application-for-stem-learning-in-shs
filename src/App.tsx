@@ -74,36 +74,35 @@ function App() {
                       <Route path="/" element={<Index />} />
                       <Route path="/login" element={<Login />} />
                       <Route path="/register" element={<Register />} />
-                      <Route path="/*" element={<ProtectedRoute><AppLayout /></ProtectedRoute>}>
-                        <Route path="dashboard" element={<Dashboard />} />
-                        <Route path="subjects" element={<Subjects />} />
-                        <Route path="subjects/:subjectId" element={<SubjectDetail />} />
-                        <Route path="subjects/:subjectId/:moduleId" element={<ModuleDetail />} />
-                        <Route path="search" element={<Search />} />
-                        <Route path="communities" element={<Communities />} />
-                        <Route path="rooms" element={<Rooms />} />
-                        <Route path="rooms/:roomId" element={<RoomDetail />} />
-                        <Route path="achievements" element={<Achievements />} />
-                        <Route path="leaderboard" element={<Leaderboard />} />
-                        <Route path="analytics" element={<Analytics />} />
-                        <Route path="profile" element={<Profile />} />
-                        <Route path="settings" element={<Settings />} />
-                        <Route path="virtual-lab" element={<VirtualLab />} />
-                        <Route path="teacher/quizzes" element={<TeacherQuizzes />} />
-                        <Route path="content-management" element={<ContentManagement />} />
-                        <Route path="study-hub" element={<StudyHub />} />
-                        <Route path="insights" element={<Insights />} />
-                        <Route path="ai-assistant" element={<AIAssistant />} />
-                        <Route path="quizzes/:quizId" element={<Quiz />} />
-                        <Route path="modules/:moduleId" element={<ModuleRedirect />} />
+                      <Route element={<ProtectedRoute><AppLayout /></ProtectedRoute>}>
+                        <Route path="/dashboard" element={<Dashboard />} />
+                        <Route path="/subjects" element={<Subjects />} />
+                        <Route path="/subjects/:subjectId" element={<SubjectDetail />} />
+                        <Route path="/subjects/:subjectId/:moduleId" element={<ModuleDetail />} />
+                        <Route path="/search" element={<Search />} />
+                        <Route path="/communities" element={<Communities />} />
+                        <Route path="/rooms" element={<Rooms />} />
+                        <Route path="/rooms/:roomId" element={<RoomDetail />} />
+                        <Route path="/achievements" element={<Achievements />} />
+                        <Route path="/leaderboard" element={<Leaderboard />} />
+                        <Route path="/analytics" element={<Analytics />} />
+                        <Route path="/profile" element={<Profile />} />
+                        <Route path="/settings" element={<Settings />} />
+                        <Route path="/virtual-lab" element={<VirtualLab />} />
+                        <Route path="/teacher/quizzes" element={<TeacherQuizzes />} />
+                        <Route path="/content-management" element={<ContentManagement />} />
+                        <Route path="/study-hub" element={<StudyHub />} />
+                        <Route path="/insights" element={<Insights />} />
+                        <Route path="/ai-assistant" element={<AIAssistant />} />
+                        <Route path="/quizzes/:quizId" element={<Quiz />} />
+                        <Route path="/modules/:moduleId" element={<ModuleRedirect />} />
 
                         {/* Admin Routes */}
-                        <Route path="admin" element={<AdminDashboard />} />
-                        <Route path="admin/subjects" element={<AdminSubjects />} />
+                        <Route path="/admin" element={<AdminDashboard />} />
+                        <Route path="/admin/subjects" element={<AdminSubjects />} />
                       </Route>
                       <Route path="*" element={<NotFound />} />
-        </Routes>
-        <MobileTabNavigation />
+                    </Routes>
                   </BrowserRouter>
                 </TooltipProvider>
               </NotificationProvider>
