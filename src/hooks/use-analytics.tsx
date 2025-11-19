@@ -221,7 +221,7 @@ export const useStudentAnalytics = () => {
       }));
 
       // Calculate streak data
-      const streaks = gamificationData?.map(g => g.current_streak) || [];
+      const streaks = gamificationData?.map(g => (g?.current_streak ?? 0)) || [];
       const averageStreak = streaks.length ? streaks.reduce((a, b) => a + b, 0) / streaks.length : 0;
       const longestStreak = Math.max(...streaks, 0);
 
