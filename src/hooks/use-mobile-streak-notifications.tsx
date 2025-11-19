@@ -10,9 +10,12 @@ export const useMobileStreakNotifications = () => {
   const { toast } = useToast();
 
   useEffect(() => {
-    if (!isMobile || !gamificationData) return;
+    const currentStreak = typeof gamificationData?.current_streak === 'number'
+      ? gamificationData.current_streak
+      : null;
 
-    const currentStreak = gamificationData.current_streak;
+    if (!isMobile || currentStreak === null) return;
+
     const previousStreak = parseInt(localStorage.getItem('previousStreak') || '0');
 
     // Check if streak increased
