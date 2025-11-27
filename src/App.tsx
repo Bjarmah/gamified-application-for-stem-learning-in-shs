@@ -45,69 +45,109 @@ import Analytics from "./pages/Analytics";
 import ProtectedRoute from "./components/auth/ProtectedRoute";
 import { useMobileStreakNotifications } from "@/hooks/use-mobile-streak-notifications";
 
-const queryClient = new QueryClient({
-  defaultOptions: {
-    queries: {
-      retry: 1,
-      refetchOnWindowFocus: false,
-      staleTime: 5 * 60 * 1000, // 5 minutes
-    },
-  },
-});
-
 function App() {
+  // Create a stable QueryClient instance that won't be recreated on every render
+  const [queryClient] = React.useState(
+    () =>
+      new QueryClient({
+        defaultOptions: {
+          queries: {
+            retry: 1,
+            refetchOnWindowFocus: false,
+            staleTime: 5 * 60 * 1000, // 5 minutes
+          },
+        },
+      })
+  );
+
   return (
     <QueryClientProvider client={queryClient}>
       <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
         <AuthProvider>
           <SessionTimeoutWrapper>
             <QuizProvider>
-            <OfflineProvider>
-              <NotificationProvider>
-                <MobileEnhancementsProvider />
-                <TooltipProvider>
-                  <Toaster />
-                  <Sonner />
-                  <PWAInstallPrompt />
-                  <BrowserRouter>
-                    <Routes>
-                      <Route path="/" element={<Index />} />
-                      <Route path="/login" element={<Login />} />
-                      <Route path="/register" element={<Register />} />
-                      <Route element={<ProtectedRoute><AppLayout /></ProtectedRoute>}>
-                        <Route path="/dashboard" element={<Dashboard />} />
-                        <Route path="/subjects" element={<Subjects />} />
-                        <Route path="/subjects/:subjectId" element={<SubjectDetail />} />
-                        <Route path="/subjects/:subjectId/:moduleId" element={<ModuleDetail />} />
-                        <Route path="/search" element={<Search />} />
-                        <Route path="/communities" element={<Communities />} />
-                        <Route path="/rooms" element={<Rooms />} />
-                        <Route path="/rooms/:roomId" element={<RoomDetail />} />
-                        <Route path="/achievements" element={<Achievements />} />
-                        <Route path="/leaderboard" element={<Leaderboard />} />
-                        <Route path="/analytics" element={<Analytics />} />
-                        <Route path="/profile" element={<Profile />} />
-                        <Route path="/settings" element={<Settings />} />
-                        <Route path="/virtual-lab" element={<VirtualLab />} />
-                        <Route path="/teacher/quizzes" element={<TeacherQuizzes />} />
-                        <Route path="/content-management" element={<ContentManagement />} />
-                        <Route path="/study-hub" element={<StudyHub />} />
-                        <Route path="/insights" element={<Insights />} />
-                        <Route path="/ai-assistant" element={<AIAssistant />} />
-                        <Route path="/quizzes/:quizId" element={<Quiz />} />
-                        <Route path="/modules/:moduleId" element={<ModuleRedirect />} />
+              <OfflineProvider>
+                <NotificationProvider>
+                  <MobileEnhancementsProvider />
+                  <TooltipProvider>
+                    <Toaster />
+                    <Sonner />
+                    <PWAInstallPrompt />
+                    <BrowserRouter>
+                      <Routes>
+                        <Route path="/" element={<Index />} />
+                        <Route path="/login" element={<Login />} />
+                        <Route path="/register" element={<Register />} />
+                        <Route
+                          element={
+                            <ProtectedRoute>
+                              <AppLayout />
+                            </ProtectedRoute>
+                          }
+                        >
+                          <Route path="/dashboard" element={<Dashboard />} />
+                          <Route path="/subjects" element={<Subjects />} />
+                          <Route
+                            path="/subjects/:subjectId"
+                            element={<SubjectDetail />}
+                          />
+                          <Route
+                            path="/subjects/:subjectId/:moduleId"
+                            element={<ModuleDetail />}
+                          />
+                          <Route path="/search" element={<Search />} />
+                          <Route path="/communities" element={<Communities />} />
+                          <Route path="/rooms" element={<Rooms />} />
+                          <Route path="/rooms/:roomId" element={<RoomDetail />} />
+                          <Route
+                            path="/achievements"
+                            element={<Achievements />}
+                          />
+                          <Route
+                            path="/leaderboard"
+                            element={<Leaderboard />}
+                          />
+                          <Route path="/analytics" element={<Analytics />} />
+                          <Route path="/profile" element={<Profile />} />
+                          <Route path="/settings" element={<Settings />} />
+                          <Route path="/virtual-lab" element={<VirtualLab />} />
+                          <Route
+                            path="/teacher/quizzes"
+                            element={<TeacherQuizzes />}
+                          />
+                          <Route
+                            path="/content-management"
+                            element={<ContentManagement />}
+                          />
+                          <Route path="/study-hub" element={<StudyHub />} />
+                          <Route path="/insights" element={<Insights />} />
+                          <Route
+                            path="/ai-assistant"
+                            element={<AIAssistant />}
+                          />
+                          <Route path="/quizzes/:quizId" element={<Quiz />} />
+                          <Route
+                            path="/modules/:moduleId"
+                            element={<ModuleRedirect />}
+                          />
 
-                        {/* Admin Routes */}
-                        <Route path="/admin" element={<AdminDashboard />} />
-                        <Route path="/admin/subjects" element={<AdminSubjects />} />
-                      </Route>
-                      <Route path="*" element={<NotFound />} />
-                    </Routes>
-                  </BrowserRouter>
-                </TooltipProvider>
-              </NotificationProvider>
-            </OfflineProvider>
-          </QuizProvider>
+                          {/* Admin Routes */}
+                          <Route
+                            path="/admin"
+                            element={<AdminDashboard />}
+                          />
+                          <Route
+                            path="/admin/subjects"
+                            element={<AdminSubjects />}
+                          />
+                        </Route>
+                        <Route path="*" element={<NotFound />} />
+                      </Routes>
+                    </BrowserRouter>
+                  </TooltipProvider>
+                </NotificationProvider>
+              </OfflineProvider>
+            </QuizProvider>
           </SessionTimeoutWrapper>
         </AuthProvider>
         <PerformanceMonitor />
