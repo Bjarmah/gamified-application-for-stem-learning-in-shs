@@ -1,7 +1,7 @@
 import "https://deno.land/x/xhr@0.1.0/mod.ts";
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 
-const openAIApiKey = Deno.env.get('OPENAI_API_KEY');
+const geminiApiKey = Deno.env.get('GEMINI_API_KEY');
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
@@ -129,90 +129,59 @@ serve(async (req) => {
   }
 
   try {
-    if (!openAIApiKey) {
-      throw new Error('OpenAI API key not configured');
+    if (!geminiApiKey) {
+      throw new Error('Gemini API key not configured');
     }
 
-    const { type, prompt, context, model = 'gpt-5-mini-2025-08-07' }: AIRequest = await req.json();
-
-    let maxTokens = 1000;
-
-    // Configure token limits based on request type
-    switch (type) {
-      case 'personalized_tutoring':
-        maxTokens = 800;
-        break;
-      case 'insights_generation':
-        maxTokens = 1200;
-        break;
-      case 'coaching_session':
-        maxTokens = 600;
-        break;
-      case 'content_analysis':
-        maxTokens = 1000;
-        break;
-      case 'quiz_generation':
-        maxTokens = 2000; // More tokens needed for JSON quiz format
-        break;
-      default:
-        maxTokens = 800;
-    }
+    const { type, prompt, context }: AIRequest = await req.json();
 
     const systemPrompt = getSystemPrompt(type, context);
+    const fullPrompt = `${systemPrompt}\n\nUser Request: ${prompt}`;
 
-    // Prepare the API request
-    const requestBody: any = {
-      model,
-      messages: [
-        { role: 'system', content: systemPrompt },
-        { role: 'user', content: prompt }
-      ],
-      max_completion_tokens: maxTokens,
-      temperature: undefined // Not supported for newer GPT models
-    };
+    console.log('Making Gemini request:', { type, promptLength: prompt.length });
 
-    // For legacy models, use max_tokens and temperature
-    if (model.includes('gpt-4o')) {
-      requestBody.max_tokens = maxTokens;
-      requestBody.temperature = 0.7;
-      delete requestBody.max_completion_tokens;
-    }
-
-    console.log('Making OpenAI request:', { model, type, promptLength: prompt.length });
-
-    const response = await fetch('https://api.openai.com/v1/chat/completions', {
+    // Use Gemini API
+    const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${geminiApiKey}`, {
       method: 'POST',
       headers: {
-        'Authorization': `Bearer ${openAIApiKey}`,
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(requestBody),
+      body: JSON.stringify({
+        contents: [{
+          parts: [{
+            text: fullPrompt
+          }]
+        }],
+        generationConfig: {
+          temperature: 0.7,
+          maxOutputTokens: type === 'quiz_generation' ? 2000 : 1000,
+        }
+      }),
     });
 
     if (!response.ok) {
       const errorData = await response.json();
-      console.error('OpenAI API error:', errorData);
-      throw new Error(`OpenAI API error: ${errorData.error?.message || 'Unknown error'}`);
+      console.error('Gemini API error:', errorData);
+      throw new Error(`Gemini API error: ${errorData.error?.message || JSON.stringify(errorData)}`);
     }
 
     const data = await response.json();
-    const aiResponse = data.choices[0]?.message?.content;
+    const aiResponse = data.candidates?.[0]?.content?.parts?.[0]?.text;
 
     if (!aiResponse) {
+      console.error('No response from Gemini:', JSON.stringify(data));
       throw new Error('No response generated from AI');
     }
 
     console.log('AI response generated successfully', { 
       type, 
-      responseLength: aiResponse.length,
-      tokensUsed: data.usage?.total_tokens || 'unknown'
+      responseLength: aiResponse.length
     });
 
     return new Response(JSON.stringify({ 
       response: aiResponse,
       type,
-      tokensUsed: data.usage?.total_tokens,
-      model: data.model
+      model: 'gemini-1.5-flash'
     }), {
       headers: { ...corsHeaders, 'Content-Type': 'application/json' },
     });
