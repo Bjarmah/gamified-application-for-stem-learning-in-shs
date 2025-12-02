@@ -1,8 +1,8 @@
 import "https://deno.land/x/xhr@0.1.0/mod.ts";
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
-import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.7.1';
+import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.54.0';
 
-const openAIApiKey = Deno.env.get('OPENAI_API_KEY');
+const geminiApiKey = Deno.env.get('GEMINI_API_KEY');
 const supabaseUrl = Deno.env.get('SUPABASE_URL')!;
 const supabaseServiceKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
 
@@ -10,6 +10,27 @@ const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
 };
+
+const SYSTEM_PROMPT = `You are an advanced AI learning analytics expert with deep expertise in educational psychology, cognitive science, and personalized learning optimization.
+
+Your mission: Analyze student learning data to provide actionable, evidence-based insights that dramatically improve learning outcomes.
+
+ANALYSIS FRAMEWORK:
+1. COGNITIVE LOAD THEORY: Assess how information processing aligns with working memory limits
+2. SPACED REPETITION: Identify optimal review intervals based on forgetting curves
+3. METACOGNITIVE STRATEGIES: Evaluate self-regulation and learning awareness
+4. MULTIMODAL LEARNING: Recommend diverse learning approaches (visual, auditory, kinesthetic)
+5. GROWTH MINDSET: Frame all feedback to promote resilience and continuous improvement
+
+OUTPUT REQUIREMENTS:
+- Provide specific, measurable, actionable recommendations
+- Use positive, encouraging language that builds confidence
+- Include time estimates and difficulty ratings
+- Reference learning science principles where applicable
+- Prioritize high-impact, low-effort interventions first
+- Always respond with valid JSON format (no markdown code blocks)
+
+Generate insights that are both scientifically grounded and practically implementable.`;
 
 serve(async (req) => {
   if (req.method === 'OPTIONS') {
@@ -23,9 +44,12 @@ serve(async (req) => {
       throw new Error('Missing required parameters: userId and analysisType');
     }
 
+    if (!geminiApiKey) {
+      throw new Error('Gemini API key not configured');
+    }
+
     const supabase = createClient(supabaseUrl, supabaseServiceKey);
 
-    let analyticsData;
     let prompt;
 
     switch (analysisType) {
@@ -118,53 +142,49 @@ serve(async (req) => {
         throw new Error(`Unknown analysis type: ${analysisType}`);
     }
 
-    const response = await fetch('https://api.openai.com/v1/chat/completions', {
+    console.log('Calling Gemini for analysis type:', analysisType);
+
+    const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${geminiApiKey}`, {
       method: 'POST',
       headers: {
-        'Authorization': `Bearer ${openAIApiKey}`,
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        model: 'gpt-5-2025-08-07',
-        messages: [
-          { 
-            role: 'system', 
-            content: `You are an advanced AI learning analytics expert with deep expertise in educational psychology, cognitive science, and personalized learning optimization.
-
-Your mission: Analyze student learning data to provide actionable, evidence-based insights that dramatically improve learning outcomes.
-
-ANALYSIS FRAMEWORK:
-1. COGNITIVE LOAD THEORY: Assess how information processing aligns with working memory limits
-2. SPACED REPETITION: Identify optimal review intervals based on forgetting curves
-3. METACOGNITIVE STRATEGIES: Evaluate self-regulation and learning awareness
-4. MULTIMODAL LEARNING: Recommend diverse learning approaches (visual, auditory, kinesthetic)
-5. GROWTH MINDSET: Frame all feedback to promote resilience and continuous improvement
-
-OUTPUT REQUIREMENTS:
-- Provide specific, measurable, actionable recommendations
-- Use positive, encouraging language that builds confidence
-- Include time estimates and difficulty ratings
-- Reference learning science principles where applicable
-- Prioritize high-impact, low-effort interventions first
-- Always respond with valid JSON format
-
-Generate insights that are both scientifically grounded and practically implementable.` 
-          },
-          { role: 'user', content: prompt }
-        ],
-        max_completion_tokens: 2000,
+        contents: [{
+          parts: [{
+            text: `${SYSTEM_PROMPT}\n\n${prompt}`
+          }]
+        }],
+        generationConfig: {
+          temperature: 0.7,
+          maxOutputTokens: 2000,
+        }
       }),
     });
 
     if (!response.ok) {
-      throw new Error(`OpenAI API error: ${response.status} ${response.statusText}`);
+      const errorText = await response.text();
+      console.error('Gemini API error:', errorText);
+      throw new Error(`Gemini API error: ${response.status} ${errorText}`);
     }
 
     const data = await response.json();
-    const insights = data.choices[0].message.content;
+    const insights = data.candidates?.[0]?.content?.parts?.[0]?.text;
+
+    if (!insights) {
+      throw new Error('No response from Gemini');
+    }
 
     try {
-      const parsedInsights = JSON.parse(insights);
+      // Clean the response by removing markdown code blocks if present
+      let cleanedInsights = insights.trim();
+      if (cleanedInsights.startsWith('```json')) {
+        cleanedInsights = cleanedInsights.replace(/^```json\s*/, '').replace(/\s*```$/, '');
+      } else if (cleanedInsights.startsWith('```')) {
+        cleanedInsights = cleanedInsights.replace(/^```\s*/, '').replace(/\s*```$/, '');
+      }
+
+      const parsedInsights = JSON.parse(cleanedInsights);
       
       // Store insights in database for caching
       await supabase.from('learning_insights').upsert({
