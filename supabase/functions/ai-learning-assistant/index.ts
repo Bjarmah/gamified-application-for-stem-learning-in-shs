@@ -141,7 +141,7 @@ serve(async (req) => {
     console.log('Making Gemini request:', { type, promptLength: prompt.length });
 
     // Use Gemini API
-    const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${geminiApiKey}`, {
+    const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${geminiApiKey}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -181,7 +181,7 @@ serve(async (req) => {
     return new Response(JSON.stringify({ 
       response: aiResponse,
       type,
-      model: 'gemini-1.5-flash'
+      model: 'gemini-2.0-flash'
     }), {
       headers: { ...corsHeaders, 'Content-Type': 'application/json' },
     });

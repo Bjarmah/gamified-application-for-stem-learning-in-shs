@@ -182,7 +182,7 @@ serve(async (req) => {
 
     console.log('Calling Gemini with prompt:', prompt.substring(0, 200) + '...');
 
-    const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${geminiApiKey}`, {
+    const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${geminiApiKey}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -271,7 +271,7 @@ serve(async (req) => {
         exercises: parsedContent.content?.exercises || [],
         prerequisites: parsedContent.prerequisites || [],
         generation_prompt: prompt,
-        ai_model_used: 'gemini-1.5-flash',
+        ai_model_used: 'gemini-2.0-flash',
         user_analytics_snapshot: context || {}
       })
       .select()
