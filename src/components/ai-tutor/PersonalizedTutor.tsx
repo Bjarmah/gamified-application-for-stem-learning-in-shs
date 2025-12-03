@@ -5,6 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { FormattedText } from "@/components/ui/formatted-text";
 import { 
   Brain, Send, MessageSquare, BookOpen, Target, 
   Zap, Clock, TrendingUp, Lightbulb, Bot, Loader2
@@ -12,7 +13,6 @@ import {
 import { useAuth } from '@/context/AuthContext';
 import { useUserAnalytics } from '@/hooks/use-analytics';
 import { useAIService } from '@/hooks/use-ai-service';
-
 interface Message {
   id: string;
   type: 'user' | 'tutor';
@@ -233,7 +233,11 @@ export const PersonalizedTutor: React.FC<PersonalizedTutorProps> = ({ onStartCha
                         : 'bg-muted'
                     }`}
                   >
-                    <p className="text-sm">{message.content}</p>
+                    {message.type === 'tutor' ? (
+                      <FormattedText content={message.content} className="text-sm" />
+                    ) : (
+                      <p className="text-sm">{message.content}</p>
+                    )}
                   </div>
                   
                   {message.suggestions && (

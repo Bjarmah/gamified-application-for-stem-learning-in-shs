@@ -1,5 +1,6 @@
 import React from 'react';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
+import { FormattedText } from '@/components/ui/formatted-text';
 
 interface ChatMessageProps {
   role: 'user' | 'assistant';
@@ -28,7 +29,11 @@ export const ChatMessage: React.FC<ChatMessageProps> = ({
           isUser ? 'bg-primary text-primary-foreground' : 'bg-muted'
         }`}
       >
-        <p className="text-sm whitespace-pre-wrap">{content}</p>
+        {isUser ? (
+          <p className="text-sm whitespace-pre-wrap">{content}</p>
+        ) : (
+          <FormattedText content={content} className="text-sm" />
+        )}
         <p className="text-xs opacity-70 mt-1">
           {timestamp.toLocaleTimeString([], {
             hour: '2-digit',
