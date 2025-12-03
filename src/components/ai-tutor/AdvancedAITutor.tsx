@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
+import { FormattedText } from "@/components/ui/formatted-text";
 import { 
   Brain, 
   MessageSquare, 
@@ -154,7 +155,11 @@ export const AdvancedAITutor: React.FC = () => {
                         : 'bg-muted text-muted-foreground'
                     }`}
                   >
-                    <p className="text-sm">{message.content}</p>
+                    {message.type === 'tutor' ? (
+                      <FormattedText content={message.content} className="text-sm" />
+                    ) : (
+                      <p className="text-sm">{message.content}</p>
+                    )}
                     <span className="text-xs opacity-70">
                       {message.timestamp.toLocaleTimeString()}
                     </span>

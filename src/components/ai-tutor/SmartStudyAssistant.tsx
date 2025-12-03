@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { Badge } from '@/components/ui/badge';
 import { ScrollArea } from '@/components/ui/scroll-area';
+import { FormattedText } from '@/components/ui/formatted-text';
 import { useAIService } from '@/hooks/use-ai-service';
 import { useLearningAnalytics } from '@/hooks/use-learning-analytics';
 import { Brain, Send, Lightbulb, TrendingUp, Target, Sparkles } from 'lucide-react';
@@ -160,7 +161,11 @@ export const SmartStudyAssistant: React.FC = () => {
                           : 'bg-muted'
                       }`}
                     >
-                      <p className="text-sm whitespace-pre-wrap">{message.content}</p>
+                      {message.role === 'assistant' ? (
+                        <FormattedText content={message.content} className="text-sm" />
+                      ) : (
+                        <p className="text-sm whitespace-pre-wrap">{message.content}</p>
+                      )}
                       <p className="text-xs opacity-70 mt-1">
                         {message.timestamp.toLocaleTimeString()}
                       </p>
