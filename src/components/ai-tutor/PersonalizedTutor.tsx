@@ -225,18 +225,18 @@ export const PersonalizedTutor: React.FC<PersonalizedTutorProps> = ({ onStartCha
                   </Avatar>
                 )}
                 
-                <div className={`max-w-[80%] ${message.type === 'user' ? 'order-first' : ''}`}>
+                <div className={`max-w-[80%] min-w-0 ${message.type === 'user' ? 'order-first' : ''}`}>
                   <div
-                    className={`rounded-lg p-3 ${
+                    className={`rounded-lg p-3 overflow-hidden ${
                       message.type === 'user'
                         ? 'bg-primary text-primary-foreground ml-auto'
                         : 'bg-muted'
                     }`}
                   >
                     {message.type === 'tutor' ? (
-                      <FormattedText content={message.content} className="text-sm" />
+                      <FormattedText content={message.content} className="text-sm break-words overflow-wrap-anywhere" />
                     ) : (
-                      <p className="text-sm">{message.content}</p>
+                      <p className="text-sm break-words">{message.content}</p>
                     )}
                   </div>
                   
