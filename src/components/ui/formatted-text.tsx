@@ -150,7 +150,7 @@ export const FormattedText: React.FC<FormattedTextProps> = ({ content, className
   };
 
   return (
-    <div className={cn("space-y-0", className)}>
+    <div className={cn("space-y-0 break-words overflow-hidden [overflow-wrap:anywhere]", className)}>
       {renderContent()}
     </div>
   );
