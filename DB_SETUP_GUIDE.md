@@ -769,7 +769,6 @@ USING (bucket_id = 'room-images');
 1. Go to **Settings** → **Edge Functions** in Supabase
 2. Add the following secrets (click "Add new secret"):
 
-   - **OPENAI_API_KEY**: Your OpenAI API key (get from [OpenAI Platform](https://platform.openai.com/api-keys))
    - **GEMINI_API_KEY**: Your Google Gemini API key (get from [Google AI Studio](https://makersuite.google.com/app/apikey))
    - **SUPABASE_URL**: Your project URL
    - **SUPABASE_ANON_KEY**: Your anon public key
