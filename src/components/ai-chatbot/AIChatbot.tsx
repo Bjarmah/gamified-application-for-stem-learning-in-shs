@@ -5,7 +5,7 @@ import { Input } from '@/components/ui/input';
 import { MessageCircle, X, Minimize2, Send, Bot, User } from 'lucide-react';
 import { useAIService } from '@/hooks/use-ai-service';
 import { useToast } from '@/hooks/use-toast';
-
+import { FormattedText } from '@/components/ui/formatted-text';
 interface AIChatbotProps {
     position?: 'bottom-right' | 'bottom-left' | 'top-right' | 'top-left';
     className?: string;
@@ -211,7 +211,11 @@ const AIChatbot: React.FC<AIChatbotProps> = ({
                                         ? 'bg-stemPurple text-white'
                                         : 'bg-gray-100 text-gray-800'
                                         }`}>
-                                        <p className="text-sm">{message.text}</p>
+                                        {message.isUser ? (
+                                            <p className="text-sm">{message.text}</p>
+                                        ) : (
+                                            <FormattedText content={message.text} className="text-sm" />
+                                        )}
                                         <p className="text-xs opacity-70 mt-1">
                                             {message.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                                         </p>
